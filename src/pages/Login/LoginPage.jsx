@@ -1,58 +1,117 @@
-import { Box, Link ,Typography } from "@mui/material";
-import React from "react";
-import LOGIN from "../../assests/login.png"
-import LOGO from "../../assests/lglogin.jpg"
+import { Box, FormControl, IconButton, InputAdornment, InputLabel, OutlinedInput, Typography } from '@mui/material';
+import React from 'react';
+import LOGIN from '../../assests/login.png';
+import LOGO from '../../assests/lglogin.jpg';
+import Button from '@mui/joy/Button';
+import { Link } from 'react-router-dom';
+import { Visibility, VisibilityOff } from '@mui/icons-material';
+
 
 function LoginPage() {
+  const [showPassword, setShowPassword] = React.useState(false);
+
+  const handleClickShowPassword = () => setShowPassword((show) => !show);
+
+  const handleMouseDownPassword = (event) => {
+    event.preventDefault();
+  };
   return (
     <Box
-      className="image-container"
       sx={{
-        width: "100%",
-        height: "100vh",
+        display: 'flex',
+        width: '100%',
+        height: '100vh',
         background: 'linear-gradient(to bottom, #F9C01F, white)',
       }}>
-      <img src={LOGIN} alt="login" style={{
-        position: "absolute",
-        bottom: 100,
-        left: 70,
-        height: "80%",
-        width: "50%",
-      }} />
-      <Box sx={{
-        position: "absolute",
-        right: 70,
-        bottom: 100,
-        height: "70%",
-        width: "37%",
-        backgroundColor: "white",
-        borderRadius: "2%"
-      }}>
-        <img src={LOGO} alt="logo" style={{
-          position: "absolute",
-          top: "13%",
-          left: "50%",
-          transform: "translate(-50%, -50%)"
-        }}/>
-        <Typography sx={{
-          position: "absolute",
-          top: "30%",
-          left: "50%",
-          transform: "translate(-50%, -0)",
-          fontSize: "24px",
-          width: "100%",
-          textAlign: "center"
-        }}> 
-          Nếu chưa có tài khoản, vui lòng đăng ký 
-          <Link
-          // component={RouterLink}
-          // to="./SignUp"
+      <Box
+        sx={{
+          display: 'flex',
+          justifyContent: 'center',
+          alignItems: 'center',
+          width: '50%',
+        }}>
+        <img
+          src={LOGIN}
+          alt='login'
+          style={{
+            height: '400px',
+            width: '600px',
+          }} />
+      </Box>
+      <Box
+        sx={{
+          display: 'flex',
+          alignItems: 'center',
+          width: '50%',
+          justifyContent: 'center',
+        }}>
+        <Box
           sx={{
-            paddingLeft:"10px",
-            color: "blue",
-          }}> 
-             tại đây
-          </Link>
+            display: 'flex',
+            flexDirection: 'column',
+            alignItems: 'center',
+            backgroundColor: 'white',
+            height: '70vh',
+            borderRadius: '30px',
+            padding: '50px',
+            gap: '30px',
+          }}>
+          <img
+            src={LOGO}
+            alt='logo'
+            style={{
+              width: '350px',
+              height: '100px',
+            }} />
+
+            <FormControl sx={{ mt: 5 , width: '40ch' }} variant="outlined" size='large'>
+            <InputLabel htmlFor="Email" style={{fontSize: 15}}>Email</InputLabel>
+            <OutlinedInput
+             style={{fontSize: '18px'}}
+              id="Email"
+              label="Email"
+            />
+          </FormControl>
+
+          <FormControl sx={{ m: 1, width: '40ch' }} variant="outlined" size='large'>
+            <InputLabel htmlFor="password" style={{fontSize: 15}}>Password</InputLabel>
+            <OutlinedInput
+             style={{fontSize: '18px'}}
+              id="password"
+              type={showPassword ? 'text' : 'password'}
+              endAdornment={
+                <InputAdornment position="end" >
+                  <IconButton 
+                    aria-label="toggle password visibility"
+                    onClick={handleClickShowPassword}
+                    onMouseDown={handleMouseDownPassword}
+                    edge="end"
+                  >
+                    {showPassword ? <VisibilityOff /> : <Visibility />}
+                  </IconButton>
+                </InputAdornment>
+              }
+              label="Password"
+            />
+          </FormControl>
+          <Button
+            sx={{
+              width: '100px',
+              height: '30px',
+              fontSize: '15px',
+              marginTop: '10px',
+              background: '#2D3748'
+            }}>
+            Đăng nhập
+          </Button>
+        </Box>
+        <Typography
+          sx={{
+            position: 'absolute',
+            fontSize: '20px',
+            bottom: '22%'
+          }}>
+          Tôi chưa có tài khoản, đăng kí <Link to='/signup'>tại đây</Link>
         </Typography>
       </Box>
     </Box>
