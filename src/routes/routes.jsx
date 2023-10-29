@@ -8,14 +8,14 @@ import Introduce from "../pages/Introduce/Introduce";
 import LoginPage from "../pages/Login/LoginPage";
 import ProfilePage from "../pages/Profile/ProfilePage";
 import BookTutorPage from "../pages/BookTutor/BookTutorPage";
-import SignUp from "../pages/SignUp/SignUp";
+import SignUpPage from "../pages/SignUp/SignUpPage";
 import Course10 from "../pages/Client/Course/Course10";
 
 const publicRoute = [
     {path: '/home', component: Home, layout: DefaultLayout},
     {path: '/introduce', component: Introduce, layout: LayoutStudent},
     {path: '/login', component: LoginPage, layout: LoginLayout},
-    {path: '/signup', component: SignUp, layout: LoginLayout},
+    {path: '/signup', component: SignUpPage, layout: LoginLayout},
     {path: '/forgotpass', component: ForgotPassword, layout: LoginLayout},
     {path: '/changepass', component: ChangePassword, layout: LoginLayout},
     {path: '/profile', component: ProfilePage, layout: DefaultLayout },

@@ -1,13 +1,11 @@
 import React from "react";
 import { Box } from "@mui/material";
-import LoginPage from "../../../pages/Login/LoginPage";
 
 
-function LoginLayout({ childrens }) {
+function LoginLayout({ children }) {
     return ( 
         <Box>
-            <LoginPage/>
-            {childrens}
+            {children}
         </Box>
      );
 }

@@ -8,7 +8,7 @@ import Select from '@mui/joy/Select';
 import Option from '@mui/joy/Option';
 import { Link } from 'react-router-dom';
 
-function SignUp() {
+function SignUpPage() {
   const [showPassword, setShowPassword] = useState(false);
   const [showConfirmPassword, setShowConfirmPassword] = useState(false);
 
@@ -235,4 +235,4 @@ function SignUp() {
   );
 }
 
-export default SignUp;
+export default SignUpPage;
