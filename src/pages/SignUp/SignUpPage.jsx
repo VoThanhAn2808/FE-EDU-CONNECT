@@ -8,7 +8,7 @@ import Select from '@mui/joy/Select';
 import Option from '@mui/joy/Option';
 import { Link } from 'react-router-dom';
 
-function SignUpPage() {
+function SignupPage() {
   const [showPassword, setShowPassword] = useState(false);
   const [showConfirmPassword, setShowConfirmPassword] = useState(false);
 
@@ -61,7 +61,8 @@ function SignUpPage() {
             alignItems: 'center',
             maxWidth: '45vw',
             backgroundColor: 'white',
-            height: '80vh',
+            minHeight: '50vh',
+            height: '90vh',
             borderRadius: '30px',
             padding: '50px',
             gap: '30px',
@@ -80,7 +81,9 @@ function SignUpPage() {
               display: 'flex',
               flexDirection: 'column',
               gap: '20px',
-              width: '90%',
+              width: '100%',
+              padding: '20px',
+              fontSize: '13px'
             }}
           >
             <Box
@@ -125,7 +128,7 @@ function SignUpPage() {
             >
               <label htmlFor='email'>Email:</label>
               <Input
-                id='password'
+                id='email'
                 size='lg'
                 placeholder='Email'
                 variant='outlined'
@@ -202,8 +205,8 @@ function SignUpPage() {
             >
               <label htmlFor='role'>Bạn là ai :</label>
               <Select id='role' placeholder='Choose one…' size='lg' variant='outlined'>
-                <Option>Học Sinh</Option>
-                <Option>Giáo Viên</Option>
+                <Option value={0}>Học Sinh</Option>
+                <Option value={1}>Giáo Viên</Option>
               </Select>
             </Box>
           </Box>
@@ -213,7 +216,6 @@ function SignUpPage() {
               width: '100px',
               height: '30px',
               fontSize: '15px',
-              marginTop: '10px',
               background: '#2D3748',
             }}
           >
@@ -235,4 +237,4 @@ function SignUpPage() {
   );
 }
 
-export default SignUpPage;
+export default SignupPage;

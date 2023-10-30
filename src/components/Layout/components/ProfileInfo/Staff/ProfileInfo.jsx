@@ -6,12 +6,13 @@ import { AdapterDayjs } from '@mui/x-date-pickers/AdapterDayjs';
 import { DatePicker } from '@mui/x-date-pickers/DatePicker';
 import Typography from '@mui/material/Typography';
 import dayjs from 'dayjs';
+import { FormControl, InputLabel, MenuItem, Select } from '@mui/material';
 
 function ProfileInfo({ userData, handleInputChange, isEditing }) {
   return (
     <>
       <TextField
-        label='Name'
+        label='Họ Và Tên'
         fullWidth
         value={userData.name}
         onChange={(e) => handleInputChange('name', e.target.value)}
@@ -24,13 +25,6 @@ function ProfileInfo({ userData, handleInputChange, isEditing }) {
         onChange={(e) => handleInputChange('email', e.target.value)}
         disabled={!isEditing}
       />
-      <TextField
-        label='Address'
-        fullWidth
-        value={userData.address}
-        onChange={(e) => handleInputChange('address', e.target.value)}
-        disabled={!isEditing}
-      />
       <Box
         sx={{
           display: 'flex',
@@ -39,14 +33,41 @@ function ProfileInfo({ userData, handleInputChange, isEditing }) {
         }}
       >
         <TextField
-          label='District'
+          label='Số Nhà & Tên Đường'
+          fullWidth
+          value={userData.address}
+          onChange={(e) => handleInputChange('address', e.target.value)}
+          disabled={!isEditing}
+        />
+        <FormControl fullWidth disabled={!isEditing}>
+          <InputLabel id='gen'>Giới Tính</InputLabel>
+          <Select
+            labelId='demo-simple-select-label'
+            id='gen'
+            value={userData.gen}
+            label='Giới Tính'
+          >
+            <MenuItem value={0}>Nam</MenuItem>
+            <MenuItem value={1}>Nữ</MenuItem>
+          </Select>
+        </FormControl>
+      </Box>
+      <Box
+        sx={{
+          display: 'flex',
+          width: '100%',
+          gap: '30px',
+        }}
+      >
+        <TextField
+          label='Huyện'
           fullWidth
           value={userData.district}
           onChange={(e) => handleInputChange('district', e.target.value)}
           disabled={!isEditing}
         />
         <TextField
-          label='City'
+          label='Tỉnh / Thành Phố'
           fullWidth
           value={userData.city}
           onChange={(e) => handleInputChange('city', e.target.value)}
@@ -62,7 +83,7 @@ function ProfileInfo({ userData, handleInputChange, isEditing }) {
       >
         <LocalizationProvider dateAdapter={AdapterDayjs}>
           <DatePicker
-            label='Date of Birth'
+            label='Ngày Sinh'
             defaultValue={dayjs(userData.dateOfBirth)}
             onChange={(date) => handleInputChange('dateOfBirth', date)}
             inputFormat='DD/MM/YYYY'
@@ -79,7 +100,7 @@ function ProfileInfo({ userData, handleInputChange, isEditing }) {
           />
         </LocalizationProvider>
         <TextField
-          label='Phone number'
+          label='Số Điện Thoại'
           value={userData.phone}
           onChange={(e) => handleInputChange('phone', e.target.value)}
           disabled={!isEditing}

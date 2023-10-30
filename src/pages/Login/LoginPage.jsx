@@ -64,7 +64,7 @@ function LoginPage() {
               height: '100px',
             }} />
 
-            <FormControl sx={{ mt: 5 , width: '40ch' }} variant="outlined" size='large'>
+            <FormControl sx={{ mt: 5 , width: '50ch' }} variant="outlined" size='large'>
             <InputLabel htmlFor="Email" style={{fontSize: 15}}>Email</InputLabel>
             <OutlinedInput
              style={{fontSize: '18px'}}
@@ -73,7 +73,7 @@ function LoginPage() {
             />
           </FormControl>
 
-          <FormControl sx={{ m: 1, width: '40ch' }} variant="outlined" size='large'>
+          <FormControl sx={{ m: 1, width: '50ch' }} variant="outlined" size='large'>
             <InputLabel htmlFor="password" style={{fontSize: 15}}>Password</InputLabel>
             <OutlinedInput
              style={{fontSize: '18px'}}

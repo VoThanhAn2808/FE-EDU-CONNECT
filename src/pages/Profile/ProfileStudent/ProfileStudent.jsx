@@ -1,7 +1,7 @@
 import React, { useState } from 'react';
 import Button from '@mui/material/Button';
-import ProfileAvatar from '../../components/Layout/components/ProfileAvatar/ProfileAvatar';
-import UserProfileInfo from '../../components/Layout/components/ProfileInfo/ProfileInfo';
+import ProfileAvatar from '../../../components/Layout/components/ProfileAvatar/ProfileAvatar';
+import UserProfileInfo from '../../../components/Layout/components/ProfileInfo/Student/ProfileInfo';
 import { Box, Paper, ThemeProvider, createTheme } from '@mui/material';
 
 const theme = createTheme({
@@ -10,8 +10,7 @@ const theme = createTheme({
     fontWeight: 'bold',
   },
 });
-
-function ProfilePage() {
+const ProfileStudent = () => {
   const [userData, setUserData] = useState({
     name: 'Nguyen Duc Nghia',
     email: 'nghiadeptrai@gmail.com',
@@ -20,6 +19,8 @@ function ProfilePage() {
     dateOfBirth: new Date('2001-08-09'),
     district: 'Duy Xuyên',
     city: 'Quảng Nam',
+    gen: 0,
+    class: 10,
   });
   const [isEditing, setIsEditing] = useState(false);
 
@@ -50,10 +51,7 @@ function ProfilePage() {
       }}
     >
       <ThemeProvider theme={theme}>
-        <ProfileAvatar
-          onFileChange={handleFileChange}
-          isEditing={isEditing}
-        />
+        <ProfileAvatar onFileChange={handleFileChange} isEditing={isEditing} role={'học sinh'} />
         <Paper
           style={{
             marginBottom: '30px',
@@ -84,6 +82,6 @@ function ProfilePage() {
       </ThemeProvider>
     </Box>
   );
-}
+};
 
-export default ProfilePage;
+export default ProfileStudent;
