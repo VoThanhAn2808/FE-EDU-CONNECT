@@ -11,7 +11,7 @@ import SignUp from "../pages/Logins/SignUp/SignUpPage";
 import BookTutorPage from "../pages/BookTutor/BookTutorPage";
 import SubjectPage from "../pages/ListSubject/SubjectPage";
 import PhysicsExperiment from "../pages/PhysicsExperiment/PhysicsExperiment";
-import ListTutor from '../pages/ListTutor/ListTutorPage';
+import ListTutor from '../pages/Guest/ListTutor/ListTutorPage';
 
 const publicRoute = [
   { path: '/', component: Home, layout: DefaultLayout },
