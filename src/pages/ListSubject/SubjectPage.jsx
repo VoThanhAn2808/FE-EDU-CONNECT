@@ -34,9 +34,10 @@ function SubjectPage() {
                                 <Typography className="inforsubject">
                                     <PersonIcon className="total" />
                                     {item.number}</Typography>
-                                <Button variant="contained" color="primary" component="a" href="#" hrefLang="#"
+                                <Button variant="contained" color="primary" component="a" href="http://localhost:3000/listtutor" hrefLang="#"
                                     sx={{
-                                        height: '20px'
+                                        height: '20px',
+                                        width: '80px'
                                     }}>
                                     Chi tiết
                                 </Button>
