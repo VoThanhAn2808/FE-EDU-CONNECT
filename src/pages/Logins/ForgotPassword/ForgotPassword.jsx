@@ -1,7 +1,7 @@
-import { Box, Input, Typography } from '@mui/material';
+import { Box, FormControl, InputLabel, OutlinedInput, Typography } from '@mui/material';
 import React from 'react';
-import LOGIN from '../../assests/login.png';
-import LOGO from '../../assests/lglogin.jpg';
+import LOGIN from '../../../assests/login.png';
+import LOGO from '../../../assests/lglogin.jpg';
 import Button from '@mui/joy/Button';
 
 const ForgotPassword = () => {
@@ -69,30 +69,28 @@ const ForgotPassword = () => {
               gap: '20px',
               width: '70%',
             }}
-          >
+           >
             <Box
               sx={{
                 display: 'flex',
                 flexDirection: 'column',
               }}
-            >
-              <label htmlFor='email'>Email:</label>
-              <Input
-                size='lg'
-                id='email'
-                placeholder='Email'
-                variant='outlined'
-                sx={{
-                  fontSize: '15px',
-                }}
-              />
+             >
+              <FormControl sx={{ mt: 5, width: '50ch', ml: -4 }} variant="outlined" size='large'>
+                <InputLabel htmlFor="Email" style={{ fontSize: 15 }}>Email</InputLabel>
+                <OutlinedInput
+                  style={{ fontSize: '18px' }}
+                  id="Email"
+                  label="Email"
+                />
+              </FormControl>
             </Box>
           </Box>
           <Button
             sx={{
-              width: '200px',
-              height: '30px',
-              fontSize: '15px',
+              width: '250px',
+              height: '45px',
+              fontSize: '23px',
               marginTop: '10px',
               background: '#2D3748',
             }}
@@ -101,11 +99,10 @@ const ForgotPassword = () => {
           </Button>
         </Box>
         <Typography
-          variant='subtitle1'
-          color='initial'
           sx={{
             position: 'absolute',
-            bottom: '10px',
+            bottom: '27%',
+            fontSize: '18px',
           }}
         >
           Vui lòng nhập email của bạn để lấy lại mật khẩu
