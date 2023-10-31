@@ -1,7 +1,7 @@
 import { Box, FormControl, IconButton, InputAdornment, InputLabel, OutlinedInput, Typography } from '@mui/material';
 import React from 'react';
-import LOGIN from '../../assests/login.png';
-import LOGO from '../../assests/lglogin.jpg';
+import LOGIN from '../../../assests/login.png';
+import LOGO from '../../../assests/lglogin.jpg';
 import Button from '@mui/joy/Button';
 import { Link } from 'react-router-dom';
 import { Visibility, VisibilityOff } from '@mui/icons-material';
@@ -73,8 +73,8 @@ function LoginPage() {
             />
           </FormControl>
 
-          <FormControl sx={{ m: 1, width: '50ch' }} variant="outlined" size='large'>
-            <InputLabel htmlFor="password" style={{fontSize: 15}}>Password</InputLabel>
+          <FormControl sx={{ mt: 1, width: '50ch' }} variant="outlined" size='large'>
+            <InputLabel htmlFor="password" style={{fontSize: 15}}>Mật khẩu</InputLabel>
             <OutlinedInput
              style={{fontSize: '18px'}}
               id="password"
@@ -82,8 +82,8 @@ function LoginPage() {
               endAdornment={
                 <InputAdornment position="end" >
                   <IconButton 
-                    aria-label="toggle password visibility"
                     onClick={handleClickShowPassword}
+                    aria-label="toggle password visibility"
                     onMouseDown={handleMouseDownPassword}
                     edge="end"
                   >
@@ -96,9 +96,9 @@ function LoginPage() {
           </FormControl>
           <Button
             sx={{
-              width: '100px',
-              height: '30px',
-              fontSize: '15px',
+              width: '250px',
+              height: '45px',
+              fontSize: '23px',
               marginTop: '10px',
               background: '#2D3748'
             }}>
@@ -108,10 +108,10 @@ function LoginPage() {
         <Typography
           sx={{
             position: 'absolute',
-            fontSize: '20px',
-            bottom: '22%'
+            fontSize: '18px',
+            bottom: '16%'
           }}>
-          Tôi chưa có tài khoản, đăng kí <Link to='/signup'>tại đây</Link>
+          Bạn chưa có tài khoản, đăng kí <Link to='/signup' style={{color: "blue"}}>tại đây</Link>
         </Typography>
       </Box>
     </Box>
