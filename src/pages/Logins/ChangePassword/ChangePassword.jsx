@@ -1,7 +1,7 @@
-import { Box, Input, Typography, IconButton, InputAdornment } from '@mui/material';
+import { Box, Typography, IconButton, InputAdornment, FormControl, InputLabel, OutlinedInput } from '@mui/material';
 import React, { useState } from 'react';
-import LOGIN from '../../assests/login.png';
-import LOGO from '../../assests/lglogin.jpg';
+import LOGIN from '../../../assests/login.png';
+import LOGO from '../../../assests/lglogin.jpg';
 import Button from '@mui/joy/Button';
 import { Visibility, VisibilityOff } from '@mui/icons-material';
 
@@ -93,24 +93,21 @@ function ChangePassword() {
                 flexDirection: 'column',
               }}
             >
-              <label htmlFor='current-password'>Mật Khẩu Cũ:</label>
-              <Input
-                type={showCurrentPassword ? 'text' : 'password'}
-                id='current-password'
-                size='lg'
-                placeholder='Password'
-                variant='outlined'
-                sx={{
-                  fontSize: '15px',
-                }}
-                endAdornment={
-                  <InputAdornment position='end'>
-                    <IconButton onClick={toggleShowCurrentPassword}>
-                      {showCurrentPassword ? <VisibilityOff /> : <Visibility />}
-                    </IconButton>
-                  </InputAdornment>
-                }
-              />
+              <FormControl sx={{mt: 1, width: "55ch", ml: -4}} variant='outlined' size='large'>
+                <InputLabel htmlFor="password" style={{fontSize: 18, marginLeft: "4%"}}>Mật khẩu cũ</InputLabel>
+                <OutlinedInput
+                  id='password'
+                  type={showCurrentPassword ? 'text' : 'password'}
+                  sx={{ fontSize: '18px' }}
+                  endAdornment={
+                    <InputAdornment position='end'>
+                      <IconButton onClick={toggleShowCurrentPassword}>
+                        {showCurrentPassword ? <VisibilityOff /> : <Visibility />}
+                      </IconButton>
+                    </InputAdornment>
+                  }
+                />
+              </FormControl>
             </Box>
             <Box
               sx={{
@@ -118,24 +115,21 @@ function ChangePassword() {
                 flexDirection: 'column',
               }}
             >
-              <label htmlFor='new-password'>Mật Khẩu Mới:</label>
-              <Input
-                type={showNewPassword ? 'text' : 'password'}
-                id='new-password'
-                size='lg'
-                placeholder='Password'
-                variant='outlined'
-                sx={{
-                  fontSize: '15px',
-                }}
-                endAdornment={
-                  <InputAdornment position='end'>
-                    <IconButton onClick={toggleShowNewPassword}>
-                      {showNewPassword ? <VisibilityOff /> : <Visibility />}
-                    </IconButton>
-                  </InputAdornment>
-                }
-              />
+              <FormControl sx={{mt: 1, width: "55ch", ml: -4}} variant='outlined' size='large'>
+                <InputLabel htmlFor="password" style={{fontSize: 18, marginLeft: "4%"}}>Mật khẩu mới</InputLabel>
+                <OutlinedInput
+                  id='password'
+                  type={showNewPassword ? 'text' : 'password'}
+                  sx={{ fontSize: '18px' }}
+                  endAdornment={
+                    <InputAdornment position='end'>
+                      <IconButton onClick={toggleShowNewPassword}>
+                        {showNewPassword ? <VisibilityOff /> : <Visibility />}
+                      </IconButton>
+                    </InputAdornment>
+                  }
+                />
+              </FormControl>
             </Box>
             <Box
               sx={{
@@ -143,31 +137,28 @@ function ChangePassword() {
                 flexDirection: 'column',
               }}
             >
-              <label htmlFor='confirm-password'>Xác Nhận Mật Khẩu:</label>
-              <Input
-                type={showConfirmPassword ? 'text' : 'password'}
-                id='confirm-password'
-                size='lg'
-                placeholder='Xác nhận lại'
-                variant='outlined'
-                sx={{
-                  fontSize: '15px',
-                }}
-                endAdornment={
-                  <InputAdornment position='end'>
-                    <IconButton onClick={toggleShowConfirmPassword}>
-                      {showConfirmPassword ? <VisibilityOff /> : <Visibility />}
-                    </IconButton>
-                  </InputAdornment>
-                }
-              />
+              <FormControl sx={{mt: 1, width: "55ch", ml: -4}} variant='outlined' size='large'>
+                <InputLabel htmlFor="password" style={{fontSize: 18, marginLeft: "4%"}}>Nhập lại mật khẩu</InputLabel>
+                <OutlinedInput
+                  id='password'
+                  type={showConfirmPassword ? 'text' : 'password'}
+                  sx={{ fontSize: '18px' }}
+                  endAdornment={
+                    <InputAdornment position='end'>
+                      <IconButton onClick={toggleShowConfirmPassword}>
+                        {showConfirmPassword ? <VisibilityOff /> : <Visibility />}
+                      </IconButton>
+                    </InputAdornment>
+                  }
+                />
+              </FormControl>
             </Box>
           </Box>
           <Button
             sx={{
-              width: '200px',
-              height: '30px',
-              fontSize: '15px',
+              width: '250px',
+              height: '45px',
+              fontSize: '23px',
               marginTop: '10px',
               background: '#2D3748',
             }}
@@ -176,11 +167,10 @@ function ChangePassword() {
           </Button>
         </Box>
         <Typography
-          variant='subtitle1'
-          color='initial'
           sx={{
             position: 'absolute',
-            bottom: '10px',
+            bottom: '10%',
+            fontSize: "18px"
           }}
         >
           Vui lòng nhập thông tin để thay đổi mật khẩu
