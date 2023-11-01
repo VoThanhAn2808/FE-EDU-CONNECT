@@ -5,6 +5,7 @@ import dcmdxdn from "../../assests/tutor.png";
 import a from "../../assests/subject.png";
 import "./ListTutor.css";
 import StarIcon from '@mui/icons-material/Star';
+import { Link } from "react-router-dom";
 
 const data = [
     { id: 1, name: 'Nguyễn Văn A', student: 100, subject: 'Toán 10', imgLink: dcmdxdn, rank: 5 },
@@ -26,7 +27,7 @@ const top = [
     { id: 2, name: 'Nguyễn Văn A', student: 100, subject: 'Toán 10', imgLink: a, rank: 4 },
     { id: 3, name: 'Nguyễn Văn A', student: 100, subject: 'Toán 10', imgLink: dcmdxdn, rank: 4 },
     { id: 4, name: 'Nguyễn Văn A', student: 100, subject: 'Toán 10', imgLink: a, rank: 3 },
-    
+
 ];
 
 function ListTutor() {
@@ -90,13 +91,15 @@ function ListTutor() {
                                     <Typography className="inforsubject">
                                         <PersonIcon className="total" />
                                         {item.student}</Typography>
-                                    <Button variant="contained" color="primary" component="a" href="http://localhost:3000/booktutor" hrefLang="#"
-                                        sx={{
-                                            height: '20px',
-                                            width: '80px'
-                                        }}>
-                                        Chi tiết
-                                    </Button>
+                                    <Link to='/booktutor'>
+                                        <Button variant="contained" color="primary" component="a"
+                                            sx={{
+                                                height: '20px',
+                                                width: '80px'
+                                            }}>
+                                            Chi tiết
+                                        </Button>
+                                    </Link>
                                 </Box>
                             </Box>
                         </Grid>
@@ -110,7 +113,7 @@ function ListTutor() {
                 <Typography sx={{ marginLeft: '40px', fontSize: '20px', fontFamily: 'cursive' }}>
                     Tham khảo các khóa học nhiều lượt đăng ký và đánh giá
                 </Typography>
-                <Box sx={{marginLeft: '30px', marginTop: '30px' }}>
+                <Box sx={{ marginLeft: '30px', marginTop: '30px' }}>
                     <Grid container spacing={1}>
                         {top.map((items) => (
                             <Grid item xs={3} key={items.id} sx={{ marginTop: '20px' }}>
@@ -132,22 +135,24 @@ function ListTutor() {
                                     />
                                     <Box sx={{ display: 'flex', marginTop: '20px', marginBottom: '20px' }} >
                                         <Typography className="inforsubject">
-                                            <PersonIcon/>
+                                            <PersonIcon />
                                             {items.student}</Typography>
-                                        <Button variant="contained" color="primary" component="a" href="http://localhost:3000/booktutor" hrefLang="#"
-                                            sx={{
-                                                height: '20px',
-                                                width: '80px'
-                                            }}>
-                                            Chi tiết
-                                        </Button>
+                                        <Link to='/booktutor'>
+                                            <Button variant="contained" color="primary" component="a"
+                                                sx={{
+                                                    height: '20px',
+                                                    width: '80px'
+                                                }}>
+                                                Chi tiết
+                                            </Button>
+                                        </Link>
                                     </Box>
                                 </Box>
                             </Grid>
                         ))}
                     </Grid>
                 </Box>
-                <Box sx={{marginBottom: '60px', display: 'flex', justifyContent: 'center' }}>
+                <Box sx={{ marginBottom: '60px', display: 'flex', justifyContent: 'center' }}>
                     <Pagination count={10} sx={{ '& .MuiPaginationItem-root': { fontSize: '15px', minWidth: '50px' } }} />
                 </Box>
             </Box>

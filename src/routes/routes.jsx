@@ -15,6 +15,8 @@ import SubjectPage from "../pages/ListSubject/SubjectPage";
 import PhysicsExperiment from "../pages/PhysicsExperiment/PhysicsExperiment";
 import ListTutor from '../pages/ListTutor/ListTutorPage';
 import TeacherProgramList from '../pages/Student/TeacherProgramList/TeacherProgramList';
+import BookTime from '../pages/Student/BookTime/BookTimePage';
+import ThankYou from '../pages/Student/ThankYou/ThankYouPage';
 
 const publicRoute = [
   { path: '/', component: Home, layout: DefaultLayout },
@@ -31,7 +33,8 @@ const publicRoute = [
   { path: '/profile-student', component: ProfileStudent, layout: DefaultLayout },
   { path: '/profile-teacher', component: ProfileTeacher, layout: DefaultLayout },
   { path: '/teacherprogramlist', component: TeacherProgramList, layout: LayoutStudent },
-
+  { path: 'booktime', component: BookTime, layout: LoginLayout},
+  { path: '/thankyou', component: ThankYou, layout: LoginLayout},
 ];
 const privateRoute = [];
 
