@@ -2,7 +2,7 @@ import React from "react";
 import "./HomeStudent.css";
 import { Box, Button, Grid, Typography } from "@mui/material";
 import Slide from "../../Guest/Home/Slide/Slide";
-import SubjectPage from "../../ListSubject/SubjectPage";
+import SubjectPage from "../../Guest/ListSubject/SubjectPage";
 import AN from "../../../assests/1.jpg"
 import ANN from "../../../assests/image 1.jpg"
 import GIASU from "../../../assests/giasu.jpg"
