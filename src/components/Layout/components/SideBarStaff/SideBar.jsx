@@ -4,11 +4,11 @@ import ListItemButton from '@mui/material/ListItemButton';
 import ListItemIcon from '@mui/material/ListItemIcon';
 import { Box, Typography} from '@mui/material';
 import DashboardIcon from '@mui/icons-material/Dashboard';
-import ImportContactsIcon from '@mui/icons-material/ImportContacts';
-import BiotechIcon from '@mui/icons-material/Biotech';
 import CalendarMonthIcon from '@mui/icons-material/CalendarMonth';
 import ClassIcon from '@mui/icons-material/Class';
 import { Link } from 'react-router-dom';
+import CastForEducationIcon from '@mui/icons-material/CastForEducation';
+import SchoolIcon from '@mui/icons-material/School';
 
 function Sidebar() {
 
@@ -35,14 +35,14 @@ function Sidebar() {
 
         <ListItemButton>
           <ListItemIcon>
-            <ImportContactsIcon />
+            <CastForEducationIcon />
           </ListItemIcon>
           <Typography sx={{ fontSize: '16px', marginRight: 'auto' }}><Link to='/tutormanagement' style={{color:"black", textDecoration: "none"}}>Quản lý gia sư</Link></Typography>
         </ListItemButton>
 
         <ListItemButton>
           <ListItemIcon>
-            <BiotechIcon />
+            <SchoolIcon />
           </ListItemIcon>
           <Typography sx={{ fontSize: '16px', marginRight: 'auto' }}><Link to='/studentmanagement' style={{color:"black", textDecoration: "none"}}>Quản lý học sinh</Link></Typography>
         </ListItemButton>
