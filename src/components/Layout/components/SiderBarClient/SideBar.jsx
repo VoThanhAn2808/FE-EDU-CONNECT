@@ -12,6 +12,7 @@ import SchoolIcon from '@mui/icons-material/School';
 import AccountBalanceIcon from '@mui/icons-material/AccountBalance';
 import LibraryBooksIcon from '@mui/icons-material/LibraryBooks';
 import HelpOutlineIcon from '@mui/icons-material/HelpOutline';
+import { Link } from 'react-router-dom';
 
 const Sidebar = () => {
     const [openPrimary, setOpenPrimary] = React.useState(true);
@@ -53,7 +54,7 @@ const Sidebar = () => {
                     <ListItemIcon>
                         <HomeIcon />
                     </ListItemIcon>
-                    <Typography sx={{ fontSize: '16px', marginRight: 'auto', }}>Trang chủ</Typography>
+                    <Typography sx={{ fontSize: '16px', marginRight: 'auto', }}><Link to='/' style={{color:"black", textDecoration: "none"}}>Trang chủ</Link></Typography>
                 </ListItemButton>
 
                 <ListItemButton onClick={handlePrimaryClick}>
@@ -156,7 +157,8 @@ const Sidebar = () => {
                         <ListItemButton sx={{ pl: 3 }}>
                             <ListItemIcon></ListItemIcon>
                             <Typography sx={{ fontSize: '13px', marginRight: 'auto', fontWeight: 'bold' }}>
-                                Lớp 10
+===========================                                {/* chưa fix xong */}
+                            <Link to='/booktutor' style={{color:"black", textDecoration: "none"}}>Lớp 10</Link> 
                             </Typography>
                         </ListItemButton>
 
