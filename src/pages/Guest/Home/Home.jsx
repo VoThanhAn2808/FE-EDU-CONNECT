@@ -89,7 +89,11 @@ function Home() {
                                     color: "#00000",
                                     fontWeight: "400",
                                     fontSize: "20px",
-                                    fontFamily: "cursive"
+                                    fontFamily: "cursive",
+                                    height: "35px",
+                                    width: "150px",
+                                    backgroundColor: "red",
+                                    borderRadius: "5px",
                                 }}>Thông Tin</Typography>
                             <img src={GIASU} alt="giasu" className='giasu' />
                         </Box>
@@ -119,7 +123,11 @@ function Home() {
                                     color: "#00000",
                                     fontWeight: "400",
                                     fontSize: "20px",
-                                    fontFamily: "cursive"
+                                    fontFamily: "cursive",
+                                    height: "35px",
+                                    width: "150px",
+                                    backgroundColor: "red",
+                                    borderRadius: "5px",
                                 }}>Thông Tin</Typography>
                             <img src={GIASU} alt="giasu" className='giasu' />
                         </Box>
@@ -149,7 +157,11 @@ function Home() {
                                     color: "#00000",
                                     fontWeight: "400",
                                     fontSize: "20px",
-                                    fontFamily: "cursive"
+                                    fontFamily: "cursive",
+                                    height: "35px",
+                                    width: "150px",
+                                    backgroundColor: "red",
+                                    borderRadius: "5px",
                                 }}>Thông Tin</Typography>
                             <img src={GIASU} alt="giasu" className='giasu' />
                         </Box>
