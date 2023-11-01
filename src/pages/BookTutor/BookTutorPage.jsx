@@ -9,6 +9,7 @@ import Rating from '@mui/material/Rating';
 import StarIcon from '@mui/icons-material/Star';
 import Button from '@mui/material/Button';
 import subject from "../../assests/subject.png";
+import { Link } from "react-router-dom";
 
 function BookTutorPage() {
     return (
@@ -63,10 +64,12 @@ function BookTutorPage() {
                             }}
                         />
                         <Box className="button">
-                            <Button
-                                variant="contained" className="register">
-                                Đăng ký ngay
-                            </Button>
+                            <Link to='/booktime'>
+                                <Button
+                                    variant="contained" className="register">
+                                    Đăng ký ngay
+                                </Button>
+                            </Link>
                             <Button
                                 variant="contained" className="infor">
                                 Thông Tin

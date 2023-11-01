@@ -4,6 +4,7 @@ import { Box, Grid, Typography } from "@mui/material";
 import dcmdxdn from "../../assests/subject.png";
 import PersonIcon from '@mui/icons-material/Person';
 import { Button } from '@mui/material';
+import { Link } from "react-router-dom";
 
 
 const data = [
@@ -34,13 +35,15 @@ function SubjectPage() {
                                 <Typography className="inforsubject">
                                     <PersonIcon className="total" />
                                     {item.number}</Typography>
-                                <Button variant="contained" color="primary" component="a" href="http://localhost:3000/listtutor" hrefLang="#"
-                                    sx={{
-                                        height: '20px',
-                                        width: '80px'
-                                    }}>
-                                    Chi tiết
-                                </Button>
+                                <Link to='/listtutor'>
+                                    <Button variant="contained" color="primary" component="a"
+                                        sx={{
+                                            height: '20px',
+                                            width: '80px'
+                                        }}>
+                                        Chi tiết
+                                    </Button>
+                                </Link>
                             </Box>
                         </Box>
                     </Grid>
