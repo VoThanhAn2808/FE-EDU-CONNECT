@@ -19,6 +19,7 @@ import TeacherProgramList from '../pages/Student/TeacherProgramList/TeacherProgr
 import TutorManagement from '../pages/Staff/TutorManagement';
 import StudentManagement from '../pages/Staff/StudentManagement';
 import TryLearningManagement from "../pages/Staff/TryLearningManagement";
+import CourseManagement from "../pages/Staff/CourseManagement";
 
 const publicRoute = [
   { path: '/', component: Home, layout: DefaultLayout},
@@ -36,7 +37,8 @@ const publicRoute = [
   { path: '/profile-teacher', component: ProfileTeacher, layout: DefaultLayout},
   { path: '/tutormanagement', component: TutorManagement, layout: LayoutStaff},
   { path: '/studentmanagement', component: StudentManagement, layout: LayoutStaff},
-  { path: '/teacherprogramlist', component: TeacherProgramList, layout: LayoutStudent},
+  { path: '/teacherprogramlist', component: TeacherProgramList, layout: LayoutStaff},
+  { path: '/coursemanagement', component: CourseManagement, layout: LayoutStaff},
   { path: '/trylearningmanagement', component: TryLearningManagement, layout: LayoutStaff},
 
 ];

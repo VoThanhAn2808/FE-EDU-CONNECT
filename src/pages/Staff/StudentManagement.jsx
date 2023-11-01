@@ -27,13 +27,16 @@ function StudentManagement() {
                 borderRadius: "5px",
                 border: '1px solid #000000', p: 2
             }}>
-                <Typography sx={{
-                    fontSize: "40px",
-                    marginLeft: "40%",
-                    fontFamily: "cursive"
+                <Box sx={{
+                    textAlign: "center",
                 }}>
-                    Danh sách học sinh
-                </Typography>
+                    <Typography sx={{
+                        fontSize: "40px",
+                        fontFamily: "cursive"
+                    }}>
+                        Danh sách học sinh
+                    </Typography>
+                </Box>
             </Box>
             <Box sx={{
                 backgroundColor: "#D9D9D9",

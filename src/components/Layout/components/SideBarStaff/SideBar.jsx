@@ -7,6 +7,7 @@ import DashboardIcon from '@mui/icons-material/Dashboard';
 import ImportContactsIcon from '@mui/icons-material/ImportContacts';
 import BiotechIcon from '@mui/icons-material/Biotech';
 import CalendarMonthIcon from '@mui/icons-material/CalendarMonth';
+import ClassIcon from '@mui/icons-material/Class';
 import { Link } from 'react-router-dom';
 
 function Sidebar() {
@@ -51,6 +52,13 @@ function Sidebar() {
             <CalendarMonthIcon />
           </ListItemIcon>
           <Typography sx={{ fontSize: '16px', marginRight: 'auto' }}><Link to='/trylearningmanagement' style={{color:"black", textDecoration: "none"}}>Quản lý lịch học thử</Link></Typography>
+        </ListItemButton>
+
+        <ListItemButton>
+          <ListItemIcon>
+            <ClassIcon />
+          </ListItemIcon>
+          <Typography sx={{ fontSize: '16px', marginRight: 'auto' }}><Link to='/coursemanagement' style={{color:"black", textDecoration: "none"}}>Quản lý đăng ký khoá học</Link></Typography>
         </ListItemButton>
       </List>
     </Box>
