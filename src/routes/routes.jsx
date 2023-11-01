@@ -16,6 +16,8 @@ import SubjectPage from "../pages/ListSubject/SubjectPage";
 import PhysicsExperiment from "../pages/PhysicsExperiment/PhysicsExperiment";
 import ListTutor from '../pages/ListTutor/ListTutorPage';
 import TeacherProgramList from '../pages/Student/TeacherProgramList/TeacherProgramList';
+import BookTime from '../pages/Student/BookTime/BookTimePage';
+import ThankYou from '../pages/Student/ThankYou/ThankYouPage';
 import TutorManagement from '../pages/Staff/TutorManagement';
 import StudentManagement from '../pages/Staff/StudentManagement';
 import TryLearningManagement from "../pages/Staff/TryLearningManagement";
@@ -32,6 +34,8 @@ const publicRoute = [
   { path: '/forgotpass', component: ForgotPassword, layout: LoginLayout},
   { path: '/changepass', component: ChangePassword, layout: LoginLayout},
   { path: '/physics' ,component: PhysicsExperiment, layout: DefaultLayout},
+  { path: '/booktime', component: BookTime, layout: LoginLayout},
+  { path: '/thankyou', component: ThankYou, layout: LoginLayout},
   { path: '/profile-staff', component: ProfileStaff, layout: DefaultLayout},
   { path: '/profile-student', component: ProfileStudent, layout: DefaultLayout},
   { path: '/profile-teacher', component: ProfileTeacher, layout: DefaultLayout},
@@ -40,7 +44,6 @@ const publicRoute = [
   { path: '/teacherprogramlist', component: TeacherProgramList, layout: LayoutStaff},
   { path: '/coursemanagement', component: CourseManagement, layout: LayoutStaff},
   { path: '/trylearningmanagement', component: TryLearningManagement, layout: LayoutStaff},
-
 ];
 const privateRoute = [];
 
