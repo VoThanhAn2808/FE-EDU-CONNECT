@@ -23,6 +23,8 @@ import TutorManagement from '../pages/Staff/TutorManagement';
 import StudentManagement from '../pages/Staff/StudentManagement';
 import TryLearningManagement from "../pages/Staff/TryLearningManagement";
 import CourseManagement from "../pages/Staff/CourseManagement";
+import ExerciseListPage from '../pages/Tutor/ExerciseList/ExercisePage';
+import AddVideo from '../pages/Tutor/ExerciseList/AddVideoPage';
 
 const publicRoute = [
   { path: '/', component: Home, layout: DefaultLayout},
@@ -46,6 +48,8 @@ const publicRoute = [
   { path: '/teacherprogramlist', component: TeacherProgramList, layout: LayoutStaff},
   { path: '/coursemanagement', component: CourseManagement, layout: LayoutStaff},
   { path: '/trylearningmanagement', component: TryLearningManagement, layout: LayoutStaff},
+  { path: '/exerciselist', component : ExerciseListPage, layout : LayoutStaff},
+  { path: '/addvideo', component : AddVideo, layout : LayoutStaff},
 ];
 const privateRoute = [];
 
