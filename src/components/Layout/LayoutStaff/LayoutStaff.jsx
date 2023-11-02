@@ -34,7 +34,7 @@ function LayoutStaff({ children }) {
             sx={{
               width: '85%',
               marginLeft: '15%',
-              minHeight: 'calc(100vh - 70px)',
+              minHeight: 'calc(100vh)',
               position: 'relative',
             }}
           >

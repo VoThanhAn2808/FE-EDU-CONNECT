@@ -91,7 +91,7 @@ function ListTutor() {
                                     <Typography className="inforsubject">
                                         <PersonIcon className="total" />
                                         {item.student}</Typography>
-                                    <Link to='/booktutor'>
+                                    <Link to="/booktutor">
                                         <Button variant="contained" color="primary" component="a"
                                             sx={{
                                                 height: '20px',
@@ -137,7 +137,7 @@ function ListTutor() {
                                         <Typography className="inforsubject">
                                             <PersonIcon />
                                             {items.student}</Typography>
-                                        <Link to='/booktutor'>
+                                        <Link to="/booktutor">
                                             <Button variant="contained" color="primary" component="a"
                                                 sx={{
                                                     height: '20px',
