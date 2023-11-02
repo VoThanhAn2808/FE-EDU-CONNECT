@@ -1,5 +1,6 @@
 import React from "react";
 import { Box, Button, Pagination, Table, TableBody, TableCell, TableContainer, TableHead, TableRow, TextField, Typography } from "@mui/material";
+import MoreVertIcon from '@mui/icons-material/MoreVert';
 
 const data = [
     { id: 1, name: "Nguyẽn Văn A", address: "Đà Nẵng", phoneNumber: "0987654321", date: "10/09/2023", status: "Thành công" },
@@ -17,7 +18,7 @@ const data = [
 
 function StudentManagement() {
     return (
-        <Box sx={{ height: "920px" }}>
+        <Box sx={{ marginBottom: "50px" }}>
             <Box sx={{
                 backgroundColor: "#D9D9D9",
                 height: "100px",
@@ -80,13 +81,13 @@ function StudentManagement() {
                         <Table>
                             <TableHead>
                                 <TableRow>
-                                    <TableCell sx={{ fontSize: "20px", fontFamily: "cursive", textAlign: "center" }}>Mã số gia sư</TableCell>
-                                    <TableCell sx={{ fontSize: "20px", fontFamily: "cursive", textAlign: "center" }}>Tên gia sư</TableCell>
+                                    <TableCell sx={{ fontSize: "20px", fontFamily: "cursive", textAlign: "center" }}>MSHS</TableCell>
+                                    <TableCell sx={{ fontSize: "20px", fontFamily: "cursive", textAlign: "center" }}>Tên học sinh</TableCell>
                                     <TableCell sx={{ fontSize: "20px", fontFamily: "cursive", textAlign: "center" }}>Địa chỉ</TableCell>
                                     <TableCell sx={{ fontSize: "20px", fontFamily: "cursive", textAlign: "center" }}>Số điện thoại</TableCell>
                                     <TableCell sx={{ fontSize: "20px", fontFamily: "cursive", textAlign: "center" }}>Ngày đăng ký</TableCell>
                                     <TableCell sx={{ fontSize: "20px", fontFamily: "cursive", textAlign: "center" }}>Trạng thái</TableCell>
-                                    <TableCell sx={{ fontSize: "20px", fontFamily: "cursive", textAlign: "center" }}>ba hòn bi</TableCell>
+                                    <TableCell sx={{ fontSize: "20px", fontFamily: "cursive", textAlign: "center" }}></TableCell>
                                 </TableRow>
                             </TableHead>
                             <TableBody>
@@ -97,8 +98,8 @@ function StudentManagement() {
                                         <TableCell sx={{ fontSize: "15px", fontFamily: "cursive", textAlign: "center" }}>{item.address}</TableCell>
                                         <TableCell sx={{ fontSize: "15px", fontFamily: "cursive", textAlign: "center" }}>{item.phoneNumber}</TableCell>
                                         <TableCell sx={{ fontSize: "15px", fontFamily: "cursive", textAlign: "center" }}>{item.date}</TableCell>
-                                        <TableCell sx={{ fontSize: "15px", fontFamily: "cursive", textAlign: "center" }}>{item.status}</TableCell>
-                                        <TableCell sx={{ fontSize: "15px", fontFamily: "cursive", textAlign: "center" }}>Ba hòn bi</TableCell>
+                                        <TableCell sx={{ fontSize: "15px", fontFamily: "cursive", textAlign: "center", color: item.status === 'Thành công' ? 'green' : 'red' }}>{item.status}</TableCell>
+                                        <TableCell sx={{ fontSize: "15px", fontFamily: "cursive", textAlign: "center" }}><MoreVertIcon sx={{fontSize:"25px"}}/></TableCell>
                                     </TableRow>
                                 ))}
                             </TableBody>
