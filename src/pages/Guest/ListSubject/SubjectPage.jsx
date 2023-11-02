@@ -1,7 +1,7 @@
 import React from "react";
-import './Subject.css';
+import './../ListSubject/Subject.css';
 import { Box, Grid, Typography } from "@mui/material";
-import dcmdxdn from "../../assests/subject.png";
+import dcmdxdn from "../../../assests/subject.png";
 import PersonIcon from '@mui/icons-material/Person';
 import { Button } from '@mui/material';
 import { Link } from "react-router-dom";
