@@ -1,23 +1,24 @@
 import React from "react";
 import { Box, Button, Pagination, Table, TableBody, TableCell, TableContainer, TableHead, TableRow, TextField, Typography } from "@mui/material";
+import MoreVertIcon from '@mui/icons-material/MoreVert';
 
 const data = [
-    { id: 1, name: "Nguyẽn Văn A", address: "Đà Nẵng", phoneNumber: "0987654321", date: "10/09/2023", status: "Thành công" },
-    { id: 2, name: "Nguyẽn Văn A", address: "Đà Nẵng", phoneNumber: "0987654321", date: "10/09/2023", status: "Thành công" },
-    { id: 3, name: "Nguyẽn Văn A", address: "Đà Nẵng", phoneNumber: "0987654321", date: "10/09/2023", status: "Thành công" },
-    { id: 4, name: "Nguyẽn Văn A", address: "Đà Nẵng", phoneNumber: "0987654321", date: "10/09/2023", status: "Thành công" },
-    { id: 5, name: "Nguyẽn Văn A", address: "Đà Nẵng", phoneNumber: "0987654321", date: "10/09/2023", status: "Thành công" },
-    { id: 6, name: "Nguyẽn Văn A", address: "Đà Nẵng", phoneNumber: "0987654321", date: "10/09/2023", status: "Thành công" },
-    { id: 7, name: "Nguyẽn Văn A", address: "Đà Nẵng", phoneNumber: "0987654321", date: "10/09/2023", status: "Thành công" },
-    { id: 8, name: "Nguyẽn Văn A", address: "Đà Nẵng", phoneNumber: "0987654321", date: "10/09/2023", status: "Thành công" },
-    { id: 9, name: "Nguyẽn Văn A", address: "Đà Nẵng", phoneNumber: "0987654321", date: "10/09/2023", status: "Thành công" },
-    { id: 10, name: "Nguyẽn Văn A", address: "Đà Nẵng", phoneNumber: "0987654321", date: "10/09/2023", status: "Thành công" },
+    { id: 1, name: "Nguyễn Văn A", tutor: "Nguyễn Văn B", phoneNumber: "0987654321", date: "10/09/2023", subject: "Toán" ,status: "Đã duyệt" },
+    { id: 2, name: "Nguyễn Văn A", tutor: "Nguyễn Văn B", phoneNumber: "0987654321", date: "10/09/2023", subject: "Toán" ,status: "Đã duyệt" },
+    { id: 3, name: "Nguyễn Văn A", tutor: "Nguyễn Văn B", phoneNumber: "0987654321", date: "10/09/2023", subject: "Toán" ,status: "Đã duyệt" },
+    { id: 4, name: "Nguyễn Văn A", tutor: "Nguyễn Văn B", phoneNumber: "0987654321", date: "10/09/2023", subject: "Toán" ,status: "Đã duyệt" },
+    { id: 5, name: "Nguyễn Văn A", tutor: "Nguyễn Văn B", phoneNumber: "0987654321", date: "10/09/2023", subject: "Toán" ,status: "Đã duyệt" },
+    { id: 6, name: "Nguyễn Văn A", tutor: "Nguyễn Văn B", phoneNumber: "0987654321", date: "10/09/2023", subject: "Toán" ,status: "Chưa duyệt" },
+    { id: 7, name: "Nguyễn Văn A", tutor: "Nguyễn Văn B", phoneNumber: "0987654321", date: "10/09/2023", subject: "Toán" ,status: "Chưa duyệt" },
+    { id: 8, name: "Nguyễn Văn A", tutor: "Nguyễn Văn B", phoneNumber: "0987654321", date: "10/09/2023", subject: "Toán" ,status: "Chưa duyệt" },
+    { id: 9, name: "Nguyễn Văn A", tutor: "Nguyễn Văn B", phoneNumber: "0987654321", date: "10/09/2023", subject: "Toán" ,status: "Chưa duyệt" },
+    { id: 10, name: "Nguyễn Văn A", tutor: "Nguyễn Văn B", phoneNumber: "0987654321", date: "10/09/2023", subject: "Toán" ,status: "Chưa duyệt" },
 
 ]
 
 function TryLearningManagement() {
     return (
-        <Box sx={{ height: "920px" }}>
+        <Box sx={{ marginBottom: "50px" }}>
             <Box sx={{
                 backgroundColor: "#D9D9D9",
                 height: "100px",
@@ -80,25 +81,27 @@ function TryLearningManagement() {
                         <Table>
                             <TableHead>
                                 <TableRow>
-                                    <TableCell sx={{ fontSize: "20px", fontFamily: "cursive", textAlign: "center" }}>Mã số gia sư</TableCell>
+                                    <TableCell sx={{ fontSize: "20px", fontFamily: "cursive", textAlign: "center" }}>STT</TableCell>
+                                    <TableCell sx={{ fontSize: "20px", fontFamily: "cursive", textAlign: "center" }}>Tên học sinh</TableCell>
                                     <TableCell sx={{ fontSize: "20px", fontFamily: "cursive", textAlign: "center" }}>Tên gia sư</TableCell>
-                                    <TableCell sx={{ fontSize: "20px", fontFamily: "cursive", textAlign: "center" }}>Địa chỉ</TableCell>
                                     <TableCell sx={{ fontSize: "20px", fontFamily: "cursive", textAlign: "center" }}>Số điện thoại</TableCell>
                                     <TableCell sx={{ fontSize: "20px", fontFamily: "cursive", textAlign: "center" }}>Ngày đăng ký</TableCell>
+                                    <TableCell sx={{ fontSize: "20px", fontFamily: "cursive", textAlign: "center" }}>Môn đăng ký</TableCell>
                                     <TableCell sx={{ fontSize: "20px", fontFamily: "cursive", textAlign: "center" }}>Trạng thái</TableCell>
-                                    <TableCell sx={{ fontSize: "20px", fontFamily: "cursive", textAlign: "center" }}>ba hòn bi</TableCell>
+                                    <TableCell sx={{ fontSize: "20px", fontFamily: "cursive", textAlign: "center" }}></TableCell>
                                 </TableRow>
                             </TableHead>
                             <TableBody>
-                                {data.map((item) => (
-                                    <TableRow>
+                                {data.map((item, index) => (
+                                    <TableRow key={index}>
                                         <TableCell sx={{ fontSize: "15px", fontFamily: "cursive", textAlign: "center" }}>{item.id}</TableCell>
                                         <TableCell sx={{ fontSize: "15px", fontFamily: "cursive", textAlign: "center" }}>{item.name}</TableCell>
-                                        <TableCell sx={{ fontSize: "15px", fontFamily: "cursive", textAlign: "center" }}>{item.address}</TableCell>
+                                        <TableCell sx={{ fontSize: "15px", fontFamily: "cursive", textAlign: "center" }}>{item.tutor}</TableCell>
                                         <TableCell sx={{ fontSize: "15px", fontFamily: "cursive", textAlign: "center" }}>{item.phoneNumber}</TableCell>
                                         <TableCell sx={{ fontSize: "15px", fontFamily: "cursive", textAlign: "center" }}>{item.date}</TableCell>
-                                        <TableCell sx={{ fontSize: "15px", fontFamily: "cursive", textAlign: "center" }}>{item.status}</TableCell>
-                                        <TableCell sx={{ fontSize: "15px", fontFamily: "cursive", textAlign: "center" }}>Ba hòn bi</TableCell>
+                                        <TableCell sx={{ fontSize: "15px", fontFamily: "cursive", textAlign: "center" }}>{item.subject}</TableCell>
+                                        <TableCell sx={{ fontSize: "15px", fontFamily: "cursive", textAlign: "center",color: item.status === 'Đã duyệt' ? 'green' : 'red' }}>{item.status}</TableCell>
+                                        <TableCell sx={{ fontSize: "15px", fontFamily: "cursive", textAlign: "center" }}><MoreVertIcon sx={{fontSize:"25px"}}/></TableCell>
                                     </TableRow>
                                 ))}
                             </TableBody>

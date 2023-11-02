@@ -22,6 +22,7 @@ import TutorManagement from '../pages/Staff/TutorManagement';
 import StudentManagement from '../pages/Staff/StudentManagement';
 import TryLearningManagement from "../pages/Staff/TryLearningManagement";
 import CourseManagement from "../pages/Staff/CourseManagement";
+import CalendarStudent from "../pages/Student/CalendarStudent/CalendarStudent";
 
 const publicRoute = [
   { path: '/', component: Home, layout: DefaultLayout},
@@ -42,6 +43,7 @@ const publicRoute = [
   { path: '/tutormanagement', component: TutorManagement, layout: LayoutStaff},
   { path: '/studentmanagement', component: StudentManagement, layout: LayoutStaff},
   { path: '/teacherprogramlist', component: TeacherProgramList, layout: LayoutStaff},
+  { path: '/calendarstudent', component: CalendarStudent, layout: LayoutStudent},
   { path: '/coursemanagement', component: CourseManagement, layout: LayoutStaff},
   { path: '/trylearningmanagement', component: TryLearningManagement, layout: LayoutStaff},
 ];
