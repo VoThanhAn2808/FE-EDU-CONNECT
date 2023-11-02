@@ -18,10 +18,13 @@ import ListTutor from '../pages/ListTutor/ListTutorPage';
 import TeacherProgramList from '../pages/Student/TeacherProgramList/TeacherProgramList';
 import BookTime from '../pages/Student/BookTime/BookTimePage';
 import ThankYou from '../pages/Student/ThankYou/ThankYouPage';
+import DemoPage from '../pages/Demo/DemoPage';
 import TutorManagement from '../pages/Staff/TutorManagement';
 import StudentManagement from '../pages/Staff/StudentManagement';
 import TryLearningManagement from "../pages/Staff/TryLearningManagement";
 import CourseManagement from "../pages/Staff/CourseManagement";
+import ExerciseListPage from '../pages/Tutor/ExerciseList/ExercisePage';
+import AddVideo from '../pages/Tutor/ExerciseList/AddVideoPage';
 
 const publicRoute = [
   { path: '/', component: Home, layout: DefaultLayout},
@@ -36,6 +39,7 @@ const publicRoute = [
   { path: '/physics' ,component: PhysicsExperiment, layout: DefaultLayout},
   { path: '/booktime', component: BookTime, layout: LoginLayout},
   { path: '/thankyou', component: ThankYou, layout: LoginLayout},
+  { path: '/demo', component : DemoPage, layout: LayoutStudent},
   { path: '/profile-staff', component: ProfileStaff, layout: DefaultLayout},
   { path: '/profile-student', component: ProfileStudent, layout: DefaultLayout},
   { path: '/profile-teacher', component: ProfileTeacher, layout: DefaultLayout},
@@ -44,6 +48,8 @@ const publicRoute = [
   { path: '/teacherprogramlist', component: TeacherProgramList, layout: LayoutStaff},
   { path: '/coursemanagement', component: CourseManagement, layout: LayoutStaff},
   { path: '/trylearningmanagement', component: TryLearningManagement, layout: LayoutStaff},
+  { path: '/exerciselist', component : ExerciseListPage, layout : LayoutStaff},
+  { path: '/addvideo', component : AddVideo, layout : LayoutStaff},
 ];
 const privateRoute = [];
 
