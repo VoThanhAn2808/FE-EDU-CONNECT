@@ -56,7 +56,7 @@ function ThankYou() {
                 width: '100%'
             }}>
                 <Box sx={{ marginLeft: '30%', paddingTop: '20px' }}>
-                    <img src={thank} style={{ width: '65%' }} />
+                    <img src={thank} alt="thank" style={{ width: '65%' }} />
                     <Typography sx={{ fontSize: '20px', fontFamily: 'cursive', marginLeft: '10%' }}>Cảm ơn bạn đã tin cậy sử dụng dịch vụ của chúng tôi</Typography>
                     <Typography sx={{ fontSize: '20px', fontFamily: 'cursive', marginLeft: '20%' }}>Chúc bạn một ngày tốt lành</Typography>
                     <Link to = '/homestudent'>

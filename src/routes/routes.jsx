@@ -17,6 +17,7 @@ import ListTutor from '../pages/ListTutor/ListTutorPage';
 import TeacherProgramList from '../pages/Student/TeacherProgramList/TeacherProgramList';
 import BookTime from '../pages/Student/BookTime/BookTimePage';
 import ThankYou from '../pages/Student/ThankYou/ThankYouPage';
+import DemoPage from '../pages/Demo/DemoPage';
 
 const publicRoute = [
   { path: '/', component: Home, layout: DefaultLayout },
@@ -35,6 +36,7 @@ const publicRoute = [
   { path: '/teacherprogramlist', component: TeacherProgramList, layout: LayoutStudent },
   { path: 'booktime', component: BookTime, layout: LoginLayout},
   { path: '/thankyou', component: ThankYou, layout: LoginLayout},
+  { path: '/demo', component : DemoPage, layout: LayoutStudent},
 ];
 const privateRoute = [];
 
