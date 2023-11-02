@@ -34,7 +34,7 @@ function LayoutStudent({ children }) {
             sx={{
               width: '85%',
               marginLeft: '15%',
-              minHeight: 'calc(100vh - 70px)',
+              minHeight: '100vh',
               position: 'relative',
             }}
           >

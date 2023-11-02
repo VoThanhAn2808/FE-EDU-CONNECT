@@ -23,8 +23,10 @@ import TutorManagement from '../pages/Staff/TutorManagement';
 import StudentManagement from '../pages/Staff/StudentManagement';
 import TryLearningManagement from "../pages/Staff/TryLearningManagement";
 import CourseManagement from "../pages/Staff/CourseManagement";
+import CalendarStudent from "../pages/Student/CalendarStudent/CalendarStudent";
 import ExerciseListPage from '../pages/Tutor/ExerciseList/ExercisePage';
 import AddVideo from '../pages/Tutor/ExerciseList/AddVideoPage';
+
 
 const publicRoute = [
   { path: '/', component: Home, layout: DefaultLayout},
@@ -46,6 +48,7 @@ const publicRoute = [
   { path: '/tutormanagement', component: TutorManagement, layout: LayoutStaff},
   { path: '/studentmanagement', component: StudentManagement, layout: LayoutStaff},
   { path: '/teacherprogramlist', component: TeacherProgramList, layout: LayoutStaff},
+  { path: '/calendarstudent', component: CalendarStudent, layout: LayoutStudent},
   { path: '/coursemanagement', component: CourseManagement, layout: LayoutStaff},
   { path: '/trylearningmanagement', component: TryLearningManagement, layout: LayoutStaff},
   { path: '/exerciselist', component : ExerciseListPage, layout : LayoutStaff},
