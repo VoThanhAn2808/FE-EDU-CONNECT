@@ -2,6 +2,7 @@ import DefaultLayout from '../components/Layout/DefaultLayout/DefaultLayout';
 import LoginLayout from '../components/Layout/LoginLayout/LoginLayout';
 import LayoutStudent from "../components/Layout/LayoutStudent/LayoutStudent";
 import LayoutStaff from "../components/Layout/LayoutStaff/LayoutStaff";
+import LayoutTutor from '../components/Layout/LayoutTutor/LayoutTutor';
 import ChangePassword from "../pages/Logins/ChangePassword/ChangePassword"
 import ForgotPassword from '../pages/Logins/ForgotPassword/ForgotPassword';
 import Home from "../pages/Guest/Home/Home";
@@ -26,7 +27,9 @@ import CourseManagement from "../pages/Staff/CourseManagement";
 import CalendarStudent from "../pages/Student/CalendarStudent/CalendarStudent";
 import ExerciseListPage from '../pages/Tutor/ExerciseList/ExercisePage';
 import AddVideo from '../pages/Tutor/ExerciseList/AddVideoPage';
-
+import CalendarTutor from '../pages/Tutor/CalendarTutor/CalendarTutor';
+import StudentGrade from "../pages/Student/StudentGrade/StudentGrade";
+import HomeTutor from '../pages/Tutor/HomeTutor/HomeTutor';
 
 const publicRoute = [
   { path: '/', component: Home, layout: DefaultLayout},
@@ -47,12 +50,15 @@ const publicRoute = [
   { path: '/profile-teacher', component: ProfileTeacher, layout: DefaultLayout},
   { path: '/tutormanagement', component: TutorManagement, layout: LayoutStaff},
   { path: '/studentmanagement', component: StudentManagement, layout: LayoutStaff},
-  { path: '/teacherprogramlist', component: TeacherProgramList, layout: LayoutStaff},
+  { path: '/teacherprogramlist', component: TeacherProgramList, layout: LayoutStudent},
   { path: '/calendarstudent', component: CalendarStudent, layout: LayoutStudent},
   { path: '/coursemanagement', component: CourseManagement, layout: LayoutStaff},
   { path: '/trylearningmanagement', component: TryLearningManagement, layout: LayoutStaff},
   { path: '/exerciselist', component : ExerciseListPage, layout : LayoutStaff},
   { path: '/addvideo', component : AddVideo, layout : LayoutStaff},
+  { path: '/calendartutor', component : CalendarTutor, layout : LayoutTutor},
+  { path: '/studentgrade', component : StudentGrade, layout : LayoutStudent},
+  { path: '/hometutor', component : HomeTutor, layout : LayoutTutor},
 ];
 const privateRoute = [];
 
