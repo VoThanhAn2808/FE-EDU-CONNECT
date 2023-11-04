@@ -7,7 +7,7 @@ import IconButton from '@mui/material/IconButton';
 import MoreVertIcon from '@mui/icons-material/MoreVert';
 
 
-function Feedback() {
+function FeedbackTutor() {
     return (
         <Box>
             <Box className="body-tutor">
@@ -68,10 +68,13 @@ function Feedback() {
                     <Typography sx={{ fontSize: "18px", fontFamily: "cursive", marginLeft: "20px", color: "#5E5D5D" }}>(100)</Typography>
                 </Box>
                 <Box sx={{
+                    display: 'flex',
+                    justifyContent: 'center',
+                    alignItems: 'center',
                     marginTop: "15px",
                     marginBottom: "50px",
                  }}>
-                    <Card sx={{ maxWidth: 345 }}>
+                    <Card sx={{ maxWidth: "400px", minWidth: "399px"}}>
                         <CardHeader
                             avatar={
                                 <Avatar alt="An" src="an.jpg" sx={{
@@ -84,11 +87,15 @@ function Feedback() {
                                     <MoreVertIcon />
                                 </IconButton>
                             }
-                            title="Shrimp and Chorizo Paella"
-                            subheader="September 14, 2016"
+                            title={
+                                <Typography variant="h5" fontSize={20}>Võ Thành An</Typography>
+                            }
+                            subheader={
+                                <Typography variant="body2" fontSize={16}>September 14, 2023</Typography>
+                            }
                         />
                         <CardContent>
-                            <Typography >
+                            <Typography fontSize={15}>
                                 This impressive paella is a perfect party dish and a fun meal to cook
                                 together with your guests. Add 1 cup of frozen peas along with the mussels,
                                 if you like.
@@ -101,4 +108,4 @@ function Feedback() {
     );
 }
 
-export default Feedback;
+export default FeedbackTutor;

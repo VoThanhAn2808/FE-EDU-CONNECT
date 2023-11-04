@@ -27,7 +27,7 @@ function SubjectPage() {
                                 <Typography className="inforsubject">
                                     <PersonIcon className="total" />
                                     {item.number}</Typography>
-                                <Link to='/feedback'>
+                                <Link to='/feedbacktutor'>
                                     <Button variant="contained" color="primary" 
                                         sx={{
                                             height: '20px',
