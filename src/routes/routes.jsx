@@ -30,6 +30,8 @@ import AddVideo from '../pages/Tutor/ExerciseList/AddVideoPage';
 import CalendarTutor from '../pages/Tutor/CalendarTutor/CalendarTutor';
 import StudentGrade from "../pages/Student/StudentGrade/StudentGrade";
 import HomeTutor from '../pages/Tutor/HomeTutor/HomeTutor';
+import Feedback from '../pages/Student/FeedBack/FeedBackPage';
+import ManagerStudent from '../pages/Tutor/ManagerStudent/ManagerStudentPage';
 
 const publicRoute = [
   { path: '/', component: Home, layout: DefaultLayout},
@@ -59,6 +61,8 @@ const publicRoute = [
   { path: '/calendartutor', component : CalendarTutor, layout : LayoutTutor},
   { path: '/studentgrade', component : StudentGrade, layout : LayoutStudent},
   { path: '/hometutor', component : HomeTutor, layout : LayoutTutor},
+  { path: '/feedback', component : Feedback, layout : LoginLayout},
+  { path: '/managerstudent', component : ManagerStudent, layout : LayoutStaff},
 ];
 const privateRoute = [];
 
