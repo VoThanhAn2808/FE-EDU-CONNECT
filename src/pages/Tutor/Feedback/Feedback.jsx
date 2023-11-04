@@ -1,11 +1,14 @@
 import React from "react";
-import { Box, Grid, Typography } from "@mui/material";
+import { Avatar, Box, Card, CardContent, CardHeader, Grid, Typography } from "@mui/material";
 import Tutor from "../../../assests/tutor.png"
 import Rating from '@mui/material/Rating';
 import StarIcon from '@mui/icons-material/Star';
+import IconButton from '@mui/material/IconButton';
+import MoreVertIcon from '@mui/icons-material/MoreVert';
+
 
 function Feedback() {
-    return ( 
+    return (
         <Box>
             <Box className="body-tutor">
                 <Grid container spacing={1}>
@@ -21,7 +24,7 @@ function Feedback() {
                                 width: "40%",
                                 left: "25%",
                                 top: "10%"
-                            }}/>
+                            }} />
                         </Box>
                     </Grid>
                     <Grid item xs={7}>
@@ -57,8 +60,45 @@ function Feedback() {
                     </Grid>
                 </Grid>
             </Box>
+            <Box>
+                <Box sx={{
+                    display: 'flex',
+                }}>
+                    <Typography sx={{ fontSize: "18px", fontFamily: "cursive", }}>ĐÁNH GIÁ VỀ TÔI:</Typography>
+                    <Typography sx={{ fontSize: "18px", fontFamily: "cursive", marginLeft: "20px", color: "#5E5D5D" }}>(100)</Typography>
+                </Box>
+                <Box sx={{
+                    marginTop: "15px",
+                    marginBottom: "50px",
+                 }}>
+                    <Card sx={{ maxWidth: 345 }}>
+                        <CardHeader
+                            avatar={
+                                <Avatar alt="An" src="an.jpg" sx={{
+                                    height: "55px",
+                                    width: "55px",
+                                }} />
+                            }
+                            action={
+                                <IconButton >
+                                    <MoreVertIcon />
+                                </IconButton>
+                            }
+                            title="Shrimp and Chorizo Paella"
+                            subheader="September 14, 2016"
+                        />
+                        <CardContent>
+                            <Typography >
+                                This impressive paella is a perfect party dish and a fun meal to cook
+                                together with your guests. Add 1 cup of frozen peas along with the mussels,
+                                if you like.
+                            </Typography>
+                        </CardContent>
+                    </Card>
+                </Box>
+            </Box>
         </Box>
-     );
+    );
 }
 
 export default Feedback;
