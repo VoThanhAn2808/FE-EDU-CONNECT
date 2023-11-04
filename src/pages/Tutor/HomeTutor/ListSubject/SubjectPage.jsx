@@ -1,7 +1,7 @@
 import React from "react";
 import './../ListSubject/Subject.css';
 import { Box, Grid, Typography } from "@mui/material";
-import dcmdxdn from "../../../assests/subject.png";
+import dcmdxdn from "../../../../assests/subject.png";
 import PersonIcon from '@mui/icons-material/Person';
 import { Button } from '@mui/material';
 import { Link } from "react-router-dom";
@@ -12,14 +12,6 @@ const data = [
     { id: 2, name: 'Đại số 10', number: 100, imgLink: dcmdxdn },
     { id: 3, name: 'Đại số 10', number: 100, imgLink: dcmdxdn },
     { id: 4, name: 'Đại số 10', number: 100, imgLink: dcmdxdn },
-    { id: 5, name: 'Đại số 10', number: 100, imgLink: dcmdxdn },
-    { id: 6, name: 'Đại số 10', number: 100, imgLink: dcmdxdn },
-    { id: 7, name: 'Đại số 10', number: 100, imgLink: dcmdxdn },
-    { id: 8, name: 'Đại số 10', number: 100, imgLink: dcmdxdn },
-    { id: 9, name: 'Đại số 10', number: 100, imgLink: dcmdxdn },
-    { id: 10, name: 'Đại số 10', number: 100, imgLink: dcmdxdn },
-    { id: 11, name: 'Đại số 10', number: 100, imgLink: dcmdxdn },
-    { id: 12, name: 'Đại số 10', number: 100, imgLink: dcmdxdn },
 ];
 
 function SubjectPage() {
@@ -35,8 +27,8 @@ function SubjectPage() {
                                 <Typography className="inforsubject">
                                     <PersonIcon className="total" />
                                     {item.number}</Typography>
-                                <Link to='/listtutor'>
-                                    <Button variant="contained" color="primary"
+                                <Link to='/feedback'>
+                                    <Button variant="contained" color="primary" 
                                         sx={{
                                             height: '20px',
                                             width: '80px'
