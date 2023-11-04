@@ -50,7 +50,7 @@ function Home() {
             <Box sx={{marginTop: "80px"}}>
              <Typography sx={{fontSize: "20px"}} className="relsubject">
                     <span className="line" />
-                    Những gia sư liên quan
+                    Những môn học liên quan
                     <span className="line" />
              </Typography>
                 <SubjectPage />
