@@ -12,14 +12,13 @@ import IMAGE25 from "../../../assests/image 25.jpg"
 // import IMAGE27 from "../../assests/image 27.jpg"
 import HOTNEW from "../../../assests/hotnew.jpg"
 
-// import FooterHome from './Footerhome/FooterHome';
+import FooterHome from './Footerhome/FooterHome';
 import { Box, Button, Grid, Typography } from '@mui/material';
 import CalendarTodayIcon from '@mui/icons-material/CalendarToday';
 
 function Home() {
     return (
-        <Box sx={{
-        }}>
+        <Box>
             <Slide />
             <Box
                 sx={{
@@ -61,7 +60,11 @@ function Home() {
                         textAlign: "center",
                         marginBottom: "40px"
                     }}
-                >Gia sư nỗi bật trong tháng</Typography>
+                >
+                    <span className="line" />
+                    Gia sư nỗi bật trong tháng
+                    <span className="line" />
+                </Typography>
 
                 <Grid container spacing={1}>
 
@@ -226,7 +229,11 @@ function Home() {
                         textAlign: "center",
                         marginBottom: "40px"
                     }}
-                >Thông tin về chúng tôi</Typography>
+                >
+                    <span className="line" />
+                    Thông tin về chúng tôi
+                    <span className="line" />
+                </Typography>
                 <img src={INFOR} alt="infor" className='infor' />
                 <Typography
                     sx={{
@@ -255,7 +262,11 @@ function Home() {
                         textAlign: "center",
                         marginBottom: "40px"
                     }}
-                >Tại sao bạn nên chọn chúng tôi<br />
+                >
+                    <span className="line" />
+                    Tại sao bạn nên chọn chúng tôi
+                    <span className="line" />
+                    <br />
                     -Làm thế nào để học một cách hiệu quả nhất-
                 </Typography>
                 <Box>
@@ -438,7 +449,11 @@ function Home() {
                         textAlign: "center",
                         marginBottom: "40px"
                     }}
-                >Tin tức</Typography>
+                >
+                    <span className="line" />
+                    Tin tức
+                    <span className="line" />
+                </Typography>
 
                 <Grid container spacing={1}>
 
@@ -528,7 +543,7 @@ function Home() {
 
                 </Grid>
             </Box>
-            {/* <FooterHome /> */}
+            <FooterHome />
         </Box>
     );
 }
