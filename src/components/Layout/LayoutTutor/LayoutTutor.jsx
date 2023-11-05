@@ -1,9 +1,9 @@
 import { Box } from '@mui/material';
 import Header from '../components/Header/Header';
-import Sidebar from './Sidebar/Sidebar';
+import SideBar from "./SideBarTutor/SideBar"
 import Footer from '../components/Footer/Footer';
 
-function LayoutStudent({ children }) {
+function LayoutTutor({ children }) {
   return (
     <Box>
       <Header />
@@ -28,7 +28,7 @@ function LayoutStudent({ children }) {
               zIndex: 100,
             }}
           >
-            <Sidebar />
+            <SideBar />
           </Box>
           <Box
             sx={{
@@ -53,4 +53,4 @@ function LayoutStudent({ children }) {
   );
 }
 
-export default LayoutStudent;
+export default LayoutTutor;

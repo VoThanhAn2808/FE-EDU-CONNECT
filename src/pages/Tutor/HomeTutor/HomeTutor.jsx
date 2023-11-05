@@ -1,13 +1,14 @@
 import React from "react";
 import { Box } from "@mui/material";
-import "./GlobalStyles.scss"
+import Slide from './Slide/Slide';
 
-function GlobalStyles({ children }) {
+
+function HomeTutor() {
     return ( 
         <Box>
-            {children}
+            <Slide />
         </Box>
      );
 }
 
-export default GlobalStyles;
+export default HomeTutor;

@@ -11,6 +11,7 @@ import MenuBookIcon from '@mui/icons-material/MenuBook';
 import CalendarMonthIcon from '@mui/icons-material/CalendarMonth';
 import SchoolIcon from '@mui/icons-material/School';
 import SettingsIcon from '@mui/icons-material/Settings';
+import { Link } from 'react-router-dom';
 
 const Sidebar = () => {
   const [openCourse, setOpenCourse] = React.useState(true);
@@ -43,7 +44,7 @@ const Sidebar = () => {
           <ListItemIcon>
             <HomeIcon />
           </ListItemIcon>
-          <Typography sx={{ fontSize: '16px', marginRight: 'auto' }}>Trang chủ</Typography>
+          <Typography sx={{ fontSize: '16px', marginRight: 'auto' }}><Link to="/homestudent" style={{color:"black", textDecoration: "none"}}>Trang chủ</Link></Typography>
         </ListItemButton>
 
         <ListItemButton onClick={handleCourseClick}>
@@ -55,11 +56,11 @@ const Sidebar = () => {
         </ListItemButton>
 
         <Collapse in={openCourse} timeout='auto' unmountOnExit>
-          <List component='div' disablePadding>
+          <List disablePadding>
             <ListItemButton sx={{ pl: 3 }}>
               <ListItemIcon></ListItemIcon>
               <Typography sx={{ fontSize: '13px', marginRight: 'auto', fontWeight: 'bold' }}>
-                Môn học 1
+                <Link to="/teacherprogramlist" style={{color:"black", textDecoration: "none"}}>Môn học 1</Link>
               </Typography>
             </ListItemButton>
 
@@ -76,7 +77,7 @@ const Sidebar = () => {
           <ListItemIcon>
             <CalendarMonthIcon />
           </ListItemIcon>
-          <Typography sx={{ fontSize: '16px', marginRight: 'auto' }}>Lịch học</Typography>
+          <Typography sx={{ fontSize: '16px', marginRight: 'auto' }}><Link to="/calendarstudent" style={{color:"black", textDecoration: "none"}}>Lịch học</Link></Typography>
         </ListItemButton>
 
         <ListItemButton onClick={handleGradesClick}>
@@ -92,7 +93,7 @@ const Sidebar = () => {
             <ListItemButton sx={{ pl: 3 }}>
               <ListItemIcon></ListItemIcon>
               <Typography sx={{ fontSize: '13px', marginRight: 'auto', fontWeight: 'bold' }}>
-                Môn học 1
+                <Link to="/studentgrade" style={{color:"black", textDecoration: "none"}}>Môn học 1</Link>
               </Typography>
             </ListItemButton>
 
