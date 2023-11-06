@@ -36,7 +36,7 @@ function HomeTutor() {
                             marginTop: "30px",
                         }}
                     >
-                        EDU-CONNECT nhằm mục đích giúp mọi người
+                        EDU-CONNECT nhằm mục đích giúp mọi người 
                         <br />đạt được trải nghiệm học tập hiệu quả nhất.
                     </Typography>
                 </Box>
