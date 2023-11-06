@@ -1,7 +1,11 @@
+import "./Slide.css";
 import React from 'react';
 import SLIDE from "./slide.jpg";
 import { Swiper, SwiperSlide } from 'swiper/react';
+import 'swiper/css';
+import 'swiper/css/pagination';
 import { Pagination } from 'swiper/modules';
+import { Box } from "@mui/material";
 
 const data = [
   {
@@ -20,6 +24,7 @@ const data = [
 
 function Slide() {
   return (
+    <Box sx={{ height: "auto", width: "100%" }}>
       <Swiper
         pagination={{
           dynamicBullets: true,
@@ -28,14 +33,15 @@ function Slide() {
       >
         {data.map(({ avatar }, index) => {
           return (
-            <SwiperSlide key={index}>
-              <div>
+            <SwiperSlide key={index} className="slider">
+              <div className="client__avatar">
                 <img src={avatar} alt={`Slide ${index}`} />
               </div>
             </SwiperSlide>
           );
         })}
       </Swiper>
+    </Box>
   );
 };
 
