@@ -36,7 +36,7 @@ function SubjectPage() {
                                     <PersonIcon className="total" />
                                     {item.number}</Typography>
                                 <Link to='/listtutor'>
-                                    <Button variant="contained" color="primary"
+                                    <Button variant="contained" color="primary" 
                                         sx={{
                                             height: '20px',
                                             width: '80px'

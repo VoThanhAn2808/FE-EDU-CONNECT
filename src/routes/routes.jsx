@@ -26,10 +26,11 @@ import TryLearningManagement from "../pages/Staff/TryLearningManagement";
 import CourseManagement from "../pages/Staff/CourseManagement";
 import CalendarStudent from "../pages/Student/CalendarStudent/CalendarStudent";
 import ExerciseListPage from '../pages/Tutor/ExerciseList/ExercisePage';
-import AddVideo from '../pages/Tutor/ExerciseList/AddVideoPage';
 import CalendarTutor from '../pages/Tutor/CalendarTutor/CalendarTutor';
 import StudentGrade from "../pages/Student/StudentGrade/StudentGrade";
 import HomeTutor from '../pages/Tutor/HomeTutor/HomeTutor';
+import Feedback from '../pages/Student/FeedBack/FeedBackPage';
+import ManagerStudent from '../pages/Tutor/ManagerStudent/ManagerStudentPage';
 import FeedbackTutor from '../pages/Tutor/Feedback/Feedback';
 
 const publicRoute = [
@@ -56,10 +57,11 @@ const publicRoute = [
   { path: '/coursemanagement', component: CourseManagement, layout: LayoutStaff},
   { path: '/trylearningmanagement', component: TryLearningManagement, layout: LayoutStaff},
   { path: '/exerciselist', component : ExerciseListPage, layout : LayoutStaff},
-  { path: '/addvideo', component : AddVideo, layout : LayoutStaff},
   { path: '/calendartutor', component : CalendarTutor, layout : LayoutTutor},
   { path: '/studentgrade', component : StudentGrade, layout : LayoutStudent},
   { path: '/hometutor', component : HomeTutor, layout : LayoutTutor},
+  { path: '/feedback', component : Feedback, layout : LoginLayout},
+  { path: '/managerstudent', component : ManagerStudent, layout : LayoutStaff},
   { path: '/feedbacktutor', component : FeedbackTutor, layout : LayoutTutor},
 ];
 const privateRoute = [];

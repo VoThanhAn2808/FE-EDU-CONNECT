@@ -56,7 +56,7 @@ const Sidebar = () => {
         </ListItemButton>
 
         <Collapse in={openCourse} timeout='auto' unmountOnExit>
-          <List component='div' disablePadding>
+          <List disablePadding>
             <ListItemButton sx={{ pl: 3 }}>
               <ListItemIcon></ListItemIcon>
               <Typography sx={{ fontSize: '13px', marginRight: 'auto', fontWeight: 'bold' }}>

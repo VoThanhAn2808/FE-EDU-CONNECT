@@ -1,6 +1,6 @@
 import { Box } from '@mui/material';
 import Header from '../components/Header/Header';
-import Sidebar from '../components/SiderBarClient/SideBar';
+import Sidebar from "./SiderBarClient/SideBar";
 import Footer from '../components/Footer/Footer';
 
 function DefaultLayout({ children }) {
