@@ -1,36 +1,78 @@
 import { Box, Button, Grid, Typography, TextField, Pagination, Rating } from "@mui/material";
 import PersonIcon from '@mui/icons-material/Person';
-import React from "react";
-import dcmdxdn from "../../assests/tutor.png";
-import a from "../../assests/subject.png";
+import React, { useCallback, useEffect, useState } from "react";
 import "./ListTutor.css";
 import StarIcon from '@mui/icons-material/Star';
-import { Link } from "react-router-dom";
-
-const data = [
-    { id: 1, name: 'Nguyễn Văn A', student: 100, subject: 'Toán 10', imgLink: dcmdxdn, rank: 5 },
-    { id: 2, name: 'Nguyễn Văn A', student: 100, subject: 'Toán 10', imgLink: a, rank: 4 },
-    { id: 3, name: 'Nguyễn Văn A', student: 100, subject: 'Toán 10', imgLink: dcmdxdn, rank: 4 },
-    { id: 4, name: 'Nguyễn Văn A', student: 100, subject: 'Toán 10', imgLink: a, rank: 3 },
-    { id: 5, name: 'Nguyễn Văn A', student: 100, subject: 'Toán 10', imgLink: dcmdxdn, rank: 5 },
-    { id: 6, name: 'Nguyễn Văn A', student: 100, subject: 'Toán 10', imgLink: a, rank: 3 },
-    { id: 7, name: 'Nguyễn Văn A', student: 100, subject: 'Toán 10', imgLink: dcmdxdn, rank: 5 },
-    { id: 8, name: 'Nguyễn Văn A', student: 100, subject: 'Toán 10', imgLink: a, rank: 5 },
-    { id: 9, name: 'Nguyễn Văn A', student: 100, subject: 'Toán 10', imgLink: dcmdxdn, rank: 4 },
-    { id: 10, name: 'Nguyễn Văn A', student: 100, subject: 'Toán 10', imgLink: a, rank: 5 },
-    { id: 11, name: 'Nguyễn Văn A', student: 100, subject: 'Toán 10', imgLink: dcmdxdn, rank: 5 },
-    { id: 12, name: 'Nguyễn Văn A', student: 100, subject: 'Toán 10', imgLink: a, rank: 4 },
-];
-
-const top = [
-    { id: 1, name: 'Nguyễn Văn A', student: 100, subject: 'Toán 10', imgLink: dcmdxdn, rank: 5 },
-    { id: 2, name: 'Nguyễn Văn A', student: 100, subject: 'Toán 10', imgLink: a, rank: 4 },
-    { id: 3, name: 'Nguyễn Văn A', student: 100, subject: 'Toán 10', imgLink: dcmdxdn, rank: 4 },
-    { id: 4, name: 'Nguyễn Văn A', student: 100, subject: 'Toán 10', imgLink: a, rank: 3 },
-
-];
+import { Link, useParams } from "react-router-dom";
+import axios from "axios";
 
 function ListTutor() {
+    const [data, setData] = useState([]);
+    const { id } = useParams();
+    const [pages, setPages] = useState(1);
+
+    const fetchData = useCallback((pageNumber) => {
+        axios
+            .get(`http://localhost:8081/tutorByCourse/findTutorByCourse?courseid=${id}&page=${pageNumber}`)
+            .then((response) => {
+                setData(response.data);
+                console.log(response.data);
+            })
+            .catch((error) => {
+                console.error(error);
+            });
+    }, [id]);
+
+    useEffect(() => {
+        fetchData(pages);
+    }, [pages, fetchData]);
+
+    const handlePageChange = (event, pageNumber) => {
+        setPages(pageNumber);
+    };
+
+    const [top, setTop] = useState([]);
+
+    useEffect(() => {
+        axios
+            .get("http://localhost:8081/educonnect/ListAllDecsTutor?courseid=1")
+            .then((response) => {
+                setTop(response.data); // Sửa từ response.top thành response.data
+                console.log(response.data);
+            })
+            .catch((error) => {
+                console.error(error);
+            });
+    }, []);
+
+    const [page, setPage] = useState([]);
+
+    useEffect(() => {
+        axios
+            .get("http://localhost:8081/tutorByCourse/page?courseid=1")
+            .then((response) => {
+                setPage(response.data); // Sửa từ response.top thành response.data
+                console.log(response.data);
+            })
+            .catch((error) => {
+                console.error(error);
+            });
+    }, []);
+
+    const [cpage, setCpage] = useState([]);
+
+    useEffect(() => {
+        axios
+            .get("http://localhost:8081/educonnect/countpage?classcourseid=1")
+            .then((response) => {
+                setCpage(response.data); // Sửa từ response.top thành response.data
+                console.log(response.data);
+            })
+            .catch((error) => {
+                console.error(error);
+            });
+    }, []);
+
     return (
         <Box sx={{
         }}>
@@ -58,7 +100,7 @@ function ListTutor() {
                         },
                     }}
                 />
-                <Button variant="contained" color="primary" component="a" href="#" hrefLang="#" sx={{
+                <Button variant="contained" color="primary" href="#" hrefLang="#" sx={{
                     height: '45px',
                     marginLeft: '10px',
                     fontSize: '10px',
@@ -68,17 +110,17 @@ function ListTutor() {
                 </Button>
             </Box>
             <Box className="tutor">
-                <Grid container spacing={2}>
+                <Grid container spacing={2}  >
                     {data.map((item, index) => (
                         <Grid item xs={12} sm={6} md={5} lg={3} key={index} sx={{ marginTop: '20px' }} >
                             <Box className='container'>
                                 <Typography sx={{ fontSize: '15px', fontFamily: 'cursive' }}>Gia sư dạy</Typography>
-                                <Typography sx={{ fontFamily: 'cursive', fontSize: '12px' }}>{item.subject}</Typography>
-                                <img src={item.imgLink} alt={item.name} style={{ width: '50%', height: '100%' }} />
-                                <Typography className="nameTutor">{item.name}</Typography>
+                                <Typography sx={{ fontFamily: 'cursive', fontSize: '12px' }}>{item.coursename} {item.classentity}</Typography>
+                                <img src={`http://localhost:8081/edu/file/files/${item.img}`} alt={item.fullname} style={{ width: '50%', height: '100%' }} />
+                                <Typography className="nameTutor">{item.fullname}</Typography>
                                 <Rating
                                     name="five-star-rating"
-                                    value={item.rank}
+                                    value={item.ranks}
                                     max={5}
                                     readOnly
                                     emptyIcon={<StarIcon style={{ fontSize: '25px', color: '#e0e0e0' }} />}
@@ -90,9 +132,9 @@ function ListTutor() {
                                 <Box sx={{ display: 'flex', marginTop: '20px' }} >
                                     <Typography className="inforsubject">
                                         <PersonIcon className="total" />
-                                        {item.student}</Typography>
-                                    <Link to="/booktutor">
-                                        <Button variant="contained" color="primary" component="a"
+                                        {item.CountStudent}</Typography>
+                                    <Link to={`/booktutor/${item.tutorid}/${item.classcourseid}`}>
+                                        <Button variant="contained" color="primary"
                                             sx={{
                                                 height: '20px',
                                                 width: '80px'
@@ -107,7 +149,12 @@ function ListTutor() {
                 </Grid>
             </Box >
             <Box sx={{ marginBottom: '10px', display: 'flex', justifyContent: 'center' }}>
-                <Pagination count={10} sx={{ '& .MuiPaginationItem-root': { fontSize: '15px', minWidth: '50px' } }} />
+                <Pagination
+                    count={page} // Thay thế 10 bằng số trang thực tế của dữ liệu của bạn
+                    page={pages}
+                    onChange={handlePageChange}
+                    sx={{ '& .MuiPaginationItem-root': { fontSize: '15px', minWidth: '50px' } }}
+                />
             </Box>
             <Box>
                 <Typography sx={{ marginLeft: '40px', fontSize: '20px', fontFamily: 'cursive' }}>
@@ -115,16 +162,16 @@ function ListTutor() {
                 </Typography>
                 <Box sx={{ marginLeft: '30px', marginTop: '30px' }}>
                     <Grid container spacing={1}>
-                        {top.map((items) => (
-                            <Grid item xs={3} key={items.id} sx={{ marginTop: '20px' }}>
+                        {top.map((items, index) => (
+                            <Grid item xs={3} key={index} sx={{ marginTop: '20px' }}>
                                 <Box className='containers'>
                                     <Typography sx={{ fontSize: '15px', fontFamily: 'cursive', marginTop: '10px' }}>Gia sư dạy</Typography>
-                                    <Typography sx={{ fontFamily: 'cursive', fontSize: '12px' }}>{items.subject}</Typography>
-                                    <img src={items.imgLink} alt={items.name} style={{ width: '50%', height: '100%' }} />
-                                    <Typography className="nameTutor">{items.name}</Typography>
+                                    <Typography sx={{ fontFamily: 'cursive', fontSize: '12px' }}>{items.coursename} {items.classentity}</Typography>
+                                    <img src={`http://localhost:8081/edu/file/files/${items.img}`} alt={items.fullname} style={{ width: '50%', height: '100%' }} />
+                                    <Typography className="nameTutor">{items.fullname}</Typography>
                                     <Rating
                                         name="five-star-rating"
-                                        value={items.rank}
+                                        value={items.ranks}
                                         max={5}
                                         readOnly
                                         emptyIcon={<StarIcon style={{ fontSize: '25px', color: '#e0e0e0' }} />}
@@ -136,9 +183,9 @@ function ListTutor() {
                                     <Box sx={{ display: 'flex', marginTop: '20px', marginBottom: '20px' }} >
                                         <Typography className="inforsubject">
                                             <PersonIcon />
-                                            {items.student}</Typography>
+                                            {items.CountStudent}</Typography>
                                         <Link to="/booktutor">
-                                            <Button variant="contained" color="primary" component="a"
+                                            <Button variant="contained" color="primary"
                                                 sx={{
                                                     height: '20px',
                                                     width: '80px'
@@ -153,7 +200,7 @@ function ListTutor() {
                     </Grid>
                 </Box>
                 <Box sx={{ marginBottom: '60px', display: 'flex', justifyContent: 'center' }}>
-                    <Pagination count={10} sx={{ '& .MuiPaginationItem-root': { fontSize: '15px', minWidth: '50px' } }} />
+                    <Pagination count={cpage} sx={{ '& .MuiPaginationItem-root': { fontSize: '15px', minWidth: '50px' } }} />
                 </Box>
             </Box>
         </Box>

@@ -25,7 +25,7 @@ const data = [
 
 function Slide() {
   return (
-    <Box sx={{ height: "auto", width: "100%" }}>
+    <Box sx={{ height: "auto"}}>
       <Swiper
         pagination={{
           dynamicBullets: true,
@@ -36,7 +36,7 @@ function Slide() {
           return (
             <SwiperSlide key={index} className="slider">
               <div className="client__avatar">
-                <img src={avatar} alt={`Slide ${index}`} />
+                <img src={avatar} alt={`Slide ${index}`}/>
               </div>
             </SwiperSlide>
           );

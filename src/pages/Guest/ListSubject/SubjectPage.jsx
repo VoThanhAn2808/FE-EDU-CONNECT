@@ -27,7 +27,11 @@ function SubjectPage() {
                 {data.map((item) => (
                     <Grid item xs={12} sm={6} md={5} lg={3} key={item.classCourseId}>
                         <Box className="container">
-                            <img src={item.img} alt={item.courseName} className="subject-img" />
+                            <img
+                                src={`http://localhost:8081/edu/file/files/${item.img}`}
+                                alt={item.courseName}
+                                className="subject-img"
+                            />
                             <Typography className="nameSubject">
                                 {item.courseName} {item.className}
                             </Typography>

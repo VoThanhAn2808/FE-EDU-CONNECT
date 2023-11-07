@@ -11,6 +11,10 @@ import Tooltip from '@mui/material/Tooltip';
 import MenuItem from '@mui/material/MenuItem';
 import NotificationsIcon from '@mui/icons-material/Notifications';
 import PhoneIcon from '@mui/icons-material/Phone'
+import { useState } from 'react';
+import { useEffect } from 'react';
+import { jwtDecode } from 'jwt-decode';
+import axios from 'axios';
 
 
 
@@ -27,8 +31,23 @@ function Header() {
         setAnchorElUser(null);
     };
 
+    const decodedToken = jwtDecode(localStorage.getItem('token'));
+
+    const [data, setData] = useState([]);
+
+    useEffect(() => {
+        axios.get("http://localhost:8081/student/viewstudent?email=" + decodedToken.sub)
+            .then((response) => {
+                setData(response.data);
+                console.log(response.data);
+            })
+            .catch((error) => {
+                console.error(error);
+            });
+    }, [decodedToken.sub]);
+
     return (
-        <AppBar position='fixed' sx={{ width: '100%', background: "#F9C01F", zIndex: "5", boxShadow:'none', height: '70px'}}>
+        <AppBar position='fixed' sx={{ width: '100%', background: "#F9C01F", zIndex: "5", boxShadow: 'none', height: '70px' }}>
             <Container maxWidth="">
                 <Toolbar disableGutters sx={{ justifyContent: "space-between" }}>
                     <Typography
@@ -83,7 +102,7 @@ function Header() {
                             }}
                                 onClick={handleOpenUserMenu}>
                                 <IconButton >
-                                    <Avatar alt="An" src="an.jpg" sx={{
+                                    <Avatar alt={data.fullname} src={`http://localhost:8081/edu/file/files/${data.img}`} sx={{
                                         height: "55px",
                                         width: "55px",
                                     }} />
@@ -95,7 +114,7 @@ function Header() {
                                         fontSize: '15px',
                                         fontWeight: 'bold',
                                     }} >
-                                    Vo Thanh An
+                                    {data.fullname}
                                 </Typography>
                             </Box>
                         </Tooltip>
@@ -118,7 +137,7 @@ function Header() {
                             {settings.map((setting) => (
                                 <MenuItem key={setting} onClick={handleCloseUserMenu}>
                                     <Typography sx={{
-                                        fontSize: '14px', 
+                                        fontSize: '14px',
                                     }} textAlign="center">{setting}</Typography>
                                 </MenuItem>
                             ))}

@@ -21,6 +21,7 @@
 .body .container .subject-img {
     display: block;
     margin: auto;
+    width: 80%;
 }
 
 .body .container .inforsubject {
