@@ -156,10 +156,11 @@ const Sidebar = () => {
                     <List component='div' disablePadding>
                         <ListItemButton sx={{ pl: 3 }}>
                             <ListItemIcon></ListItemIcon>
-                            <Typography sx={{ fontSize: '13px', marginRight: 'auto', fontWeight: 'bold' }}>
-                                {/* chưa fix xong */}
-                            <Link to='/booktutor' style={{color:"black", textDecoration: "none"}}>Lớp 10</Link> 
-                            </Typography>
+                            <Link to='/subject' style={{color:"black", textDecoration: "none"}}>
+                                <Typography sx={{ fontSize: '13px', marginRight: 'auto', fontWeight: 'bold' }}>
+                                    Lớp 10
+                                </Typography>
+                            </Link>
                         </ListItemButton>
 
                         <ListItemButton sx={{ pl: 3 }}>

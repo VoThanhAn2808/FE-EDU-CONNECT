@@ -31,14 +31,15 @@ import StudentGrade from "../pages/Student/StudentGrade/StudentGrade";
 import HomeTutor from '../pages/Tutor/HomeTutor/HomeTutor';
 import Feedback from '../pages/Student/FeedBack/FeedBackPage';
 import ManagerStudent from '../pages/Tutor/ManagerStudent/ManagerStudentPage';
+import FeedbackTutor from '../pages/Tutor/Feedback/Feedback';
 
 const publicRoute = [
   { path: '/', component: Home, layout: DefaultLayout},
   { path: '/signup', component: SignUp, layout: LoginLayout},
   { path: '/login', component: LoginPage, layout: LoginLayout},
   { path: '/subject', component: SubjectPage, layout: DefaultLayout},
-  { path: '/listtutor', component: ListTutor, layout: DefaultLayout},
-  { path: '/booktutor', component: BookTutorPage, layout: DefaultLayout},
+  { path: '/listtutor/:id', component: ListTutor, layout: DefaultLayout},
+  { path: '/booktutor/:tutorid/:classcourseid', component: BookTutorPage, layout: DefaultLayout},
   { path: '/homestudent', component: HomeStudent, layout: LayoutStudent},
   { path: '/forgotpass', component: ForgotPassword, layout: LoginLayout},
   { path: '/changepass', component: ChangePassword, layout: LoginLayout},
@@ -61,6 +62,7 @@ const publicRoute = [
   { path: '/hometutor', component : HomeTutor, layout : LayoutTutor},
   { path: '/feedback', component : Feedback, layout : LoginLayout},
   { path: '/managerstudent', component : ManagerStudent, layout : LayoutStaff},
+  { path: '/feedbacktutor', component : FeedbackTutor, layout : LayoutTutor},
 ];
 const privateRoute = [];
 

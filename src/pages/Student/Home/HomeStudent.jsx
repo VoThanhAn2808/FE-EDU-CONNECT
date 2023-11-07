@@ -1,18 +1,70 @@
-import React from "react";
+import React, { useEffect, useState } from "react";
 import "./HomeStudent.css";
 import { Box, Button, Grid, Typography } from "@mui/material";
 import Slide from "../../Guest/Home/Slide/Slide";
-import SubjectPage from "../../Guest/ListSubject/SubjectPage";
 import AN from "../../../assests/1.jpg"
 import ANN from "../../../assests/image 1.jpg"
-import GIASU from "../../../assests/giasu.jpg"
 import HOTNEW from "../../../assests/hotnew.jpg"
 import CalendarTodayIcon from '@mui/icons-material/CalendarToday';
-
-
-
+import axios from "axios";
+import Rating from '@mui/material/Rating';
+import StarIcon from '@mui/icons-material/Star';
+import PersonIcon from "@mui/icons-material/Person";
+import { Link } from "react-router-dom";
+import { jwtDecode } from 'jwt-decode';
 
 function Home() {
+
+    const decodedToken = jwtDecode(localStorage.getItem('token'));
+    const userId = decodedToken.sub;
+
+    const [user, setUser] = useState([]);
+
+    const fetchUserData = (userId) => {
+        axios
+          .get("http://localhost:8081/student/viewstudent?email=" + userId)
+          .then((response) => {
+            setUser(response.data);
+            console.log(response.data);
+          })
+          .catch((error) => {
+            console.error(error);
+          });
+      };
+
+      useEffect(() => {
+        fetchUserData(userId);
+      }, [userId]);
+
+    const student = user.class;
+
+    const [course, setCourse] = useState([]);
+
+    useEffect(() => {
+        axios
+            .get("http://localhost:8081/course/findCourseByClass?classcourseid=" + student)
+            .then((response) => {
+                setCourse(response.data);
+                console.log(response.data);
+            })
+            .catch((error) => {
+                console.error(error);
+            });
+    }, [student]);
+
+    const [data, setData] = useState([]);
+
+    useEffect(() => {
+        axios
+            .get("http://localhost:8081/educonnect/tutor/top3")
+            .then((response) => {
+                setData(response.data);
+                console.log(response.data);
+            })
+            .catch((error) => {
+                console.error(error);
+            });
+    }, []);
     return (
         <Box sx={{ marginBottom: "200px" }}>
             <Slide />
@@ -47,137 +99,97 @@ function Home() {
                 <img src={ANN} alt="an" className='ann' />
             </Box>
 
-            <Box sx={{marginTop: "80px"}}>
-             <Typography sx={{fontSize: "20px"}} className="relsubject">
+            <Box sx={{ marginTop: "80px" }}>
+                <Typography sx={{ fontSize: "20px" }} className="relsubject">
                     <span className="line" />
                     Những môn học liên quan
                     <span className="line" />
-             </Typography>
-                <SubjectPage />
+                </Typography>
+                <Box className="body">
+                    <Grid container spacing={2}>
+                        {course.map((item) => (
+                            <Grid item xs={12} sm={6} md={5} lg={3} key={item.classCourseId}>
+                                <Box className="container">
+                                    <img
+                                        src={`http://localhost:8081/edu/file/files/${item.img}`}
+                                        alt={item.courseName}
+                                        className="subject-img"
+                                    />
+                                    <Typography className="nameSubject">
+                                        {item.courseName} {item.className}
+                                    </Typography>
+                                    <Box sx={{ display: "flex" }}>
+                                        <Typography className="inforsubject">
+                                            <PersonIcon className="total" />
+                                            {item.CountStudent}
+                                        </Typography>
+                                        <Link to={`/listtutor/${item.classCourseId}`}>
+                                            <Button
+                                                variant="contained"
+                                                color="primary"
+                                                sx={{
+                                                    height: "20px",
+                                                    width: "80px",
+                                                }}
+                                            >
+                                                Chi tiết
+                                            </Button>
+                                        </Link>
+                                    </Box>
+                                </Box>
+                            </Grid>
+                        ))}
+                    </Grid>
+                </Box>
             </Box>
 
             <Box sx={{
                 marginBottom: "70px",
             }}>
-            <Typography sx={{fontSize: "20px", paddingBottom: "30px"}} className="relsubject">
+                <Typography sx={{ fontSize: "20px", paddingBottom: "30px" }} className="relsubject">
                     <span className="line" />
                     Gia sư nỗi bật trong tháng
                     <span className="line" />
-             </Typography>
+                </Typography>
 
                 <Grid container spacing={1}>
+                    {data.map((item, index) => (
+                        <Grid item xs={4} key={index}>
+                            <Box className='top4couse'>
+                                <Typography sx={{ fontSize: '15px', fontWeight: '700', textAlign: 'center', marginTop: '5px' }}>
+                                    Gia sư
+                                </Typography>
+                                <img src={`http://localhost:8081/edu/file/files/${item.img}`} alt="subject" className="imgtutor" />
+                                <Rating
+                                    name="five-star-rating"
+                                    value={item.ranks}
+                                    max={5}
+                                    readOnly
+                                    emptyIcon={<StarIcon style={{ fontSize: '25px', color: '#e0e0e0' }} />}
+                                    icon={<StarIcon style={{ fontSize: '25px', color: '#ffc107' }} />}
+                                    sx={{
 
-                    <Grid item xs={4} >
-                        <Box className='giasu-container'>
-                            <Typography className='giasutext'
-                                sx={{
-                                    color: "#00000",
-                                    fontWeight: "700",
-                                    fontSize: "20px",
-                                    fontFamily: "math"
-                                }}>
-                                Gia Sư
-                            </Typography>
-                            <Typography className='giasu-name'
-                                sx={{
-                                    color: "#00000",
-                                    fontWeight: "800",
-                                    fontSize: "20px",
-                                }}>
-                                NGUYỄN TRỌNG HIẾU
-                            </Typography>
-                            <Typography className='giasu-infor'
-                                sx={{
-                                    color: "#00000",
-                                    fontWeight: "400",
-                                    fontSize: "20px",
-                                    fontFamily: "cursive",
-                                    height: "35px",
-                                    width: "150px",
-                                    backgroundColor: "red",
-                                    borderRadius: "5px",
-                                }}>Thông Tin</Typography>
-                            <img src={GIASU} alt="giasu" className='giasu' />
-                        </Box>
-                    </Grid>
-
-                    <Grid item xs={4}>
-                        <Box className='giasu-container'>
-                            <Typography className='giasutext'
-                                sx={{
-                                    color: "#00000",
-                                    fontWeight: "700",
-                                    fontSize: "20px",
-                                    fontFamily: "math"
-                                }}>
-                                Gia Sư
-                            </Typography>
-                            <Typography className='giasu-name'
-                                sx={{
-                                    color: "#00000",
-                                    fontWeight: "800",
-                                    fontSize: "20px",
-                                }}>
-                                NGUYỄN TRỌNG HIẾU
-                            </Typography>
-                            <Typography className='giasu-infor'
-                                sx={{
-                                    color: "#00000",
-                                    fontWeight: "400",
-                                    fontSize: "20px",
-                                    fontFamily: "cursive",
-                                    height: "35px",
-                                    width: "150px",
-                                    backgroundColor: "red",
-                                    borderRadius: "5px",
-                                }}>Thông Tin</Typography>
-                            <img src={GIASU} alt="giasu" className='giasu' />
-                        </Box>
-                    </Grid>
-
-                    <Grid item xs={4}>
-                        <Box className='giasu-container'>
-                            <Typography className='giasutext'
-                                sx={{
-                                    color: "#00000",
-                                    fontWeight: "700",
-                                    fontSize: "20px",
-                                    fontFamily: "math"
-                                }}>
-                                Gia Sư
-                            </Typography>
-                            <Typography className='giasu-name'
-                                sx={{
-                                    color: "#00000",
-                                    fontWeight: "800",
-                                    fontSize: "20px",
-                                }}>
-                                NGUYỄN TRỌNG HIẾU
-                            </Typography>
-                            <Typography className='giasu-infor'
-                                sx={{
-                                    color: "#00000",
-                                    fontWeight: "400",
-                                    fontSize: "20px",
-                                    fontFamily: "cursive",
-                                    height: "35px",
-                                    width: "150px",
-                                    backgroundColor: "red",
-                                    borderRadius: "5px",
-                                }}>Thông Tin</Typography>
-                            <img src={GIASU} alt="giasu" className='giasu' />
-                        </Box>
-                    </Grid>
-
+                                    }}
+                                />
+                                <Typography sx={{ fontSize: '15px', textAlign: 'center', fontFamily: 'cursive', fontWeight: "700" }}>
+                                    {item.fullname}
+                                </Typography>
+                                <Button
+                                    variant="contained" className="button-register">
+                                    Thông Tin
+                                </Button>
+                            </Box>
+                        </Grid>
+                    ))}
                 </Grid>
             </Box>
 
             <Box >
-                <Typography sx={{fontSize: "20px" }} className="relsubject">
+                <Typography sx={{ fontSize: "20px" }} className="relsubject">
                     <span className="line" />
                     Tin tức
                     <span className="line" />
-                    </Typography>
+                </Typography>
 
                 <Grid container spacing={1}>
 
@@ -203,7 +215,7 @@ function Home() {
                             <Typography sx={{ marginBottom: 1, fontSize: "15px", marginLeft: "4%" }}>
                                 Số lượng học sinh trong <br /> năm 2023 tăng hơn ...
                             </Typography>
-                            <Button variant="contained" color="success" sx={{fontSize:"10px", height: "20px", width:"90px", margin:"0 auto", borderRadius: "15px"}}>
+                            <Button variant="contained" color="success" sx={{ fontSize: "10px", height: "20px", width: "90px", margin: "0 auto", borderRadius: "15px" }}>
                                 Xem thêm
                             </Button>
                         </Box>
@@ -231,7 +243,7 @@ function Home() {
                             <Typography sx={{ marginBottom: 1, fontSize: "15px", marginLeft: "4%" }}>
                                 Số lượng học sinh trong <br /> năm 2023 tăng hơn ...
                             </Typography>
-                            <Button variant="contained" color="success" sx={{fontSize:"10px", height: "20px", width:"90px", margin:"0 auto", borderRadius: "15px"}}>
+                            <Button variant="contained" color="success" sx={{ fontSize: "10px", height: "20px", width: "90px", margin: "0 auto", borderRadius: "15px" }}>
                                 Xem thêm
                             </Button>
                         </Box>
@@ -259,7 +271,7 @@ function Home() {
                             <Typography sx={{ marginBottom: 1, fontSize: "15px", marginLeft: "4%" }}>
                                 Số lượng học sinh trong <br /> năm 2023 tăng hơn ...
                             </Typography>
-                            <Button variant="contained" color="success" sx={{fontSize:"10px", height: "20px", width:"90px", margin:"0 auto", borderRadius: "15px"}}>
+                            <Button variant="contained" color="success" sx={{ fontSize: "10px", height: "20px", width: "90px", margin: "0 auto", borderRadius: "15px" }}>
                                 Xem thêm
                             </Button>
                         </Box>

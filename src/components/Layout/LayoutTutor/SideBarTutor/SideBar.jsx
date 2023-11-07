@@ -42,7 +42,7 @@ const Sidebar = () => {
           <ListItemIcon>
             <CalendarMonthIcon />
           </ListItemIcon>
-          <Typography sx={{ fontSize: '16px', marginRight: 'auto' }}><Link to="calendartutor"  style={{color:"black", textDecoration: "none"}}>Lịch dạy</Link></Typography>
+          <Typography sx={{ fontSize: '16px', marginRight: 'auto' }}><Link to="/calendartutor"  style={{color:"black", textDecoration: "none"}}>Lịch dạy</Link></Typography>
         </ListItemButton>
 
         <ListItemButton onClick={handleGradesClick}>

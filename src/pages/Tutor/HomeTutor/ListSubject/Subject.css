@@ -1,6 +1,5 @@
 .body{
     height: 100%;
-    margin-bottom: 8%;
 }
 .body .container{
     display: flex;
@@ -21,7 +20,6 @@
 .body .container .subject-img {
     display: block;
     margin: auto;
-    width: 80%;
 }
 
 .body .container .inforsubject {
@@ -29,13 +27,11 @@
     font-size: 12px;
     align-items: center;
     margin-right: 40px;
-    margin-bottom: 10px;
 }
 
 .body .container .nameSubject {
     text-align: center;
     font-size: 15px;
-    margin-top: -10%;
 }
 
 .body .link{
