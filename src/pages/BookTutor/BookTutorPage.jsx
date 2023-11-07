@@ -11,6 +11,20 @@ import Button from '@mui/material/Button';
 import subject from "../../assests/subject.png";
 import { Link } from "react-router-dom";
 
+const data = [
+    { subjecttutor: "Dạy sư dạy toán", name: "Nguyễn Văn A" },
+    { subjecttutor: "Dạy sư dạy toán", name: "Nguyễn Văn A" },
+    { subjecttutor: "Dạy sư dạy toán", name: "Nguyễn Văn A" },
+    { subjecttutor: "Dạy sư dạy toán", name: "Nguyễn Văn A" },
+]
+
+const data2 = [
+    { subject: "Đại số 10", number: "100" },
+    { subject: "Đại số 10", number: "100" },
+    { subject: "Đại số 10", number: "100" },
+    { subject: "Đại số 10", number: "100" },
+]
+
 function BookTutorPage() {
     return (
         <Box className="body">
@@ -90,77 +104,25 @@ function BookTutorPage() {
                     <span className="line" />
                 </Typography>
                 <Grid container spacing={1}>
-                    <Grid item xs={3}>
-                        <Box className='top4couse'>
-                            <img src={subject} alt="subject" className="courseimg" />
-                            <Typography className="namebook">
-                                Đại số 10
-                            </Typography>
-                            <Box sx={{ display: 'flex' }} >
-                                <Typography className="numberpeople">
-                                    <PersonIcon className="total" />
-                                    100
+                    {data2.map((item, index) => (
+                        <Grid item xs={3} key={index}>
+                            <Box className='top4couse'>
+                                <img src={subject} alt="subject" className="courseimg" />
+                                <Typography className="namebook">
+                                    {item.subject}
                                 </Typography>
-                                <Button variant="contained" className="buttonchitiet">
-                                    Chi tiết
-                                </Button>
+                                <Box sx={{ display: 'flex' }} >
+                                    <Typography className="numberpeople">
+                                        <PersonIcon className="total" />
+                                        {item.number}
+                                    </Typography>
+                                    <Button variant="contained" className="buttonchitiet">
+                                        Chi tiết
+                                    </Button>
+                                </Box>
                             </Box>
-
-                        </Box>
-                    </Grid>
-                    <Grid item xs={3}>
-                        <Box className='top4couse'>
-                            <img src={subject} alt="subject" className="courseimg" />
-                            <Typography className="namebook">
-                                Đại số 10
-                            </Typography>
-                            <Box sx={{ display: 'flex' }} >
-                                <Typography className="numberpeople">
-                                    <PersonIcon className="total" />
-                                    100
-                                </Typography>
-                                <Button variant="contained" className="buttonchitiet">
-                                    Chi tiết
-                                </Button>
-                            </Box>
-
-                        </Box>
-                    </Grid>
-                    <Grid item xs={3}>
-                        <Box className='top4couse'>
-                            <img src={subject} alt="subject" className="courseimg" />
-                            <Typography className="namebook">
-                                Đại số 10
-                            </Typography>
-                            <Box sx={{ display: 'flex' }} >
-                                <Typography className="numberpeople">
-                                    <PersonIcon className="total" />
-                                    100
-                                </Typography>
-                                <Button variant="contained" className="buttonchitiet">
-                                    Chi tiết
-                                </Button>
-                            </Box>
-
-                        </Box>
-                    </Grid>
-                    <Grid item xs={3}>
-                        <Box className='top4couse'>
-                            <img src={subject} alt="subject" className="courseimg" />
-                            <Typography className="namebook">
-                                Đại số 10
-                            </Typography>
-                            <Box sx={{ display: 'flex' }} >
-                                <Typography className="numberpeople">
-                                    <PersonIcon className="total" />
-                                    100
-                                </Typography>
-                                <Button variant="contained" className="buttonchitiet">
-                                    Chi tiết
-                                </Button>
-                            </Box>
-                        </Box>
-                    </Grid>
+                        </Grid>
+                    ))}
                 </Grid>
             </Box>
             <Box className='bodysubject' >
@@ -170,110 +132,34 @@ function BookTutorPage() {
                     <span className="line" />
                 </Typography>
                 <Grid container spacing={1}>
-                    <Grid item xs={3}>
-                        <Box className='top4couse'>
-                            <Typography sx={{ fontSize: '12px', textAlign: 'center', marginTop: '5px' }}>
-                                Gia sư dạy toán
-                            </Typography>
-                            <img src={Tutor} alt="subject" className="imgtutor" />
-                            <Rating
-                                name="five-star-rating"
-                                value={5}
-                                max={5}
-                                readOnly
-                                emptyIcon={<StarIcon style={{ fontSize: '25px', color: '#e0e0e0' }} />}
-                                icon={<StarIcon style={{ fontSize: '25px', color: '#ffc107' }} />}
-                                sx={{
+                    {data.map((item, index) => (
+                        <Grid item xs={3} key={index}>
+                            <Box className='top4couse'>
+                                <Typography sx={{ fontSize: '12px', textAlign: 'center', marginTop: '5px' }}>
+                                    {item.subjecttutor}
+                                </Typography>
+                                <img src={Tutor} alt="subject" className="imgtutor" />
+                                <Rating
+                                    name="five-star-rating"
+                                    value={5}
+                                    max={5}
+                                    readOnly
+                                    emptyIcon={<StarIcon style={{ fontSize: '25px', color: '#e0e0e0' }} />}
+                                    icon={<StarIcon style={{ fontSize: '25px', color: '#ffc107' }} />}
+                                    sx={{
 
-                                }}
-                            />
-                            <Typography sx={{ fontSize: '15px', textAlign: 'center', }}>
-                                Nguyễn Văn A
-                            </Typography>
-                            <Button
-                                variant="contained" className="button-register">
-                                Đăng ký ngay
-                            </Button>
-                        </Box>
-                    </Grid>
-                    <Grid item xs={3}>
-                        <Box className='top4couse'>
-                            <Typography sx={{ fontSize: '12px', textAlign: 'center', marginTop: '5px' }}>
-                                Gia sư dạy toán
-                            </Typography>
-                            <img src={Tutor} alt="subject" className="imgtutor" />
-                            <Rating
-                                name="five-star-rating"
-                                value={5}
-                                max={5}
-                                readOnly
-                                emptyIcon={<StarIcon style={{ fontSize: '25px', color: '#e0e0e0' }} />}
-                                icon={<StarIcon style={{ fontSize: '25px', color: '#ffc107' }} />}
-                                sx={{
-
-                                }}
-                            />
-                            <Typography sx={{ fontSize: '15px', textAlign: 'center', }}>
-                                Nguyễn Văn A
-                            </Typography>
-                            <Button
-                                variant="contained" className="button-register">
-                                Đăng ký ngay
-                            </Button>
-                        </Box>
-                    </Grid>
-                    <Grid item xs={3}>
-                        <Box className='top4couse'>
-                            <Typography sx={{ fontSize: '12px', textAlign: 'center', marginTop: '5px' }}>
-                                Gia sư dạy toán
-                            </Typography>
-                            <img src={Tutor} alt="subject" className="imgtutor" />
-                            <Rating
-                                name="five-star-rating"
-                                value={5}
-                                max={5}
-                                readOnly
-                                emptyIcon={<StarIcon style={{ fontSize: '25px', color: '#e0e0e0' }} />}
-                                icon={<StarIcon style={{ fontSize: '25px', color: '#ffc107' }} />}
-                                sx={{
-
-                                }}
-                            />
-                            <Typography sx={{ fontSize: '15px', textAlign: 'center', }}>
-                                Nguyễn Văn A
-                            </Typography>
-                            <Button
-                                variant="contained" className="button-register">
-                                Đăng ký ngay
-                            </Button>
-                        </Box>
-                    </Grid>
-                    <Grid item xs={3}>
-                        <Box className='top4couse'>
-                            <Typography sx={{ fontSize: '12px', textAlign: 'center', marginTop: '5px' }}>
-                                Gia sư dạy toán
-                            </Typography>
-                            <img src={Tutor} alt="subject" className="imgtutor" />
-                            <Rating
-                                name="five-star-rating"
-                                value={5}
-                                max={5}
-                                readOnly
-                                emptyIcon={<StarIcon style={{ fontSize: '25px', color: '#e0e0e0' }} />}
-                                icon={<StarIcon style={{ fontSize: '25px', color: '#ffc107' }} />}
-                                sx={{
-
-                                }}
-                            />
-                            <Typography sx={{ fontSize: '15px', textAlign: 'center', }}>
-                                Nguyễn Văn A
-                            </Typography>
-                            <Button
-                                variant="contained" className="button-register">
-                                Đăng ký ngay
-                            </Button>
-                        </Box>
-                    </Grid>
+                                    }}
+                                />
+                                <Typography sx={{ fontSize: '15px', textAlign: 'center', }}>
+                                    {item.name}
+                                </Typography>
+                                <Button
+                                    variant="contained" className="button-register">
+                                    Đăng ký ngay
+                                </Button>
+                            </Box>
+                        </Grid>
+                    ))}
                 </Grid>
             </Box>
         </Box>
