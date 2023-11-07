@@ -117,7 +117,7 @@ function LoginPage() {
               flexDirection: 'column',
               alignItems: 'center',
               backgroundColor: 'white',
-              height: '70vh',
+              height: '90vh',
               borderRadius: '30px',
               padding: '50px',
               gap: '30px',
