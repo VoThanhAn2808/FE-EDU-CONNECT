@@ -1,4 +1,3 @@
-
 import "./Slide.css";
 import React from 'react';
 import SLIDE from "./slide.jpg";

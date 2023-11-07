@@ -31,6 +31,7 @@ import StudentGrade from "../pages/Student/StudentGrade/StudentGrade";
 import HomeTutor from '../pages/Tutor/HomeTutor/HomeTutor';
 import Feedback from '../pages/Student/FeedBack/FeedBackPage';
 import ManagerStudent from '../pages/Tutor/ManagerStudent/ManagerStudentPage';
+import FeedbackTutor from '../pages/Tutor/Feedback/Feedback';
 
 const publicRoute = [
   { path: '/', component: Home, layout: DefaultLayout},
@@ -61,6 +62,7 @@ const publicRoute = [
   { path: '/hometutor', component : HomeTutor, layout : LayoutTutor},
   { path: '/feedback', component : Feedback, layout : LoginLayout},
   { path: '/managerstudent', component : ManagerStudent, layout : LayoutStaff},
+  { path: '/feedbacktutor', component : FeedbackTutor, layout : LayoutTutor},
 ];
 const privateRoute = [];
 
