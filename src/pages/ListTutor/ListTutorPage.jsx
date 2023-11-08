@@ -49,7 +49,7 @@ function ListTutor() {
 
     useEffect(() => {
         axios
-            .get("http://localhost:8081/tutorByCourse/page?courseid=1")
+            .get(`http://localhost:8081/tutorByCourse/page?courseid=${id}`)
             .then((response) => {
                 setPage(response.data); // Sửa từ response.top thành response.data
                 console.log(response.data);
@@ -57,7 +57,7 @@ function ListTutor() {
             .catch((error) => {
                 console.error(error);
             });
-    }, []);
+    }, [id]);
 
     const [cpage, setCpage] = useState([]);
 

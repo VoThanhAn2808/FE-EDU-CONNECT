@@ -1,15 +1,30 @@
-import { BrowserRouter as Router, Routes, Route } from "react-router-dom";
-import { publicRoute } from "./routes/routes";
+import { BrowserRouter as Router, Routes, Route, Navigate } from "react-router-dom";
+import { privateRoute, publicRoute } from "./routes/routes";
+
 
 function App() {
   return (
-
     <Router>
       <Routes>
-        {publicRoute.map((route, index) => {
+      <Route />
+        {publicRoute.map((route) => {
           return (
             <Route
-              key={index}
+              key={route.path}
+              path={route.path}
+              element={
+                <route.layout>
+                  <route.component />
+                </route.layout>
+              }
+            />
+          );
+        })}
+        <Route  element={<Navigate to="/homestudent" />} />
+        {privateRoute.map((route) => {
+          return (
+            <Route
+              key={route.path}
               path={route.path}
               element={
                 <route.layout>
@@ -21,8 +36,6 @@ function App() {
         })}
       </Routes>
     </Router>
-
-    
   );
 }
 
