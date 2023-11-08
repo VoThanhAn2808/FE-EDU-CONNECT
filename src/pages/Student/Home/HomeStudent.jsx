@@ -164,7 +164,7 @@ function Home() {
                                 <Typography sx={{ fontSize: '15px', fontWeight: '700', textAlign: 'center', marginTop: '5px' }}>
                                     Gia sư
                                 </Typography>
-                                <img src={`http://localhost:8081/edu/file/files/${item.img}`} alt="subject" className="imgtutor" />
+                                <img src={`http://localhost:8081/edu/file/files/${item.img}`} alt="subject" className="courseimg" />
                                 <Rating
                                     name="five-star-rating"
                                     value={item.ranks}

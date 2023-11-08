@@ -119,7 +119,7 @@ function LoginPage() {
               flexDirection: 'column',
               alignItems: 'center',
               backgroundColor: 'white',
-              height: '70vh',
+              height: '90vh',
               borderRadius: '30px',
               padding: '50px',
               gap: '30px',
@@ -187,9 +187,8 @@ function LoginPage() {
             position: 'absolute',
             fontSize: '18px',
             bottom: '16%'
-          }}
-        >
-          Bạn chưa có tài khoản, đăng kí <Link to="/register">tại đây</Link>.
+          }}>
+          Bạn chưa có tài khoản, đăng kí <Link to='/signup' style={{color: "blue", textDecoration: "none"}}>tại đây</Link>
         </Typography>
       </Box>
     </Box>

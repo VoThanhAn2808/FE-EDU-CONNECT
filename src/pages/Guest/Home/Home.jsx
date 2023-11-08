@@ -16,15 +16,15 @@ import { Box, Button, Grid, Typography } from '@mui/material';
 import CalendarTodayIcon from '@mui/icons-material/CalendarToday';
 
 const data = [
-    {giasu: GIASU, title: "GIA SƯ 1", name: "Nguyễn Trọng Hiếu", infor: "THÔNG TIN"},
-    {giasu: GIASU, title: "GIA SƯ 2", name: "Nguyễn Trọng Hiếu", infor: "THÔNG TIN"},
-    {giasu: GIASU, title: "GIA SƯ 3", name: "Nguyễn Trọng Hiếu", infor: "THÔNG TIN"},
+    { giasu: GIASU, title: "GIA SƯ 1", name: "Nguyễn Trọng Hiếu", infor: "THÔNG TIN" },
+    { giasu: GIASU, title: "GIA SƯ 2", name: "Nguyễn Trọng Hiếu", infor: "THÔNG TIN" },
+    { giasu: GIASU, title: "GIA SƯ 3", name: "Nguyễn Trọng Hiếu", infor: "THÔNG TIN" },
 ]
 
 const data2 = [
-    {hotnew: HOTNEW, infor: "Lượng học sinh năm 2023", date: "20-08-2023", para: "Số lượng học sinh trong năm 2023 tăng hơn...", more:"XEM THÊM" },
-    {hotnew: HOTNEW, infor: "Lượng học sinh năm 2023", date: "20-08-2023", para: "Số lượng học sinh trong năm 2023 tăng hơn...", more:"XEM THÊM" },
-    {hotnew: HOTNEW, infor: "Lượng học sinh năm 2023", date: "20-08-2023", para: "Số lượng học sinh trong năm 2023 tăng hơn...", more:"XEM THÊM" },
+    { hotnew: HOTNEW, infor: "Lượng học sinh năm 2023", date: "20-08-2023", para: "Số lượng học sinh trong năm 2023 tăng hơn", more: "XEM THÊM", fullContent: "hết rồi nhé mọi người" },
+    { hotnew: HOTNEW, infor: "Lượng học sinh năm 2023", date: "20-08-2023", para: "Số lượng học sinh trong năm 2023 tăng hơn", more: "XEM THÊM", fullContent: "hết rồi nhé mọi người" },
+    { hotnew: HOTNEW, infor: "Lượng học sinh năm 2023", date: "20-08-2023", para: "Số lượng học sinh trong năm 2023 tăng hơn", more: "XEM THÊM", fullContent: "hết rồi nhé mọi người" },
 ]
 
 function Home() {
@@ -76,45 +76,45 @@ function Home() {
                     <span className='line' />
                 </Typography>
 
-                    
+
                 <Grid container spacing={1}>
                     {data.map((item, index) => (
-                        <Grid item xs={4}  key={index}>
-                        <Box className='giasu-container'>
-                            <Typography className='giasutext'
-                                sx={{
-                                    color: "#00000",
-                                    fontWeight: "700",
-                                    fontSize: "20px",
-                                    fontFamily: "math"
-                                }}>
-                                {item.title}
-                            </Typography>
-                            <Typography className='giasu-name'
-                                sx={{
-                                    color: "#00000",
-                                    fontWeight: "800",
-                                    fontSize: "20px",
-                                }}>
-                                {item.name}
-                            </Typography>
-{/* update screen infor giasu */}
-                            <Typography className='giasu-infor'
-                                sx={{
-                                    color: "#00000",
-                                    fontWeight: "400",
-                                    fontSize: "20px",
-                                    fontFamily: "cursive",
-                                    height: "35px",
-                                    width: "150px",
-                                    backgroundColor: "red",
-                                    borderRadius: "5px",
-                                }}>
+                        <Grid item xs={4} key={index}>
+                            <Box className='giasu-container'>
+                                <Typography className='giasutext'
+                                    sx={{
+                                        color: "#00000",
+                                        fontWeight: "700",
+                                        fontSize: "20px",
+                                        fontFamily: "math"
+                                    }}>
+                                    {item.title}
+                                </Typography>
+                                <Typography className='giasu-name'
+                                    sx={{
+                                        color: "#00000",
+                                        fontWeight: "800",
+                                        fontSize: "20px",
+                                    }}>
+                                    {item.name}
+                                </Typography>
+                                {/* update screen infor giasu */}
+                                <Typography className='giasu-infor'
+                                    sx={{
+                                        color: "#00000",
+                                        fontWeight: "400",
+                                        fontSize: "20px",
+                                        fontFamily: "cursive",
+                                        height: "35px",
+                                        width: "150px",
+                                        backgroundColor: "red",
+                                        borderRadius: "5px",
+                                    }}>
                                     {item.infor}
-                            </Typography>
-                            <img src={item.giasu} alt="giasu" className='giasu' />
-                        </Box>
-                    </Grid>
+                                </Typography>
+                                <img src={item.giasu} alt="giasu" className='giasu' />
+                            </Box>
+                        </Grid>
                     ))}
                 </Grid>
             </Box>
@@ -228,7 +228,7 @@ function Home() {
                                             fontFamily: "cursive",
                                         }}
                                     >
-                                        Tư duy sáng tạo 
+                                        Tư duy sáng tạo
                                     </Typography>
                                     <Typography className='why-content'
                                         sx={{
@@ -252,7 +252,7 @@ function Home() {
                                             fontFamily: "cursive",
                                         }}
                                     >
-                                        Tư duy sáng tạo 
+                                        Tư duy sáng tạo
                                     </Typography>
                                     <Typography className='why-content'
                                         sx={{
@@ -281,7 +281,7 @@ function Home() {
                                             fontFamily: "cursive",
                                         }}
                                     >
-                                        Tư duy sáng tạo 
+                                        Tư duy sáng tạo
                                     </Typography>
                                     <Typography className='why-content'
                                         sx={{
@@ -340,7 +340,7 @@ function Home() {
                                             fontFamily: "cursive",
                                         }}
                                     >
-                                        Tư duy sáng tạo 
+                                        Tư duy sáng tạo
                                     </Typography>
                                     <Typography className='why-content'
                                         sx={{
@@ -364,7 +364,7 @@ function Home() {
                                             fontFamily: "cursive",
                                         }}
                                     >
-                                        Tư duy sáng tạo 
+                                        Tư duy sáng tạo
                                     </Typography>
                                     <Typography className='why-content'
                                         sx={{
@@ -404,32 +404,33 @@ function Home() {
                 <Grid container spacing={1}>
                     {data2.map((item, index) => (
                         <Grid item xs={4} key={index}>
-                        <img src={item.hotnew} alt="hotnew" className='hotnew' />
-                        <Box
-                            sx={{
-                                display: 'flex',
-                                flexDirection: 'column',
-                                justifyContent: 'center',
-                                width: '209px',
-                                height: "135px",
-                                margin: '0 auto',
-                                backgroundColor: "#D9D9D9"
-                            }}>
-                            <Typography sx={{ marginBottom: 1, fontSize: "15px", marginLeft: "4%" }}>
-                                {item.infor}
-                            </Typography>
-                            <Typography sx={{ marginBottom: 1, fontSize: "15px", marginLeft: "4%" }}>
-                                <CalendarTodayIcon sx={{ marginRight: "4%" }} />
-                                {item.date}
-                            </Typography>
-                            <Typography sx={{ marginBottom: 1, fontSize: "15px", marginLeft: "4%" }}>
-                                {item.para}
-                            </Typography>
-                            <Button variant="contained" color="success" sx={{fontSize:"10px", height: "20px", width:"90px", margin:"0 auto", borderRadius: "15px"}}>
-                                {item.more}
-                            </Button>
-                        </Box>
-                    </Grid>
+                            <img src={item.hotnew} alt="hotnew" className='hotnew' />
+                            <Box
+                                sx={{
+                                    display: 'flex',
+                                    flexDirection: 'column',
+                                    justifyContent: 'center',
+                                    width: '209px',
+                                    height: "135px",
+                                    margin: '0 auto',
+                                    backgroundColor: "#D9D9D9"
+                                }}>
+                                <Typography sx={{ marginBottom: 1, fontSize: "15px", marginLeft: "4%" }}>
+                                    {item.infor}
+                                </Typography>
+                                <Typography sx={{ marginBottom: 1, fontSize: "15px", marginLeft: "4%" }}>
+                                    <CalendarTodayIcon sx={{ marginRight: "4%" }} />
+                                    {item.date}
+                                </Typography>
+                                <Typography sx={{ marginBottom: 1, fontSize: "15px", marginLeft: "4%" }}>
+                                    {item.para}
+                                </Typography>
+                                <Button variant="contained" color="success" sx={{ fontSize: "10px", height: "20px", width: "90px", margin: "0 auto", borderRadius: "15px" }}>
+                                    {item.more}
+                                </Button>
+                                
+                            </Box>
+                        </Grid>
                     ))}
                 </Grid>
             </Box>

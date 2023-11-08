@@ -26,7 +26,7 @@ function ProfileAvatar({ onFileChange, isEditing }) {
           marginY: '30px',
         }}
       >
-        User Profile
+        Thông tin cá nhân
       </Typography>
       <Avatar
         alt='Remy Sharp'
