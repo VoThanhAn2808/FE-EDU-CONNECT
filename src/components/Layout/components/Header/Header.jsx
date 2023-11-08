@@ -10,18 +10,30 @@ import Avatar from '@mui/material/Avatar';
 import Tooltip from '@mui/material/Tooltip';
 import MenuItem from '@mui/material/MenuItem';
 import NotificationsIcon from '@mui/icons-material/Notifications';
-import PhoneIcon from '@mui/icons-material/Phone'
+import PhoneIcon from '@mui/icons-material/Phone';
+import { useNavigate } from 'react-router-dom';
 import { useState } from 'react';
 import { useEffect } from 'react';
 import { jwtDecode } from 'jwt-decode';
 import axios from 'axios';
 
 
-
-const settings = ['Thông tin cá nhân', 'Đổi mật khẩu ', 'Đăng xuất '];
-
 function Header() {
     const [anchorElUser, setAnchorElUser] = React.useState(null);
+
+    const navigate = useNavigate();
+
+    const handleProfileClick = () => {
+        handleCloseUserMenu();
+        navigate('/profile-student');
+    };
+
+    const handleChangePassword = () => {
+        navigate('/changepass');
+    }
+    const handleLogoutClick = () => {
+        navigate('/login');
+    };
 
     const handleOpenUserMenu = (event) => {
         setAnchorElUser(event.currentTarget);
@@ -134,13 +146,15 @@ function Header() {
                             open={Boolean(anchorElUser)}
                             onClose={handleCloseUserMenu}
                         >
-                            {settings.map((setting) => (
-                                <MenuItem key={setting} onClick={handleCloseUserMenu}>
-                                    <Typography sx={{
-                                        fontSize: '14px',
-                                    }} textAlign="center">{setting}</Typography>
-                                </MenuItem>
-                            ))}
+                            <MenuItem key="Thông tin cá nhân" onClick={handleProfileClick}>
+                                    <Typography variant="body1" sx={{fontSize:"15px"}}>Thông tin cá nhân</Typography>
+                            </MenuItem>
+                            <MenuItem key="Đổi mật khẩu" onClick={handleChangePassword}>
+                                    <Typography variant="body1" sx={{fontSize:"15px"}}>Đổi mật khẩu</Typography>
+                            </MenuItem>
+                            <MenuItem key="Đăng xuất" onClick={handleLogoutClick}>
+                                <Typography variant="body1" sx={{fontSize:"15px"}}>Đăng xuất</Typography>
+                            </MenuItem>
                         </Menu>
                     </Box>
                 </Toolbar>
