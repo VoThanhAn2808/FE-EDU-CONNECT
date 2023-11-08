@@ -10,6 +10,7 @@ import Button from '@mui/material/Button';
 import subject from "../../assests/subject.png";
 import { Link, useParams } from "react-router-dom";
 import axios from "axios";
+import { jwtDecode } from "jwt-decode";
 
 function BookTutorPage() {
 
@@ -57,6 +58,48 @@ function BookTutorPage() {
                 console.error(error);
             });
     }, [tutorid]);
+
+    const decodedToken = jwtDecode(localStorage.getItem('token'));
+    const [student, setStudent] = useState([]);
+
+    useEffect(() => {
+        axios.get("http://localhost:8081/student/viewstudent?email=" + decodedToken.sub)
+            .then((response) => {
+                setStudent(response.data);
+                console.log(response.data);
+            })
+            .catch((error) => {
+                console.error(error);
+            });
+    }, [decodedToken.sub]);
+
+    const studentid = student.studentid;
+    const handleSubmit = async (event) => {
+        event.preventDefault();
+
+        const config = {
+            headers: {
+              'Content-Type': 'multipart/form-data',
+            },
+          };
+
+        try {
+            const response = await axios.post(
+                "http://localhost:8081/book/bookcourse",
+                {
+                    studentId: studentid,
+                    tutorId: tutorid,
+                    classCourseId: classcourseid,
+                },
+                config
+            );
+            window.location.href = '/booktime/' + tutorid;
+            console.log(response.data);
+        } catch (error) {
+            console.error(error);
+            console.log(error.response.data);
+        }
+    };
     return (
         <Box className="body">
             <Box className="body-tutor" >
@@ -108,22 +151,22 @@ function BookTutorPage() {
                                 marginLeft: '5%'
                             }}
                         />
-                        <Box className="button">
-                            <Link to='/booktime'>
+                        <form onSubmit={handleSubmit}>
+                            <Box className="button">
                                 <Button
-                                    variant="contained" className="register">
+                                    variant="contained" className="register" type="submit">
                                     Đăng ký ngay
                                 </Button>
-                            </Link>
-                            <Button
-                                variant="contained" className="infor">
-                                Thông Tin
-                            </Button>
-                            <Button
-                                variant="contained" className="try">
-                                Đăng ký học thử
-                            </Button>
-                        </Box>
+                                <Button
+                                    variant="contained" className="infor">
+                                    Thông Tin
+                                </Button>
+                                <Button
+                                    variant="contained" className="try">
+                                    Đăng ký học thử
+                                </Button>
+                            </Box>
+                        </form>
                     </Grid>
                 </Grid>
             </Box>
