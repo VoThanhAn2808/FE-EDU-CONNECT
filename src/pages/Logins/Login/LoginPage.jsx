@@ -51,6 +51,9 @@ function LoginPage() {
             `http://localhost:8081/student/viewstudent?email=${userId}`
           );
           studentData = studentResponse.data; // Gán giá trị cho biến studentData
+          const st = studentData;
+          console.log(st);
+          localStorage.setItem("user", st);
           console.log(studentData);
         } catch (error) {
           console.error(error);
@@ -60,12 +63,11 @@ function LoginPage() {
       await getStudentData(); // Gọi hàm lấy thông tin sinh viên
 
       if (studentData !== null) {
-        window.location.href = "/homestudent"; // Chuyển hướng đến "/homestudent" nếu studentData khác null
+        window.location.href = "/homestudent";
       } else {
-        window.location.href = "/login"; // Chuyển hướng đến "/login" nếu studentData là null hoặc không có giá trị
+        window.location.href = "/login";
         console.log("Không có thông tin sinh viên");
       }
-
       console.log(response.data);
       console.log(userId);
 
