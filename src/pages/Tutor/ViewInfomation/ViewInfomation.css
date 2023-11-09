@@ -41,12 +41,6 @@ i{
 
 .info.MuiBox-root.css-0 {
     display: flex;
-    justify-content: center;   
-    flex-direction: column;
-}
-
-.info.MuiBox-root.css-0 {
-    display: flex;
     justify-content: center;
     flex-direction: column;
     align-items: center;
@@ -57,60 +51,13 @@ i{
     justify-content: space-evenly;
 }
 
-iframe{
-    padding: 10px;
-    border: 1px solid;
-    border-radius: 5px;
-    margin-right: 5px;
-    height: 284px;
-    width: 365px;
-}
-
 .infoTutor.MuiBox-root.css-0 {
-    margin-left: 5px;
+    margin-left: 10px;
     background-color: #2E6AB4;
     color: white;
     font-weight: bold;
-}
-
-.infoTutor.MuiBox-root.css-0 ul {
-    /* margin-left: 10px; */
-    display: flex;
-    padding: 10px;
-    border: 1px solid;
-    /* border-radius: 5px; */
-    flex-direction: column;
-    justify-content: space-around;
-    width: 445px;
-    height: 200px;
-    flex-wrap: wrap;
-}
-
-.infoTutor.MuiBox-root.css-0 li{
-    height: 52px;
-    margin-left:10px;
-}
-
-.fa-play{
-    font-size: small;
-    padding: 2px;
-    border: 1px solid;
-    border-radius: 5px;
-}
-
-.fa-facebook{
-    font-size: large;
-}
-
-.social.MuiBox-root.css-0 {
-    display: flex;
-    justify-content: space-evenly;
-}
-
-.social.MuiBox-root.css-0 p{
-    border: 1px solid;
-    border-radius: 20px;
-    width: 50px;
+    width: 40%;
+    border-radius: 10px ;
 }
 
 .teacher.MuiBox-root.css-0 {
@@ -229,7 +176,7 @@ iframe{
     justify-content: center;
 }
 
-.container.feedback-box.MuiBox-root.css-0 {
+/* .container.feedback-box.MuiBox-root.css-0 {
     background-color: #E7E4E4;
     margin: 30px auto;
-}
+} */
