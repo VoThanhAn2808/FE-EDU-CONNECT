@@ -1,0 +1,235 @@
+.body{
+    position: relative;
+    height: 100%;
+    width: 100%;
+}
+
+.Slide {
+    background: #F0D8D8;
+    box-shadow: 0px 4px 4px 2px rgba(9, 8, 8, 0.47);
+    width: 100%;
+}
+
+  
+.Icon{
+    padding: 10px;
+    background-color: white;
+    width:max-content;
+    box-shadow: 0px 4px 4px 2px rgba(9, 8, 8, 0.47);
+    border-radius: 5px;
+    width:150px;
+    height: 150px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    flex-direction: column;
+}
+i{
+    font-size: 30px;
+}
+
+
+.container.Item{
+    display: flex;
+    align-items: center;
+    flex-direction: row;
+    margin: 0px auto !important;
+    box-shadow: 0px !important;
+    justify-content: space-around;
+    box-shadow: 0px 0px 0px 0px rgba(9, 8, 8, 0) !important ;
+}
+
+.info.MuiBox-root.css-0 {
+    display: flex;
+    justify-content: center;   
+    flex-direction: column;
+}
+
+.info.MuiBox-root.css-0 {
+    display: flex;
+    justify-content: center;
+    flex-direction: column;
+    align-items: center;
+}
+
+.detail-infor.MuiBox-root.css-0 {
+    display: flex;
+    justify-content: space-evenly;
+}
+
+iframe{
+    padding: 10px;
+    border: 1px solid;
+    border-radius: 5px;
+    margin-right: 5px;
+    height: 284px;
+    width: 365px;
+}
+
+.infoTutor.MuiBox-root.css-0 {
+    margin-left: 5px;
+    background-color: #2E6AB4;
+    color: white;
+    font-weight: bold;
+}
+
+.infoTutor.MuiBox-root.css-0 ul {
+    /* margin-left: 10px; */
+    display: flex;
+    padding: 10px;
+    border: 1px solid;
+    /* border-radius: 5px; */
+    flex-direction: column;
+    justify-content: space-around;
+    width: 445px;
+    height: 200px;
+    flex-wrap: wrap;
+}
+
+.infoTutor.MuiBox-root.css-0 li{
+    height: 52px;
+    margin-left:10px;
+}
+
+.fa-play{
+    font-size: small;
+    padding: 2px;
+    border: 1px solid;
+    border-radius: 5px;
+}
+
+.fa-facebook{
+    font-size: large;
+}
+
+.social.MuiBox-root.css-0 {
+    display: flex;
+    justify-content: space-evenly;
+}
+
+.social.MuiBox-root.css-0 p{
+    border: 1px solid;
+    border-radius: 20px;
+    width: 50px;
+}
+
+.teacher.MuiBox-root.css-0 {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+}
+
+.teacher-infor.MuiBox-root.css-0 img {
+    border-radius: 10px;
+    width: 200px;
+    height: 200px;
+}
+
+.teacher-infor.MuiBox-root.css-0 p{
+    padding:10px;
+    background-color: white;
+    border-radius: 10px;
+    margin:10px 0px
+}
+
+.teacher-infor.MuiBox-root.css-0 .fa-star{
+    font-size: medium;
+    color: aqua;
+}
+
+.teacher-infor.MuiBox-root.css-0 {
+    display: flex;
+    width: 70%;
+    justify-content: space-evenly;
+    background-color: pink;
+    border-radius: 10px;
+}
+
+.teacher-item {
+    padding: 10px;
+    display: flex;
+    flex-direction: column;
+    justify-content: space-evenly;
+    width: 100%;
+}
+
+.teacher-item.item-img {
+    display: flex;
+    align-items: center;
+}
+
+.teacher.MuiBox-root.css-0 {
+    box-shadow: 0px 4px 4px 2px rgba(9, 8, 8, 0.47);
+    margin: 10px auto;
+    width: 100%;
+}
+
+.container.method.MuiBox-root.css-0 {
+    /* height: 551px; */
+    width: 100%;
+    margin: 10px auto;
+    justify-content: normal !important;
+}
+
+.method-item{
+    display: flex;
+    flex-wrap: wrap;
+    align-items: center;
+    justify-content: center;
+}
+
+.method-item img {
+    width: 40%;
+    margin: 10px;
+    border-radius: 10px;
+    border: 10px solid pink;
+}
+
+.infor-student img{
+    width: 78px;
+    height: 78px;
+    border-radius: 100%;
+}
+
+.infor-student i{
+    font-size: small;
+}
+
+.comment {
+    width: 30%;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    background-color: #77636A;
+    border-radius: 10px;
+    padding: 20px;
+    color:white;
+    margin: 0px 10px;
+}
+.comment p{
+    margin: 10px;
+}
+
+.infor-student {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    background-color: #D9D9D9;
+    border-radius: 10px;
+    padding: 20px;
+    color: black;
+}
+
+.feedback.MuiBox-root.css-0 {
+    display: flex;
+    flex-direction: row;
+    align-items: center;
+    background-color: #BFB0B5;
+    padding: 10px;
+    justify-content: center;
+}
+
+.container.feedback-box.MuiBox-root.css-0 {
+    background-color: #E7E4E4;
+    margin: 30px auto;
+}
