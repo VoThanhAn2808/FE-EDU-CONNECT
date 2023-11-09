@@ -114,12 +114,7 @@ function Header() {
                             width: "30px",
                         }} />
                         {
-                            decodedTokenRef ? (
-                                <Box>
-                                    <Link to="/login"><Button variant="contained" color="success" sx={{backgroundColor:"#C6D331", color:"white", fontSize:"13px", fontWeight:"600", marginRight:"5px"}}>Đăng nhập</Button></Link>
-                                    <Link to="/signup"><Button variant="contained" color='error' sx={{backgroundColor:"#C6D331", color:"white", fontSize:"13px", fontWeight:"600"}}>Đăng ký</Button></Link>
-                                </Box>
-                            ) : (
+                            decodedTokenRef.current ? (
                                 <Tooltip
                                     title={<span style={{ fontSize: '10px' }}>Settings</span>}
                                 >
@@ -151,6 +146,11 @@ function Header() {
                                         </Typography>
                                     </Box>
                                 </Tooltip>
+                            ) : (
+                                <Box>
+                                    <Link to="/login"><Button variant="contained" color="success" sx={{ backgroundColor: "#C6D331", color: "white", fontSize: "13px", fontWeight: "600", marginRight: "5px" }}>Đăng nhập</Button></Link>
+                                    <Link to="/signup"><Button variant="contained" color='error' sx={{ backgroundColor: "#C6D331", color: "white", fontSize: "13px", fontWeight: "600" }}>Đăng ký</Button></Link>
+                                </Box>
                             )
                         }
 
