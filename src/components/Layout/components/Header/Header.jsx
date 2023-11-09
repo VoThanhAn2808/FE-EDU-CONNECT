@@ -11,12 +11,13 @@ import Tooltip from '@mui/material/Tooltip';
 import MenuItem from '@mui/material/MenuItem';
 import NotificationsIcon from '@mui/icons-material/Notifications';
 import PhoneIcon from '@mui/icons-material/Phone';
-import { useNavigate } from 'react-router-dom';
+import { Link, useNavigate } from 'react-router-dom';
 import { useState } from 'react';
 import { useEffect } from 'react';
 import { jwtDecode } from 'jwt-decode';
 import axios from 'axios';
 import { useRef } from 'react';
+import { Button } from '@mui/material';
 
 
 function Header() {
@@ -112,33 +113,46 @@ function Header() {
                             height: "30px",
                             width: "30px",
                         }} />
-                        <Tooltip
-                            title={<span style={{ fontSize: '10px' }}>Settings</span>}
-                        >
-                            <Box sx={{
-                                display: 'flex',
-                                alignItems: 'center',
-                                gap: '1px',
-
-                            }}
-                                onClick={handleOpenUserMenu}>
-                                <IconButton >
-                                    <Avatar alt={data.fullname} src={`http://localhost:8081/edu/file/files/${data.img}`} sx={{
-                                        height: "55px",
-                                        width: "55px",
-                                    }} />
-
-
-                                </IconButton>
-                                <Typography
-                                    sx={{
-                                        fontSize: '15px',
-                                        fontWeight: 'bold',
-                                    }} >
-                                    {data.fullname}
-                                </Typography>
-                            </Box>
-                        </Tooltip>
+                        {
+                            decodedTokenRef ? (
+                                <Box>
+                                    <Link to="/login"><Button variant="contained" color="success" sx={{backgroundColor:"#C6D331", color:"white", fontSize:"13px", fontWeight:"600", marginRight:"5px"}}>Đăng nhập</Button></Link>
+                                    <Link to="/signup"><Button variant="contained" color='error' sx={{backgroundColor:"#C6D331", color:"white", fontSize:"13px", fontWeight:"600"}}>Đăng ký</Button></Link>
+                                </Box>
+                            ) : (
+                                <Tooltip
+                                    title={<span style={{ fontSize: '10px' }}>Settings</span>}
+                                >
+                                    <Box
+                                        sx={{
+                                            display: 'flex',
+                                            alignItems: 'center',
+                                            gap: '1px',
+                                        }}
+                                        onClick={handleOpenUserMenu}
+                                    >
+                                        <IconButton>
+                                            <Avatar
+                                                alt={data.fullname}
+                                                src={`http://localhost:8081/edu/file/files/${data.img}`}
+                                                sx={{
+                                                    height: "55px",
+                                                    width: "55px",
+                                                }}
+                                            />
+                                        </IconButton>
+                                        <Typography
+                                            sx={{
+                                                fontSize: '15px',
+                                                fontWeight: 'bold',
+                                            }}
+                                        >
+                                            {data.fullname}
+                                        </Typography>
+                                    </Box>
+                                </Tooltip>
+                            )
+                        }
 
 
                         <Menu
