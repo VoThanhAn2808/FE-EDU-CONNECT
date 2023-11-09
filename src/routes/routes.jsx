@@ -32,6 +32,8 @@ import HomeTutor from '../pages/Tutor/HomeTutor/HomeTutor';
 import Feedback from '../pages/Student/FeedBack/FeedBackPage';
 import ManagerStudent from '../pages/Tutor/ManagerStudent/ManagerStudentPage';
 import FeedbackTutor from '../pages/Tutor/Feedback/Feedback';
+import ListTutorST from '../pages/Student/ListTutor/ListTutorStPage';
+import BookTutorSTPage from '../pages/Student/BookTutor/BookTutorSTPage';
 
 const publicRoute = [
   { path: '/', component: Home, layout: DefaultLayout},
@@ -43,14 +45,14 @@ const publicRoute = [
   { path: '/booktutor/:tutorid/:classcourseid', component: BookTutorPage, layout: DefaultLayout},
   { path: '/signup', component: SignUp, layout: LoginLayout},
   { path: '/login', component: LoginPage, layout: LoginLayout},
-  { path: '/booktime', component: BookTime, layout: LoginLayout},
-  { path: '/thankyou', component: ThankYou, layout: LoginLayout},
   { path: '/forgotpass', component: ForgotPassword, layout: LoginLayout},
   { path: '/changepass', component: ChangePassword, layout: LoginLayout},
 ];
 const privateRoute = [
   { path: '/demo', component : DemoPage, layout: LayoutStudent},
+  { path: '/listtutorst/:id', component: ListTutorST, layout: LayoutStudent},
   { path: '/homestudent', component: HomeStudent, layout: LayoutStudent},
+  { path: '/booktutorst/:tutorid/:classcourseid', component: BookTutorSTPage, layout: LayoutStudent},
   { path: '/studentgrade', component : StudentGrade, layout : LayoutStudent},
   { path: '/profile-student', component: ProfileStudent, layout: LayoutStudent},
   { path: '/calendarstudent', component: CalendarStudent, layout: LayoutStudent},
@@ -65,6 +67,8 @@ const privateRoute = [
   { path: '/hometutor', component : HomeTutor, layout : LayoutTutor},
   { path: '/calendartutor', component : CalendarTutor, layout : LayoutTutor},
   { path: '/feedbacktutor', component : FeedbackTutor, layout : LayoutTutor},
+  { path: '/booktime', component: BookTime, layout: LoginLayout},
+  { path: '/thankyou', component: ThankYou, layout: LoginLayout},
 ];
 
 export { publicRoute, privateRoute };

@@ -16,6 +16,7 @@ import { useState } from 'react';
 import { useEffect } from 'react';
 import { jwtDecode } from 'jwt-decode';
 import axios from 'axios';
+import { useRef } from 'react';
 
 
 function Header() {
@@ -32,7 +33,8 @@ function Header() {
         navigate('/changepass');
     }
     const handleLogoutClick = () => {
-        navigate('/login');
+        localStorage.removeItem("token");
+        window.location.href = "/";
     };
 
     const handleOpenUserMenu = (event) => {
@@ -43,20 +45,27 @@ function Header() {
         setAnchorElUser(null);
     };
 
-    const decodedToken = jwtDecode(localStorage.getItem('token'));
+    const token = localStorage.getItem('token');
+    const decodedTokenRef = useRef(null); // Create a useRef to store the decoded token
 
     const [data, setData] = useState([]);
 
     useEffect(() => {
-        axios.get("http://localhost:8081/student/viewstudent?email=" + decodedToken.sub)
-            .then((response) => {
-                setData(response.data);
-                console.log(response.data);
-            })
-            .catch((error) => {
-                console.error(error);
-            });
-    }, [decodedToken.sub]);
+        try {
+            decodedTokenRef.current = jwtDecode(token); // Store the decoded token in the useRef
+            axios
+                .get(`http://localhost:8081/student/viewstudent?email=${decodedTokenRef.current.sub}`)
+                .then((response) => {
+                    setData(response.data);
+                    console.log(response.data);
+                })
+                .catch((error) => {
+                    console.error(error);
+                });
+        } catch (error) {
+            console.error('Error decoding the token:', error);
+        }
+    }, [token]); // Ensure that 'token' is in the dependency
 
     return (
         <AppBar position='fixed' sx={{ width: '100%', background: "#F9C01F", zIndex: "5", boxShadow: 'none', height: '70px' }}>
@@ -147,13 +156,15 @@ function Header() {
                             onClose={handleCloseUserMenu}
                         >
                             <MenuItem key="Thông tin cá nhân" onClick={handleProfileClick}>
-                                    <Typography variant="body1" sx={{fontSize:"15px"}}>Thông tin cá nhân</Typography>
+                                <Typography variant="body1" sx={{ fontSize: "15px" }}>Thông tin cá nhân</Typography>
                             </MenuItem>
                             <MenuItem key="Đổi mật khẩu" onClick={handleChangePassword}>
-                                    <Typography variant="body1" sx={{fontSize:"15px"}}>Đổi mật khẩu</Typography>
+                                <Typography variant="body1" sx={{ fontSize: "15px" }}>Đổi mật khẩu</Typography>
                             </MenuItem>
                             <MenuItem key="Đăng xuất" onClick={handleLogoutClick}>
-                                <Typography variant="body1" sx={{fontSize:"15px"}}>Đăng xuất</Typography>
+                                <Typography variant="body1" sx={{ fontSize: "15px" }}>
+                                    Đăng xuất
+                                </Typography>
                             </MenuItem>
                         </Menu>
                     </Box>

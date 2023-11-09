@@ -128,7 +128,7 @@ function Home() {
                                             <PersonIcon className="total" />
                                             {item.CountStudent}
                                         </Typography>
-                                        <Link to={`/listtutor/${item.classCourseId}`}>
+                                        <Link to={`/listtutorst/${item.classCourseId}`}>
                                             <Button
                                                 variant="contained"
                                                 color="primary"
