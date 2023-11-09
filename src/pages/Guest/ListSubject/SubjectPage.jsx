@@ -40,7 +40,7 @@ function SubjectPage() {
                                     <PersonIcon className="total" />
                                     {item.CountStudent}
                                 </Typography>
-                                <Link to="/listtutor">
+                                <Link to={`/listtutor/${item.classCourseId}`}>
                                     <Button
                                         variant="contained"
                                         color="primary"

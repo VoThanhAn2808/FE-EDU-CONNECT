@@ -50,10 +50,7 @@ function LoginPage() {
           const studentResponse = await axios.get(
             `http://localhost:8081/student/viewstudent?email=${userId}`
           );
-          studentData = studentResponse.data; // Gán giá trị cho biến studentData
-          const st = studentData;
-          console.log(st);
-          localStorage.setItem("user", st);
+          studentData = studentResponse.data;
           console.log(studentData);
         } catch (error) {
           console.error(error);

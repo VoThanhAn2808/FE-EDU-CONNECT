@@ -3,33 +3,43 @@ import { privateRoute, publicRoute } from "./routes/routes";
 
 
 function App() {
+
+  const token = localStorage.getItem("token");
+  const isAuthenticated = token;
+
   return (
     <Router>
       <Routes>
-      <Route />
-        {publicRoute.map((route) => {
-          return (
-            <Route
-              key={route.path}
-              path={route.path}
-              element={
+        <Route />
+        {publicRoute.map((route) => (
+          <Route
+            key={route.path}
+            path={route.path}
+            element={
+              isAuthenticated ? (
+                <Navigate to="/homestudent" />
+              ) : (
                 <route.layout>
                   <route.component />
                 </route.layout>
-              }
-            />
-          );
-        })}
-        <Route  element={<Navigate to="/homestudent" />} />
+              )
+            }
+          />
+        ))}
+        <Route path="/" element={<Navigate to="/login" />} />
         {privateRoute.map((route) => {
           return (
             <Route
               key={route.path}
               path={route.path}
               element={
-                <route.layout>
-                  <route.component />
-                </route.layout>
+                isAuthenticated ? (
+                  <route.layout>
+                    <route.component />
+                  </route.layout>
+                ) : (
+                  <Navigate to="/login" />
+                )
               }
             />
           );
