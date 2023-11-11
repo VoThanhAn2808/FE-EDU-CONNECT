@@ -99,7 +99,7 @@ function CalendarTutor() {
                 <Box sx={{
                     display: "flex",
                     flexDirection: "row",
-                    marginTop: "30px",
+                    marginTop: "70px",
                  }}>
                     <Typography sx={{fontSize: '20px', fontWeight:"700", color: "red" }}>Notes:</Typography>
                     <Typography sx={{fontSize: '20px', marginLeft: "7px", color: "#5E5D5D" }}> Bạn theo dõi lịch dạy để tham gia dạy học cho học sinh.</Typography>

@@ -25,8 +25,11 @@ const ProfileTeacher = () => {
       { name: 'Hoá' },
       { name: 'Toán' },
     ],
+    avt: '',
   });
   const [isEditing, setIsEditing] = useState(false);
+  const [uploadedFile, setUploadedFile] = useState(null);
+
 
   const handleInputChange = (field, value) => {
     setUserData({
@@ -36,14 +39,15 @@ const ProfileTeacher = () => {
   };
 
   const handleSave = () => {
+    setUserData({
+      ...userData,
+      avt: uploadedFile,
+    });
     setIsEditing(false);
   };
 
   const handleFileChange = (selectedFile) => {
-    setUserData({
-      ...userData,
-      avt: selectedFile,
-    });
+    setUploadedFile(selectedFile);
   };
 
   return (
@@ -55,7 +59,12 @@ const ProfileTeacher = () => {
       }}
     >
       <ThemeProvider theme={theme}>
-        <ProfileAvatar onFileChange={handleFileChange} isEditing={isEditing} role={'học sinh'} />
+        <ProfileAvatar
+          onFileChange={handleFileChange}
+          isEditing={isEditing}
+          role={'giáo viên'}
+          uploadedFile={uploadedFile}
+        />
         <Paper
           style={{
             marginBottom: '30px',

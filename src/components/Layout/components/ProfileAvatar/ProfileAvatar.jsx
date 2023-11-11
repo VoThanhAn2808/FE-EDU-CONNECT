@@ -3,8 +3,9 @@ import Avatar from '@mui/material/Avatar';
 import Input from '@mui/material/Input';
 import Typography from '@mui/material/Typography';
 import { Box } from '@mui/material';
+import CloudUploadIcon from '@mui/icons-material/CloudUpload';
 
-function ProfileAvatar({ onFileChange, isEditing }) {
+function ProfileAvatar({uploadedFile, userData, onFileChange, isEditing }) {
   const handleFileChange = (event) => {
     const selectedFile = event.target.files[0];
     onFileChange(selectedFile);
@@ -28,39 +29,48 @@ function ProfileAvatar({ onFileChange, isEditing }) {
       >
         Thông tin cá nhân
       </Typography>
-      <Avatar
-        alt='Remy Sharp'
-        src='/static/images/avatar/1.jpg'
+      <Box
         sx={{
-          height: '155px',
-          width: '155px',
+          position: 'relative',
         }}
-      />
-      {isEditing ? (
-        <>
-          <Input
-            id='file-input'
-            type='file'
-            onChange={handleFileChange}
-            style={{ display: 'none' }}
-          />
-          <label htmlFor='file-input'>
-            <Typography
-              variant='contained'
-              sx={{
-                color: '#0072E5',
-                cursor: 'pointer',
+      >
+        <Avatar
+          alt='Remy Sharp'
+          src={uploadedFile ? URL.createObjectURL(uploadedFile) : userData.avt}
+          sx={{
+            height: '155px',
+            width: '155px',
+            filter: isEditing ? 'blur(2px)' : 'none',
+          }}
+        />
+        {isEditing ? (
+          <>
+            <Input
+              id='file-input'
+              type='file'
+              onChange={handleFileChange}
+              style={{
+                display: 'none',
               }}
-            >
-              Upload File
-            </Typography>
-          </label>
-        </>
-      ) : null}
+            />
+            <label htmlFor='file-input'>
+              <CloudUploadIcon
+                sx={{
+                  width: '100px',
+                  height: '100px',
+                  position: 'absolute',
+                  top: '50%',
+                  left: '50%',
+                  transform: 'translate(-50%, -50%)',
+                  color: 'gray',
+                }}
+              />
+            </label>
+          </>
+        ) : null}
+      </Box>
     </Box>
   );
 }
 
 export default ProfileAvatar;
-
-

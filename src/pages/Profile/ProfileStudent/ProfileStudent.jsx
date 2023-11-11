@@ -21,8 +21,11 @@ const ProfileStudent = () => {
     city: 'Quảng Nam',
     gen: 0,
     class: 10,
+    avt: '',
   });
   const [isEditing, setIsEditing] = useState(false);
+  const [uploadedFile, setUploadedFile] = useState(null);
+
 
   const handleInputChange = (field, value) => {
     setUserData({
@@ -32,14 +35,15 @@ const ProfileStudent = () => {
   };
 
   const handleSave = () => {
+    setUserData({
+      ...userData,
+      avt: uploadedFile,
+    });
     setIsEditing(false);
   };
 
   const handleFileChange = (selectedFile) => {
-    setUserData({
-      ...userData,
-      avt: selectedFile,
-    });
+    setUploadedFile(selectedFile);
   };
 
   return (
@@ -51,7 +55,13 @@ const ProfileStudent = () => {
       }}
     >
       <ThemeProvider theme={theme}>
-        <ProfileAvatar onFileChange={handleFileChange} isEditing={isEditing} role={'học sinh'} />
+        <ProfileAvatar
+          userData={userData}
+          onFileChange={handleFileChange}
+          isEditing={isEditing}
+          role={'học sinh'}
+          uploadedFile={uploadedFile}
+        />
         <Paper
           style={{
             marginBottom: '30px',

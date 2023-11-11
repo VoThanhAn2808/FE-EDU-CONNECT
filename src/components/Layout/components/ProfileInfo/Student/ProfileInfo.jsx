@@ -56,6 +56,7 @@ function ProfileInfo({ userData, handleInputChange, isEditing }) {
               id='gen'
               value={userData.gen}
               label='Giới Tính'
+              onChange={(e) => handleInputChange('gen', e.target.value)}
             >
               <MenuItem value={0}>Nam</MenuItem>
               <MenuItem value={1}>Nữ</MenuItem>
