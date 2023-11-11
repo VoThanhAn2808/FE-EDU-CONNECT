@@ -56,7 +56,7 @@ const privateRoute = [
   { path: '/studentgrade', component : StudentGrade, layout : LayoutStudent},
   { path: '/profile-student', component: ProfileStudent, layout: LayoutStudent},
   { path: '/calendarstudent', component: CalendarStudent, layout: LayoutStudent},
-  { path: '/teacherprogramlist', component: TeacherProgramList, layout: LayoutStudent},
+  { path: '/teacherprogramlist/:bookid', component: TeacherProgramList, layout: LayoutStudent},
   { path: '/exerciselist', component : ExerciseListPage, layout : LayoutStaff},
   { path: '/managerstudent', component : ManagerStudent, layout : LayoutStaff},
   { path: '/tutormanagement', component: TutorManagement, layout: LayoutStaff},
@@ -67,7 +67,7 @@ const privateRoute = [
   { path: '/hometutor', component : HomeTutor, layout : LayoutTutor},
   { path: '/calendartutor', component : CalendarTutor, layout : LayoutTutor},
   { path: '/feedbacktutor', component : FeedbackTutor, layout : LayoutTutor},
-  { path: '/booktime', component: BookTime, layout: LoginLayout},
+  { path: '/booktime/:tutorId', component: BookTime, layout: LoginLayout},
   { path: '/thankyou', component: ThankYou, layout: LoginLayout},
 ];
 
