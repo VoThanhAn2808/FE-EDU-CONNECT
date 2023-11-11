@@ -47,26 +47,40 @@ function Header() {
     };
 
     const token = localStorage.getItem('token');
-    const decodedTokenRef = useRef(null); // Create a useRef to store the decoded token
+    const decodedTokenRef = useRef(null);
 
     const [data, setData] = useState([]);
 
     useEffect(() => {
         try {
-            decodedTokenRef.current = jwtDecode(token); // Store the decoded token in the useRef
+          decodedTokenRef.current = jwtDecode(token);
+          const role = decodedTokenRef.current.role;
+      
+          if (role === 1) {
             axios
-                .get(`http://localhost:8081/student/viewstudent?email=${decodedTokenRef.current.sub}`)
-                .then((response) => {
-                    setData(response.data);
-                    console.log(response.data);
-                })
-                .catch((error) => {
-                    console.error(error);
-                });
+              .get(`http://localhost:8081/student/viewstudent?email=${decodedTokenRef.current.sub}`)
+              .then((response) => {
+                setData(response.data);
+                console.log(response.data);
+              })
+              .catch((error) => {
+                console.error(error);
+              });
+          } else if (role === 2) {
+            axios
+              .get(`http://localhost:8081/educonnect/viewTutor?tutorId=${decodedTokenRef.current.id}`)
+              .then((response) => {
+                setData(response.data);
+                console.log(response.data);
+              })
+              .catch((error) => {
+                console.error(error);
+              });
+          }
         } catch (error) {
-            console.error('Error decoding the token:', error);
+          console.error('Error decoding the token:', error);
         }
-    }, [token]); // Ensure that 'token' is in the dependency
+      }, [token]);
 
     return (
         <AppBar position='fixed' sx={{ width: '100%', background: "#F9C01F", zIndex: "5", boxShadow: 'none', height: '70px' }}>
@@ -129,7 +143,7 @@ function Header() {
                                         <IconButton>
                                             <Avatar
                                                 alt={data.fullname}
-                                                src={`http://localhost:8081/edu/file/files/${data.img}`}
+                                                src={data.img}
                                                 sx={{
                                                     height: "55px",
                                                     width: "55px",

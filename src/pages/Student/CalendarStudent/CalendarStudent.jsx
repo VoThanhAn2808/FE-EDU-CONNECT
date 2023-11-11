@@ -154,6 +154,15 @@ function CalendarStudent() {
                     </Table>
                 </TableContainer>
             </Box>
+            <Box sx={{
+                display: "flex",
+                flexDirection: "row",
+                marginTop: "30px",
+                marginLeft : "10px"
+            }}>
+                <Typography sx={{ fontSize: '20px', fontWeight: "700", color: "red" }}>Notes:</Typography>
+                <Typography sx={{ fontSize: '20px', marginLeft: "7px", color: "#5E5D5D" }}> Bạn theo dõi lịch để tham gia đầy đủ các tiết học tránh thiệt thòi cho bạn. </Typography>
+            </Box>
         </Box>
     );
 }

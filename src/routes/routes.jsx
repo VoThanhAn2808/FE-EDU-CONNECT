@@ -53,7 +53,7 @@ const privateRoute = [
   { path: '/listtutorst/:id', component: ListTutorST, layout: LayoutStudent, allowedRoles: ["student"]},
   { path: '/homestudent', component: HomeStudent, layout: LayoutStudent, allowedRoles: ["student"]},
   { path: '/booktutorst/:tutorid/:classcourseid', component: BookTutorSTPage, layout: LayoutStudent, allowedRoles: ["student"]},
-  { path: '/studentgrade', component : StudentGrade, layout : LayoutStudent, allowedRoles: ["student"]},
+  { path: '/studentgrade/:bookid', component : StudentGrade, layout : LayoutStudent, allowedRoles: ["student"]},
   { path: '/profile-student', component: ProfileStudent, layout: LayoutStudent, allowedRoles: ["student"]},
   { path: '/calendarstudent', component: CalendarStudent, layout: LayoutStudent, allowedRoles: ["student"]},
   { path: '/teacherprogramlist/:bookid', component: TeacherProgramList, layout: LayoutStudent, allowedRoles: ["student"]},

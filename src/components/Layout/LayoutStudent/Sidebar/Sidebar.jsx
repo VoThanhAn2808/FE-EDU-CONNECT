@@ -133,7 +133,7 @@ const Sidebar = () => {
             <ListItemButton sx={{ pl: 3 }} key={index}>
               <ListItemIcon></ListItemIcon>
               <Typography sx={{ fontSize: '13px', marginRight: 'auto', fontWeight: 'bold' }}>
-                <Link to="/studentgrade" style={{ color: "black", textDecoration: "none" }}>{item.courseName} {item.classname}</Link>
+                <Link to={`/studentgrade/${item.bookid}`} style={{ color: "black", textDecoration: "none" }}>{item.courseName} {item.classname}</Link>
               </Typography>
             </ListItemButton>
             ))}
