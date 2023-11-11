@@ -17,6 +17,7 @@ function TeacherProgramList() {
     const [file, setFiles] = useState([]);
     const [video, setVideo] = useState([]);
     const [classs, setClasss] = useState([]);
+    const [home, setHome] = useState([]);
     useEffect(() => {
         axios
             .get(`http://localhost:8081/course/tutorexercise?bookid=${bookid}`)
@@ -73,6 +74,17 @@ function TeacherProgramList() {
                 console.error(error);
             });
     }, [bookid]);
+    useEffect(() => {
+        axios
+            .get(`http://localhost:8081/exersice/homeworkexercise?bookid=${bookid}`)
+            .then((response) => {
+                setHome(response.data);
+                console.log(response.data);
+            })
+            .catch((error) => {
+                console.error(error);
+            });
+    }, [bookid]);
 
     return (
         <Box sx={{
@@ -122,10 +134,16 @@ function TeacherProgramList() {
                             }
                             return null;
                         })}
-                        <Box sx={{ display: "flex", alignItems: "center" }}>
-                            <HomeWorkIcon sx={{ fontSize: "25px", marginLeft: "4%" }} />
-                            <Typography sx={{ fontSize: "25px", marginLeft: "1%" }}> Tên Homework</Typography>
-                        </Box>
+                        {home.map((homew) => {
+                            if (homew.exerciseid === item.exerciseid) {
+                                return (
+                                    <Box sx={{ display: "flex", alignItems: "center" }} key={homew.homeworkid}>
+                                        <HomeWorkIcon sx={{ fontSize: "25px", marginLeft: "4%" }} />
+                                        <Typography sx={{ fontSize: "25px", marginLeft: "1%" }}> {homew.files}</Typography>
+                                    </Box>
+                                );
+                            }return null;
+                        })}
                     </Box>
                 ))}
             </Box>
