@@ -14,7 +14,7 @@ function SignupPage() {
   const [isStudent, setIsStudent] = useState(false); // Biến trạng thái cho lựa chọn Học sinh/Giáo viên
   const [isTeacher, setIsTeacher] = useState(false);
   const [selectedClass, setSelectedClass] = useState(''); // Biến trạng thái cho lựa chọn lớp
-  const [files, setFiles] = useState('');
+  const [files, setFiles] = useState(null);
   const [email, setEmail] = useState('');
   const [password, setPassword] = useState('');
   const [name, setName] = useState('');
@@ -34,41 +34,27 @@ function SignupPage() {
 
   const handleSubmit = async (event) => {
     event.preventDefault();
-
-    const config = {
-      headers: {
-        "Content-Type": "application/json",
-      },
-    };
-    // const configs = {
-    //   headers: {
-    //     "Content-Type": "multipart/form-data",
-    //   },
-    // };
-
     try {
+      const formData = new FormData();
+      formData.append('fullname', name);
+      formData.append('email', email);
+      formData.append('password', password);
+      formData.append('phone', phone);
+      formData.append('role', age);
+      formData.append('classentity', selectedClass ? selectedClass : 1);
+      formData.append('file', files);
+
       const response = await axios.post(
         "http://localhost:8081/edu/register",
+        formData,
         {
-          fullname: name,
-          email: email,
-          passwork: password,
-          phone: phone,
-          role: age,
-          option: selectedClass ? selectedClass : files,
-        },
-        config
+          headers: {
+            "Content-Type": "multipart/form-data",
+          },
+        }
       );
-      // const formData = new FormData();
-      // formData.append("file", files);
-      // const fileUploadResponse = await axios.post(
-      //   "http://localhost:8081/edu/file/upload",
-      //   formData,
-      //   configs
-      // );
 
-      // console.log(fileUploadResponse.data);
-      window.location.href = '/login';
+      window.location.href = "/login";
       console.log(response.data);
     } catch (error) {
       console.error(error);
@@ -95,7 +81,8 @@ function SignupPage() {
   };
 
   const handleUploadFile = (event) => {
-    setFiles(event.target.value);
+    const selectedFile = event.target.files[0];
+    setFiles(selectedFile);
   };
 
   const VisuallyHiddenInput = styled('input')({

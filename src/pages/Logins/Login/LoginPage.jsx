@@ -41,32 +41,15 @@ function LoginPage() {
       localStorage.setItem("token", token);
 
       const decodedToken = jwtDecode(token);
-      const userId = decodedToken.sub;
-
-      let studentData = null; // Khởi tạo biến studentData
-
-      const getStudentData = async () => {
-        try {
-          const studentResponse = await axios.get(
-            `http://localhost:8081/student/viewstudent?email=${userId}`
-          );
-          studentData = studentResponse.data;
-          console.log(studentData);
-        } catch (error) {
-          console.error(error);
-        }
-      };
-
-      await getStudentData(); // Gọi hàm lấy thông tin sinh viên
-
-      if (studentData !== null) {
+      
+      if (decodedToken.role === 1) {
         window.location.href = "/homestudent";
-      } else {
-        window.location.href = "/login";
-        console.log("Không có thông tin sinh viên");
+      } else if(decodedToken.role === 2) {
+        window.location.href = "/hometutor";
+      }else if(decodedToken.role === 3){
+        window.location.href = "/managerstudent"
       }
       console.log(response.data);
-      console.log(userId);
 
       // Điều hướng đến trang chính hoặc trang khác tùy theo logic của ứng dụng
     } catch (error) {
