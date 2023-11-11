@@ -147,7 +147,6 @@ function Header() {
                                     </Box>
                                 </Tooltip>
                             ) : (
-
                                 <Box>
                                     <Link to="/login"><Button variant="contained" color="success" sx={{ backgroundColor: "#C6D331", color: "white", fontSize: "13px", fontWeight: "600", marginRight: "5px" }}>Đăng nhập</Button></Link>
                                     <Link to="/signup"><Button variant="contained" color='error' sx={{ backgroundColor: "#C6D331", color: "white", fontSize: "13px", fontWeight: "600" }}>Đăng ký</Button></Link>
