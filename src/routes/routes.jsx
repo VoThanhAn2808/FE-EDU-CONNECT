@@ -32,6 +32,7 @@ import HomeTutor from '../pages/Tutor/HomeTutor/HomeTutor';
 import Feedback from '../pages/Student/FeedBack/FeedBackPage';
 import ManagerStudent from '../pages/Tutor/ManagerStudent/ManagerStudentPage';
 import FeedbackTutor from '../pages/Tutor/Feedback/Feedback';
+import SubmitExercise from '../pages/Student/ExerciseHistory/SubmitExercise';
 import ListTutorST from '../pages/Student/ListTutor/ListTutorStPage';
 import BookTutorSTPage from '../pages/Student/BookTutor/BookTutorSTPage';
 
@@ -49,26 +50,27 @@ const publicRoute = [
   { path: '/changepass', component: ChangePassword, layout: LoginLayout},
 ];
 const privateRoute = [
-  { path: '/demo', component : DemoPage, layout: LayoutStudent, allowedRoles: ["student"]},
-  { path: '/listtutorst/:id', component: ListTutorST, layout: LayoutStudent, allowedRoles: ["student"]},
-  { path: '/homestudent', component: HomeStudent, layout: LayoutStudent, allowedRoles: ["student"]},
-  { path: '/booktutorst/:tutorid/:classcourseid', component: BookTutorSTPage, layout: LayoutStudent, allowedRoles: ["student"]},
-  { path: '/studentgrade/:bookid', component : StudentGrade, layout : LayoutStudent, allowedRoles: ["student"]},
-  { path: '/profile-student', component: ProfileStudent, layout: LayoutStudent, allowedRoles: ["student"]},
-  { path: '/calendarstudent', component: CalendarStudent, layout: LayoutStudent, allowedRoles: ["student"]},
-  { path: '/teacherprogramlist/:bookid', component: TeacherProgramList, layout: LayoutStudent, allowedRoles: ["student"]},
-  { path: '/feedback', component : Feedback, layout : LoginLayout, allowedRoles: ["student"]},
-  { path: '/booktime/:tutorId', component: BookTime, layout: LoginLayout, allowedRoles: ["student"]},
-  { path: '/thankyou', component: ThankYou, layout: LoginLayout, allowedRoles: ["student"]},
-  { path: '/hometutor', component : HomeTutor, layout : LayoutTutor, allowedRoles: ["tutor"]},
-  { path: '/calendartutor', component : CalendarTutor, layout : LayoutTutor, allowedRoles: ["tutor"]},
-  { path: '/feedbacktutor', component : FeedbackTutor, layout : LayoutTutor, allowedRoles: ["tutor"]},
-  { path: '/exerciselist', component : ExerciseListPage, layout : LayoutStaff, allowedRoles: ["staff"]},
-  { path: '/managerstudent', component : ManagerStudent, layout : LayoutStaff, allowedRoles: ["staff"]},
-  { path: '/tutormanagement', component: TutorManagement, layout: LayoutStaff, allowedRoles: ["staff"]},
-  { path: '/coursemanagement', component: CourseManagement, layout: LayoutStaff, allowedRoles: ["staff"]},
-  { path: '/studentmanagement', component: StudentManagement, layout: LayoutStaff, allowedRoles: ["staff"]},
-  { path: '/trylearningmanagement', component: TryLearningManagement, layout: LayoutStaff, allowedRoles: ["staff"]},
+  { path: '/demo', component: DemoPage, layout: LayoutStudent, allowedRoles: ["student"] },
+  { path: '/listtutorst/:id', component: ListTutorST, layout: LayoutStudent, allowedRoles: ["student"] },
+  { path: '/homestudent', component: HomeStudent, layout: LayoutStudent, allowedRoles: ["student"] },
+  { path: '/booktutorst/:tutorid/:classcourseid', component: BookTutorSTPage, layout: LayoutStudent, allowedRoles: ["student"] },
+  { path: '/studentgrade/:bookid', component: StudentGrade, layout: LayoutStudent, allowedRoles: ["student"] },
+  { path: '/profile-student', component: ProfileStudent, layout: LayoutStudent, allowedRoles: ["student"] },
+  { path: '/calendarstudent', component: CalendarStudent, layout: LayoutStudent, allowedRoles: ["student"] },
+  { path: '/teacherprogramlist/:bookid', component: TeacherProgramList, layout: LayoutStudent, allowedRoles: ["student"] },
+  { path: '/feedback', component: Feedback, layout: LoginLayout, allowedRoles: ["student"] },
+  { path: '/booktime/:tutorId', component: BookTime, layout: LoginLayout, allowedRoles: ["student"] },
+  { path: '/thankyou', component: ThankYou, layout: LoginLayout, allowedRoles: ["student"] },
+  { path: '/submitExercise', component: SubmitExercise, layout: LayoutStudent , allowedRoles: ["student"]},
+  { path: '/hometutor', component: HomeTutor, layout: LayoutTutor, allowedRoles: ["tutor"] },
+  { path: '/calendartutor', component: CalendarTutor, layout: LayoutTutor, allowedRoles: ["tutor"] },
+  { path: '/feedbacktutor', component: FeedbackTutor, layout: LayoutTutor, allowedRoles: ["tutor"] },
+  { path: '/exerciselist', component: ExerciseListPage, layout: LayoutStaff, allowedRoles: ["staff"] },
+  { path: '/managerstudent', component: ManagerStudent, layout: LayoutStaff, allowedRoles: ["staff"] },
+  { path: '/tutormanagement', component: TutorManagement, layout: LayoutStaff, allowedRoles: ["staff"] },
+  { path: '/coursemanagement', component: CourseManagement, layout: LayoutStaff, allowedRoles: ["staff"] },
+  { path: '/studentmanagement', component: StudentManagement, layout: LayoutStaff, allowedRoles: ["staff"] },
+  { path: '/trylearningmanagement', component: TryLearningManagement, layout: LayoutStaff, allowedRoles: ["staff"] },
 ];
 
 export { publicRoute, privateRoute };
