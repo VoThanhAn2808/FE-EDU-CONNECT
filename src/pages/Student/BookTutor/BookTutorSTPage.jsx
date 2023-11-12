@@ -7,12 +7,11 @@ import MoreHorizIcon from '@mui/icons-material/MoreHoriz';
 import Rating from '@mui/material/Rating';
 import StarIcon from '@mui/icons-material/Star';
 import Button from '@mui/material/Button';
-import subject from "../../assests/subject.png";
 import { Link, useParams } from "react-router-dom";
 import axios from "axios";
 import { jwtDecode } from "jwt-decode";
 
-function BookTutorPage() {
+function BookTutorSTPage() {
 
     const [data, setData] = useState([]);
 
@@ -79,9 +78,9 @@ function BookTutorPage() {
 
         const config = {
             headers: {
-              'Content-Type': 'multipart/form-data',
+                'Content-Type': 'multipart/form-data',
             },
-          };
+        };
 
         try {
             const response = await axios.post(
@@ -141,7 +140,7 @@ function BookTutorPage() {
                         </Typography>
                         <Rating
                             name="five-star-rating"
-                            value={data.ranks}
+                            value={data.ranks ?? 0}  // Provide a default value of 0 if data.ranks is undefined
                             max={5}
                             readOnly
                             emptyIcon={<StarIcon style={{ fontSize: '30px', color: '#e0e0e0' }} />}
@@ -151,6 +150,7 @@ function BookTutorPage() {
                                 marginLeft: '5%'
                             }}
                         />
+
                         <form onSubmit={handleSubmit}>
                             <Box className="button">
                                 <Button
@@ -181,11 +181,11 @@ function BookTutorPage() {
                     {course.map((item, index) => (
                         <Grid item xs={3} key={index}>
                             <Box className='top4couse'>
-                                <img src={subject} alt={item.courseName} className="courseimg" />
+                                <img src={`http://localhost:8081/edu/file/files/${item.img}`} alt={item.courseName} className="courseimg" />
                                 <Typography className="namebook">
                                     {item.courseName} {item.level}
                                 </Typography>
-                                <Box sx={{ display: 'flex' }} >
+                                <Box sx={{ display: 'flex', marginBottom: '20px', marginTop: '10px' }}>
                                     <Typography className="numberpeople">
                                         <PersonIcon className="total" />
                                         {item.CountStudent}
@@ -242,4 +242,4 @@ function BookTutorPage() {
     );
 };
 
-export default BookTutorPage;
+export default BookTutorSTPage;

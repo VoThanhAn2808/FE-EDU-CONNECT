@@ -6,7 +6,7 @@ import StarIcon from '@mui/icons-material/Star';
 import { Link, useParams } from "react-router-dom";
 import axios from "axios";
 
-function ListTutor() {
+function ListTutorST() {
     const [data, setData] = useState([]);
     const { id } = useParams();
     const [pages, setPages] = useState(1);
@@ -133,7 +133,7 @@ function ListTutor() {
                                     <Typography className="inforsubject">
                                         <PersonIcon className="total" />
                                         {item.CountStudent}</Typography>
-                                    <Link to={`/booktutor/${item.tutorid}/${item.classcourseid}`}>
+                                    <Link to={`/booktutorst/${item.tutorid}/${item.classcourseid}`}>
                                         <Button variant="contained" color="primary"
                                             sx={{
                                                 height: '20px',
@@ -184,7 +184,7 @@ function ListTutor() {
                                         <Typography className="inforsubject">
                                             <PersonIcon />
                                             {items.CountStudent}</Typography>
-                                        <Link to="/booktutor">
+                                        <Link to={`/booktutorst/${items.tutorid}/${items.classcourseid}`}>
                                             <Button variant="contained" color="primary"
                                                 sx={{
                                                     height: '20px',
@@ -207,4 +207,4 @@ function ListTutor() {
     );
 }
 
-export default ListTutor;
+export default ListTutorST;

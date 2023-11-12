@@ -1,10 +1,49 @@
 import { Button, Typography } from "@mui/material";
 import { Box } from "@mui/system";
-import React from "react";
+import React, { useEffect, useState } from "react";
 import thank from "../../../assests/Thankyou.jpg";
-import { Link } from "react-router-dom";
+import { jwtDecode } from "jwt-decode";
+import axios from "axios";
 
 function ThankYou() {
+
+    const decodedToken = jwtDecode(localStorage.getItem('token'));
+
+    const [student, setStudent] = useState([]);
+
+    useEffect(() => {
+        axios.get("http://localhost:8081/student/viewstudent?email=" + decodedToken.sub)
+            .then((response) => {
+                setStudent(response.data);
+                console.log(response.data);
+            })
+            .catch((error) => {
+                console.error(error);
+            });
+    }, [decodedToken.sub]);
+
+    const handleSubmit = async (event) => {
+        event.preventDefault();
+
+        const config = {
+            headers: {
+                'Content-Type': 'application/json',
+            },
+        };
+
+        try {
+            const response = await axios.get(
+                `http://localhost:8081/book/paydone?studentid=${student.studentid}`,
+                config
+            );
+            window.location.href = '/homestudent';
+            console.log(response.data);
+        } catch (error) {
+            console.error(error);
+            console.log(error.response.data);
+        }
+    };
+
     return (
         <Box>
             <Box sx={{ marginTop: '30px', marginLeft: '5%' }}>
@@ -59,9 +98,9 @@ function ThankYou() {
                     <img src={thank} alt="thank" style={{ width: '65%' }} />
                     <Typography sx={{ fontSize: '20px', fontFamily: 'cursive', marginLeft: '10%' }}>Cảm ơn bạn đã tin cậy sử dụng dịch vụ của chúng tôi</Typography>
                     <Typography sx={{ fontSize: '20px', fontFamily: 'cursive', marginLeft: '20%' }}>Chúc bạn một ngày tốt lành</Typography>
-                    <Link to = '/homestudent'>
-                        <Button sx={{ marginLeft: '22%', fontSize: '15px', fontFamily: 'cursive' }}>Quay về trang home</Button>
-                    </Link>
+                    
+                    <Button onClick={handleSubmit} sx={{ marginLeft: '22%', fontSize: '15px', fontFamily: 'cursive' }}>Quay về trang home</Button>
+
                 </Box>
             </Box>
         </Box>);

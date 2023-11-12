@@ -1,4 +1,4 @@
-import React, { useEffect, useState } from "react";
+import React, { useCallback, useEffect, useState } from "react";
 import "./HomeStudent.css";
 import { Box, Button, Grid, Typography } from "@mui/material";
 import Slide from "../../Guest/Home/Slide/Slide";
@@ -14,43 +14,48 @@ import { Link } from "react-router-dom";
 import { jwtDecode } from 'jwt-decode';
 
 function Home() {
-
+    const [user, setUser] = useState([]);
+    const [course, setStudentData] = useState([]);
     const decodedToken = jwtDecode(localStorage.getItem('token'));
     const userId = decodedToken.sub;
 
-    const [user, setUser] = useState([]);
-
-    const fetchUserData = (userId) => {
-        axios
-          .get("http://localhost:8081/student/viewstudent?email=" + userId)
-          .then((response) => {
+    const fetchUser = useCallback(async () => {
+        try {
+            const response = await axios.get(
+                `http://localhost:8081/student/viewstudent?email=${userId}`,
+                {
+                    headers: {
+                        "Content-Type": "application/json",
+                    },
+                }
+            );
             setUser(response.data);
-            console.log(response.data);
-          })
-          .catch((error) => {
+        } catch (error) {
             console.error(error);
-          });
-      };
+        }
+    }, [userId]);
 
-      useEffect(() => {
-        fetchUserData(userId);
-      }, [userId]);
-
-    const student = user.class;
-
-    const [course, setCourse] = useState([]);
+    const fetchStudentData = useCallback(async () => {
+        try {
+            const studentResponse = await axios.get(
+                `http://localhost:8081/course/listcourseforstudent?classcourseid=${user.classId}&studentid=${user.studentid}`
+            );
+            setStudentData(studentResponse.data);
+        } catch (error) {
+            console.error(error);
+        }
+    },[user.classId, user.studentid]);
 
     useEffect(() => {
-        axios
-            .get("http://localhost:8081/course/findCourseByClass?classcourseid=" + student)
-            .then((response) => {
-                setCourse(response.data);
-                console.log(response.data);
-            })
-            .catch((error) => {
-                console.error(error);
-            });
-    }, [student]);
+        fetchUser();
+    }, [userId, fetchUser]);
+
+    useEffect(() => {
+        if (user.classId && user.studentid) {
+            fetchStudentData();
+        }
+    }, [user.classId, user.studentid, fetchStudentData]);
+
 
     const [data, setData] = useState([]);
 
@@ -123,7 +128,7 @@ function Home() {
                                             <PersonIcon className="total" />
                                             {item.CountStudent}
                                         </Typography>
-                                        <Link to={`/listtutor/${item.classCourseId}`}>
+                                        <Link to={`/listtutorst/${item.classCourseId}`}>
                                             <Button
                                                 variant="contained"
                                                 color="primary"
@@ -159,7 +164,7 @@ function Home() {
                                 <Typography sx={{ fontSize: '15px', fontWeight: '700', textAlign: 'center', marginTop: '5px' }}>
                                     Gia sư
                                 </Typography>
-                                <img src={`http://localhost:8081/edu/file/files/${item.img}`} alt="subject" className="imgtutor" />
+                                <img src={`http://localhost:8081/edu/file/files/${item.img}`} alt="subject" className="courseimg" />
                                 <Rating
                                     name="five-star-rating"
                                     value={item.ranks}
