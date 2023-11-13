@@ -116,7 +116,7 @@ function ListTutor() {
                             <Box className='container'>
                                 <Typography sx={{ fontSize: '15px', fontFamily: 'cursive' }}>Gia sư dạy</Typography>
                                 <Typography sx={{ fontFamily: 'cursive', fontSize: '12px' }}>{item.coursename} {item.classentity}</Typography>
-                                <img src={`http://localhost:8081/edu/file/files/${item.img}`} alt={item.fullname} style={{ width: '50%', height: '100%' }} />
+                                <img src={item.img} alt={item.fullname} style={{ width: '50%', height: '100%' }} />
                                 <Typography className="nameTutor">{item.fullname}</Typography>
                                 <Rating
                                     name="five-star-rating"
