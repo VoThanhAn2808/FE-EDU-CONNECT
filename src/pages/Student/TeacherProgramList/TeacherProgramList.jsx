@@ -1,12 +1,14 @@
 import React, { useEffect, useState } from "react";
-import { Box, Typography } from "@mui/material";
+import { Box, Typography, Link as Links } from "@mui/material";
 import "./TeacherProgramList.css"
 import SchoolIcon from '@mui/icons-material/School';
-import { useParams } from "react-router-dom";
+import { Link, useParams } from "react-router-dom";
 import axios from "axios";
 import InsertDriveFileIcon from '@mui/icons-material/InsertDriveFile';
 import HomeWorkIcon from '@mui/icons-material/HomeWork';
 import PersonalVideoIcon from '@mui/icons-material/PersonalVideo';
+import RadioButtonUncheckedIcon from '@mui/icons-material/RadioButtonUnchecked';
+import RadioButtonCheckedIcon from '@mui/icons-material/RadioButtonChecked';
 
 
 function TeacherProgramList() {
@@ -94,55 +96,71 @@ function TeacherProgramList() {
                 <Typography sx={{ fontSize: "40px", marginLeft: "2%", fontFamily: "cursive", paddingBottom: "20px" }}>{data.fullname} - {data.course} {data.classname}</Typography>
                 <Box sx={{ display: 'flex' }}>
                     <Typography sx={{ fontSize: "25px", marginLeft: "2%", fontFamily: "cursive" }}>Tab chính/{data.course} {data.classname}/{data.fullname}</Typography>
-                    <Typography sx={{ fontSize: "19px", marginLeft: "auto", marginRight: '2%', fontFamily: "cursive" }}>Ngày bắt đầu : {data.startdate}  - Ngày kết thúc: {data.enddate}</Typography>
+                    <Typography sx={{ fontSize: "19px", marginLeft: "auto", marginRight: '2%', fontFamily: "cursive" }}>{` ${data.startdate} - ${data.enddate}`}</Typography>
                 </Box>
             </Box>
             <Box sx={{ border: '1px solid #ccc', p: 2, marginLeft: "1%", marginRight: "1%", marginBottom: '50px' }} >
                 {exercise.map((item, ex) => (
                     <Box sx={{ height: "100%", borderRadius: "5px", backgroundColor: "#BFBDBD", marginTop: "1%" }} key={ex}>
                         <Typography sx={{ fontSize: "35px", fontFamily: "cursive", marginLeft: "2%", paddingTop: "1%" }}>{item.title}</Typography>
-                        {file.map((files) => {
+                        {file.map((files, keyf) => {
                             if (files.exerciseid === item.exerciseid) {
                                 return (
-                                    <Box sx={{ display: "flex", alignItems: "center" }} key={files.fileid}>
+                                    <Box sx={{ display: "flex", alignItems: "center" }} key={keyf}>
                                         <InsertDriveFileIcon sx={{ fontSize: "25px", marginLeft: "4%" }} />
                                         <Typography sx={{ fontSize: "25px", marginLeft: "1%" }}> {files.namefile}</Typography>
+                                        {files.status === 0 ? (
+                                            <RadioButtonUncheckedIcon sx={{ marginLeft: 'auto', marginRight: '3%' }} />
+                                        ) : (
+                                            <RadioButtonCheckedIcon sx={{ marginLeft: 'auto', marginRight: '3%' }} />
+                                        )}
                                     </Box>
                                 );
                             }
                             return null;
                         })}
-                        {video.map((vd) => {
+                        {video.map((vd, kvd) => {
                             if (vd.exerciseid === item.exerciseid) {
                                 return (
-                                    <Box sx={{ display: "flex", alignItems: "center" }} key={vd.videoid}>
+                                    <Box sx={{ display: "flex", alignItems: "center" }} key={kvd}>
                                         <PersonalVideoIcon sx={{ fontSize: "25px", marginLeft: "4%" }} />
                                         <Typography sx={{ fontSize: "25px", marginLeft: "1%" }}> {vd.namevideo}</Typography>
+                                        {vd.status === 0 ? (
+                                            <RadioButtonUncheckedIcon sx={{ marginLeft: 'auto', marginRight: '3%' }} />
+                                        ) : (
+                                            <RadioButtonCheckedIcon sx={{ marginLeft: 'auto', marginRight: '3%' }} />
+                                        )}
                                     </Box>
                                 );
                             }
                             return null;
                         })}
-                        {classs.map((cl) => {
+                        {classs.map((cl, kcl) => {
                             if (cl.exerciseid === item.exerciseid) {
                                 return (
-                                    <Box sx={{ display: "flex", alignItems: "center" }} key={cl.classroomid}>
-                                        <SchoolIcon sx={{ fontSize: "25px", marginLeft: "4%" }} />
-                                        <Typography sx={{ fontSize: "25px", marginLeft: "1%" }}> {cl.nameclassroom}</Typography>
-                                    </Box>
+                                    <Links href={cl.link} style={{ textDecoration: 'none', color: 'black' }} target="_blank" key={kcl}>
+                                        <Box sx={{ display: "flex", alignItems: "center" }} >
+                                            <SchoolIcon sx={{ fontSize: "25px", marginLeft: "4%" }} />
+                                            <Typography sx={{ fontSize: "25px", marginLeft: "1%" }}> {cl.nameclassroom}</Typography>
+                                        </Box>
+                                    </Links>
                                 );
                             }
                             return null;
                         })}
-                        {home.map((homew) => {
+                        {home.map((homew, khome) => {
                             if (homew.exerciseid === item.exerciseid) {
                                 return (
-                                    <Box sx={{ display: "flex", alignItems: "center" }} key={homew.homeworkid}>
-                                        <HomeWorkIcon sx={{ fontSize: "25px", marginLeft: "4%" }} />
-                                        <Typography sx={{ fontSize: "25px", marginLeft: "1%" }}> {homew.files}</Typography>
+                                    <Box key={khome}>
+                                        <Link to={`/submitExercise/${homew.homeworkid}`} style={{ textDecoration: "none", color: "black" }}>
+                                            <Box sx={{ display: "flex", alignItems: "center" }} >
+                                                <HomeWorkIcon sx={{ fontSize: "25px", marginLeft: "4%" }} />
+                                                <Typography sx={{ fontSize: "25px", marginLeft: "1%" }}> {homew.files}</Typography>
+                                            </Box>
+                                        </Link>
                                     </Box>
                                 );
-                            }return null;
+                            } return null;
                         })}
                     </Box>
                 ))}

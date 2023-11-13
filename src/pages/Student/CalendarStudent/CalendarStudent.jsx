@@ -125,7 +125,7 @@ function CalendarStudent() {
                         <TableBody>
                             {data.map((itime, indextime) => (
                                 <TableRow key={indextime}>
-                                    <TableCell sx={{ border: '1px solid #000000', width: '140px', height: '100px', backgroundColor: '#71C763', color: 'white', textAlign: 'center', fontSize: '15px', fontFamily: 'cursive' }}>{itime.timeline}</TableCell>
+                                    <TableCell sx={{ border: '1px solid #000000', width: '140px', height: '100px', backgroundColor: '#71C763', color: 'white', textAlign: 'center', fontSize: '15px', fontFamily: 'cursive' }}>{itime.timeline} - {itime.endtime}</TableCell>
                                     {daysOfWeek.map((day, keydate) => {
                                         const item = scheduleData.find((data) => data.lessonline === day.lessonline && data.timeline === itime.timeline);
                                         return (
