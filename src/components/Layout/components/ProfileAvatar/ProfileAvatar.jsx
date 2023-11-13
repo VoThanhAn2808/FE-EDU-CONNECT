@@ -1,74 +1,100 @@
-import React from 'react';
-import Avatar from '@mui/material/Avatar';
-import Input from '@mui/material/Input';
-import Typography from '@mui/material/Typography';
-import { Box } from '@mui/material';
+import React, { useState } from 'react';
 import CloudUploadIcon from '@mui/icons-material/CloudUpload';
+import Avatar from '@mui/material/Avatar';
+import Box from '@mui/material/Box';
+import PersonIcon from '@mui/icons-material/Person';
 
-function ProfileAvatar({uploadedFile, userData, onFileChange, isEditing }) {
+function ProfileAvatar() {
+  const [profilePic, setProfilePic] = useState('');
+  const [isHovered, setIsHovered] = useState(false);
+
   const handleFileChange = (event) => {
-    const selectedFile = event.target.files[0];
-    onFileChange(selectedFile);
+    const file = event.target.files[0];
+    const reader = new FileReader();
+
+    reader.onload = (e) => {
+      setProfilePic(e.target.result);
+    };
+
+    reader.readAsDataURL(file);
+  };
+
+  const handleUploadClick = () => {
+    document.getElementById('file-upload').click();
   };
 
   return (
     <Box
       sx={{
-        display: 'flex',
-        alignItems: 'center',
-        flexDirection: 'column',
+        position: 'relative',
+        height: '200px',
+        width: '200px',
+        margin: '50px auto',
+        borderRadius: '50%',
+        overflow: 'hidden',
+        boxShadow: '1px 1px 15px -5px black',
+        transition: 'all .3s ease',
+        transform: isHovered ? 'scale(1.05)' : 'scale(1)',
+        cursor: 'pointer',
       }}
+      onMouseEnter={() => setIsHovered(true)}
+      onMouseLeave={() => setIsHovered(false)}
+      onClick={handleUploadClick}
     >
-      <Typography
-        variant='h4'
-        color='initial'
+      <Avatar
+        className="profile-pic"
         sx={{
-          textAlign: 'center',
-          marginY: '30px',
+          height: '100%',
+          width: '100%',
+          transition: 'all .3s ease',
+          position: 'relative',
+          borderRadius: '50%',
+          filter: isHovered ? 'brightness(80%)' : 'none',
         }}
+        src={profilePic}
       >
-        Thông tin cá nhân
-      </Typography>
+        {!profilePic && (
+          <PersonIcon
+            sx={{
+              position: 'absolute',
+              top: '50%',
+              left: '50%',
+              transform: 'translate(-50%, -50%)',
+              fontSize: '150px',
+              color: '#34495e',
+              opacity: isHovered ? 0.5 : 1,
+            }}
+          />
+        )}
+      </Avatar>
       <Box
         sx={{
-          position: 'relative',
+          position: 'absolute',
+          top: 0,
+          left: 0,
+          height: '100%',
+          width: '100%',
+          display: 'flex',
+          alignItems: 'center',
+          justifyContent: 'center',
+          opacity: isHovered ? 0.9 : 0,
+          transition: 'opacity .3s ease',
         }}
       >
-        <Avatar
-          alt='Remy Sharp'
-          src={uploadedFile ? URL.createObjectURL(uploadedFile) : userData.avt}
+        <CloudUploadIcon
           sx={{
-            height: '155px',
-            width: '155px',
-            filter: isEditing ? 'blur(2px)' : 'none',
+            fontSize: '234px',
+            color: '#34495e',
           }}
         />
-        {isEditing ? (
-          <>
-            <Input
-              id='file-input'
-              type='file'
-              onChange={handleFileChange}
-              style={{
-                display: 'none',
-              }}
-            />
-            <label htmlFor='file-input'>
-              <CloudUploadIcon
-                sx={{
-                  width: '100px',
-                  height: '100px',
-                  position: 'absolute',
-                  top: '50%',
-                  left: '50%',
-                  transform: 'translate(-50%, -50%)',
-                  color: 'gray',
-                }}
-              />
-            </label>
-          </>
-        ) : null}
       </Box>
+      <input
+        id="file-upload"
+        type="file"
+        accept="image/*"
+        style={{ display: 'none' }}
+        onChange={handleFileChange}
+      />
     </Box>
   );
 }
