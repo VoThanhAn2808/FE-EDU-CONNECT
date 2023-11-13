@@ -3,6 +3,7 @@ import Button from '@mui/material/Button';
 import ProfileAvatar from '../../../components/Layout/components/ProfileAvatar/ProfileAvatar';
 import UserProfileInfo from '../../../components/Layout/components/ProfileInfo/Student/ProfileInfo';
 import { Box, Paper, ThemeProvider, createTheme } from '@mui/material';
+import { Link } from 'react-router-dom';
 
 const theme = createTheme({
   typography: {
@@ -11,18 +12,8 @@ const theme = createTheme({
   },
 });
 
-const ProfileStudent = () => {
+const ProfileStudents = () => {
   const [userData, setUserData] = useState({
-    name: '',
-    email: '',
-    address: '',
-    phone: '',
-    dateOfBirth: null,
-    district: '',
-    city: '',
-    gen: 0,
-    class: 0,
-    avt: '',
   });
   const [isEditing, setIsEditing] = useState(true);
   const [uploadedFile, setUploadedFile] = useState(null);
@@ -80,9 +71,11 @@ const ProfileStudent = () => {
             isEditing={isEditing}
           />
           {isEditing ? (
-            <Button variant="contained" onClick={handleSave}>
-              Lưu
-            </Button>
+            <Link to="/homestudent">
+              <Button variant="contained" onClick={handleSave}>
+                Lưu
+              </Button>
+            </Link>
           ) : (
             <Button variant="contained" onClick={() => setIsEditing(true)}>
               Chỉnh Sửa
@@ -94,4 +87,4 @@ const ProfileStudent = () => {
   );
 };
 
-export default ProfileStudent;
+export default ProfileStudents;

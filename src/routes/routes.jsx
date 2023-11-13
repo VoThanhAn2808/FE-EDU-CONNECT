@@ -14,7 +14,6 @@ import ProfileTeacher from '../pages/Profile/ProfileTeacher/ProfileTeacher';
 import SignUp from "../pages/Logins/SignUp/SignUpPage";
 import BookTutorPage from "../pages/BookTutor/BookTutorPage";
 import SubjectPage from "../pages/Guest/ListSubject/SubjectPage";
-import PhysicsExperiment from "../pages/PhysicsExperiment/PhysicsExperiment";
 import ListTutor from '../pages/ListTutor/ListTutorPage';
 import TeacherProgramList from '../pages/Student/TeacherProgramList/TeacherProgramList';
 import BookTime from '../pages/Student/BookTime/BookTimePage';
@@ -37,12 +36,12 @@ import BookTutorSTPage from '../pages/Student/BookTutor/BookTutorSTPage';
 import CalendarTutorSelect from '../pages/Tutor/CalendarTutorSelect/CalendarTutorSelect';
 import HomeWorkTutor from '../pages/Tutor/HomeWorkTutor/HomeWorkTutor';
 import HomeWorkTutorList from '../pages/Tutor/HomeWorkTutorList/HomeWorkTutorList';
+import ProfileStudents from '../pages/Student/Profile/ProfileStudents';
 
 const publicRoute = [
   { path: '/', component: Home, layout: DefaultLayout, allowedRoles: ["default"]},
   { path: '/subject', component: SubjectPage, layout: DefaultLayout, allowedRoles: ["default"]},
   { path: '/listtutor/:id', component: ListTutor, layout: DefaultLayout, allowedRoles: ["default"]},
-  { path: '/physics' ,component: PhysicsExperiment, layout: DefaultLayout, allowedRoles: ["default"]},
   { path: '/profile-staff', component: ProfileStaff, layout: DefaultLayout, allowedRoles: ["default"]},
   { path: '/profile-teacher', component: ProfileTeacher, layout: DefaultLayout, allowedRoles: ["default"]},
   { path: '/booktutor/:tutorid/:classcourseid', component: BookTutorPage, layout: DefaultLayout, allowedRoles: ["default"]},
@@ -58,6 +57,7 @@ const privateRoute = [
   { path: '/booktutorst/:tutorid/:classcourseid', component: BookTutorSTPage, layout: LayoutStudent, allowedRoles: ["student"]},
   { path: '/studentgrade', component : StudentGrade, layout : LayoutStudent, allowedRoles: ["student"]},
   { path: '/profile-student', component: ProfileStudent, layout: LayoutStudent, allowedRoles: ["student"]},
+  { path: '/profilestudent', component: ProfileStudents, layout: LoginLayout, allowedRoles: ["student"]},
   { path: '/calendarstudent', component: CalendarStudent, layout: LayoutStudent, allowedRoles: ["student"]},
   { path: '/teacherprogramlist', component: TeacherProgramList, layout: LayoutStudent, allowedRoles: ["student"]},
   { path: '/feedback', component : Feedback, layout : LoginLayout, allowedRoles: ["student"]},
