@@ -58,7 +58,7 @@ const Sidebar = () => {
             <ListItemButton sx={{ pl: 3 }}>
               <ListItemIcon></ListItemIcon>
               <Typography sx={{ fontSize: '13px', marginRight: 'auto', fontWeight: 'bold' }}>
-                <Link  style={{color:"black", textDecoration: "none"}}>Toán 10</Link>
+                <Link to="/managerstudent" style={{color:"black", textDecoration: "none"}}>Toán 10</Link>
               </Typography>
             </ListItemButton>
 

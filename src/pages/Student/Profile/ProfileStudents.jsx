@@ -1,8 +1,9 @@
 import React, { useState } from 'react';
 import Button from '@mui/material/Button';
 import ProfileAvatar from '../../../components/Layout/components/ProfileAvatar/ProfileAvatar';
-import UserProfileInfo from '../../../components/Layout/components/ProfileInfo/Teacher/ProfileInfo';
+import UserProfileInfo from './ProfileInfo';
 import { Box, Paper, ThemeProvider, createTheme } from '@mui/material';
+import { Link } from 'react-router-dom';
 
 const theme = createTheme({
   typography: {
@@ -10,26 +11,12 @@ const theme = createTheme({
     fontWeight: 'bold',
   },
 });
-const ProfileTeacher = () => {
-  const [userData, setUserData] = useState({
-    name: 'Nguyen Duc Nghia',
-    email: 'nghiadeptrai@gmail.com',
-    address: '123 Vn',
-    phone: '0780800909',
-    dateOfBirth: new Date('2001-08-09'),
-    district: 'Duy Xuyên',
-    city: 'Quảng Nam',
-    gen: 0,
-    class: [
-      { name: 'Tin' },
-      { name: 'Hoá' },
-      { name: 'Toán' },
-    ],
-    avt: '',
-  });
-  const [isEditing, setIsEditing] = useState(false);
-  const [uploadedFile, setUploadedFile] = useState(null);
 
+const ProfileStudents = () => {
+  const [userData, setUserData] = useState({
+  });
+  const [isEditing, setIsEditing] = useState(true);
+  const [uploadedFile, setUploadedFile] = useState(null);
 
   const handleInputChange = (field, value) => {
     setUserData({
@@ -60,9 +47,10 @@ const ProfileTeacher = () => {
     >
       <ThemeProvider theme={theme}>
         <ProfileAvatar
+          userData={userData}
           onFileChange={handleFileChange}
           isEditing={isEditing}
-          role={'giáo viên'}
+          role={'học sinh'}
           uploadedFile={uploadedFile}
         />
         <Paper
@@ -83,11 +71,13 @@ const ProfileTeacher = () => {
             isEditing={isEditing}
           />
           {isEditing ? (
-            <Button variant='contained' onClick={handleSave}>
-              Lưu
-            </Button>
+            <Link to="/homestudent">
+              <Button variant="contained" onClick={handleSave}>
+                Lưu
+              </Button>
+            </Link>
           ) : (
-            <Button variant='contained' onClick={() => setIsEditing(true)}>
+            <Button variant="contained" onClick={() => setIsEditing(true)}>
               Chỉnh Sửa
             </Button>
           )}
@@ -97,4 +87,4 @@ const ProfileTeacher = () => {
   );
 };
 
-export default ProfileTeacher;
+export default ProfileStudents;

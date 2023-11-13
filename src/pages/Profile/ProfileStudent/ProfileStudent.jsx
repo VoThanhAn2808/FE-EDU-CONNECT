@@ -10,19 +10,22 @@ const theme = createTheme({
     fontWeight: 'bold',
   },
 });
+
 const ProfileStudent = () => {
   const [userData, setUserData] = useState({
-    name: 'Nguyen Duc Nghia',
-    email: 'nghiadeptrai@gmail.com',
-    address: '123 Vn',
-    phone: '0780800909',
-    dateOfBirth: new Date('2001-08-09'),
-    district: 'Duy Xuyên',
-    city: 'Quảng Nam',
+    name: '',
+    email: '',
+    address: '',
+    phone: '',
+    dateOfBirth: null,
+    district: '',
+    city: '',
     gen: 0,
-    class: 10,
+    class: 0,
+    avt: '',
   });
-  const [isEditing, setIsEditing] = useState(false);
+  const [isEditing, setIsEditing] = useState(true);
+  const [uploadedFile, setUploadedFile] = useState(null);
 
   const handleInputChange = (field, value) => {
     setUserData({
@@ -32,14 +35,15 @@ const ProfileStudent = () => {
   };
 
   const handleSave = () => {
+    setUserData({
+      ...userData,
+      avt: uploadedFile,
+    });
     setIsEditing(false);
   };
 
   const handleFileChange = (selectedFile) => {
-    setUserData({
-      ...userData,
-      avt: selectedFile,
-    });
+    setUploadedFile(selectedFile);
   };
 
   return (
@@ -51,7 +55,13 @@ const ProfileStudent = () => {
       }}
     >
       <ThemeProvider theme={theme}>
-        <ProfileAvatar onFileChange={handleFileChange} isEditing={isEditing} role={'học sinh'} />
+        <ProfileAvatar
+          userData={userData}
+          onFileChange={handleFileChange}
+          isEditing={isEditing}
+          role={'học sinh'}
+          uploadedFile={uploadedFile}
+        />
         <Paper
           style={{
             marginBottom: '30px',
@@ -70,11 +80,11 @@ const ProfileStudent = () => {
             isEditing={isEditing}
           />
           {isEditing ? (
-            <Button variant='contained' onClick={handleSave}>
+            <Button variant="contained" onClick={handleSave}>
               Lưu
             </Button>
           ) : (
-            <Button variant='contained' onClick={() => setIsEditing(true)}>
+            <Button variant="contained" onClick={() => setIsEditing(true)}>
               Chỉnh Sửa
             </Button>
           )}
