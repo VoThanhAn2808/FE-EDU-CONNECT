@@ -7,6 +7,8 @@ function StudentGrade() {
     const [tutor, setTutor] = useState([]);
     const { bookid } = useParams();
     const [home, setHome] = useState([]);
+    const [classroom, setClassroom] = useState([]);
+
     useEffect(() => {
         axios
             .get(`http://localhost:8081/course/tutorexercise?bookid=${bookid}`)
@@ -29,6 +31,17 @@ function StudentGrade() {
                 console.error(error);
             });
     }, [bookid]);
+    useEffect(() => {
+        axios
+            .get(`http://localhost:8081/exersice/scoreclassroom/${bookid}`)
+            .then((response) => {
+                setClassroom(response.data);
+                console.log(response.data);
+            })
+            .catch((error) => {
+                console.error(error);
+            });
+    }, [bookid]);
 
     return (
         <Box>
@@ -41,6 +54,8 @@ function StudentGrade() {
                         <TableHead >
                             <TableRow>
                                 <TableCell sx={{border: "1px solid #000000", background:"#BFBDBD", fontSize: "25px", fontFamily: "cursive", fontWeight: "500",}}>Bài kiểm tra</TableCell>
+                                <TableCell sx={{border: "1px solid #000000", background:"#BFBDBD", fontSize: "25px", fontFamily: "cursive", fontWeight: "500",}}>Ngày kiểm tra</TableCell>
+                                <TableCell sx={{border: "1px solid #000000", background:"#BFBDBD", fontSize: "25px", fontFamily: "cursive", fontWeight: "500",}}>Loại</TableCell>
                                 <TableCell sx={{border: "1px solid #000000", background:"#BFBDBD", fontSize: "25px", fontFamily: "cursive", fontWeight: "500",}}>Điểm</TableCell>
                             </TableRow>
                         </TableHead>
@@ -48,6 +63,16 @@ function StudentGrade() {
                             {home.map((item, index) => (
                                 <TableRow key={index}>
                                  <TableCell sx={{border: "1px solid #000000", background:"#BFBDBD", fontSize: "15px", fontFamily: "cursive", fontWeight: "500"}}>{item.title}</TableCell>
+                                 <TableCell sx={{border: "1px solid #000000", background:"#BFBDBD", fontSize: "15px", fontFamily: "cursive", fontWeight: "500"}}>{item.startDate} - {item.endDate}</TableCell>
+                                 <TableCell sx={{border: "1px solid #000000", background:"#BFBDBD", fontSize: "15px", fontFamily: "cursive", fontWeight: "500"}}>Bài tập về nhà</TableCell>
+                                 <TableCell sx={{border: "1px solid #000000", background:"#BFBDBD", fontSize: "15px", fontFamily: "cursive", fontWeight: "500"}}>{item.score}</TableCell>
+                                </TableRow>
+                            ))}
+                            {classroom.map((item, cl) => (
+                                <TableRow key={cl}>
+                                 <TableCell sx={{border: "1px solid #000000", background:"#BFBDBD", fontSize: "15px", fontFamily: "cursive", fontWeight: "500"}}>{item.nameclassroom}</TableCell>
+                                 <TableCell sx={{border: "1px solid #000000", background:"#BFBDBD", fontSize: "15px", fontFamily: "cursive", fontWeight: "500"}}>{item.submitdate}</TableCell>
+                                 <TableCell sx={{border: "1px solid #000000", background:"#BFBDBD", fontSize: "15px", fontFamily: "cursive", fontWeight: "500"}}>Kiểm tra trắc nghiệm</TableCell>
                                  <TableCell sx={{border: "1px solid #000000", background:"#BFBDBD", fontSize: "15px", fontFamily: "cursive", fontWeight: "500"}}>{item.score}</TableCell>
                                 </TableRow>
                             ))}

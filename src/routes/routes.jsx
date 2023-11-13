@@ -61,7 +61,7 @@ const privateRoute = [
   { path: '/feedback', component: Feedback, layout: LoginLayout, allowedRoles: ["student"] },
   { path: '/booktime/:tutorId', component: BookTime, layout: LoginLayout, allowedRoles: ["student"] },
   { path: '/thankyou', component: ThankYou, layout: LoginLayout, allowedRoles: ["student"] },
-  { path: '/submitExercise', component: SubmitExercise, layout: LayoutStudent , allowedRoles: ["student"]},
+  { path: '/submitExercise/:bookid', component: SubmitExercise, layout: LayoutStudent , allowedRoles: ["student"]},
   { path: '/hometutor', component: HomeTutor, layout: LayoutTutor, allowedRoles: ["tutor"] },
   { path: '/calendartutor', component: CalendarTutor, layout: LayoutTutor, allowedRoles: ["tutor"] },
   { path: '/feedbacktutor', component: FeedbackTutor, layout: LayoutTutor, allowedRoles: ["tutor"] },
