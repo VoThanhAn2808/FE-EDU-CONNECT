@@ -206,7 +206,7 @@ function BookTime() {
                             <TableBody>
                                 {data.map((itime, index) => (
                                     <TableRow key={index}>
-                                        <TableCell sx={{ border: '1px solid #000000', width: '140px', height: '100px', backgroundColor: '#71C763', color: 'white', textAlign: 'center', fontSize: '15px', fontFamily: 'cursive' }}>{itime.timeline}</TableCell>
+                                        <TableCell sx={{ border: '1px solid #000000', width: '140px', height: '100px', backgroundColor: '#71C763', color: 'white', textAlign: 'center', fontSize: '15px', fontFamily: 'cursive' }}>{itime.timeline} - {itime.endtime}</TableCell>
                                         {daysOfWeek.map((day, dayIndex) => {
                                             const item = scheduleData.find((data) => data.timeline === itime.timeline && data.lessonline === day.lessonline);
 
