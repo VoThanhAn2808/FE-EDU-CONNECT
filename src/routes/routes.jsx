@@ -31,6 +31,7 @@ import HomeTutor from '../pages/Tutor/HomeTutor/HomeTutor';
 import Feedback from '../pages/Student/FeedBack/FeedBackPage';
 import ManagerStudent from '../pages/Tutor/ManagerStudent/ManagerStudentPage';
 import FeedbackTutor from '../pages/Tutor/Feedback/Feedback';
+import SubmitExercise from '../pages/Student/ExerciseHistory/SubmitExercise';
 import ListTutorST from '../pages/Student/ListTutor/ListTutorStPage';
 import BookTutorSTPage from '../pages/Student/BookTutor/BookTutorSTPage';
 import CalendarTutorSelect from '../pages/Tutor/CalendarTutorSelect/CalendarTutorSelect';

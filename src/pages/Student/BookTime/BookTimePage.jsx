@@ -89,48 +89,48 @@ function BookTime() {
 
     const handlePaymentAndBooktime = async (event) => {
         event.preventDefault();
-      
+
         const config = {
-          headers: {
-            'Content-Type': 'application/json',
-          },
+            headers: {
+                'Content-Type': 'application/json',
+            },
         };
 
         const configs = {
             headers: {
-              'Content-Type': 'multipart/form-data',
+                'Content-Type': 'multipart/form-data',
             },
-          };
-      
+        };
+
         try {
-          const paymentResponse = await axios.get(
-            `http://localhost:8081/book/createpayment?studentid=${student.studentid}`,
-            config
-          );
-      
-          for (const checkbox of selectedCheckboxes) {
-            const postData = {
-              studentid: student.studentid,
-              timeId: checkbox.timeId,
-              lessonid: checkbox.lessonid,
-            };
-      
-            const booktimeResponse = await axios.post(
-              'http://localhost:8081/book/timebook',
-              postData,
-              configs
+            const paymentResponse = await axios.get(
+                `http://localhost:8081/book/createpayment?studentid=${student.studentid}`,
+                config
             );
-      
-            console.log('Đặt lịch thành công:', booktimeResponse.data);
-          }
-      
-          window.location.href = paymentResponse.data.url;
-          console.log('Thanh toán thành công:', paymentResponse.data);
+
+            for (const checkbox of selectedCheckboxes) {
+                const postData = {
+                    studentid: student.studentid,
+                    timeId: checkbox.timeId,
+                    lessonid: checkbox.lessonid,
+                };
+
+                const booktimeResponse = await axios.post(
+                    'http://localhost:8081/book/timebook',
+                    postData,
+                    configs
+                );
+
+                console.log('Đặt lịch thành công:', booktimeResponse.data);
+            }
+
+            window.location.href = paymentResponse.data.url;
+            console.log('Thanh toán thành công:', paymentResponse.data);
         } catch (error) {
-          console.error(error);
-          console.log(error.response.data);
+            console.error(error);
+            console.log(error.response.data);
         }
-      };
+    };
 
     const [selectedCheckboxes, setSelectedCheckboxes] = useState([]);
 
@@ -230,14 +230,25 @@ function BookTime() {
                     </TableContainer>
                 </Box>
 
-                <Box sx={{ paddingLeft: '1000px', paddingTop: '20px' }}>
-                    <Button onClick={handlePaymentAndBooktime} variant="contained" sx={{ height: '30px', backgroundColor: 'green', fontSize: '12px', marginRight: '20px' }}>
-                        Thanh toán
-                    </Button>
-                    <Button onClick={handleSubmit} variant="contained" sx={{ height: '30px', backgroundColor: 'red', fontSize: '12px' }}>
-                        Cancel
-                    </Button>
+                <Box sx={{ paddingTop: '20px', display: 'flex' }}>
+                    <Box sx={{
+                        display: "flex",
+                        flexDirection: "row",
+                        marginLeft: "50px"
+                    }}>
+                        <Typography sx={{ fontSize: '20px', fontWeight: "700", color: "red" }}>Notes:</Typography>
+                        <Typography sx={{ fontSize: '20px', marginLeft: "7px", color: "#5E5D5D" }}> Lịch học này sẽ đi theo bạn đến hết kỳ học của bạn(1 tuần 3 ngày mỗi 1 slot). </Typography>
+                    </Box>
+                    <Box sx={{marginLeft : 'auto', marginRight : '20%'}}>
+                        <Button onClick={handlePaymentAndBooktime} variant="contained" sx={{ height: '30px', backgroundColor: 'green', fontSize: '12px', marginRight: '20px' }}>
+                            Thanh toán
+                        </Button>
+                        <Button onClick={handleSubmit} variant="contained" sx={{ height: '30px', backgroundColor: 'red', fontSize: '12px' }}>
+                            Cancel
+                        </Button>
+                    </Box>
                 </Box>
+
             </Box>
 
         </Box>);
