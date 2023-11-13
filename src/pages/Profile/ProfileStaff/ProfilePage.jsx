@@ -21,8 +21,11 @@ function ProfileStaff() {
     district: 'Duy Xuyên',
     city: 'Quảng Nam',
     gen: 0,
+    avt: '',
   });
   const [isEditing, setIsEditing] = useState(false);
+  const [uploadedFile, setUploadedFile] = useState(null);
+
 
   const handleInputChange = (field, value) => {
     setUserData({
@@ -32,14 +35,15 @@ function ProfileStaff() {
   };
 
   const handleSave = () => {
+    setUserData({
+      ...userData,
+      avt: uploadedFile,
+    });
     setIsEditing(false);
   };
 
   const handleFileChange = (selectedFile) => {
-    setUserData({
-      ...userData,
-      avt: selectedFile,
-    });
+    setUploadedFile(selectedFile);
   };
 
   return (
@@ -51,7 +55,12 @@ function ProfileStaff() {
       }}
     >
       <ThemeProvider theme={theme}>
-        <ProfileAvatar onFileChange={handleFileChange} isEditing={isEditing} role={'nhân viên'} />
+        <ProfileAvatar
+          onFileChange={handleFileChange}
+          isEditing={isEditing}
+          role={'nhân viên'}
+          uploadedFile={uploadedFile}
+        />
         <Paper
           style={{
             marginBottom: '30px',
