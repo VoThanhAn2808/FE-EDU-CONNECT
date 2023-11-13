@@ -3,9 +3,8 @@ import Avatar from '@mui/material/Avatar';
 import Input from '@mui/material/Input';
 import Typography from '@mui/material/Typography';
 import { Box } from '@mui/material';
-import CloudUploadIcon from '@mui/icons-material/CloudUpload';
 
-function ProfileAvatar({uploadedFile, userData, onFileChange, isEditing }) {
+function ProfileAvatar({ onFileChange, isEditing }) {
   const handleFileChange = (event) => {
     const selectedFile = event.target.files[0];
     onFileChange(selectedFile);
@@ -29,46 +28,35 @@ function ProfileAvatar({uploadedFile, userData, onFileChange, isEditing }) {
       >
         Thông tin cá nhân
       </Typography>
-      <Box
+      <Avatar
+        alt='Remy Sharp'
+        src='/static/images/avatar/1.jpg'
         sx={{
-          position: 'relative',
+          height: '155px',
+          width: '155px',
         }}
-      >
-        <Avatar
-          alt='Remy Sharp'
-          src={uploadedFile ? URL.createObjectURL(uploadedFile) : userData.avt}
-          sx={{
-            height: '155px',
-            width: '155px',
-            filter: isEditing ? 'blur(2px)' : 'none',
-          }}
-        />
-        {isEditing ? (
-          <>
-            <Input
-              id='file-input'
-              type='file'
-              onChange={handleFileChange}
-              style={{
-                display: 'none',
+      />
+      {isEditing ? (
+        <>
+          <Input
+            id='file-input'
+            type='file'
+            onChange={handleFileChange}
+            style={{ display: 'none' }}
+          />
+          <label htmlFor='file-input'>
+            <Typography
+              variant='contained'
+              sx={{
+                color: '#0072E5',
+                cursor: 'pointer',
               }}
-            />
-            <label htmlFor='file-input'>
-              <CloudUploadIcon
-                sx={{
-                  width: '100px',
-                  height: '100px',
-                  position: 'absolute',
-                  top: '50%',
-                  left: '50%',
-                  transform: 'translate(-50%, -50%)',
-                  color: 'gray',
-                }}
-              />
-            </label>
-          </>
-        ) : null}
-      </Box>
+            >
+              Upload File
+            </Typography>
+          </label>
+        </>
+      ) : null}
     </Box>
   );
 }

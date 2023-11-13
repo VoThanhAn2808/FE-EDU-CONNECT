@@ -29,7 +29,6 @@ function BookTutorSTPage() {
                 console.error(error);
             });
     }, [tutorid, classcourseid]);
-    const img = `http://localhost:8081/edu/file/files/${data.img}`;
     const [page, setPage] = useState([]);
 
     useEffect(() => {
@@ -99,13 +98,39 @@ function BookTutorSTPage() {
             console.log(error.response.data);
         }
     };
+    const handleSubmitTry = async (event) => {
+        event.preventDefault();
+
+        const config = {
+            headers: {
+                "Content-Type": "application/json",
+            },
+        };
+
+        try {
+            const response = await axios.post(
+                "http://localhost:8081/trylearn/booktrylearn",
+                {
+                    studentid: studentid,
+                    tutorid: tutorid,
+                    classcourseid: classcourseid,
+                },
+                config
+            );
+            window.location.href = '/homestudent';
+            console.log(response.data);
+        } catch (error) {
+            console.error(error);
+            console.log(error.response.data);
+        }
+    };
     return (
         <Box className="body">
             <Box className="body-tutor" >
                 <Grid container spacing={1}>
                     <Grid item xs={5} >
                         <Box className="tutor-infor">
-                            <img src={img} alt={data.fullname} className="tutor-img" />
+                            <img src={data.img} alt={data.fullname} className="tutor-img" />
                         </Box>
                     </Grid>
                     <Grid item xs={7}>
@@ -151,22 +176,24 @@ function BookTutorSTPage() {
                             }}
                         />
 
-                        <form onSubmit={handleSubmit}>
-                            <Box className="button">
-                                <Button 
-                                    variant="contained" className="register" type="submit">
-                                    Đăng ký ngay
-                                </Button>
+                        <Box className="button" sx={{ display: 'flex' }}>
+                            <Button
+                                variant="contained" className="register" type="submit" onClick={handleSubmit}>
+                                Đăng ký ngay
+                            </Button>
+                            <Button
+                                variant="contained" className="infor">
+                                Thông Tin
+                            </Button>
+                            {data.status === 0 ? (
                                 <Button
-                                    variant="contained" className="infor">
-                                    Thông Tin
-                                </Button>
-                                <Button
-                                    variant="contained" className="try">
+                                    variant="contained" className="try" onClick={handleSubmitTry}>
                                     Đăng ký học thử
                                 </Button>
-                            </Box>
-                        </form>
+                            ) : (
+                                <Typography></Typography>
+                            )}
+                        </Box>
                     </Grid>
                 </Grid>
             </Box>
@@ -181,7 +208,7 @@ function BookTutorSTPage() {
                     {course.map((item, index) => (
                         <Grid item xs={3} key={index}>
                             <Box className='top4couse'>
-                                <img src={`http://localhost:8081/edu/file/files/${item.img}`} alt={item.courseName} className="courseimg" />
+                                <img src={item.img} alt={item.courseName} className="courseimg" />
                                 <Typography className="namebook">
                                     {item.courseName} {item.level}
                                 </Typography>
@@ -190,7 +217,7 @@ function BookTutorSTPage() {
                                         <PersonIcon className="total" />
                                         {item.CountStudent}
                                     </Typography>
-                                    <Link to={`/listtutor/${item.classCourseId}`}>
+                                    <Link to={`/listtutorst/${item.classCourseId}`}>
                                         <Button variant="contained" className="buttonchitiet">
                                             Chi tiết
                                         </Button>
@@ -214,7 +241,7 @@ function BookTutorSTPage() {
                                 <Typography sx={{ fontSize: '12px', textAlign: 'center', marginTop: '5px' }}>
                                     Gia sư dạy {item.coursename} {item.classentity}
                                 </Typography>
-                                <img src={`http://localhost:8081/edu/file/files/${item.img}`} alt="subject" className="imgtutor" />
+                                <img src={item.img} alt="subject" className="imgtutor" />
                                 <Rating
                                     name="five-star-rating"
                                     value={item.ranks}
