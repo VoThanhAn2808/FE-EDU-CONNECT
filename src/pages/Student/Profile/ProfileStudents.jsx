@@ -1,7 +1,7 @@
 import React, { useState } from 'react';
 import Button from '@mui/material/Button';
 import ProfileAvatar from '../../../components/Layout/components/ProfileAvatar/ProfileAvatar';
-import UserProfileInfo from '../../../components/Layout/components/ProfileInfo/Student/ProfileInfo';
+import UserProfileInfo from './ProfileInfo';
 import { Box, Paper, ThemeProvider, createTheme } from '@mui/material';
 import { Link } from 'react-router-dom';
 
