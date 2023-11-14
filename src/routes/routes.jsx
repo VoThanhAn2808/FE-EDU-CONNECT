@@ -44,8 +44,6 @@ const publicRoute = [
   { path: '/', component: Home, layout: DefaultLayout, allowedRoles: ["default"]},
   { path: '/subject', component: SubjectPage, layout: DefaultLayout, allowedRoles: ["default"]},
   { path: '/listtutor/:id', component: ListTutor, layout: DefaultLayout, allowedRoles: ["default"]},
-  { path: '/profile-staff', component: ProfileStaff, layout: DefaultLayout, allowedRoles: ["default"]},
-  { path: '/profile-teacher', component: ProfileTeacher, layout: DefaultLayout, allowedRoles: ["default"]},
   { path: '/booktutor/:tutorid/:classcourseid', component: BookTutorPage, layout: DefaultLayout, allowedRoles: ["default"]},
   { path: '/signup', component: SignUp, layout: LoginLayout},
   { path: '/login', component: LoginPage, layout: LoginLayout},
@@ -73,11 +71,13 @@ const privateRoute = [
   { path: '/calendartutorselect', component : CalendarTutorSelect, layout : LayoutTutor, allowedRoles: ["tutor"]},
   { path: '/feedbacktutor', component : FeedbackTutor, layout : LayoutTutor, allowedRoles: ["tutor"]},
   { path: '/exerciselist', component : ExerciseListPage, layout : LayoutTutor, allowedRoles: ["tutor"]},
+  { path: '/profile-teacher', component: ProfileTeacher, layout: LayoutTutor, allowedRoles: ["tutor"]},
   { path: '/homeworktutor', component : HomeWorkTutor, layout : LayoutTutor, allowedRoles: ["tutor"]},
   { path: '/managerstudent', component : ManagerStudent, layout : LayoutTutor, allowedRoles: ["tutor"]},
   { path: '/tutormanagement', component: TutorManagement, layout: LayoutStaff, allowedRoles: ["staff"]},
   { path: '/coursemanagement', component: CourseManagement, layout: LayoutStaff, allowedRoles: ["staff"]},
   { path: '/studentmanagement', component: StudentManagement, layout: LayoutStaff, allowedRoles: ["staff"]},
+  { path: '/profile-staff', component: ProfileStaff, layout: LayoutStaff, allowedRoles: ["staff"]},
   { path: '/trylearningmanagement', component: TryLearningManagement, layout: LayoutStaff, allowedRoles: ["staff"]},
 ];
 
