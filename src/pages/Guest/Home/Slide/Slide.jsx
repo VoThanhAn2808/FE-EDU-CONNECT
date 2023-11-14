@@ -1,28 +1,28 @@
 import "./Slide.css";
-import React from 'react';
-import SLIDE from "./slide.jpg";
+import React, { useEffect, useState } from 'react';
 import { Swiper, SwiperSlide } from 'swiper/react';
 import 'swiper/css';
 import 'swiper/css/pagination';
 import { Pagination } from 'swiper/modules';
-import { Box } from "@mui/material";
+import { Box, Typography } from "@mui/material";
+import axios from "axios";
 
-const data = [
-  {
-    avatar: SLIDE,
-  },
-  {
-    avatar: SLIDE,
-  },
-  {
-    avatar: SLIDE,
-  },
-  {
-    avatar: SLIDE,
-  },
-];
 
 function Slide() {
+
+  const [data, setData] = useState([]);
+  useEffect(() => {
+    axios
+        .get(`http://localhost:8081/discount/listdiscount`)
+        .then((response) => {
+            setData(response.data);
+            console.log(response.data);
+        })
+        .catch((error) => {
+            console.error(error);
+        });
+}, []);
+
   return (
     <Box sx={{ height: "auto"}}>
       <Swiper
@@ -31,12 +31,15 @@ function Slide() {
         }}
         modules={[Pagination]}
       >
-        {data.map(({ avatar }, index) => {
+        {data.map((item, index) => {
           return (
             <SwiperSlide key={index} className="slider">
-              <div className="client__avatar">
-                <img src={avatar} alt={`Slide ${index}`}/>
-              </div>
+              <Box className="client__avatar" sx={{marginLeft : '20%'}}>
+                <Typography sx={{position : 'absolute', left : '10%', width : '500px',
+                top : '20%', fontFamily : 'serif', color : 'black', fontWeight : '800', fontSize : '20px'}}>
+                  {item.desciption}</Typography>
+                <img src={item.img} alt={`Slide ${index}`}/>
+              </Box>
             </SwiperSlide>
           );
         })}

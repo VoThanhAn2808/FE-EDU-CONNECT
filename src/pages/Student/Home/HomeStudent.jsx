@@ -116,8 +116,9 @@ function Home() {
                             <Grid item xs={12} sm={6} md={5} lg={3} key={item.classCourseId}>
                                 <Box className="container">
                                     <img
-                                        src={item.img}
+                                        src={`http://localhost:8081/edu/file/files/`+item.img}
                                         alt={item.courseName}
+                                        style={{height : '200px'}}
                                         className="subject-img"
                                     />
                                     <Typography className="nameSubject">
@@ -164,7 +165,7 @@ function Home() {
                                 <Typography sx={{ fontSize: '15px', fontWeight: '700', textAlign: 'center', marginTop: '5px' }}>
                                     Gia sư
                                 </Typography>
-                                <img src={item.img} alt="subject" className="courseimg" />
+                                <img src={`http://localhost:8081/edu/file/files/`+item.img} alt="subject" className="courseimg" />
                                 <Rating
                                     name="five-star-rating"
                                     value={item.ranks}

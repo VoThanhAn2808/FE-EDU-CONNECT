@@ -1,6 +1,6 @@
 import { Button, Paper, Table, TableBody, TableCell, TableContainer, TableHead, TableRow, Typography } from "@mui/material";
 import { Box } from "@mui/system";
-import React, { useEffect, useState } from "react";
+import React, { useEffect, useRef, useState } from "react";
 import { Checkbox } from '@mui/material';
 import axios from "axios";
 import { useParams } from "react-router-dom";
@@ -37,10 +37,13 @@ function BookTime() {
     }, []);
 
     const [scheduleData, setScheduleData] = useState([]);
+    const token = localStorage.getItem('token');
+    const decodedTokenRef = useRef(null);
+    decodedTokenRef.current = jwtDecode(token);
 
     useEffect(() => {
         axios
-            .get(`http://localhost:8081/book/timeandlesson?tutorid=${tutorId}`)
+            .get(`http://localhost:8081/book/timeandlesson?tutorid=${tutorId}&studentid=${decodedTokenRef.current.id}`)
             .then((response) => {
                 setScheduleData(response.data);
                 console.log(response.data);
@@ -48,7 +51,7 @@ function BookTime() {
             .catch((error) => {
                 console.error(error);
             });
-    }, [tutorId]);
+    }, [tutorId, decodedTokenRef.current.id]);
 
     const decodedToken = jwtDecode(localStorage.getItem('token'));
 

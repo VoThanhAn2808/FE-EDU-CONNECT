@@ -7,7 +7,6 @@ import MoreHorizIcon from '@mui/icons-material/MoreHoriz';
 import Rating from '@mui/material/Rating';
 import StarIcon from '@mui/icons-material/Star';
 import Button from '@mui/material/Button';
-import subject from "../../assests/subject.png";
 import { Link, useParams } from "react-router-dom";
 import axios from "axios";
 import { jwtDecode } from "jwt-decode";
@@ -106,7 +105,7 @@ function BookTutorPage() {
                 <Grid container spacing={1}>
                     <Grid item xs={5} >
                         <Box className="tutor-infor">
-                            <img src={img} alt={data.fullname} className="tutor-img" />
+                            <img src={'http://localhost:8081/edu/file/files/'+img} alt={data.fullname} className="tutor-img" />
                         </Box>
                     </Grid>
                     <Grid item xs={7}>
@@ -181,7 +180,7 @@ function BookTutorPage() {
                     {course.map((item, index) => (
                         <Grid item xs={3} key={index}>
                             <Box className='top4couse'>
-                                <img src={subject} alt={item.courseName} className="courseimg" />
+                                <img src={`http://localhost:8081/edu/file/files/`+item.img} alt={item.courseName} className="courseimg" />
                                 <Typography className="namebook">
                                     {item.courseName} {item.level}
                                 </Typography>

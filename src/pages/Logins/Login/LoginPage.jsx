@@ -41,12 +41,17 @@ function LoginPage() {
       localStorage.setItem("token", token);
 
       const decodedToken = jwtDecode(token);
-      
+
       if (decodedToken.role === 1) {
-        window.location.href = "/homestudent";
-      } else if(decodedToken.role === 2) {
+        const fb = await axios.get("http://localhost:8081/student/feedback/" + decodedToken.id, config);
+        if (Array.isArray(fb.data) && fb.data.length > 0) {
+          window.location.href = "/feedback";
+        } else {
+          window.location.href = "/homestudent";
+        }
+      } else if (decodedToken.role === 2) {
         window.location.href = "/hometutor";
-      }else if(decodedToken.role === 3){
+      } else if (decodedToken.role === 3) {
         window.location.href = "/managerstudent"
       }
       console.log(response.data);
@@ -160,6 +165,9 @@ function LoginPage() {
             >
               Đăng nhập
             </Button>
+            <Link to="/forgotpass" style={{ textDecoration: "none" }}>
+              <Typography variant='h5' sx={{ color: "#8B8B8B", marginLeft: "180px" }}>Quên mật khẩu</Typography>
+            </Link>
           </Box>
         </form>
         <Typography
@@ -168,7 +176,7 @@ function LoginPage() {
             fontSize: '18px',
             bottom: '16%'
           }}>
-          Bạn chưa có tài khoản, đăng kí <Link to='/signup' style={{color: "blue", textDecoration: "none"}}>tại đây</Link>
+          Bạn chưa có tài khoản, đăng kí <Link to='/signup' style={{ color: "blue", textDecoration: "none" }}>tại đây</Link>
         </Typography>
       </Box>
     </Box>

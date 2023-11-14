@@ -87,6 +87,50 @@ function TeacherProgramList() {
                 console.error(error);
             });
     }, [bookid]);
+    const handleLinkClick = async (fileid, event, file) => {
+        event.preventDefault();
+        event.stopPropagation();
+
+        try {
+            const response = await axios.put(
+                `http://localhost:8081/exersice/fileexercise/file/${fileid}`,
+                {},
+                {
+                    headers: {
+                        "Content-Type": "application/json",
+                    },
+                }
+            );
+
+            console.log(response.data);
+            window.open(file, '_blank');
+        } catch (error) {
+            console.error(error);
+            console.log(error.response.data);
+        }
+    };
+    const handleVideoClick = async (fileid, event, file) => {
+        event.preventDefault();
+        event.stopPropagation();
+
+        try {
+            const response = await axios.put(
+                `http://localhost:8081/exersice/videoexercise/video/${fileid}`,
+                {},
+                {
+                    headers: {
+                        "Content-Type": "application/json",
+                    },
+                }
+            );
+
+            console.log(response.data);
+            window.open(file, '_blank');
+        } catch (error) {
+            console.error(error);
+            console.log(error.response.data);
+        }
+    };
 
     return (
         <Box sx={{
@@ -106,14 +150,29 @@ function TeacherProgramList() {
                         {file.map((files, keyf) => {
                             if (files.exerciseid === item.exerciseid) {
                                 return (
-                                    <Box sx={{ display: "flex", alignItems: "center" }} key={keyf}>
-                                        <InsertDriveFileIcon sx={{ fontSize: "25px", marginLeft: "4%" }} />
-                                        <Typography sx={{ fontSize: "25px", marginLeft: "1%" }}> {files.namefile}</Typography>
+                                    <Box key={keyf}>
                                         {files.status === 0 ? (
-                                            <RadioButtonUncheckedIcon sx={{ marginLeft: 'auto', marginRight: '3%' }} />
+                                            <>
+                                                <Links href={'http://localhost:8081/edu/file/files/'+files.files} target="_blank" sx={{ textDecoration: 'none', color: 'black' }} onClick={(event) => handleLinkClick(files.fileid, event, files.files)}>
+                                                    <Box sx={{ display: "flex", alignItems: "center" }}>
+                                                        <InsertDriveFileIcon sx={{ fontSize: "25px", marginLeft: "4%" }} />
+                                                        <Typography sx={{ fontSize: "25px", marginLeft: "1%" }}> {files.namefile}</Typography>
+                                                        <RadioButtonUncheckedIcon sx={{ marginLeft: 'auto', marginRight: '3%' }} />
+                                                    </Box>
+                                                </Links>
+                                            </>
                                         ) : (
-                                            <RadioButtonCheckedIcon sx={{ marginLeft: 'auto', marginRight: '3%' }} />
-                                        )}
+                                            <>
+                                                <Links href={`http://localhost:8081/edu/file/files/`+files.files} target="_blank" sx={{ textDecoration: 'none', color: 'black' }}>
+                                                    <Box sx={{ display: "flex", alignItems: "center" }}>
+                                                        <InsertDriveFileIcon sx={{ fontSize: "25px", marginLeft: "4%" }} />
+                                                        <Typography sx={{ fontSize: "25px", marginLeft: "1%" }}> {files.namefile}</Typography>
+                                                        <RadioButtonCheckedIcon sx={{ marginLeft: 'auto', marginRight: '3%' }} />
+                                                    </Box>
+                                                </Links>
+                                            </>
+                                        )
+                                        }
                                     </Box>
                                 );
                             }
@@ -122,13 +181,27 @@ function TeacherProgramList() {
                         {video.map((vd, kvd) => {
                             if (vd.exerciseid === item.exerciseid) {
                                 return (
-                                    <Box sx={{ display: "flex", alignItems: "center" }} key={kvd}>
-                                        <PersonalVideoIcon sx={{ fontSize: "25px", marginLeft: "4%" }} />
-                                        <Typography sx={{ fontSize: "25px", marginLeft: "1%" }}> {vd.namevideo}</Typography>
+                                    <Box key={kvd}>
                                         {vd.status === 0 ? (
-                                            <RadioButtonUncheckedIcon sx={{ marginLeft: 'auto', marginRight: '3%' }} />
+                                            <>
+                                                <Links sx={{ textDecoration: 'none', color: 'black' }} href={vd.video} target="_blank" onClick={(event) => handleVideoClick(vd.videoid, event, vd.video)}>
+                                                    <Box sx={{ display: "flex", alignItems: "center" }}>
+                                                        <PersonalVideoIcon sx={{ fontSize: "25px", marginLeft: "4%" }} />
+                                                        <Typography sx={{ fontSize: "25px", marginLeft: "1%" }}>{vd.namevideo}</Typography>
+                                                        <RadioButtonUncheckedIcon sx={{ marginLeft: 'auto', marginRight: '3%' }} />
+                                                    </Box>
+                                                </Links>
+                                            </>
                                         ) : (
-                                            <RadioButtonCheckedIcon sx={{ marginLeft: 'auto', marginRight: '3%' }} />
+                                            <>
+                                                <Links style={{ textDecoration: 'none', color: 'black' }} href={vd.video} target="_blank">
+                                                    <Box sx={{ display: "flex", alignItems: "center" }}>
+                                                        <PersonalVideoIcon sx={{ fontSize: "25px", marginLeft: "4%" }} />
+                                                        <Typography sx={{ fontSize: "25px", marginLeft: "1%" }}> {vd.namevideo}</Typography>
+                                                        <RadioButtonCheckedIcon sx={{ marginLeft: 'auto', marginRight: '3%' }} />
+                                                    </Box>
+                                                </Links>
+                                            </>
                                         )}
                                     </Box>
                                 );
@@ -163,9 +236,10 @@ function TeacherProgramList() {
                             } return null;
                         })}
                     </Box>
-                ))}
-            </Box>
-        </Box>
+                ))
+                }
+            </Box >
+        </Box >
     );
 }
 

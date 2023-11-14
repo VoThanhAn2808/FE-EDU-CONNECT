@@ -42,6 +42,7 @@ import ViewInfomationPage from '../pages/Tutor/ViewInfomationPage/ViewInfomation
 import Admin from '../pages/admin/admin';
 import LayoutAdmin from '../components/Layout/LayoutAdmin/LayoutAdmin';
 import StaffManagement from '../pages/admin/StaffManagement/StaffManagement';
+import ResetPassword from '../pages/Logins/Resetpassord/ResetPassordPage';
 
 const publicRoute = [
   { path: '/', component: Home, layout: DefaultLayout, allowedRoles: ["default"]},
@@ -52,6 +53,7 @@ const publicRoute = [
   { path: '/login', component: LoginPage, layout: LoginLayout},
   { path: '/forgotpass', component: ForgotPassword, layout: LoginLayout},
   { path: '/changepass', component: ChangePassword, layout: LoginLayout},
+  { path: '/resetpassword/:token', component : ResetPassword, layout: LoginLayout},
 ];
 const privateRoute = [
   { path: '/demo', component : DemoPage, layout: LayoutStudent, allowedRoles: ["student"]},
