@@ -24,7 +24,7 @@ const ProfileStudent = () => {
     class: 0,
     avt: '',
   });
-  const [isEditing, setIsEditing] = useState(true);
+  const [isEditing, setIsEditing] = useState(false);
   const [uploadedFile, setUploadedFile] = useState(null);
 
   const handleInputChange = (field, value) => {
@@ -39,13 +39,13 @@ const ProfileStudent = () => {
       ...userData,
       avt: uploadedFile,
     });
-    setIsEditing(false);
+    setIsEditing(!isEditing);
   };
 
   const handleFileChange = (selectedFile) => {
     setUploadedFile(selectedFile);
   };
-
+  
   return (
     <Box
       sx={{
@@ -58,7 +58,7 @@ const ProfileStudent = () => {
         <ProfileAvatar
           userData={userData}
           onFileChange={handleFileChange}
-          isEditing={isEditing}
+          isEditing={isEditing} 
           role={'học sinh'}
           uploadedFile={uploadedFile}
         />
@@ -80,13 +80,14 @@ const ProfileStudent = () => {
             isEditing={isEditing}
           />
           {isEditing ? (
+            
             <Button variant="contained" onClick={handleSave}>
               Lưu
             </Button>
           ) : (
-            <Button variant="contained" onClick={() => setIsEditing(true)}>
-              Chỉnh Sửa
-            </Button>
+            <Button variant="contained" onClick={() => setIsEditing(!isEditing)}>
+            Chỉnh Sửa
+          </Button>
           )}
         </Paper>
       </ThemeProvider>
