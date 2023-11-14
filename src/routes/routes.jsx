@@ -39,6 +39,9 @@ import HomeWorkTutor from '../pages/Tutor/HomeWorkTutor/HomeWorkTutor';
 import HomeWorkTutorList from '../pages/Tutor/HomeWorkTutorList/HomeWorkTutorList';
 import ProfileStudents from '../pages/Student/Profile/ProfileStudents';
 import ViewInfomationPage from '../pages/Tutor/ViewInfomationPage/ViewInfomationPage';
+import Admin from '../pages/admin/admin';
+import LayoutAdmin from '../components/Layout/LayoutAdmin/LayoutAdmin';
+import StaffManagement from '../pages/admin/StaffManagement/StaffManagement';
 
 const publicRoute = [
   { path: '/', component: Home, layout: DefaultLayout, allowedRoles: ["default"]},
@@ -79,6 +82,8 @@ const privateRoute = [
   { path: '/studentmanagement', component: StudentManagement, layout: LayoutStaff, allowedRoles: ["staff"]},
   { path: '/profile-staff', component: ProfileStaff, layout: LayoutStaff, allowedRoles: ["staff"]},
   { path: '/trylearningmanagement', component: TryLearningManagement, layout: LayoutStaff, allowedRoles: ["staff"]},
+  { path: '/admin', component: Admin, layout: LayoutAdmin, allowedRoles: ["admin"]},
+  { path: '/staffmanagement', component: StaffManagement, layout: LayoutAdmin, allowedRoles: ["admin"]},
 ];
 
 export { publicRoute, privateRoute };

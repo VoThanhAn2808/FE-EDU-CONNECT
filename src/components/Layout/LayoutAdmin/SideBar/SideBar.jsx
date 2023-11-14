@@ -1,0 +1,49 @@
+import { Box, List, ListItemButton, ListItemIcon, Typography } from "@mui/material";
+import DashboardIcon from '@mui/icons-material/Dashboard';
+import CurrencyExchangeIcon from '@mui/icons-material/CurrencyExchange';
+import AccountCircleIcon from '@mui/icons-material/AccountCircle';
+import { Link } from "react-router-dom";
+
+
+function SideBar() {
+    return (
+        <Box
+            sx={{
+                bgcolor: '#E2A369',
+                height: '100vh',
+                minWidth: '30vh',
+            }}
+        >
+            <List
+                sx={{
+                    width: '100%',
+                    bgcolor: '#E2A369',
+                }}
+            >
+                <ListItemButton>
+                    <ListItemIcon>
+                        <DashboardIcon />
+                    </ListItemIcon>
+                    <Typography sx={{ fontSize: '16px', marginRight: 'auto' }}>Dashboard</Typography>
+                </ListItemButton>
+
+                <ListItemButton>
+                    <ListItemIcon>
+                        <AccountCircleIcon />
+                    </ListItemIcon>
+                    <Typography sx={{ fontSize: '16px', marginRight: 'auto' }}><Link to='/staffmanagement' style={{ color: "black", textDecoration: "none" }}>Quản lý nhân viên</Link></Typography>
+                </ListItemButton>
+
+                <ListItemButton>
+                    <ListItemIcon>
+                        <CurrencyExchangeIcon />
+                    </ListItemIcon>
+                    <Typography sx={{ fontSize: '16px', marginRight: 'auto' }}><Link to='/' style={{ color: "black", textDecoration: "none" }}>Quản lý nguồn tiền</Link></Typography>
+                </ListItemButton>
+
+            </List>
+        </Box>
+    );
+}
+
+export default SideBar;

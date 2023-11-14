@@ -78,14 +78,20 @@ function ViewInfomationPage() {
           </Grid>
           <Grid item xs={4}>
           <Typography sx={{fontSize:"20px", fontWeight: "600"}}>Trình độ: Đại học</Typography>
-          <Typography sx={{fontSize:"20px", fontWeight: "600"}}>Phụ trách lớp: 10,11,12</Typography>
           </Grid>
         </Grid>
       </Box>
       <Box sx={{ display: "flex", justifyContent: "center", alignItems: "center", marginTop:"30px"}}>
         <Typography sx={{fontSize:"20px", fontWeight:"700", color:"blue"}}>Chia sẻ, cảm nhận của học sinh</Typography>
       </Box>
-      <Box sx={{}}>
+      <Box sx={{marginTop : '40px', marginBottom : '80px'}}>
+        <Slide/>
+      </Box>
+
+      <Box sx={{ display: "flex", justifyContent: "center", alignItems: "center", marginTop:"30px"}}>
+        <Typography sx={{fontSize:"20px", fontWeight:"700", color:"blue"}}>Chia sẻ, cảm nhận của học sinh học thử</Typography>
+      </Box>
+      <Box sx={{marginTop : '40px', marginBottom : '80px'}}>
         <Slide/>
       </Box>
     </Box>
