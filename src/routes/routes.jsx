@@ -38,6 +38,7 @@ import CalendarTutorSelect from '../pages/Tutor/CalendarTutorSelect/CalendarTuto
 import HomeWorkTutor from '../pages/Tutor/HomeWorkTutor/HomeWorkTutor';
 import HomeWorkTutorList from '../pages/Tutor/HomeWorkTutorList/HomeWorkTutorList';
 import ProfileStudents from '../pages/Student/Profile/ProfileStudents';
+import ViewInfomationPage from '../pages/Tutor/ViewInfomationPage/ViewInfomationPage';
 
 const publicRoute = [
   { path: '/', component: Home, layout: DefaultLayout, allowedRoles: ["default"]},
@@ -58,6 +59,7 @@ const privateRoute = [
   { path: '/profile-student', component: ProfileStudent, layout: LayoutStudent, allowedRoles: ["student"]},
   { path: '/profilestudent', component: ProfileStudents, layout: LoginLayout, allowedRoles: ["student"]},
   { path: '/calendarstudent', component: CalendarStudent, layout: LayoutStudent, allowedRoles: ["student"]},
+  { path: '/viewinfomationpage', component: ViewInfomationPage, layout: LayoutStudent, allowedRoles: ["student"]},
   { path: '/teacherprogramlist/:bookid', component: TeacherProgramList, layout: LayoutStudent, allowedRoles: ["student"] },
   { path: '/feedback', component : Feedback, layout : LoginLayout, allowedRoles: ["student"]},
   { path: '/booktime/:tutorId', component: BookTime, layout: LoginLayout, allowedRoles: ["student"] },

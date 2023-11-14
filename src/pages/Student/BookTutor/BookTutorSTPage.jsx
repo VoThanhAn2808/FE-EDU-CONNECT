@@ -157,10 +157,12 @@ function BookTutorSTPage() {
                                     variant="contained" className="register" type="submit">
                                     Đăng ký ngay
                                 </Button>
-                                <Button
-                                    variant="contained" className="infor">
-                                    Thông Tin
-                                </Button>
+                                <Link to="/viewinfomationpage">
+                                    <Button
+                                        variant="contained" className="infor">
+                                        Thông Tin
+                                    </Button>
+                                </Link>
                                 <Button
                                     variant="contained" className="try">
                                     Đăng ký học thử
