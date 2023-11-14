@@ -153,7 +153,7 @@ function TeacherProgramList() {
                                     <Box key={keyf}>
                                         {files.status === 0 ? (
                                             <>
-                                                <Links href={files.files} target="_blank" sx={{ textDecoration: 'none', color: 'black' }} onClick={(event) => handleLinkClick(files.fileid, event, files.files)}>
+                                                <Links href={'http://localhost:8081/edu/file/files/'+files.files} target="_blank" sx={{ textDecoration: 'none', color: 'black' }} onClick={(event) => handleLinkClick(files.fileid, event, files.files)}>
                                                     <Box sx={{ display: "flex", alignItems: "center" }}>
                                                         <InsertDriveFileIcon sx={{ fontSize: "25px", marginLeft: "4%" }} />
                                                         <Typography sx={{ fontSize: "25px", marginLeft: "1%" }}> {files.namefile}</Typography>
@@ -163,7 +163,7 @@ function TeacherProgramList() {
                                             </>
                                         ) : (
                                             <>
-                                                <Links href={files.files} target="_blank" sx={{ textDecoration: 'none', color: 'black' }}>
+                                                <Links href={`http://localhost:8081/edu/file/files/`+files.files} target="_blank" sx={{ textDecoration: 'none', color: 'black' }}>
                                                     <Box sx={{ display: "flex", alignItems: "center" }}>
                                                         <InsertDriveFileIcon sx={{ fontSize: "25px", marginLeft: "4%" }} />
                                                         <Typography sx={{ fontSize: "25px", marginLeft: "1%" }}> {files.namefile}</Typography>

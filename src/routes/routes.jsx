@@ -38,6 +38,7 @@ import CalendarTutorSelect from '../pages/Tutor/CalendarTutorSelect/CalendarTuto
 import HomeWorkTutor from '../pages/Tutor/HomeWorkTutor/HomeWorkTutor';
 import HomeWorkTutorList from '../pages/Tutor/HomeWorkTutorList/HomeWorkTutorList';
 import ProfileStudents from '../pages/Student/Profile/ProfileStudents';
+import ResetPassword from '../pages/Logins/Resetpassord/ResetPassordPage';
 
 const publicRoute = [
   { path: '/', component: Home, layout: DefaultLayout, allowedRoles: ["default"]},
@@ -48,6 +49,7 @@ const publicRoute = [
   { path: '/login', component: LoginPage, layout: LoginLayout},
   { path: '/forgotpass', component: ForgotPassword, layout: LoginLayout},
   { path: '/changepass', component: ChangePassword, layout: LoginLayout},
+  { path: '/resetpassword/:token', component : ResetPassword, layout: LoginLayout},
 ];
 const privateRoute = [
   { path: '/demo', component : DemoPage, layout: LayoutStudent, allowedRoles: ["student"]},

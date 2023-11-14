@@ -36,7 +36,7 @@ function Slide() {
             <SwiperSlide key={index} className="slider">
               <Box className="client__avatar" sx={{marginLeft : '20%'}}>
                 <Typography sx={{position : 'absolute', left : '10%', width : '500px',
-                top : '40%', fontFamily : 'serif', color : 'black', fontWeight : '800', fontSize : '20px'}}>
+                top : '20%', fontFamily : 'serif', color : 'black', fontWeight : '800', fontSize : '20px'}}>
                   {item.desciption}</Typography>
                 <img src={item.img} alt={`Slide ${index}`}/>
               </Box>

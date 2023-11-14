@@ -195,7 +195,7 @@ function SubmitExercise() {
                         </Box>
 
                         <Box style={{ float: 'left', marginTop: '10px' }}>
-                            <Link href={data.filesHomework} target="_blank">
+                            <Link href={'http://localhost:8081/edu/file/files/' + data.filesHomework} target="_blank">
                                 <Button
                                     variant="contained"
                                     color="primary"

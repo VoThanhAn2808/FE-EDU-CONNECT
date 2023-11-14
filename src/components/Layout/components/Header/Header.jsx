@@ -143,7 +143,7 @@ function Header() {
                                         <IconButton>
                                             <Avatar
                                                 alt={data.fullname}
-                                                src={data.img}
+                                                src={`http://localhost:8081/edu/file/files/`+data.img}
                                                 sx={{
                                                     height: "55px",
                                                     width: "55px",

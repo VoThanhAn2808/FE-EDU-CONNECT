@@ -154,7 +154,7 @@ function ListTutorST() {
                             <Box className='container'>
                                 <Typography sx={{ fontSize: '15px', fontFamily: 'cursive' }}>Gia sư dạy</Typography>
                                 <Typography sx={{ fontFamily: 'cursive', fontSize: '12px' }}>{item.coursename} {item.classentity}</Typography>
-                                <img src={item.img} alt={item.fullname} style={{ width: '50%', height: '100%' }} />
+                                <img src={`http://localhost:8081/edu/file/files/`+item.img} alt={item.fullname} style={{ width: '50%', height: '100%' }} />
                                 <Typography className="nameTutor">{item.fullname}</Typography>
                                 <Rating
                                     name="five-star-rating"
@@ -205,7 +205,7 @@ function ListTutorST() {
                                 <Box className='containers'>
                                     <Typography sx={{ fontSize: '15px', fontFamily: 'cursive', marginTop: '10px' }}>Gia sư dạy</Typography>
                                     <Typography sx={{ fontFamily: 'cursive', fontSize: '12px' }}>{items.coursename} {items.classentity}</Typography>
-                                    <img src={items.img} alt={items.fullname} style={{ width: '50%', height: '100%' }} />
+                                    <img src={`http://localhost:8081/edu/file/files/`+items.img} alt={items.fullname} style={{ width: '50%', height: '100%' }} />
                                     <Typography className="nameTutor">{items.fullname}</Typography>
                                     <Rating
                                         name="five-star-rating"

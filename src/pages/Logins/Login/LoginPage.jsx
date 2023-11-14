@@ -165,6 +165,9 @@ function LoginPage() {
             >
               Đăng nhập
             </Button>
+            <Link to="/forgotpass" style={{ textDecoration: "none" }}>
+              <Typography variant='h5' sx={{ color: "#8B8B8B", marginLeft: "180px" }}>Quên mật khẩu</Typography>
+            </Link>
           </Box>
         </form>
         <Typography
