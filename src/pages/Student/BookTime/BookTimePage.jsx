@@ -1,16 +1,144 @@
 import { Button, Paper, Table, TableBody, TableCell, TableContainer, TableHead, TableRow, Typography } from "@mui/material";
 import { Box } from "@mui/system";
-import React, { useState } from "react";
+import React, { useEffect, useState } from "react";
 import { Checkbox } from '@mui/material';
+import axios from "axios";
+import { useParams } from "react-router-dom";
+import { jwtDecode } from "jwt-decode";
 
 function BookTime() {
+    const [data, setData] = useState([]);
+    const { tutorId } = useParams();
+
+    useEffect(() => {
+        axios
+            .get(`http://localhost:8081/book/timeline`)
+            .then((response) => {
+                setData(response.data);
+                console.log(response.data);
+            })
+            .catch((error) => {
+                console.error(error);
+            });
+    }, []);
+
+    const [daysOfWeek, setDaysOfWeek] = useState([]);
+
+    useEffect(() => {
+        axios
+            .get(`http://localhost:8081/book/lesson`)
+            .then((response) => {
+                setDaysOfWeek(response.data);
+                console.log(response.data);
+            })
+            .catch((error) => {
+                console.error(error);
+            });
+    }, []);
+
+    const [scheduleData, setScheduleData] = useState([]);
+
+    useEffect(() => {
+        axios
+            .get(`http://localhost:8081/book/timeandlesson?tutorid=${tutorId}`)
+            .then((response) => {
+                setScheduleData(response.data);
+                console.log(response.data);
+            })
+            .catch((error) => {
+                console.error(error);
+            });
+    }, [tutorId]);
+
+    const decodedToken = jwtDecode(localStorage.getItem('token'));
+
+    const [student, setStudent] = useState([]);
+
+    useEffect(() => {
+        axios.get("http://localhost:8081/student/viewstudent?email=" + decodedToken.sub)
+            .then((response) => {
+                setStudent(response.data);
+                console.log(response.data);
+            })
+            .catch((error) => {
+                console.error(error);
+            });
+    }, [decodedToken.sub]);
+
+    const handleSubmit = async (event) => {
+        event.preventDefault();
+
+        const config = {
+            headers: {
+                'Content-Type': 'application/json',
+            },
+        };
+
+        try {
+            const response = await axios.delete(
+                `http://localhost:8081/book/cancelbook?studentid=${student.studentid}`,
+                config
+            );
+            window.location.href = '/homestudent';
+            console.log(response.data);
+        } catch (error) {
+            console.error(error);
+            console.log(error.response.data);
+        }
+    };
+
+    const handlePaymentAndBooktime = async (event) => {
+        event.preventDefault();
+
+        const config = {
+            headers: {
+                'Content-Type': 'application/json',
+            },
+        };
+
+        const configs = {
+            headers: {
+                'Content-Type': 'multipart/form-data',
+            },
+        };
+
+        try {
+            const paymentResponse = await axios.get(
+                `http://localhost:8081/book/createpayment?studentid=${student.studentid}`,
+                config
+            );
+
+            for (const checkbox of selectedCheckboxes) {
+                const postData = {
+                    studentid: student.studentid,
+                    timeId: checkbox.timeId,
+                    lessonid: checkbox.lessonid,
+                };
+
+                const booktimeResponse = await axios.post(
+                    'http://localhost:8081/book/timebook',
+                    postData,
+                    configs
+                );
+
+                console.log('Đặt lịch thành công:', booktimeResponse.data);
+            }
+
+            window.location.href = paymentResponse.data.url;
+            console.log('Thanh toán thành công:', paymentResponse.data);
+        } catch (error) {
+            console.error(error);
+            console.log(error.response.data);
+        }
+    };
+
     const [selectedCheckboxes, setSelectedCheckboxes] = useState([]);
 
-    const handleCheckboxChange = (value) => {
-        if (selectedCheckboxes.includes(value)) {
-            setSelectedCheckboxes(selectedCheckboxes.filter((item) => item !== value));
+    const handleCheckboxChange = (item) => {
+        if (selectedCheckboxes.includes(item)) {
+            setSelectedCheckboxes(selectedCheckboxes.filter((checkbox) => checkbox !== item));
         } else if (selectedCheckboxes.length < 3) {
-            setSelectedCheckboxes([...selectedCheckboxes, value]);
+            setSelectedCheckboxes([...selectedCheckboxes, item]);
         }
     };
 
@@ -64,258 +192,63 @@ function BookTime() {
                 justifyContent: 'center'
             }}>
                 <Typography sx={{ textAlign: 'center', paddingTop: '20px', paddingBottom: '20px', fontSize: '20px', fontFamily: 'revert' }}>Đăng ký thời gian học của bạn</Typography>
-                <Box sx={{ backgroundColor: 'gray', width: '980px', marginLeft: 'auto', borderRadius: '20%', marginRight : 'auto'}}>
+                <Box sx={{ backgroundColor: 'gray', width: '980px', marginLeft: 'auto', borderRadius: '20%', marginRight: 'auto' }}>
                     <TableContainer component={Paper} sx={{ width: '100%' }}>
                         <Table>
                             <TableHead>
                                 <TableRow>
-                                    <TableCell sx={{ padding: '20px 45px', backgroundColor: '#71C763'}}>
-                                    </TableCell>
-                                    <TableCell sx={{ padding: '20px 40px', fontSize: '15px', fontFamily: 'cursive', backgroundColor: '#71C763' }}> Thứ 2 </TableCell>
-                                    <TableCell sx={{ padding: '20px 40px', fontSize: '15px', fontFamily: 'cursive', backgroundColor: '#71C763' }}> Thứ 3 </TableCell>
-                                    <TableCell sx={{ padding: '20px 40px', fontSize: '15px', fontFamily: 'cursive', backgroundColor: '#71C763' }}> Thứ 4 </TableCell>
-                                    <TableCell sx={{ padding: '20px 40px', fontSize: '15px', fontFamily: 'cursive', backgroundColor: '#71C763' }}> Thứ 5  </TableCell>
-                                    <TableCell sx={{ padding: '20px 40px', fontSize: '15px', fontFamily: 'cursive', backgroundColor: '#71C763' }}> Thứ 6 </TableCell>
-                                    <TableCell sx={{ padding: '20px 40px', fontSize: '15px', fontFamily: 'cursive', backgroundColor: '#71C763' }}> Thứ 7 </TableCell>
+                                    <TableCell sx={{ padding: '20px 45px', backgroundColor: '#71C763' }}></TableCell>
+                                    {daysOfWeek.map((day, index) => (
+                                        <TableCell key={index} sx={{ padding: '20px 40px', fontSize: '15px', fontFamily: 'cursive', backgroundColor: '#71C763' }}>{day.lessonline}</TableCell>
+                                    ))}
                                 </TableRow>
                             </TableHead>
                             <TableBody>
-                                <TableRow>
-                                    <TableCell sx={{ border: '1px solid #000000', width: '140px', height: '100px', backgroundColor: '#71C763', color: 'white', textAlign: 'center', fontSize: '15px', fontFamily: 'cursive' }}>8:00 - 10:45</TableCell>
-                                    <TableCell sx={{ border: '1px solid #000000', width: '140px', height: '100px' }}>
-                                        <Checkbox
-                                            checked={selectedCheckboxes.includes('checkbox1')}
-                                            onChange={() => handleCheckboxChange('checkbox1')}
-                                            inputProps={{ 'aria-label': 'Checkbox 1' }}
-                                        /></TableCell>
-                                    <TableCell sx={{ border: '1px solid #000000', width: '140px', height: '100px' }}>
-                                        <Checkbox
-                                            checked={selectedCheckboxes.includes('checkbox2')}
-                                            onChange={() => handleCheckboxChange('checkbox2')}
-                                            inputProps={{ 'aria-label': 'Checkbox 1' }}
-                                        />
-                                    </TableCell>
-                                    <TableCell sx={{ border: '1px solid #000000', width: '140px', height: '100px' }}>
-                                        <Checkbox
-                                            checked={selectedCheckboxes.includes('checkbox3')}
-                                            onChange={() => handleCheckboxChange('checkbox3')}
-                                            inputProps={{ 'aria-label': 'Checkbox 1' }}
-                                        />
-                                    </TableCell>
-                                    <TableCell sx={{ border: '1px solid #000000', width: '140px', height: '100px' }}>
-                                        <Checkbox
-                                            checked={selectedCheckboxes.includes('checkbox4')}
-                                            onChange={() => handleCheckboxChange('checkbox4')}
-                                            inputProps={{ 'aria-label': 'Checkbox 1' }}
-                                        />
-                                    </TableCell>
-                                    <TableCell sx={{ border: '1px solid #000000', width: '140px', height: '100px' }}>
-                                        <Checkbox
-                                            checked={selectedCheckboxes.includes('checkbox5')}
-                                            onChange={() => handleCheckboxChange('checkbox5')}
-                                            inputProps={{ 'aria-label': 'Checkbox 1' }}
-                                        />
-                                    </TableCell>
-                                    <TableCell sx={{ border: '1px solid #000000', width: '140px', height: '100px' }}>
-                                        <Checkbox
-                                            checked={selectedCheckboxes.includes('checkbox6')}
-                                            onChange={() => handleCheckboxChange('checkbox6')}
-                                            inputProps={{ 'aria-label': 'Checkbox 1' }}
-                                        />
-                                    </TableCell>
-                                </TableRow>
-                                <TableRow>
-                                    <TableCell sx={{ border: '1px solid #000000', width: '140px', height: '100px', backgroundColor: '#71C763', color: 'white', textAlign: 'center', fontSize: '15px', fontFamily: 'cursive' }}>13:00-14:45</TableCell>
-                                    <TableCell sx={{ border: '1px solid #000000', width: '140px', height: '100px' }}>
-                                        <Checkbox
-                                            checked={selectedCheckboxes.includes('checkbox7')}
-                                            onChange={() => handleCheckboxChange('checkbox7')}
-                                            inputProps={{ 'aria-label': 'Checkbox 1' }}
-                                        />
-                                    </TableCell>
-                                    <TableCell sx={{ border: '1px solid #000000', width: '140px', height: '100px' }}>
-                                        <Checkbox
-                                            checked={selectedCheckboxes.includes('checkbox8')}
-                                            onChange={() => handleCheckboxChange('checkbox8')}
-                                            inputProps={{ 'aria-label': 'Checkbox 1' }}
-                                        />
-                                    </TableCell>
-                                    <TableCell sx={{ border: '1px solid #000000', width: '140px', height: '100px' }}>
-                                        <Checkbox
-                                            checked={selectedCheckboxes.includes('checkbox9')}
-                                            onChange={() => handleCheckboxChange('checkbox9')}
-                                            inputProps={{ 'aria-label': 'Checkbox 1' }}
-                                        />
-                                    </TableCell>
-                                    <TableCell sx={{ border: '1px solid #000000', width: '140px', height: '100px' }}>
-                                        <Checkbox
-                                            checked={selectedCheckboxes.includes('checkbox10')}
-                                            onChange={() => handleCheckboxChange('checkbox10')}
-                                            inputProps={{ 'aria-label': 'Checkbox 1' }}
-                                        />
-                                    </TableCell>
-                                    <TableCell sx={{ border: '1px solid #000000', width: '140px', height: '100px' }}>
-                                        <Checkbox
-                                            checked={selectedCheckboxes.includes('checkbox11')}
-                                            onChange={() => handleCheckboxChange('checkbox11')}
-                                            inputProps={{ 'aria-label': 'Checkbox 1' }}
-                                        />
-                                    </TableCell>
-                                    <TableCell sx={{ border: '1px solid #000000', width: '140px', height: '100px' }}>
-                                        <Checkbox
-                                            checked={selectedCheckboxes.includes('checkbox12')}
-                                            onChange={() => handleCheckboxChange('checkbox12')}
-                                            inputProps={{ 'aria-label': 'Checkbox 1' }}
-                                        />
-                                    </TableCell>
-                                </TableRow>
-                                <TableRow>
-                                    <TableCell sx={{ border: '1px solid #000000', width: '140px', height: '100px', backgroundColor: '#71C763', color: 'white', textAlign: 'center', fontSize: '15px', fontFamily: 'cursive' }}>15:00-17:45</TableCell>
-                                    <TableCell sx={{ border: '1px solid #000000', width: '140px', height: '100px' }}>
-                                        <Checkbox
-                                            checked={selectedCheckboxes.includes('checkbox13')}
-                                            onChange={() => handleCheckboxChange('checkbox13')}
-                                            inputProps={{ 'aria-label': 'Checkbox 1' }}
-                                        />
-                                    </TableCell>
-                                    <TableCell sx={{ border: '1px solid #000000', width: '140px', height: '100px' }}>
-                                        <Checkbox
-                                            checked={selectedCheckboxes.includes('checkbox14')}
-                                            onChange={() => handleCheckboxChange('checkbox14')}
-                                            inputProps={{ 'aria-label': 'Checkbox 1' }}
-                                        />
-                                    </TableCell>
-                                    <TableCell sx={{ border: '1px solid #000000', width: '140px', height: '100px' }}>
-                                        <Checkbox
-                                            checked={selectedCheckboxes.includes('checkbox15')}
-                                            onChange={() => handleCheckboxChange('checkbox15')}
-                                            inputProps={{ 'aria-label': 'Checkbox 1' }}
-                                        />
-                                    </TableCell>
-                                    <TableCell sx={{ border: '1px solid #000000', width: '140px', height: '100px' }}>
-                                        <Checkbox
-                                            checked={selectedCheckboxes.includes('checkbox16')}
-                                            onChange={() => handleCheckboxChange('checkbox16')}
-                                            inputProps={{ 'aria-label': 'Checkbox 1' }}
-                                        />
-                                    </TableCell>
-                                    <TableCell sx={{ border: '1px solid #000000', width: '140px', height: '100px' }}>
-                                        <Checkbox
-                                            checked={selectedCheckboxes.includes('checkbox17')}
-                                            onChange={() => handleCheckboxChange('checkbox17')}
-                                            inputProps={{ 'aria-label': 'Checkbox 1' }}
-                                        />
-                                    </TableCell>
-                                    <TableCell sx={{ border: '1px solid #000000', width: '140px', height: '100px' }}>
-                                        <Checkbox
-                                            checked={selectedCheckboxes.includes('checkbox18')}
-                                            onChange={() => handleCheckboxChange('checkbox18')}
-                                            inputProps={{ 'aria-label': 'Checkbox 1' }}
-                                        />
-                                    </TableCell>
-                                </TableRow>
-                                <TableRow>
-                                    <TableCell sx={{ border: '1px solid #000000', width: '140px', height: '100px', backgroundColor: '#71C763', color: 'white', textAlign: 'center', fontSize: '15px', fontFamily: 'cursive' }}>16:00-18-45</TableCell>
-                                    <TableCell sx={{ border: '1px solid #000000', width: '140px', height: '100px' }}>
-                                        <Checkbox
-                                            checked={selectedCheckboxes.includes('checkbox19')}
-                                            onChange={() => handleCheckboxChange('checkbox19')}
-                                            inputProps={{ 'aria-label': 'Checkbox 1' }}
-                                        />
-                                    </TableCell>
-                                    <TableCell sx={{ border: '1px solid #000000', width: '140px', height: '100px' }}>
-                                        <Checkbox
-                                            checked={selectedCheckboxes.includes('checkbox20')}
-                                            onChange={() => handleCheckboxChange('checkbox20')}
-                                            inputProps={{ 'aria-label': 'Checkbox 1' }}
-                                        />
-                                    </TableCell>
-                                    <TableCell sx={{ border: '1px solid #000000', width: '140px', height: '100px' }}>
-                                        <Checkbox
-                                            checked={selectedCheckboxes.includes('checkbox21')}
-                                            onChange={() => handleCheckboxChange('checkbox21')}
-                                            inputProps={{ 'aria-label': 'Checkbox 1' }}
-                                        />
-                                    </TableCell>
-                                    <TableCell sx={{ border: '1px solid #000000', width: '140px', height: '100px' }}>
-                                        <Checkbox
-                                            checked={selectedCheckboxes.includes('checkbox22')}
-                                            onChange={() => handleCheckboxChange('checkbox22')}
-                                            inputProps={{ 'aria-label': 'Checkbox 1' }}
-                                        />
-                                    </TableCell>
-                                    <TableCell sx={{ border: '1px solid #000000', width: '140px', height: '100px' }}>
-                                        <Checkbox
-                                            checked={selectedCheckboxes.includes('checkbox23')}
-                                            onChange={() => handleCheckboxChange('checkbox23')}
-                                            inputProps={{ 'aria-label': 'Checkbox 1' }}
-                                        />
-                                    </TableCell>
-                                    <TableCell sx={{ border: '1px solid #000000', width: '140px', height: '100px' }}>
-                                        <Checkbox
-                                            checked={selectedCheckboxes.includes('checkbox24')}
-                                            onChange={() => handleCheckboxChange('checkbox24')}
-                                            inputProps={{ 'aria-label': 'Checkbox 1' }}
-                                        />
-                                    </TableCell>
-                                </TableRow>
-                                <TableRow>
-                                    <TableCell sx={{ border: '1px solid #000000', width: '140px', height: '100px', backgroundColor: '#71C763', color: 'white', textAlign: 'center', fontSize: '15px', fontFamily: 'cursive' }}>19:00-21:45</TableCell>
-                                    <TableCell sx={{ border: '1px solid #000000', width: '140px', height: '100px' }}>
-                                        <Checkbox
-                                            checked={selectedCheckboxes.includes('checkbox25')}
-                                            onChange={() => handleCheckboxChange('checkbox25')}
-                                            inputProps={{ 'aria-label': 'Checkbox 1' }}
-                                        />
-                                    </TableCell>
-                                    <TableCell sx={{ border: '1px solid #000000', width: '140px', height: '100px' }}>
-                                        <Checkbox
-                                            checked={selectedCheckboxes.includes('checkbox26')}
-                                            onChange={() => handleCheckboxChange('checkbox26')}
-                                            inputProps={{ 'aria-label': 'Checkbox 1' }}
-                                        />
-                                    </TableCell>
-                                    <TableCell sx={{ border: '1px solid #000000', width: '140px', height: '100px' }}>
-                                        <Checkbox
-                                            checked={selectedCheckboxes.includes('checkbox27')}
-                                            onChange={() => handleCheckboxChange('checkbox27')}
-                                            inputProps={{ 'aria-label': 'Checkbox 1' }}
-                                        />
-                                    </TableCell>
-                                    <TableCell sx={{ border: '1px solid #000000', width: '140px', height: '100px' }}>
-                                        <Checkbox
-                                            checked={selectedCheckboxes.includes('checkbox28')}
-                                            onChange={() => handleCheckboxChange('checkbox28')}
-                                            inputProps={{ 'aria-label': 'Checkbox 1' }}
-                                        />
-                                    </TableCell>
-                                    <TableCell sx={{ border: '1px solid #000000', width: '140px', height: '100px' }}>
-                                        <Checkbox
-                                            checked={selectedCheckboxes.includes('checkbox29')}
-                                            onChange={() => handleCheckboxChange('checkbox29')}
-                                            inputProps={{ 'aria-label': 'Checkbox 1' }}
-                                        />
-                                    </TableCell>
-                                    <TableCell sx={{ border: '1px solid #000000', width: '140px', height: '100px' }}>
-                                        <Checkbox
-                                            checked={selectedCheckboxes.includes('checkbox30')}
-                                            onChange={() => handleCheckboxChange('checkbox30')}
-                                            inputProps={{ 'aria-label': 'Checkbox 1' }}
-                                        />
-                                    </TableCell>
-                                </TableRow>
+                                {data.map((itime, index) => (
+                                    <TableRow key={index}>
+                                        <TableCell sx={{ border: '1px solid #000000', width: '140px', height: '100px', backgroundColor: '#71C763', color: 'white', textAlign: 'center', fontSize: '15px', fontFamily: 'cursive' }}>{itime.timeline} - {itime.endtime}</TableCell>
+                                        {daysOfWeek.map((day, dayIndex) => {
+                                            const item = scheduleData.find((data) => data.timeline === itime.timeline && data.lessonline === day.lessonline);
+
+                                            return (
+                                                <TableCell key={dayIndex} sx={{ border: '1px solid #000000', width: '140px', height: '100px' }}>
+                                                    {item && item.lessonline && (
+                                                        <Checkbox
+                                                            value={`${item.timeId}-${item.lessonid}`}
+                                                            checked={selectedCheckboxes.includes(item)}
+                                                            onChange={() => handleCheckboxChange(item)}
+                                                            inputProps={{ 'aria-label': `Checkbox ${item}` }}
+                                                        />
+                                                    )}
+                                                </TableCell>
+                                            );
+                                        })}
+                                    </TableRow>
+                                ))}
                             </TableBody>
                         </Table>
                     </TableContainer>
                 </Box>
-                <Box sx={{paddingLeft : '1000px', paddingTop : '20px'}}>
-                    <Button variant="contained" sx={{height : '30px', backgroundColor : 'green', fontSize : '12px' , marginRight : '20px'}}>
-                        Thanh toán
-                    </Button>
-                    <Button variant="contained" sx={{height : '30px', backgroundColor : 'red', fontSize : '12px'}}>
-                        Cancel
-                    </Button>
+
+                <Box sx={{ paddingTop: '20px', display: 'flex' }}>
+                    <Box sx={{
+                        display: "flex",
+                        flexDirection: "row",
+                        marginLeft: "50px"
+                    }}>
+                        <Typography sx={{ fontSize: '20px', fontWeight: "700", color: "red" }}>Notes:</Typography>
+                        <Typography sx={{ fontSize: '20px', marginLeft: "7px", color: "#5E5D5D" }}> Lịch học này sẽ đi theo bạn đến hết kỳ học của bạn(1 tuần 3 ngày mỗi 1 slot). </Typography>
+                    </Box>
+                    <Box sx={{marginLeft : 'auto', marginRight : '20%'}}>
+                        <Button onClick={handlePaymentAndBooktime} variant="contained" sx={{ height: '30px', backgroundColor: 'green', fontSize: '12px', marginRight: '20px' }}>
+                            Thanh toán
+                        </Button>
+                        <Button onClick={handleSubmit} variant="contained" sx={{ height: '30px', backgroundColor: 'red', fontSize: '12px' }}>
+                            Cancel
+                        </Button>
+                    </Box>
                 </Box>
+
             </Box>
 
         </Box>);

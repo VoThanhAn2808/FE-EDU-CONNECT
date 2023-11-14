@@ -12,6 +12,7 @@ import PersonalVideoIcon from '@mui/icons-material/PersonalVideo';
 import HomeWorkIcon from '@mui/icons-material/HomeWork';
 import UpdateIcon from '@mui/icons-material/Update';
 import DeleteIcon from '@mui/icons-material/Delete';
+import { Link } from "react-router-dom";
 
 
 function ExerciseListPage() {
@@ -139,7 +140,7 @@ function ExerciseListPage() {
                             <MenuItem onClick={handleOpen4}>Thêm tập tin</MenuItem>
                             <MenuItem onClick={handleOpen2}>Thêm video</MenuItem>
                             <MenuItem onClick={handleOpen3}>Thêm bài kiểm tra tiến độ</MenuItem>
-                            <MenuItem onClick={handleCloseUserMenu}>Thêm bài tập về nhà</MenuItem>
+                            <MenuItem ><Link to='/homeworktutor' style={{color:"black", textDecoration: "none"}}> Thêm bài tập về nhà </Link></MenuItem>
                             <MenuItem onClick={handleOpen1}>Cập nhật chương</MenuItem>
                             <MenuItem onClick={handleCloseUserMenu}>Xóa chương</MenuItem>
                         </Menu>

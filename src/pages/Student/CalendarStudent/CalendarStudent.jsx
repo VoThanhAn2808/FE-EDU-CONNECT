@@ -1,61 +1,149 @@
-import React from "react";
-import { Box, Link, Paper, Table, TableBody, TableCell, TableContainer, TableHead, TableRow, Typography } from "@mui/material";
+import React, { useCallback, useEffect, useState } from "react";
+import { Box, Link, Paper, Table, TableBody, TableCell, TableContainer, TableHead, TableRow, TextField, Typography } from "@mui/material";
+import axios from "axios";
+import { jwtDecode } from "jwt-decode";
 
-const timetable = [
-    { times: '8:00 - 10:45' },
-    { times: '13:00 - 14:45' },
-    { times: '15:00 - 17:45' },
-    { times: '16:00 - 18:45' },
-    { times: '19:00 - 21:45' },
-];
 
-const scheduleData = [
-    { time: '8:00 - 10:45', subject: 'Toán', url: 'https://meet.google.com/bhx-kpai-adp', day: 'Thứ 2' },
-    { time: '13:00 - 14:45', subject: '', url: '', day: 'Thứ 3' },
-    { time: '15:00 - 17:45', subject: 'Toán', url: 'ds', day: 'Thứ 4' },
-    { time: '16:00 - 18:45', subject: '', url: '', day: 'Thứ 5' },
-    { time: '19:00 - 21:45', subject: '', url: '', day: 'Thứ 6' },
-];
-
-const daysOfWeek = ['Thứ 2', 'Thứ 3', 'Thứ 4', 'Thứ 5', 'Thứ 6', 'Thứ 7', 'Chủ nhật'];
 
 function CalendarStudent() {
+
+    const [user, setUser] = useState([]);
+    const [daysOfWeek, setDaysOfWeek] = useState([]);
+    const [data, setData] = useState([]);
+    const decodedToken = jwtDecode(localStorage.getItem('token'));
+    const userId = decodedToken.sub;
+
+    const fetchUser = useCallback(async () => {
+        try {
+            const response = await axios.get(
+                `http://localhost:8081/student/viewstudent?email=${userId}`,
+                {
+                    headers: {
+                        "Content-Type": "application/json",
+                    },
+                }
+            );
+            setUser(response.data);
+        } catch (error) {
+            console.error(error);
+        }
+    }, [userId]);
+
+    useEffect(() => {
+        axios
+            .get(`http://localhost:8081/book/lesson`)
+            .then((response) => {
+                setDaysOfWeek(response.data);
+                console.log(response.data);
+            })
+            .catch((error) => {
+                console.error(error);
+            });
+    }, []);
+
+    useEffect(() => {
+        axios
+            .get(`http://localhost:8081/book/timeline`)
+            .then((response) => {
+                setData(response.data);
+                console.log(response.data);
+            })
+            .catch((error) => {
+                console.error(error);
+            });
+    }, []);
+    const [selectedWeek, setSelectedWeek] = useState('');
+    const [week, setWeek] = useState('');
+    const [year, setYear] = useState('');
+    const [scheduleData, setScheduleData] = useState([]);
+
+    const fetchStudentData = useCallback(async () => {
+        try {
+            const studentResponse = await axios.get(
+                `http://localhost:8081/schedule/studentschedule?studentid=${user.studentid}&week=${week}&year=${year}`
+            );
+            setScheduleData(studentResponse.data);
+        } catch (error) {
+            console.error(error);
+        }
+    }, [week, year, user.studentid]);
+
+    useEffect(() => {
+        fetchUser();
+    }, [userId, fetchUser]);
+
+    useEffect(() => {
+        if (week && user.studentid && year) {
+            fetchStudentData();
+        }
+    }, [week, year, user.studentid, fetchStudentData]);
+
+    useEffect(() => {
+        const currentDate = new Date();
+        const currentYear = currentDate.getFullYear();
+        const currentWeek = getWeekNumber(currentDate);
+        setYear(currentYear.toString());
+        setWeek(currentWeek.toString());
+    }, []);
+
+    const handleWeekChange = (e) => {
+        setSelectedWeek(e.target.value);
+        const [selectedYear, selectedWeek] = e.target.value.split('-W');
+        setYear(selectedYear);
+        setWeek(selectedWeek);
+    };
+
+    const getWeekNumber = (date) => {
+        const firstDayOfYear = new Date(date.getFullYear(), 0, 1);
+        const pastDaysOfYear = (date - firstDayOfYear) / 86400000;
+        return Math.ceil((pastDaysOfYear + firstDayOfYear.getDay() + 1) / 7);
+    };
+
+
     return (
         <Box sx={{ marginBottom: "50px" }}>
             <Box>
-                <Typography sx={{ fontSize: "20px", fontFamily: "cursive", fontWeight: "700", textAlign: "center", marginTop: "100px" }}>Nguyễn Văn A</Typography>
-                <Typography sx={{ fontSize: "20px", fontFamily: "cursive", fontWeight: "700", textAlign: "center", marginTop: "10px" }}>Mã Số Học Sinh: 123</Typography>
+                <Typography sx={{ fontSize: "20px", fontFamily: "cursive", fontWeight: "700", textAlign: "center", marginTop: "100px" }}>{user.fullname}</Typography>
+                <Typography sx={{ fontSize: "20px", fontFamily: "cursive", fontWeight: "700", textAlign: "center", marginTop: "10px" }}>Mã Số Học Sinh: {user.studentid}</Typography>
             </Box>
             <Box sx={{ backgroundColor: 'gray', width: '980px', marginLeft: 'auto', borderRadius: '20%', marginRight: 'auto', marginTop: "30px" }}>
                 <TableContainer component={Paper} sx={{ width: '100%' }}>
                     <Table>
                         <TableHead>
                             <TableRow>
-                                <TableCell sx={{ padding: '20px 45px', backgroundColor: '#71C763' }}></TableCell>
-                                {daysOfWeek.map((day) => (
-                                    <TableCell key={day} sx={{ padding: '20px 40px', fontSize: '15px', fontFamily: 'cursive', backgroundColor: '#71C763' }}>{day}</TableCell>
+                                <TableCell sx={{ padding: '20px 45px', backgroundColor: '#71C763' }}><TextField
+                                    type="week"
+                                    value={selectedWeek}
+                                    onChange={handleWeekChange}
+                                    sx={{ width: '100%' }}
+                                /></TableCell>
+                                {daysOfWeek.map((day, index) => (
+                                    <TableCell key={index} sx={{ padding: '20px 40px', fontSize: '15px', fontFamily: 'cursive', backgroundColor: '#71C763' }}>{day.lessonline}</TableCell>
                                 ))}
                             </TableRow>
                         </TableHead>
                         <TableBody>
-                            {timetable.map((itime) => (
-                                <TableRow key={itime.times}>
-                                    <TableCell sx={{ border: '1px solid #000000', width: '140px', height: '100px', backgroundColor: '#71C763', color: 'white', textAlign: 'center', fontSize: '15px', fontFamily: 'cursive' }}>{itime.times}</TableCell>
-                                    {daysOfWeek.map((day) => {
-                                        const item = scheduleData.find((data) => data.day === day && data.time === itime.times);
+                            {data.map((itime, indextime) => (
+                                <TableRow key={indextime}>
+                                    <TableCell sx={{ border: '1px solid #000000', width: '140px', height: '100px', backgroundColor: '#71C763', color: 'white', textAlign: 'center', fontSize: '15px', fontFamily: 'cursive' }}>{itime.timeline} - {itime.endtime}</TableCell>
+                                    {daysOfWeek.map((day, keydate) => {
+                                        const item = scheduleData.find((data) => data.lessonline === day.lessonline && data.timeline === itime.timeline);
                                         return (
-                                            <TableCell key={day} sx={{ border: '1px solid #000000', width: '140px', height: '100px' }}>
+                                            <TableCell key={keydate} sx={{ border: '1px solid #000000', width: '140px', height: '100px' }}>
                                                 {item && (
-                                                    <>
-                                                        {item.subject && (
-                                                            <Typography sx={{ fontSize: '20px', fontFamily: 'cursive', fontWeight: '800', textAlign: 'center' }}>{item.subject}</Typography>
+                                                    <Box>
+                                                        {item.courses && (
+                                                            <Typography sx={{ fontSize: '15px', fontFamily: 'cursive', fontWeight: '800', textAlign: 'center' }}>{item.courses}</Typography>
                                                         )}
-                                                        {item.url && (
-                                                            <Link sx={{ fontSize: '15px', fontFamily: 'cursive', fontWeight: '200', textAlign: 'center', marginLeft: '10px', textDecoration: 'none' }} href={item.url} target="_blank" rel="noopener noreferrer">
+                                                        {item.fullname && (
+                                                            <Typography sx={{ fontSize: '12px', fontFamily: 'cursive', fontWeight: '800', textAlign: 'center' }}>{item.fullname}</Typography>
+                                                        )}
+                                                        {item.linkMeet && (
+                                                            <Link sx={{ fontSize: '15px', fontFamily: 'cursive', fontWeight: '200', textAlign: 'center', marginLeft: '10px', textDecoration: 'none' }} href={item.linkMeet} target="_blank" rel="noopener noreferrer">
                                                                 Meet-URL
                                                             </Link>
                                                         )}
-                                                    </>
+                                                    </Box>
                                                 )}
                                             </TableCell>
                                         );
@@ -65,6 +153,15 @@ function CalendarStudent() {
                         </TableBody>
                     </Table>
                 </TableContainer>
+            </Box>
+            <Box sx={{
+                display: "flex",
+                flexDirection: "row",
+                marginTop: "30px",
+                marginLeft : "10px"
+            }}>
+                <Typography sx={{ fontSize: '20px', fontWeight: "700", color: "red" }}>Notes:</Typography>
+                <Typography sx={{ fontSize: '20px', marginLeft: "7px", color: "#5E5D5D" }}> Bạn theo dõi lịch để tham gia đầy đủ các tiết học tránh thiệt thòi cho bạn. </Typography>
             </Box>
         </Box>
     );
