@@ -130,7 +130,7 @@ function BookTutorSTPage() {
                 <Grid container spacing={1}>
                     <Grid item xs={5} >
                         <Box className="tutor-infor">
-                            <img src={data.img} alt={data.fullname} className="tutor-img" />
+                            <img src={`http://localhost:8081/edu/file/files/`+data.img} alt={data.fullname} className="tutor-img" />
                         </Box>
                     </Grid>
                     <Grid item xs={7}>
@@ -208,7 +208,7 @@ function BookTutorSTPage() {
                     {course.map((item, index) => (
                         <Grid item xs={3} key={index}>
                             <Box className='top4couse'>
-                                <img src={item.img} alt={item.courseName} className="courseimg" />
+                                <img src={`http://localhost:8081/edu/file/files/`+item.img} alt={item.courseName} className="courseimg" />
                                 <Typography className="namebook">
                                     {item.courseName} {item.level}
                                 </Typography>
@@ -241,7 +241,7 @@ function BookTutorSTPage() {
                                 <Typography sx={{ fontSize: '12px', textAlign: 'center', marginTop: '5px' }}>
                                     Gia sư dạy {item.coursename} {item.classentity}
                                 </Typography>
-                                <img src={item.img} alt="subject" className="imgtutor" />
+                                <img src={`http://localhost:8081/edu/file/files/`+item.img} alt="subject" className="imgtutor" />
                                 <Rating
                                     name="five-star-rating"
                                     value={item.ranks}

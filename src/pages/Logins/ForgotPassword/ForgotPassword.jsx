@@ -1,10 +1,50 @@
 import { Box, FormControl, InputLabel, OutlinedInput, Typography } from '@mui/material';
-import React from 'react';
+import React, { useState } from 'react';
 import LOGIN from '../../../assests/login.png';
 import LOGO from '../../../assests/lglogin.jpg';
 import Button from '@mui/joy/Button';
+import axios from 'axios';
 
 const ForgotPassword = () => {
+
+  const [email, setEmail] = useState('');
+
+  const handleSubmit = async (event) => {
+    event.preventDefault();
+
+    const config = {
+      headers: {
+        "Content-Type": "application/json",
+      },
+    };
+    const configs = {
+      headers: {
+        'Content-Type': 'multipart/form-data',
+      },
+    };
+
+    try {
+      const response = await axios.get(
+        "http://localhost:8081/edu/checkmail?email=" + email,
+        config
+      );
+      if (response.data === true) {
+        const fb = await axios.post("http://localhost:8081/edu/forgotpassword", {
+          email: email,
+        }, configs);
+        window.location.href = "/login"
+        console.log(fb.data);
+      } else if (response.data === true) {
+        window.location.href = "/forgotpass"
+      }
+      console.log(response.data);
+
+      // Điều hướng đến trang chính hoặc trang khác tùy theo logic của ứng dụng
+    } catch (error) {
+      console.error(error);
+    }
+  };
+
   return (
     <Box
       className='image-container'
@@ -40,64 +80,69 @@ const ForgotPassword = () => {
           justifyContent: 'center',
         }}
       >
-        <Box
-          sx={{
-            display: 'flex',
-            flexDirection: 'column',
-            alignItems: 'center',
-            maxWidth: '45vw',
-            backgroundColor: 'white',
-            height: '90vh',
-            borderRadius: '30px',
-            padding: '50px',
-            gap: '30px',
-          }}
-        >
-          <img
-            src={LOGO}
-            alt='logo'
-            style={{
-              width: '350px',
-              height: '100px',
-            }}
-          />
-
+        <form onSubmit={handleSubmit}>
           <Box
             sx={{
               display: 'flex',
               flexDirection: 'column',
-              gap: '20px',
-              width: '70%',
+              alignItems: 'center',
+              maxWidth: '45vw',
+              backgroundColor: 'white',
+              height: '90vh',
+              borderRadius: '30px',
+              padding: '50px',
+              gap: '30px',
             }}
-           >
+          >
+            <img
+              src={LOGO}
+              alt='logo'
+              style={{
+                width: '350px',
+                height: '100px',
+              }}
+            />
+
             <Box
               sx={{
                 display: 'flex',
                 flexDirection: 'column',
+                gap: '20px',
+                width: '70%',
               }}
-             >
-              <FormControl sx={{ mt: 5, width: '50ch', ml: -4 }} variant="outlined" size='large'>
-                <InputLabel htmlFor="Email" style={{ fontSize: 15 }}>Email</InputLabel>
-                <OutlinedInput
-                  style={{ fontSize: '18px' }}
-                  id="Email"
-                  label="Email"
-                />
-              </FormControl>
+            >
+              <Box
+                sx={{
+                  display: 'flex',
+                  flexDirection: 'column',
+                }}
+              >
+                <FormControl sx={{ mt: 5, width: '50ch', ml: -4 }} variant="outlined" size='large'>
+                  <InputLabel htmlFor="Email" style={{ fontSize: 15 }}>Email</InputLabel>
+                  <OutlinedInput
+                    style={{ fontSize: '18px' }}
+                    id="Email"
+                    label="Email"
+                    value={email}
+                    onChange={(e) => setEmail(e.target.value)}
+                  />
+                </FormControl>
+              </Box>
             </Box>
+            <Button
+            type='submit'
+              sx={{
+                width: '250px',
+                height: '45px',
+                fontSize: '23px',
+                marginTop: '10px',
+                background: '#2D3748',
+              }}
+            >
+              Lấy lại mật khẩu
+            </Button>
           </Box>
-          <Button
-            sx={{
-              width: '250px',
-              height: '45px',
-              fontSize: '23px',
-              marginTop: '10px',
-              background: '#2D3748',
-            }}
-          >
-            Lấy lại mật khẩu
-          </Button>
-        </Box>
+        </form>
         <Typography
           sx={{
             position: 'absolute',
