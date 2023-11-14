@@ -1,4 +1,3 @@
-import "./Slide.css";
 import React from 'react';
 import SLIDE from "./slide.jpg";
 import { Swiper, SwiperSlide } from 'swiper/react';
@@ -33,16 +32,21 @@ function Slide() {
           dynamicBullets: true,
         }}
         modules={[Pagination]}
+        style={{width : '100%', height : '100%'}}
       >
         {data.map(({ avatar }, index) => {
           return (
-            <SwiperSlide key={index} className="slider">
-              <Box className="client__avatar" sx={{backgroundColor : 'GrayText', width : '300px', borderRadius : '5%'}}>
+            <SwiperSlide key={index} style={{
+              textAlign : 'center', fontSize : '18px', backgroundColor : '#fff'
+            }}>
+              <Box sx={{backgroundColor : 'GrayText', width : '300px', borderRadius : '5%'}}>
                 <Typography variant="h5" sx={{ marginBottom: '20px', width: '200px', fontFamily: 'cursive', marginLeft : 'auto', marginRight : 'auto', paddingTop : '10px' }}>Cảm ơn cô thầy rất nhiều có nhiều bài hay</Typography>
-                  <img src={avatar} alt={`Slide ${index}`} />
+                  <img src={avatar} alt={`Slide ${index}`} style={{display : 'block', width : '150px', height : '150px', borderRadius : '50%',
+                marginTop : '20px', objectFit : 'cover', marginLeft : '25%'
+                }}/>
                 <Rating
                   name="five-star-rating"
-                  value={4}  // Provide a default value of 0 if data.ranks is undefined
+                  value={4}
                   max={5}
                   readOnly
                   emptyIcon={<StarIcon style={{ fontSize: '25px', color: '#e0e0e0' }} />}
