@@ -2,9 +2,26 @@ import { Box, Grid, Typography } from "@mui/material";
 import PeopleAltIcon from '@mui/icons-material/PeopleAlt';
 import MenuBookIcon from '@mui/icons-material/MenuBook';
 import StarIcon from '@mui/icons-material/Star';
-import Slide from "./Slide/Slide";
+import Slider from "./Slide/SlideFeedback";
+// import { useEffect, useState } from "react";
+// import axios from "axios";
 
 function ViewInfomationPage() {
+
+//   const [tutor, setTutor] = useState([]);
+
+//   useEffect(() => {
+//     axios
+//         .get(`http://localhost:8081/educonnect/tutor/booktutor?tutorid=${tutorid}&classcourseid=${classcourseid}`)
+//         .then((response) => {
+//             setData(response.data);
+//             console.log(response.data);
+//         })
+//         .catch((error) => {
+//             console.error(error);
+//         });
+// }, [tutorid, classcourseid]);
+
   return (
     <Box>
       <Box
@@ -69,30 +86,30 @@ function ViewInfomationPage() {
       </Box>
       <Box sx={{
         marginTop: "30px",
+        marginBottom : '100px'
       }}>
         <Grid container spacing={1}>
           <Grid item xs={4} sx={{marginLeft:"20%"}}>
             <Typography sx={{fontSize:"20px", fontWeight: "600"}}>Giáo viên: Nguyễn Văn A</Typography>
-            <Typography sx={{fontSize:"20px", fontWeight: "600"}}>Môn: Toán học,...</Typography>
             <Typography sx={{fontSize:"20px", fontWeight: "600"}}>Nơi công tác: EDU-CONNECT</Typography>
           </Grid>
           <Grid item xs={4}>
-          <Typography sx={{fontSize:"20px", fontWeight: "600"}}>Trình độ: Đại học</Typography>
+          <Typography sx={{fontSize:"20px", fontWeight: "600"}}>Môn: Toán học,...</Typography>
           </Grid>
         </Grid>
       </Box>
       <Box sx={{ display: "flex", justifyContent: "center", alignItems: "center", marginTop:"30px"}}>
         <Typography sx={{fontSize:"20px", fontWeight:"700", color:"blue"}}>Chia sẻ, cảm nhận của học sinh</Typography>
       </Box>
-      <Box sx={{marginTop : '40px', marginBottom : '80px'}}>
-        <Slide/>
+      <Box sx={{marginTop : '40px', marginBottom : '80px', marginLeft:"70px"}}>
+        <Slider/>
       </Box>
 
       <Box sx={{ display: "flex", justifyContent: "center", alignItems: "center", marginTop:"30px"}}>
         <Typography sx={{fontSize:"20px", fontWeight:"700", color:"blue"}}>Chia sẻ, cảm nhận của học sinh học thử</Typography>
       </Box>
-      <Box sx={{marginTop : '40px', marginBottom : '80px'}}>
-        <Slide/>
+      <Box sx={{marginTop : '40px', marginBottom : '80px', marginLeft:"70px"}}>
+        <Slider/>
       </Box>
     </Box>
   );

@@ -4,7 +4,7 @@ import Avatar from '@mui/material/Avatar';
 import Box from '@mui/material/Box';
 import PersonIcon from '@mui/icons-material/Person';
 
-function ProfileAvatar() {
+function ProfileAvatar({ userData, onFileChange, isEditing, role, uploadedFile }) {
   const [profilePic, setProfilePic] = useState('');
   const [isHovered, setIsHovered] = useState(false);
 
@@ -34,12 +34,12 @@ function ProfileAvatar() {
         overflow: 'hidden',
         boxShadow: '1px 1px 15px -5px black',
         transition: 'all .3s ease',
-        transform: isHovered ? 'scale(1.05)' : 'scale(1)',
-        cursor: 'pointer',
+        transform: isHovered && isEditing ? 'scale(1.05)' : 'scale(1)',
+        cursor: isEditing ? 'pointer' : 'default',
       }}
-      onMouseEnter={() => setIsHovered(true)}
-      onMouseLeave={() => setIsHovered(false)}
-      onClick={handleUploadClick}
+      onMouseEnter={() => { isEditing && setIsHovered(true); }}
+      onMouseLeave={() => { isEditing && setIsHovered(false); }}
+      onClick={() => { isEditing && handleUploadClick(); }}
     >
       <Avatar
         className="profile-pic"
@@ -49,7 +49,7 @@ function ProfileAvatar() {
           transition: 'all .3s ease',
           position: 'relative',
           borderRadius: '50%',
-          filter: isHovered ? 'brightness(80%)' : 'none',
+          filter: isHovered && isEditing ? 'brightness(80%)' : 'none',
         }}
         src={profilePic}
       >
@@ -62,7 +62,7 @@ function ProfileAvatar() {
               transform: 'translate(-50%, -50%)',
               fontSize: '150px',
               color: '#34495e',
-              opacity: isHovered ? 0.5 : 1,
+              opacity: isHovered && isEditing ? 0.5 : 1,
             }}
           />
         )}
@@ -77,7 +77,7 @@ function ProfileAvatar() {
           display: 'flex',
           alignItems: 'center',
           justifyContent: 'center',
-          opacity: isHovered ? 0.9 : 0,
+          opacity: isHovered && isEditing ? 0.9 : 0,
           transition: 'opacity .3s ease',
         }}
       >
