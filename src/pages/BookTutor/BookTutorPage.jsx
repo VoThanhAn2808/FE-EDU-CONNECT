@@ -8,8 +8,8 @@ import Rating from '@mui/material/Rating';
 import StarIcon from '@mui/icons-material/Star';
 import Button from '@mui/material/Button';
 import { Link, useParams } from "react-router-dom";
+import DiscountIcon from '@mui/icons-material/Discount';
 import axios from "axios";
-import { jwtDecode } from "jwt-decode";
 
 function BookTutorPage() {
 
@@ -29,7 +29,6 @@ function BookTutorPage() {
                 console.error(error);
             });
     }, [tutorid, classcourseid]);
-    const img = `http://localhost:8081/edu/file/files/${data.img}`;
     const [page, setPage] = useState([]);
 
     useEffect(() => {
@@ -57,55 +56,13 @@ function BookTutorPage() {
                 console.error(error);
             });
     }, [tutorid]);
-
-    const decodedToken = jwtDecode(localStorage.getItem('token'));
-    const [student, setStudent] = useState([]);
-
-    useEffect(() => {
-        axios.get("http://localhost:8081/student/viewstudent?email=" + decodedToken.sub)
-            .then((response) => {
-                setStudent(response.data);
-                console.log(response.data);
-            })
-            .catch((error) => {
-                console.error(error);
-            });
-    }, [decodedToken.sub]);
-
-    const studentid = student.studentid;
-    const handleSubmit = async (event) => {
-        event.preventDefault();
-
-        const config = {
-            headers: {
-              'Content-Type': 'multipart/form-data',
-            },
-          };
-
-        try {
-            const response = await axios.post(
-                "http://localhost:8081/book/bookcourse",
-                {
-                    studentId: studentid,
-                    tutorId: tutorid,
-                    classCourseId: classcourseid,
-                },
-                config
-            );
-            window.location.href = '/booktime/' + tutorid;
-            console.log(response.data);
-        } catch (error) {
-            console.error(error);
-            console.log(error.response.data);
-        }
-    };
     return (
         <Box className="body">
             <Box className="body-tutor" >
                 <Grid container spacing={1}>
                     <Grid item xs={5} >
                         <Box className="tutor-infor">
-                            <img src={'http://localhost:8081/edu/file/files/'+img} alt={data.fullname} className="tutor-img" />
+                            <img src={'http://localhost:8081/edu/file/files/' + data.img} alt={data.fullname} className="tutor-img" />
                         </Box>
                     </Grid>
                     <Grid item xs={7}>
@@ -140,7 +97,7 @@ function BookTutorPage() {
                         </Typography>
                         <Rating
                             name="five-star-rating"
-                            value={data.ranks}
+                            value={data.ranks ?? 0}
                             max={5}
                             readOnly
                             emptyIcon={<StarIcon style={{ fontSize: '30px', color: '#e0e0e0' }} />}
@@ -150,22 +107,24 @@ function BookTutorPage() {
                                 marginLeft: '5%'
                             }}
                         />
-                        <form onSubmit={handleSubmit}>
-                            <Box className="button">
+                        <Box className="button">
+                            <Link to='/homestudent'>
                                 <Button
                                     variant="contained" className="register" type="submit">
                                     Đăng ký ngay
                                 </Button>
-                                <Button
-                                    variant="contained" className="infor">
-                                    Thông Tin
-                                </Button>
+                            </Link>
+                            <Button href={`/viewinfomationpage/${data.tutorId}`}
+                                variant="contained" className="infor">
+                                Thông Tin
+                            </Button>
+                            <Link to='/homestudent'>
                                 <Button
                                     variant="contained" className="try">
                                     Đăng ký học thử
                                 </Button>
-                            </Box>
-                        </form>
+                            </Link>
+                        </Box>
                     </Grid>
                 </Grid>
             </Box>
@@ -179,8 +138,21 @@ function BookTutorPage() {
                 <Grid container spacing={1} >
                     {course.map((item, index) => (
                         <Grid item xs={3} key={index}>
-                            <Box className='top4couse'>
-                                <img src={`http://localhost:8081/edu/file/files/`+item.img} alt={item.courseName} className="courseimg" />
+                            <Box className='top4couse' style={{ position: 'relative' }}>
+                                {item.discount === 0 ? (
+                                    <Typography></Typography>
+                                ) : (
+                                    <Box sx={{
+                                        display: 'flex', alignItems: 'center', position: 'absolute', top: '1px',
+                                        right: '1px', backgroundColor: 'green', padding: '5px', borderRadius: '4px', boxShadow: '0 2px 4px rgba(0, 0, 0, 0.1)'
+                                    }}>
+                                        <DiscountIcon sx={{ color: 'red', marginRight: '5px' }} />
+                                        <Typography sx={{ fontWeight: 'bold' }}>{item.discount}%</Typography>
+                                    </Box>
+                                )}
+                                <img src={`http://localhost:8081/edu/file/files/` + item.img}
+                                    style={{ width: '120px', height: '180px' }}
+                                    alt={item.courseName} className="courseimg" />
                                 <Typography className="namebook">
                                     {item.courseName} {item.level}
                                 </Typography>
@@ -213,7 +185,9 @@ function BookTutorPage() {
                                 <Typography sx={{ fontSize: '12px', textAlign: 'center', marginTop: '5px' }}>
                                     Gia sư dạy {item.coursename} {item.classentity}
                                 </Typography>
-                                <img src={`http://localhost:8081/edu/file/files/${item.img}`} alt="subject" className="imgtutor" />
+                                <img src={`http://localhost:8081/edu/file/files/${item.img}`}
+                                    style={{ width: '130px', height: '180px' }}
+                                    alt="subject" className="imgtutor" />
                                 <Rating
                                     name="five-star-rating"
                                     value={item.ranks}

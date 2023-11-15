@@ -58,7 +58,7 @@ function Header() {
       
           if (role === 1) {
             axios
-              .get(`http://localhost:8081/student/viewstudent?email=${decodedTokenRef.current.sub}`)
+              .get(`http://localhost:8081/student/viewstudent?email=${decodedTokenRef.current.id}`)
               .then((response) => {
                 setData(response.data);
                 console.log(response.data);

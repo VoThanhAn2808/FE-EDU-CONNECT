@@ -58,7 +58,7 @@ function BookTime() {
     const [student, setStudent] = useState([]);
 
     useEffect(() => {
-        axios.get("http://localhost:8081/student/viewstudent?email=" + decodedToken.sub)
+        axios.get("http://localhost:8081/student/viewstudent?email=" + decodedToken.id)
             .then((response) => {
                 setStudent(response.data);
                 console.log(response.data);
@@ -66,7 +66,7 @@ function BookTime() {
             .catch((error) => {
                 console.error(error);
             });
-    }, [decodedToken.sub]);
+    }, [decodedToken.id]);
 
     const handleSubmit = async (event) => {
         event.preventDefault();

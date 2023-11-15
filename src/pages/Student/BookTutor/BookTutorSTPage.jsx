@@ -10,6 +10,8 @@ import Button from '@mui/material/Button';
 import { Link, useParams } from "react-router-dom";
 import axios from "axios";
 import { jwtDecode } from "jwt-decode";
+import DiscountIcon from '@mui/icons-material/Discount';
+
 
 function BookTutorSTPage() {
 
@@ -61,7 +63,7 @@ function BookTutorSTPage() {
     const [student, setStudent] = useState([]);
 
     useEffect(() => {
-        axios.get("http://localhost:8081/student/viewstudent?email=" + decodedToken.sub)
+        axios.get("http://localhost:8081/student/viewstudent?email=" + decodedToken.id)
             .then((response) => {
                 setStudent(response.data);
                 console.log(response.data);
@@ -69,7 +71,7 @@ function BookTutorSTPage() {
             .catch((error) => {
                 console.error(error);
             });
-    }, [decodedToken.sub]);
+    }, [decodedToken.id]);
 
     const studentid = student.studentid;
     const handleSubmit = async (event) => {
@@ -130,7 +132,7 @@ function BookTutorSTPage() {
                 <Grid container spacing={1}>
                     <Grid item xs={5} >
                         <Box className="tutor-infor">
-                            <img src={`http://localhost:8081/edu/file/files/`+data.img} alt={data.fullname} className="tutor-img" />
+                            <img src={`http://localhost:8081/edu/file/files/` + data.img} alt={data.fullname} className="tutor-img" />
                         </Box>
                     </Grid>
                     <Grid item xs={7}>
@@ -180,7 +182,7 @@ function BookTutorSTPage() {
                                 variant="contained" className="register" type="submit" onClick={handleSubmit}>
                                 Đăng ký ngay
                             </Button>
-                            <Button
+                            <Button href={`/viewinfomationpage/${data.tutorId}`}
                                 variant="contained" className="infor">
                                 Thông Tin
                             </Button>
@@ -206,8 +208,22 @@ function BookTutorSTPage() {
                 <Grid container spacing={1} >
                     {course.map((item, index) => (
                         <Grid item xs={3} key={index}>
-                            <Box className='top4couse'>
-                                <img src={`http://localhost:8081/edu/file/files/`+item.img} alt={item.courseName} className="courseimg" />
+                            <Box className='top4couse' style={{ position: 'relative' }}>
+                                {item.discount === 0 ? (
+                                    <Typography></Typography>
+                                ) : (
+                                    <Box sx={{
+                                        display: 'flex', alignItems: 'center', position: 'absolute', top: '1px',
+                                        right: '1px', backgroundColor: 'green', padding: '5px', borderRadius: '4px', boxShadow: '0 2px 4px rgba(0, 0, 0, 0.1)'
+                                    }}>
+                                        <DiscountIcon sx={{ color: 'red', marginRight: '5px' }} />
+                                        <Typography sx={{ fontWeight: 'bold' }}>{item.discount}%</Typography>
+                                    </Box>
+                                )}
+                                <img src={`http://localhost:8081/edu/file/files/` + item.img}
+                                    alt={item.courseName}
+                                    style={{ width: '120px', height: '170px' }}
+                                    className="courseimg" />
                                 <Typography className="namebook">
                                     {item.courseName} {item.level}
                                 </Typography>
@@ -237,10 +253,12 @@ function BookTutorSTPage() {
                     {page.map((item, index) => (
                         <Grid item xs={3} key={index}>
                             <Box className='top4couse'>
-                                <Typography sx={{ fontSize: '12px', textAlign: 'center', marginTop: '5px' }}>
+                                <Typography sx={{ fontSize: '12px', textAlign: 'center',fontFamily : 'cursive', marginTop: '5px' }}>
                                     Gia sư dạy {item.coursename} {item.classentity}
                                 </Typography>
-                                <img src={`http://localhost:8081/edu/file/files/`+item.img} alt="subject" className="imgtutor" />
+                                <img src={`http://localhost:8081/edu/file/files/` + item.img}
+                                    style={{ width: '120px', height: '170px' }}
+                                    alt="subject" className="imgtutor" />
                                 <Rating
                                     name="five-star-rating"
                                     value={item.ranks}
@@ -252,7 +270,7 @@ function BookTutorSTPage() {
 
                                     }}
                                 />
-                                <Typography sx={{ fontSize: '15px', textAlign: 'center', }}>
+                                <Typography sx={{ fontSize: '15px', textAlign: 'center', fontFamily : 'cursive' }}>
                                     {item.fullname}
                                 </Typography>
                                 <Button

@@ -11,7 +11,7 @@ function CalendarStudent() {
     const [daysOfWeek, setDaysOfWeek] = useState([]);
     const [data, setData] = useState([]);
     const decodedToken = jwtDecode(localStorage.getItem('token'));
-    const userId = decodedToken.sub;
+    const userId = decodedToken.id;
 
     const fetchUser = useCallback(async () => {
         try {

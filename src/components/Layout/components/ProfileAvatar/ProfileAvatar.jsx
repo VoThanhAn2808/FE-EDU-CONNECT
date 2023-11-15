@@ -5,7 +5,7 @@ import Box from '@mui/material/Box';
 import PersonIcon from '@mui/icons-material/Person';
 
 function ProfileAvatar({ userData, onFileChange, isEditing, role, uploadedFile }) {
-  const [profilePic, setProfilePic] = useState('');
+  const [profilePic, setProfilePic] = useState(null);
   const [isHovered, setIsHovered] = useState(false);
 
   const handleFileChange = (event) => {
@@ -15,14 +15,14 @@ function ProfileAvatar({ userData, onFileChange, isEditing, role, uploadedFile }
     reader.onload = (e) => {
       setProfilePic(e.target.result);
     };
-
     reader.readAsDataURL(file);
+    onFileChange(file);
   };
 
   const handleUploadClick = () => {
     document.getElementById('file-upload').click();
   };
-
+  const avatarSrc = profilePic === null ? `http://localhost:8081/edu/file/files/${userData.img}` : profilePic;
   return (
     <Box
       sx={{
@@ -51,7 +51,9 @@ function ProfileAvatar({ userData, onFileChange, isEditing, role, uploadedFile }
           borderRadius: '50%',
           filter: isHovered && isEditing ? 'brightness(80%)' : 'none',
         }}
-        src={profilePic}
+        type='file'
+        onChange={handleFileChange}
+        src={avatarSrc}
       >
         {!profilePic && (
           <PersonIcon

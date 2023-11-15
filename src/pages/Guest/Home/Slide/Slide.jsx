@@ -38,7 +38,7 @@ function Slide() {
                 <Typography sx={{position : 'absolute', left : '10%', width : '500px',
                 top : '20%', fontFamily : 'serif', color : 'black', fontWeight : '800', fontSize : '20px'}}>
                   {item.desciption}</Typography>
-                <img src={item.img} alt={`Slide ${index}`}/>
+                <img src={`http://localhost:8081/edu/file/files/`+item.img} alt={`Slide ${index}`}/>
               </Box>
             </SwiperSlide>
           );
