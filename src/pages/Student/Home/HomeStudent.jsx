@@ -7,17 +7,18 @@ import ANN from "../../../assests/image 1.jpg"
 import HOTNEW from "../../../assests/hotnew.jpg"
 import CalendarTodayIcon from '@mui/icons-material/CalendarToday';
 import axios from "axios";
-import Rating from '@mui/material/Rating';
-import StarIcon from '@mui/icons-material/Star';
+// import Rating from '@mui/material/Rating';
+// import StarIcon from '@mui/icons-material/Star';
 import PersonIcon from "@mui/icons-material/Person";
 import { Link } from "react-router-dom";
 import { jwtDecode } from 'jwt-decode';
+import DiscountIcon from '@mui/icons-material/Discount';
 
 function Home() {
     const [user, setUser] = useState([]);
     const [course, setStudentData] = useState([]);
     const decodedToken = jwtDecode(localStorage.getItem('token'));
-    const userId = decodedToken.sub;
+    const userId = decodedToken.id;
 
     const fetchUser = useCallback(async () => {
         try {
@@ -44,7 +45,7 @@ function Home() {
         } catch (error) {
             console.error(error);
         }
-    },[user.classId, user.studentid]);
+    }, [user.classId, user.studentid]);
 
     useEffect(() => {
         fetchUser();
@@ -114,11 +115,22 @@ function Home() {
                     <Grid container spacing={2}>
                         {course.map((item) => (
                             <Grid item xs={12} sm={6} md={5} lg={3} key={item.classCourseId}>
-                                <Box className="container">
+                                <Box className="container" style={{ position: 'relative' }}>
+                                    {item.discount === 0 ? (
+                                        <Typography></Typography>
+                                    ) : (
+                                        <Box sx={{
+                                            display: 'flex', alignItems: 'center', position: 'absolute', top: '1px',
+                                            right: '1px', backgroundColor: 'green', padding: '5px', borderRadius: '4px', boxShadow: '0 2px 4px rgba(0, 0, 0, 0.1)'
+                                        }}>
+                                            <DiscountIcon sx={{ color: 'red', marginRight: '5px' }} />
+                                            <Typography sx={{ fontWeight: 'bold' }}>{item.discount}%</Typography>
+                                        </Box>
+                                    )}
                                     <img
-                                        src={`http://localhost:8081/edu/file/files/`+item.img}
+                                        src={`http://localhost:8081/edu/file/files/` + item.img}
                                         alt={item.courseName}
-                                        style={{height : '200px'}}
+                                        style={{ height: '200px' }}
                                         className="subject-img"
                                     />
                                     <Typography className="nameSubject">
@@ -161,29 +173,40 @@ function Home() {
                 <Grid container spacing={1}>
                     {data.map((item, index) => (
                         <Grid item xs={4} key={index}>
-                            <Box className='top4couse'>
-                                <Typography sx={{ fontSize: '15px', fontWeight: '700', textAlign: 'center', marginTop: '5px' }}>
-                                    Gia sư
-                                </Typography>
-                                <img src={`http://localhost:8081/edu/file/files/`+item.img} alt="subject" className="courseimg" />
-                                <Rating
-                                    name="five-star-rating"
-                                    value={item.ranks}
-                                    max={5}
-                                    readOnly
-                                    emptyIcon={<StarIcon style={{ fontSize: '25px', color: '#e0e0e0' }} />}
-                                    icon={<StarIcon style={{ fontSize: '25px', color: '#ffc107' }} />}
+                            <Box className='giasu-container'>
+                                <Typography className='giasutext'
                                     sx={{
-
-                                    }}
-                                />
-                                <Typography sx={{ fontSize: '15px', textAlign: 'center', fontFamily: 'cursive', fontWeight: "700" }}>
+                                        color: "#00000",
+                                        fontWeight: "700",
+                                        fontSize: "20px",
+                                        fontFamily: "math"
+                                    }}>
+                                    Gia sư {index + 1}
+                                </Typography>
+                                <Typography className='giasu-name'
+                                    sx={{
+                                        color: "#00000",
+                                        fontWeight: "800",
+                                        fontSize: "20px",
+                                    }}>
                                     {item.fullname}
                                 </Typography>
-                                <Button
-                                    variant="contained" className="button-register">
-                                    Thông Tin
-                                </Button>
+                                <Link to={`/viewinfomationpage/${item.tutorid}`} style={{ color: 'black' }}>
+                                    <Typography className='giasu-infor'
+                                        sx={{
+                                            color: "#00000",
+                                            fontWeight: "400",
+                                            fontSize: "20px",
+                                            fontFamily: "cursive",
+                                            height: "35px",
+                                            width: "150px",
+                                            backgroundColor: "red",
+                                            borderRadius: "5px",
+                                        }}>
+                                        Thông tin
+                                    </Typography>
+                                </Link>
+                                <img src={`http://localhost:8081/edu/file/files/` + item.img} alt="giasu" className='giasu' />
                             </Box>
                         </Grid>
                     ))}

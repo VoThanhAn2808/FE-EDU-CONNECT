@@ -1,25 +1,20 @@
-import React from 'react';
+import React, { useEffect, useState } from 'react';
 import './Home.css';
 import Slide from './Slide/Slide';
 import AN from "../../../assests/1.jpg"
 import ANN from "../../../assests/image 1.jpg"
-import GIASU from "../../../assests/giasu.jpg"
 import GIASU1 from "../../../assests/image8.jpg"
 import GIASU2 from "../../../assests/image7.jpg"
 import INFOR from "../../../assests/image9.jpg"
 import WHY from "../../../assests/image10.jpg"
 import IMAGE25 from "../../../assests/image 25.jpg"
-// import IMAGE27 from "../../assests/image 27.jpg"
+// import Rating from '@mui/material/Rating';
+// import StarIcon from '@mui/icons-material/Star';
 import HOTNEW from "../../../assests/hotnew.jpg"
 import FooterHome from './Footerhome/FooterHome';
 import { Box, Button, Grid, Typography } from '@mui/material';
 import CalendarTodayIcon from '@mui/icons-material/CalendarToday';
-
-const data = [
-    { giasu: GIASU, title: "GIA SƯ 1", name: "Nguyễn Trọng Hiếu", infor: "THÔNG TIN" },
-    { giasu: GIASU, title: "GIA SƯ 2", name: "Nguyễn Trọng Hiếu", infor: "THÔNG TIN" },
-    { giasu: GIASU, title: "GIA SƯ 3", name: "Nguyễn Trọng Hiếu", infor: "THÔNG TIN" },
-]
+import axios from 'axios';
 
 const data2 = [
     { hotnew: HOTNEW, infor: "Lượng học sinh năm 2023", date: "20-08-2023", para: "Số lượng học sinh trong năm 2023 tăng hơn", more: "XEM THÊM", fullContent: "hết rồi nhé mọi người" },
@@ -28,6 +23,20 @@ const data2 = [
 ]
 
 function Home() {
+
+    const [data, setData] = useState([]);
+
+    useEffect(() => {
+        axios
+            .get("http://localhost:8081/educonnect/tutor/top3")
+            .then((response) => {
+                setData(response.data);
+                console.log(response.data);
+            })
+            .catch((error) => {
+                console.error(error);
+            });
+    }, []);
     return (
         <Box>
             <Slide />
@@ -88,7 +97,7 @@ function Home() {
                                         fontSize: "20px",
                                         fontFamily: "math"
                                     }}>
-                                    {item.title}
+                                    Gia sư {index + 1}
                                 </Typography>
                                 <Typography className='giasu-name'
                                     sx={{
@@ -96,9 +105,9 @@ function Home() {
                                         fontWeight: "800",
                                         fontSize: "20px",
                                     }}>
-                                    {item.name}
+                                    {item.fullname}
                                 </Typography>
-                                {/* update screen infor giasu */}
+                                
                                 <Typography className='giasu-infor'
                                     sx={{
                                         color: "#00000",
@@ -108,11 +117,11 @@ function Home() {
                                         height: "35px",
                                         width: "150px",
                                         backgroundColor: "red",
-                                        borderRadius: "5px",
+                                        borderRadius: "5px"
                                     }}>
-                                    {item.infor}
+                                    Thông tin
                                 </Typography>
-                                <img src={item.giasu} alt="giasu" className='giasu' />
+                                <img src={`http://localhost:8081/edu/file/files/` + item.img} alt="giasu" className='giasu' />
                             </Box>
                         </Grid>
                     ))}
@@ -428,7 +437,7 @@ function Home() {
                                 <Button variant="contained" color="success" sx={{ fontSize: "10px", height: "20px", width: "90px", margin: "0 auto", borderRadius: "15px" }}>
                                     {item.more}
                                 </Button>
-                                
+
                             </Box>
                         </Grid>
                     ))}

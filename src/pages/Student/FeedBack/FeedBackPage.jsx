@@ -1,6 +1,7 @@
 import { Textarea } from "@mui/joy";
 import { Box, Button, Modal, Paper, Rating, Table, TableBody, TableCell, TableContainer, TableHead, TableRow, Typography } from "@mui/material";
 import axios from "axios";
+import { jwtDecode } from "jwt-decode";
 import React, { useEffect, useState } from "react";
 import { Link } from "react-router-dom";
 
@@ -10,10 +11,10 @@ function Feedback() {
     const [ratingValue, setRatingValue] = useState(0);
     const [feedbacks, setFeedback] = useState([]);
     const [note, setNote] = useState('');
-    const student = localStorage.getItem("token");
+    const student = jwtDecode(localStorage.getItem('token'));
     useEffect(() => {
         axios
-            .get("http://localhost:8081/student/feedback/3")
+            .get("http://localhost:8081/student/feedback/" + student.id)
             .then((response) => {
                 setFeedback(response.data);
                 console.log(response.data);
