@@ -52,10 +52,10 @@ const publicRoute = [
   { path: '/signup', component: SignUp, layout: LoginLayout},
   { path: '/login', component: LoginPage, layout: LoginLayout},
   { path: '/forgotpass', component: ForgotPassword, layout: LoginLayout},
-  { path: '/changepass', component: ChangePassword, layout: LoginLayout},
   { path: '/resetpassword/:token', component : ResetPassword, layout: LoginLayout},
 ];
 const privateRoute = [
+  { path: '/changepass', component: ChangePassword, layout: LoginLayout},
   { path: '/demo', component : DemoPage, layout: LayoutStudent, allowedRoles: ["student"]},
   { path: '/listtutorst/:id', component: ListTutorST, layout: LayoutStudent, allowedRoles: ["student"]},
   { path: '/homestudent', component: HomeStudent, layout: LayoutStudent, allowedRoles: ["student"]},
