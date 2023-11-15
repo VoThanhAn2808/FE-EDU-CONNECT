@@ -23,7 +23,7 @@ const Sidebar = () => {
   const [user, setUser] = useState([]);
   const [course, setStudentData] = useState([]);
   const decodedToken = jwtDecode(localStorage.getItem('token'));
-  const userId = decodedToken.sub;
+  const userId = decodedToken.id;
 
   const fetchUser = useCallback(async () => {
     try {

@@ -15,7 +15,7 @@ function ListTutorST() {
 
     const handleSearchChange = (event) => {
         setSearchName(event.target.value);
-      };
+    };
 
     const handleSearch = () => {
         axios
@@ -27,7 +27,7 @@ function ListTutorST() {
             .catch((error) => {
                 console.error(error);
             });
-      };
+    };
 
     const fetchData = useCallback((pageNumber) => {
         axios
@@ -35,7 +35,20 @@ function ListTutorST() {
             .then((response) => {
                 setData(response.data);
                 console.log(response.data);
-                console.log("page " + pageNumber);
+            })
+            .catch((error) => {
+                console.error(error);
+            });
+    }, [id]);
+
+    const [page, setPage] = useState([]);
+
+    useEffect(() => {
+        axios
+            .get(`http://localhost:8081/tutorByCourse/page?courseid=${id}`)
+            .then((response) => {
+                setPage(response.data);
+                console.log(response.data);
             })
             .catch((error) => {
                 console.error(error);
@@ -51,23 +64,11 @@ function ListTutorST() {
     };
 
     const [top, setTop] = useState([]);
-
-    useEffect(() => {
-        axios
-            .get("http://localhost:8081/educonnect/ListAllDecsTutor?courseid=" + id)
-            .then((response) => {
-                setTop(response.data); // Sửa từ response.top thành response.data
-                console.log(response.data);
-            })
-            .catch((error) => {
-                console.error(error);
-            });
-    }, [id]);
     const fetchTop = useCallback((pageNumber) => {
         axios
             .get(`http://localhost:8081/educonnect/ListAllDecsTutor?courseid=${id}&page=${pageNumber}`)
             .then((response) => {
-                setData(response.data);
+                setTop(response.data);
                 console.log(response.data);
             })
             .catch((error) => {
@@ -82,33 +83,20 @@ function ListTutorST() {
         setPageTop(pageNumber);
     };
 
-    const [page, setPage] = useState([]);
+
+    const [cpage, setCpage] = useState([]);
 
     useEffect(() => {
         axios
-            .get(`http://localhost:8081/tutorByCourse/page?courseid=${id}`)
+            .get("http://localhost:8081/educonnect/countpage?classcourseid=" + id)
             .then((response) => {
-                setPage(response.data); // Sửa từ response.top thành response.data
+                setCpage(response.data);
                 console.log(response.data);
             })
             .catch((error) => {
                 console.error(error);
             });
     }, [id]);
-
-    const [cpage, setCpage] = useState([]);
-
-    useEffect(() => {
-        axios
-            .get("http://localhost:8081/educonnect/countpage?classcourseid=1")
-            .then((response) => {
-                setCpage(response.data); // Sửa từ response.top thành response.data
-                console.log(response.data);
-            })
-            .catch((error) => {
-                console.error(error);
-            });
-    }, []);
 
     return (
         <Box sx={{
@@ -154,7 +142,7 @@ function ListTutorST() {
                             <Box className='container'>
                                 <Typography sx={{ fontSize: '15px', fontFamily: 'cursive' }}>Gia sư dạy</Typography>
                                 <Typography sx={{ fontFamily: 'cursive', fontSize: '12px' }}>{item.coursename} {item.classentity}</Typography>
-                                <img src={`http://localhost:8081/edu/file/files/`+item.img} alt={item.fullname} style={{ width: '50%', height: '100%' }} />
+                                <img src={`http://localhost:8081/edu/file/files/` + item.img} alt={item.fullname} style={{ width: '50%', height: '100%' }} />
                                 <Typography className="nameTutor">{item.fullname}</Typography>
                                 <Rating
                                     name="five-star-rating"
@@ -205,7 +193,7 @@ function ListTutorST() {
                                 <Box className='containers'>
                                     <Typography sx={{ fontSize: '15px', fontFamily: 'cursive', marginTop: '10px' }}>Gia sư dạy</Typography>
                                     <Typography sx={{ fontFamily: 'cursive', fontSize: '12px' }}>{items.coursename} {items.classentity}</Typography>
-                                    <img src={`http://localhost:8081/edu/file/files/`+items.img} alt={items.fullname} style={{ width: '50%', height: '100%' }} />
+                                    <img src={`http://localhost:8081/edu/file/files/` + items.img} alt={items.fullname} style={{ width: '50%', height: '100%' }} />
                                     <Typography className="nameTutor">{items.fullname}</Typography>
                                     <Rating
                                         name="five-star-rating"
@@ -238,9 +226,9 @@ function ListTutorST() {
                     </Grid>
                 </Box>
                 <Box sx={{ marginBottom: '60px', display: 'flex', justifyContent: 'center' }}>
-                    <Pagination count={cpage.length} // Thay thế 10 bằng số trang thực tế của dữ liệu của bạn
-                    page={pageTop}
-                    onChange={handlePageTopChange} sx={{ '& .MuiPaginationItem-root': { fontSize: '15px', minWidth: '50px' } }} />
+                    <Pagination count={cpage.length} 
+                        page={pageTop}
+                        onChange={handlePageTopChange} sx={{ '& .MuiPaginationItem-root': { fontSize: '15px', minWidth: '50px' } }} />
                 </Box>
             </Box>
         </Box>

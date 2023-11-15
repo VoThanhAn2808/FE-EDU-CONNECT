@@ -13,11 +13,26 @@ import AccountBalanceIcon from '@mui/icons-material/AccountBalance';
 import LibraryBooksIcon from '@mui/icons-material/LibraryBooks';
 import HelpOutlineIcon from '@mui/icons-material/HelpOutline';
 import { Link } from 'react-router-dom';
+import { useEffect } from 'react';
+import axios from 'axios';
 
 const Sidebar = () => {
     const [openPrimary, setOpenPrimary] = React.useState(true);
     const [openSecondary, setOpenSecondary] = React.useState(true);
     const [openHighschool, setOpenHighschool] = React.useState(true);
+    const [data, setData] = React.useState([]);
+
+    useEffect(() => {
+        axios
+            .get("http://localhost:8081/student/class")
+            .then((response) => {
+                setData(response.data);
+                console.log(response.data);
+            })
+            .catch((error) => {
+                console.error(error);
+            });
+    }, []);
 
     const handlePrimaryClick = () => {
         setOpenPrimary(!openPrimary);
@@ -54,53 +69,33 @@ const Sidebar = () => {
                     <ListItemIcon>
                         <HomeIcon />
                     </ListItemIcon>
-                    <Typography sx={{ fontSize: '16px', marginRight: 'auto', }}><Link to='/' style={{color:"black", textDecoration: "none"}}>Trang chủ</Link></Typography>
+                    <Typography sx={{ fontSize: '16px', marginRight: 'auto', }}><Link to='/' style={{ color: "black", textDecoration: "none" }}>Trang chủ</Link></Typography>
                 </ListItemButton>
 
                 <ListItemButton onClick={handlePrimaryClick}>
                     <ListItemIcon>
                         <MenuBookIcon />
                     </ListItemIcon>
-                    <Typography sx={{ fontSize: '16px', marginRight: 'auto',  }}>Cấp 1 </Typography>
+                    <Typography sx={{ fontSize: '16px', marginRight: 'auto', }}>Cấp 1 </Typography>
                     {openPrimary ? <ExpandLess /> : <ExpandMore />}
                 </ListItemButton>
 
                 <Collapse in={openPrimary} timeout='auto' unmountOnExit>
                     <List disablePadding>
-                        <ListItemButton sx={{ pl: 3 }}>
-                            <ListItemIcon></ListItemIcon>
-                            <Typography sx={{ fontSize: '13px', marginRight: 'auto', fontWeight: 'bold' }}>
-                                Lớp 1
-                            </Typography>
-                        </ListItemButton>
-
-                        <ListItemButton sx={{ pl: 3 }}>
-                            <ListItemIcon></ListItemIcon>
-                            <Typography sx={{ fontSize: '13px', marginRight: 'auto', fontWeight: 'bold' }}>
-                                Lớp 2
-                            </Typography>
-                        </ListItemButton>
-
-                        <ListItemButton sx={{ pl: 3 }}>
-                            <ListItemIcon></ListItemIcon>
-                            <Typography sx={{ fontSize: '13px', marginRight: 'auto', fontWeight: 'bold' }}>
-                                Lớp 3
-                            </Typography>
-                        </ListItemButton>
-
-                        <ListItemButton sx={{ pl: 3 }}>
-                            <ListItemIcon></ListItemIcon>
-                            <Typography sx={{ fontSize: '13px', marginRight: 'auto', fontWeight: 'bold' }}>
-                                Lớp 4
-                            </Typography>
-                        </ListItemButton>
-
-                        <ListItemButton sx={{ pl: 3 }}>
-                            <ListItemIcon></ListItemIcon>
-                            <Typography sx={{ fontSize: '13px', marginRight: 'auto', fontWeight: 'bold' }}>
-                                Lớp 5
-                            </Typography>
-                        </ListItemButton>
+                        {data.map((item, index) => (
+                            item.levelid === 1 ? (
+                                <ListItemButton key={index} sx={{ pl: 3 }}>
+                                    <ListItemIcon></ListItemIcon>
+                                    <Link to={`/subject/${item.classid}`} style={{ color: "black", textDecoration: "none" }}>
+                                        <Typography sx={{ fontSize: '13px', marginRight: 'auto', fontWeight: 'bold' }}>
+                                            {item.className}
+                                        </Typography>
+                                    </Link>
+                                </ListItemButton>
+                            ) : (
+                                <Typography key={index}></Typography>
+                            )
+                        ))}
                     </List>
                 </Collapse>
 
@@ -108,39 +103,26 @@ const Sidebar = () => {
                     <ListItemIcon>
                         <AccountBalanceIcon />
                     </ListItemIcon>
-                    <Typography sx={{ fontSize: '16px', marginRight: 'auto',  }}>Cấp 2 </Typography>
+                    <Typography sx={{ fontSize: '16px', marginRight: 'auto', }}>Cấp 2 </Typography>
                     {openSecondary ? <ExpandLess /> : <ExpandMore />}
                 </ListItemButton>
 
                 <Collapse in={openSecondary} timeout='auto' unmountOnExit>
                     <List disablePadding>
-                        <ListItemButton sx={{ pl: 3 }}>
-                            <ListItemIcon></ListItemIcon>
-                            <Typography sx={{ fontSize: '13px', marginRight: 'auto', fontWeight: 'bold' }}>
-                                Lớp 6
-                            </Typography>
-                        </ListItemButton>
-
-                        <ListItemButton sx={{ pl: 3 }}>
-                            <ListItemIcon></ListItemIcon>
-                            <Typography sx={{ fontSize: '13px', marginRight: 'auto', fontWeight: 'bold' }}>
-                                Lớp 7
-                            </Typography>
-                        </ListItemButton>
-
-                        <ListItemButton sx={{ pl: 3 }}>
-                            <ListItemIcon></ListItemIcon>
-                            <Typography sx={{ fontSize: '13px', marginRight: 'auto', fontWeight: 'bold' }}>
-                                Lớp 8
-                            </Typography>
-                        </ListItemButton>
-
-                        <ListItemButton sx={{ pl: 3 }}>
-                            <ListItemIcon></ListItemIcon>
-                            <Typography sx={{ fontSize: '13px', marginRight: 'auto', fontWeight: 'bold' }}>
-                                Lớp 9
-                            </Typography>
-                        </ListItemButton>
+                        {data.map((item, index) => (
+                            item.levelid === 2 ? (
+                                <ListItemButton key={index} sx={{ pl: 3 }}>
+                                    <ListItemIcon></ListItemIcon>
+                                    <Link to={`/subject/${item.classid}`} style={{ color: "black", textDecoration: "none" }}>
+                                        <Typography sx={{ fontSize: '13px', marginRight: 'auto', fontWeight: 'bold' }}>
+                                            {item.className}
+                                        </Typography>
+                                    </Link>
+                                </ListItemButton>
+                            ) : (
+                                <Typography key={index}></Typography>
+                            )
+                        ))}
                     </List>
                 </Collapse>
 
@@ -148,34 +130,26 @@ const Sidebar = () => {
                     <ListItemIcon>
                         <SchoolIcon />
                     </ListItemIcon>
-                    <Typography sx={{ fontSize: '16px', marginRight: 'auto',  }}>Cấp 3 </Typography>
+                    <Typography sx={{ fontSize: '16px', marginRight: 'auto', }}>Cấp 3 </Typography>
                     {openHighschool ? <ExpandLess /> : <ExpandMore />}
                 </ListItemButton>
 
                 <Collapse in={openHighschool} timeout='auto' unmountOnExit>
                     <List component='div' disablePadding>
-                        <ListItemButton sx={{ pl: 3 }}>
-                            <ListItemIcon></ListItemIcon>
-                            <Link to='/subject' style={{color:"black", textDecoration: "none"}}>
-                                <Typography sx={{ fontSize: '13px', marginRight: 'auto', fontWeight: 'bold' }}>
-                                    Lớp 10
-                                </Typography>
-                            </Link>
-                        </ListItemButton>
-
-                        <ListItemButton sx={{ pl: 3 }}>
-                            <ListItemIcon></ListItemIcon>
-                            <Typography sx={{ fontSize: '13px', marginRight: 'auto', fontWeight: 'bold' }}>
-                                Lớp 11
-                            </Typography>
-                        </ListItemButton>
-
-                        <ListItemButton sx={{ pl: 3 }}>
-                            <ListItemIcon></ListItemIcon>
-                            <Typography sx={{ fontSize: '13px', marginRight: 'auto', fontWeight: 'bold' }}>
-                                Lớp 12
-                            </Typography>
-                        </ListItemButton>
+                        {data.map((item, index) => (
+                            item.levelid === 3 ? (
+                                <ListItemButton key={index} sx={{ pl: 3 }}>
+                                    <ListItemIcon></ListItemIcon>
+                                    <Link to={`/subject/${item.classid}`} style={{ color: "black", textDecoration: "none" }}>
+                                        <Typography sx={{ fontSize: '13px', marginRight: 'auto', fontWeight: 'bold' }}>
+                                            {item.className}
+                                        </Typography>
+                                    </Link>
+                                </ListItemButton>
+                            ) : (
+                                <Typography key={index}></Typography>
+                            )
+                        ))}
                     </List>
                 </Collapse>
 
@@ -183,14 +157,14 @@ const Sidebar = () => {
                     <ListItemIcon>
                         <LibraryBooksIcon />
                     </ListItemIcon>
-                    <Typography sx={{ fontSize: '16px', marginRight: 'auto',  }}>Thư Viện </Typography>
+                    <Typography sx={{ fontSize: '16px', marginRight: 'auto', }}>Thư Viện </Typography>
                 </ListItemButton>
 
                 <ListItemButton>
                     <ListItemIcon>
                         <HelpOutlineIcon />
                     </ListItemIcon>
-                    <Typography sx={{ fontSize: '16px', marginRight: 'auto',  }}>Hướng dẫn đăng ký </Typography>
+                    <Typography sx={{ fontSize: '16px', marginRight: 'auto', }}>Hướng dẫn đăng ký </Typography>
                 </ListItemButton>
             </List>
         </Box>

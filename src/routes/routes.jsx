@@ -46,7 +46,7 @@ import ResetPassword from '../pages/Logins/Resetpassord/ResetPassordPage';
 
 const publicRoute = [
   { path: '/', component: Home, layout: DefaultLayout, allowedRoles: ["default"]},
-  { path: '/subject', component: SubjectPage, layout: DefaultLayout, allowedRoles: ["default"]},
+  { path: '/subject/:id', component: SubjectPage, layout: DefaultLayout, allowedRoles: ["default"]},
   { path: '/listtutor/:id', component: ListTutor, layout: DefaultLayout, allowedRoles: ["default"]},
   { path: '/booktutor/:tutorid/:classcourseid', component: BookTutorPage, layout: DefaultLayout, allowedRoles: ["default"]},
   { path: '/signup', component: SignUp, layout: LoginLayout},
@@ -64,7 +64,7 @@ const privateRoute = [
   { path: '/profile-student', component: ProfileStudent, layout: LayoutStudent, allowedRoles: ["student"]},
   { path: '/profilestudent', component: ProfileStudents, layout: LoginLayout, allowedRoles: ["student"]},
   { path: '/calendarstudent', component: CalendarStudent, layout: LayoutStudent, allowedRoles: ["student"]},
-  { path: '/viewinfomationpage', component: ViewInfomationPage, layout: LayoutStudent, allowedRoles: ["student"]},
+  { path: '/viewinfomationpage/:tutorid', component: ViewInfomationPage, layout: LayoutStudent, allowedRoles: ["student"]},
   { path: '/teacherprogramlist/:bookid', component: TeacherProgramList, layout: LayoutStudent, allowedRoles: ["student"] },
   { path: '/feedback', component : Feedback, layout : LoginLayout, allowedRoles: ["student"]},
   { path: '/booktime/:tutorId', component: BookTime, layout: LoginLayout, allowedRoles: ["student"] },
