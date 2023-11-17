@@ -1,22 +1,30 @@
-import React from "react";
-import { Box, Button, Pagination, Table, TableBody, TableCell, TableContainer, TableHead, TableRow, TextField, Typography } from "@mui/material";
+import React, { useEffect, useState } from "react";
+import { Box, Button, Menu, MenuItem, Pagination, Table, TableBody, TableCell, TableContainer, TableHead, TableRow, TextField, Typography } from "@mui/material";
 import MoreVertIcon from '@mui/icons-material/MoreVert';
-
-const data = [
-    { id: 1, name: "Nguyẽn Văn A", address: "Đà Nẵng", phoneNumber: "0987654321", date: "10/09/2023", status: "Còn dạy" },
-    { id: 2, name: "Nguyẽn Văn A", address: "Đà Nẵng", phoneNumber: "0987654321", date: "10/09/2023", status: "Đã nghỉ" },
-    { id: 3, name: "Nguyẽn Văn A", address: "Đà Nẵng", phoneNumber: "0987654321", date: "10/09/2023", status: "Còn dạy" },
-    { id: 4, name: "Nguyẽn Văn A", address: "Đà Nẵng", phoneNumber: "0987654321", date: "10/09/2023", status: "Còn dạy" },
-    { id: 5, name: "Nguyẽn Văn A", address: "Đà Nẵng", phoneNumber: "0987654321", date: "10/09/2023", status: "Đã nghỉ" },
-    { id: 6, name: "Nguyẽn Văn A", address: "Đà Nẵng", phoneNumber: "0987654321", date: "10/09/2023", status: "Đã nghỉ" },
-    { id: 7, name: "Nguyẽn Văn A", address: "Đà Nẵng", phoneNumber: "0987654321", date: "10/09/2023", status: "Đã nghỉ" },
-    { id: 8, name: "Nguyẽn Văn A", address: "Đà Nẵng", phoneNumber: "0987654321", date: "10/09/2023", status: "Còn dạy" },
-    { id: 9, name: "Nguyẽn Văn A", address: "Đà Nẵng", phoneNumber: "0987654321", date: "10/09/2023", status: "Còn dạy" },
-    { id: 10, name: "Nguyẽn Văn A", address: "Đà Nẵng", phoneNumber: "0987654321", date: "10/09/2023", status: "Đã nghỉ" },
-
-]
+import axios from "axios";
 
 function TutorManagement() {
+    const [data, setData] = useState([]);
+    const [anchorEl, setAnchorEl] = useState(null);
+    const handleClick = (event) => {
+        setAnchorEl(event.currentTarget);
+    };
+
+    const handleClose = () => {
+        setAnchorEl(null);
+    };
+
+    useEffect(() => {
+        axios
+            .get(`http://localhost:8081/staffsconnect/tutor/2`)
+            .then((response) => {
+                setData(response.data);
+                console.log(response.data);
+            })
+            .catch((error) => {
+                console.error(error);
+            });
+    }, []);
     return (
         <Box sx={{ marginBottom: "50px" }}>
             <Box sx={{
@@ -93,13 +101,24 @@ function TutorManagement() {
                             <TableBody>
                                 {data.map((item, index) => (
                                     <TableRow key={index}>
-                                        <TableCell sx={{ fontSize: "15px", fontFamily: "cursive", textAlign: "center" }}>{item.id}</TableCell>
-                                        <TableCell sx={{ fontSize: "15px", fontFamily: "cursive", textAlign: "center" }}>{item.name}</TableCell>
-                                        <TableCell sx={{ fontSize: "15px", fontFamily: "cursive", textAlign: "center" }}>{item.address}</TableCell>
-                                        <TableCell sx={{ fontSize: "15px", fontFamily: "cursive", textAlign: "center" }}>{item.phoneNumber}</TableCell>
-                                        <TableCell sx={{ fontSize: "15px", fontFamily: "cursive", textAlign: "center" }}>{item.date}</TableCell>
-                                        <TableCell sx={{ fontSize: "15px", fontFamily: "cursive", textAlign: "center", color: item.status === 'Còn dạy' ? 'green' : 'red' }}>{item.status}</TableCell>
-                                        <TableCell sx={{ fontSize: "15px", fontFamily: "cursive", textAlign: "center" }}><MoreVertIcon sx={{fontSize:"25px"}}/></TableCell>
+                                        <TableCell sx={{ fontSize: "15px", fontFamily: "cursive", textAlign: "center" }}>{item.tutorid}</TableCell>
+                                        <TableCell sx={{ fontSize: "15px", fontFamily: "cursive", textAlign: "center" }}>{item.fullname}</TableCell>
+                                        <TableCell sx={{ fontSize: "15px", fontFamily: "cursive", textAlign: "center" }}>{item.city} {item.wards}</TableCell>
+                                        <TableCell sx={{ fontSize: "15px", fontFamily: "cursive", textAlign: "center" }}>{item.phone}</TableCell>
+                                        <TableCell sx={{ fontSize: "15px", fontFamily: "cursive", textAlign: "center" }}>{item.createdate}</TableCell>
+                                        <TableCell sx={{ fontSize: "15px", fontFamily: "cursive", textAlign: "center", color: item.status === '1' ? 'red' : 'green' }}>{item.status === 1 ? 'Còn dạy' : 'Đã nghỉ'}</TableCell>
+                                        <TableCell sx={{ fontSize: "15px", fontFamily: "cursive", textAlign: "center" }}>
+                                            <MoreVertIcon sx={{fontSize:"25px"}} onClick={handleClick}/>
+                                            <Menu
+                                                anchorEl={anchorEl}
+                                                open={Boolean(anchorEl)}
+                                                onClose={handleClose}
+                                            >
+                                                <MenuItem onClick={handleClose}>Xem thông tin</MenuItem>
+                                                <MenuItem onClick={handleClose}>Update Tiền</MenuItem>
+                                                <MenuItem onClick={handleClose}>Cắm cờ</MenuItem>
+                                            </Menu>
+                                            </TableCell>
                                     </TableRow>
                                 ))}
                             </TableBody>

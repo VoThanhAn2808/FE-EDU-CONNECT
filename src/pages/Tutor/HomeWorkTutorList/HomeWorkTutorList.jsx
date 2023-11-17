@@ -87,7 +87,7 @@ function HomeWorkTutorList() {
                                         <TableCell sx={{ fontSize: "15px", fontFamily: "cursive", textAlign: "center", backgroundColor: '#D9D9D9', border: '1px solid #000000', p: 2, }}>{item.time}</TableCell>
                                         <TableCell sx={{ fontSize: "15px", fontFamily: "cursive", textAlign: "center", backgroundColor: '#D9D9D9', border: '1px solid #000000', p: 2, }}>{item.file ? (
                                             <Link sx={{ textDecoration: "none" }} href={item.file} target="_blank" rel="noopener noreferrer">
-                                                View File
+                                                Tải File
                                             </Link>
                                         ) : (
                                             "No file available"
