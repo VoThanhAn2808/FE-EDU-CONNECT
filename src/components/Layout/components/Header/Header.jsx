@@ -9,7 +9,7 @@ import Container from '@mui/material/Container';
 import Avatar from '@mui/material/Avatar';
 import Tooltip from '@mui/material/Tooltip';
 import MenuItem from '@mui/material/MenuItem';
-import NotificationsIcon from '@mui/icons-material/Notifications';
+import BackHandIcon from '@mui/icons-material/BackHand';
 import PhoneIcon from '@mui/icons-material/Phone';
 import { Link, useNavigate } from 'react-router-dom';
 import { useState } from 'react';
@@ -18,9 +18,33 @@ import { jwtDecode } from 'jwt-decode';
 import axios from 'axios';
 import { useRef } from 'react';
 import { Button } from '@mui/material';
+import { styled, keyframes } from '@mui/system';
 
 
 function Header() {
+    const wavingAnimation = keyframes`
+    0% {
+        transform: rotate(0deg);
+    }
+    25% {
+        transform: rotate(15deg);
+    }
+    50% {
+        transform: rotate(0deg);
+    }
+    75% {
+        transform: rotate(-15deg);
+    }
+    100% {
+        transform: rotate(0deg);
+    }
+    `;
+    const WavingHand = styled(BackHandIcon)`
+    animation: ${wavingAnimation} 0.7s infinite;
+    `;
+    const Phone = styled(PhoneIcon)`
+    animation: ${wavingAnimation} 0.5s infinite;
+    `
     const [anchorElUser, setAnchorElUser] = React.useState(null);
 
     const navigate = useNavigate();
@@ -53,37 +77,43 @@ function Header() {
 
     useEffect(() => {
         try {
-          decodedTokenRef.current = jwtDecode(token);
-          const role = decodedTokenRef.current.role;
-      
-          if (role === 1) {
-            axios
-              .get(`http://localhost:8081/student/viewstudent?email=${decodedTokenRef.current.id}`)
-              .then((response) => {
-                setData(response.data);
-                console.log(response.data);
-              })
-              .catch((error) => {
-                console.error(error);
-              });
-          } else if (role === 2) {
-            axios
-              .get(`http://localhost:8081/educonnect/viewTutor?tutorId=${decodedTokenRef.current.id}`)
-              .then((response) => {
-                setData(response.data);
-                console.log(response.data);
-              })
-              .catch((error) => {
-                console.error(error);
-              });
-          }
+            decodedTokenRef.current = jwtDecode(token);
+            const role = decodedTokenRef.current.role;
+
+            if (role === 1) {
+                axios
+                    .get(`http://localhost:8081/student/viewstudent?email=${decodedTokenRef.current.id}`)
+                    .then((response) => {
+                        setData(response.data);
+                        console.log(response.data);
+                    })
+                    .catch((error) => {
+                        console.error(error);
+                    });
+            } else if (role === 2) {
+                axios
+                    .get(`http://localhost:8081/educonnect/viewTutor?tutorId=${decodedTokenRef.current.id}`)
+                    .then((response) => {
+                        setData(response.data);
+                        console.log(response.data);
+                    })
+                    .catch((error) => {
+                        console.error(error);
+                    });
+            }
         } catch (error) {
-          console.error('Error decoding the token:', error);
+            console.error('Error decoding the token:', error);
         }
-      }, [token]);
+    }, [token]);
 
     return (
-        <AppBar position='fixed' sx={{ width: '100%', background: "#F9C01F", zIndex: "5", boxShadow: 'none', height: '70px' }}>
+        <AppBar position='fixed' sx={{ 
+            width: '100%', 
+            background: "#F9C01F", 
+            zIndex: "5", 
+            boxShadow: 'none', 
+            height: '70px' 
+            }}>
             <Container maxWidth="">
                 <Toolbar disableGutters sx={{ justifyContent: "space-between" }}>
                     <Typography
@@ -92,10 +122,7 @@ function Header() {
                         component="a"
                         href=""
                         sx={{
-                            // mr: 2,
-                            // display: { xs: 'none', md: 'flex' },
                             fontWeight: 800,
-                            // letterSpacing: '.3rem',
                             color: 'inherit',
                             textDecoration: 'none',
                         }}
@@ -114,16 +141,16 @@ function Header() {
                             alignItems: 'center',
                             gap: '5px'
                         }}>
-                            <PhoneIcon sx={{
+                            <Phone sx={{
                                 height: "30px",
                                 width: "30px",
                             }} />
                             <Typography sx={{
                                 fontSize: '15px',
                                 fontWeight: 'bold',
-                            }}>1800.8198</Typography>
+                            }}>0904692410</Typography>
                         </Box>
-                        <NotificationsIcon sx={{
+                        <WavingHand sx={{
                             height: "30px",
                             width: "30px",
                         }} />
@@ -143,7 +170,7 @@ function Header() {
                                         <IconButton>
                                             <Avatar
                                                 alt={data.fullname}
-                                                src={`http://localhost:8081/edu/file/files/`+data.img}
+                                                src={`http://localhost:8081/edu/file/files/` + data.img}
                                                 sx={{
                                                     height: "55px",
                                                     width: "55px",

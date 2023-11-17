@@ -1,23 +1,25 @@
-import { useState } from "react";
+import React, { useState } from "react";
 import { Box, Button, Menu, MenuItem, Pagination, Table, TableBody, TableCell, TableContainer, TableHead, TableRow, TextField, Typography } from "@mui/material";
-import AddBoxIcon from '@mui/icons-material/AddBox';
 import MoreVertIcon from '@mui/icons-material/MoreVert';
+import { Link } from "react-router-dom";
 
 const data = [
-    { id: 1, name: "Nguyễn Văn A", phoneNumber: "0987654321", date: "10/09/2023",wage: "5.000.000 VNĐ" ,status: "Còn hoạt động" },
-    { id: 2, name: "Nguyễn Văn A", phoneNumber: "0987654321", date: "10/09/2023",wage: "5.000.000 VNĐ" ,status: "Còn hoạt động" },
-    { id: 3, name: "Nguyễn Văn A", phoneNumber: "0987654321", date: "10/09/2023",wage: "5.000.000 VNĐ" ,status: "Còn hoạt động" },
-    { id: 4, name: "Nguyễn Văn A", phoneNumber: "0987654321", date: "10/09/2023",wage: "5.000.000 VNĐ" ,status: "Còn hoạt động" },
-    { id: 5, name: "Nguyễn Văn A", phoneNumber: "0987654321", date: "10/09/2023",wage: "5.000.000 VNĐ" ,status: "Còn hoạt động" },
-    { id: 6, name: "Nguyễn Văn A", phoneNumber: "0987654321", date: "10/09/2023",wage: "5.000.000 VNĐ" ,status: "Đã nghĩ" },
-    { id: 7, name: "Nguyễn Văn A", phoneNumber: "0987654321", date: "10/09/2023",wage: "5.000.000 VNĐ" ,status: "Đã nghĩ" },
-    { id: 8, name: "Nguyễn Văn A", phoneNumber: "0987654321", date: "10/09/2023",wage: "5.000.000 VNĐ" ,status: "Đã nghĩ" },
-    { id: 9, name: "Nguyễn Văn A", phoneNumber: "0987654321", date: "10/09/2023",wage: "5.000.000 VNĐ" ,status: "Đã nghĩ" },
-    { id: 10, name: "Nguyễn Văn A", phoneNumber: "0987654321", date: "10/09/2023",wage: "5.000.000 VNĐ" ,status: "Đã nghĩ" },
+    { id: 1, tutor: "Nguyễn Văn B", subject: "Toán", file: "../../../assets/Vo-Thanh-An.pdf", status: "Chưa duyệt" },
+    { id: 2, tutor: "Nguyễn Văn B", subject: "Toán", file: "../../../assets/Vo-Thanh-An.pdf", status: "Chưa duyệt" },
+    { id: 3, tutor: "Nguyễn Văn B", subject: "Toán", file: "../../../assets/Vo-Thanh-An.pdf", status: "Chưa duyệt" },
+    { id: 4, tutor: "Nguyễn Văn B", subject: "Toán", file: "../../../assets/Vo-Thanh-An.pdf", status: "Chưa duyệt" },
+    { id: 5, tutor: "Nguyễn Văn B", subject: "Toán", file: "../../../assets/Vo-Thanh-An.pdf", status: "Chưa duyệt" },
+    { id: 6, tutor: "Nguyễn Văn B", subject: "Toán", file: "../../../assets/Vo-Thanh-An.pdf", status: "Chưa duyệt" },
+    { id: 7, tutor: "Nguyễn Văn B", subject: "Toán", file: "../../../assets/Vo-Thanh-An.pdf", status: "Chưa duyệt" },
+    { id: 8, tutor: "Nguyễn Văn B", subject: "Toán", file: "../../../assets/Vo-Thanh-An.pdf", status: "Chưa duyệt" },
+    { id: 9, tutor: "Nguyễn Văn B", subject: "Toán", file: "../../../assets/Vo-Thanh-An.pdf", status: "Chưa duyệt" },
+    { id: 10, tutor: "Nguyễn Văn B", subject: "Toán", file: "../../../assets/Vo-Thanh-An.pdf", status: "Chưa duyệt" },
 
 ]
-function StaffManagement() {
+
+function TutorRegisterManagement() {
     const [anchorEl, setAnchorEl] = useState(null);
+    const [tableData, setTableData] = useState(data);
 
     const handleClick = (event) => {
         setAnchorEl(event.currentTarget);
@@ -26,9 +28,13 @@ function StaffManagement() {
     const handleClose = () => {
         setAnchorEl(null);
     };
-    
+
+    const handleDeleteRow = (id) => {
+        setTableData((prevData) => prevData.filter((item) => item.id !== id));
+        handleClose();
+      };
     return (
-        <Box >
+        <Box sx={{ marginBottom: "50px" }}>
             <Box sx={{
                 backgroundColor: "#D9D9D9",
                 height: "100px",
@@ -43,9 +49,9 @@ function StaffManagement() {
                 }}>
                     <Typography sx={{
                         fontSize: "40px",
-                        fontFamily: "cursive"
+                        fontFamily: "cursive",
                     }}>
-                        Danh sách nhân viên
+                        Thông tin gia sư mới đăng ký
                     </Typography>
                 </Box>
             </Box>
@@ -92,41 +98,45 @@ function StaffManagement() {
                             <TableHead>
                                 <TableRow>
                                     <TableCell sx={{ fontSize: "20px", fontFamily: "cursive", textAlign: "center" }}>STT</TableCell>
-                                    <TableCell sx={{ fontSize: "20px", fontFamily: "cursive", textAlign: "center" }}>Tên nhân viên</TableCell>
-                                    <TableCell sx={{ fontSize: "20px", fontFamily: "cursive", textAlign: "center" }}>Số điện thoại</TableCell>
-                                    <TableCell sx={{ fontSize: "20px", fontFamily: "cursive", textAlign: "center" }}>Ngày đăng ký</TableCell>
-                                    <TableCell sx={{ fontSize: "20px", fontFamily: "cursive", textAlign: "center" }}>Lương</TableCell>
+                                    <TableCell sx={{ fontSize: "20px", fontFamily: "cursive", textAlign: "center" }}>Tên gia sư</TableCell>
+                                    <TableCell sx={{ fontSize: "20px", fontFamily: "cursive", textAlign: "center" }}>Môn dạy</TableCell>
+                                    <TableCell sx={{ fontSize: "20px", fontFamily: "cursive", textAlign: "center" }}>File CV</TableCell>
                                     <TableCell sx={{ fontSize: "20px", fontFamily: "cursive", textAlign: "center" }}>Trạng thái</TableCell>
-                                    <TableCell sx={{ fontSize: "20px", fontFamily: "cursive", textAlign: "center" }}><AddBoxIcon sx={{ fontSize: "25px" }} /></TableCell>
+                                    <TableCell sx={{ fontSize: "20px", fontFamily: "cursive", textAlign: "center" }}></TableCell>
                                 </TableRow>
                             </TableHead>
                             <TableBody>
-                                {data.map((item, index) => (
-                                    <TableRow key={index}>
+                                {tableData.map((item) => (
+                                    <TableRow key={item.id}>
                                         <TableCell sx={{ fontSize: "15px", fontFamily: "cursive", textAlign: "center" }}>{item.id}</TableCell>
-                                        <TableCell sx={{ fontSize: "15px", fontFamily: "cursive", textAlign: "center" }}>{item.name}</TableCell>
-                                        <TableCell sx={{ fontSize: "15px", fontFamily: "cursive", textAlign: "center" }}>{item.phoneNumber}</TableCell>
-                                        <TableCell sx={{ fontSize: "15px", fontFamily: "cursive", textAlign: "center" }}>{item.date}</TableCell>
-                                        <TableCell sx={{ fontSize: "15px", fontFamily: "cursive", textAlign: "center" }}>{item.wage}</TableCell>
-                                        <TableCell sx={{ fontSize: "15px", fontFamily: "cursive", textAlign: "center", color: item.status === 'Còn hoạt động' ? 'green' : 'red' }}>{item.status}</TableCell>
+                                        <TableCell sx={{ fontSize: "15px", fontFamily: "cursive", textAlign: "center" }}>{item.tutor}</TableCell>
+                                        <TableCell sx={{ fontSize: "15px", fontFamily: "cursive", textAlign: "center" }}>{item.subject}</TableCell>
+                                        <TableCell sx={{ fontSize: "15px", fontFamily: "cursive", textAlign: "center" }}>{item.file ? (
+                                            <Link style={{ textDecoration: "none" }} href={item.file} target="_blank" rel="noopener noreferrer">
+                                                Tải File
+                                            </Link>
+                                        ) : (
+                                            "No file available"
+                                        )}</TableCell>
+                                        <TableCell sx={{ fontSize: "15px", fontFamily: "cursive", textAlign: "center", color: "red" }}>{item.status}</TableCell>
                                         <TableCell sx={{ fontSize: "15px", fontFamily: "cursive", textAlign: "center" }}>
-                                            <MoreVertIcon sx={{ fontSize: "25px" }} onClick={handleClick} />
+                                            <MoreVertIcon sx={{fontSize:"25px"}} onClick={handleClick}/>
                                             <Menu
                                                 anchorEl={anchorEl}
                                                 open={Boolean(anchorEl)}
                                                 onClose={handleClose}
                                             >
-                                                <MenuItem onClick={handleClose}>Sửa</MenuItem>
-                                                <MenuItem onClick={handleClose}>Xoá</MenuItem>
+                                                <MenuItem onClick={() => handleDeleteRow(item.id)}>Duyệt</MenuItem>
+                                                <MenuItem onClick={() => handleDeleteRow(item.id)}>Không duyệt</MenuItem>
                                             </Menu>
-                                        </TableCell>
+                                            </TableCell>
                                     </TableRow>
                                 ))}
                             </TableBody>
                         </Table>
                     </TableContainer>
                 </Box>
-                <Box sx={{ display: 'flex', justifyContent: 'center', marginTop: "15px" }}>
+                <Box sx={{ display: 'flex', justifyContent: 'center', marginTop:"15px" }}>
                     <Pagination count={10} sx={{ '& .MuiPaginationItem-root': { fontSize: '15px', minWidth: '50px' } }} />
                 </Box>
             </Box>
@@ -134,4 +144,4 @@ function StaffManagement() {
     );
 }
 
-export default StaffManagement;
+export default TutorRegisterManagement;

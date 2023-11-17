@@ -9,6 +9,8 @@ import ClassIcon from '@mui/icons-material/Class';
 import { Link } from 'react-router-dom';
 import CastForEducationIcon from '@mui/icons-material/CastForEducation';
 import SchoolIcon from '@mui/icons-material/School';
+import FolderCopyIcon from '@mui/icons-material/FolderCopy';
+import PeopleAltIcon from '@mui/icons-material/PeopleAlt';
 
 function Sidebar() {
 
@@ -59,6 +61,20 @@ function Sidebar() {
             <ClassIcon />
           </ListItemIcon>
           <Typography sx={{ fontSize: '16px', marginRight: 'auto' }}><Link to='/coursemanagement' style={{color:"black", textDecoration: "none"}}>Quản lý đăng ký khoá học</Link></Typography>
+        </ListItemButton>
+
+        <ListItemButton>
+          <ListItemIcon>
+            <FolderCopyIcon />
+          </ListItemIcon>
+          <Typography sx={{ fontSize: '16px', marginRight: 'auto' }}><Link to='/documentmanagement' style={{color:"black", textDecoration: "none"}}>Quản lý tài liệu dạy</Link></Typography>
+        </ListItemButton>
+
+        <ListItemButton>
+          <ListItemIcon>
+            <PeopleAltIcon />
+          </ListItemIcon>
+          <Typography sx={{ fontSize: '16px', marginRight: 'auto' }}><Link to='/tutorregistermanagement' style={{color:"black", textDecoration: "none"}}>Quản lý gia sư đăng ký</Link></Typography>
         </ListItemButton>
       </List>
     </Box>
