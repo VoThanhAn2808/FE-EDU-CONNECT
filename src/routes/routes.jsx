@@ -43,6 +43,8 @@ import Admin from '../pages/admin/admin';
 import LayoutAdmin from '../components/Layout/LayoutAdmin/LayoutAdmin';
 import StaffManagement from '../pages/admin/StaffManagement/StaffManagement';
 import ResetPassword from '../pages/Logins/Resetpassord/ResetPassordPage';
+import DocumentManagement from '../pages/Staff/DocumentManagement';
+import TutorRegisterManagement from '../pages/Staff/TutorRegisterManagement';
 
 const publicRoute = [
   { path: '/', component: Home, layout: DefaultLayout, allowedRoles: ["default"]},
@@ -82,6 +84,8 @@ const privateRoute = [
   { path: '/tutormanagement', component: TutorManagement, layout: LayoutStaff, allowedRoles: ["staff"]},
   { path: '/coursemanagement', component: CourseManagement, layout: LayoutStaff, allowedRoles: ["staff"]},
   { path: '/studentmanagement', component: StudentManagement, layout: LayoutStaff, allowedRoles: ["staff"]},
+  { path: '/documentmanagement', component: DocumentManagement, layout: LayoutStaff, allowedRoles: ["staff"]},
+  { path: '/tutorregistermanagement', component: TutorRegisterManagement, layout: LayoutStaff, allowedRoles: ["staff"]},
   { path: '/profile-staff', component: ProfileStaff, layout: LayoutStaff, allowedRoles: ["staff"]},
   { path: '/trylearningmanagement', component: TryLearningManagement, layout: LayoutStaff, allowedRoles: ["staff"]},
   { path: '/admin', component: Admin, layout: LayoutAdmin, allowedRoles: ["admin"]},
