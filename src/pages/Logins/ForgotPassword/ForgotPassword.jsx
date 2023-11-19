@@ -1,4 +1,4 @@
-import { Box, FormControl, InputLabel, OutlinedInput, Typography } from '@mui/material';
+import { Box, FormControl, FormHelperText, InputLabel, OutlinedInput, Typography } from '@mui/material';
 import React, { useState } from 'react';
 import LOGIN from '../../../assests/login.png';
 import LOGO from '../../../assests/lglogin.jpg';
@@ -43,6 +43,20 @@ const ForgotPassword = () => {
     } catch (error) {
       console.error(error);
     }
+  };
+
+  const [emailError, setEmailError] = useState('');
+
+  const validateEmail = () => {
+    const regex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
+    if (!regex.test(email)) {
+      setEmailError('Invalid email address');
+    } else {
+      setEmailError('');
+    }
+  };
+  const handleClick = () => {
+    validateEmail();
   };
 
   return (
@@ -125,12 +139,14 @@ const ForgotPassword = () => {
                     label="Email"
                     value={email}
                     onChange={(e) => setEmail(e.target.value)}
+                    onBlur={validateEmail}
                   />
+                  {emailError && <FormHelperText sx={{ fontSize: '12px', fontWeight: '700' }} error>{emailError}</FormHelperText>}
                 </FormControl>
               </Box>
             </Box>
             <Button
-            type='submit'
+              type='submit'
               sx={{
                 width: '250px',
                 height: '45px',
@@ -138,6 +154,7 @@ const ForgotPassword = () => {
                 marginTop: '10px',
                 background: '#2D3748',
               }}
+              onClick={handleClick}
             >
               Lấy lại mật khẩu
             </Button>

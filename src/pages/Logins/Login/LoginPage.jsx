@@ -1,4 +1,4 @@
-import { Box, FormControl, IconButton, InputAdornment, InputLabel, OutlinedInput, Typography } from '@mui/material';
+import { Box, FormControl, FormHelperText, IconButton, InputAdornment, InputLabel, OutlinedInput, Typography } from '@mui/material';
 import React, { useState } from 'react';
 import LOGIN from '../../../assests/login.png';
 import LOGO from '../../../assests/lglogin.jpg';
@@ -59,6 +59,25 @@ function LoginPage() {
       // Điều hướng đến trang chính hoặc trang khác tùy theo logic của ứng dụng
     } catch (error) {
       console.error(error);
+    }
+  };
+
+  const [emailError, setEmailError] = useState('');
+  const [passwordError, setPasswordError] = useState('');
+
+  const validateEmail = () => {
+    const regex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
+    if (!regex.test(email)) {
+      setEmailError('Invalid email address');
+    } else {
+      setEmailError('');
+    }
+  };
+  const validatePassword = () => {
+    if (password.length < 8) {
+      setPasswordError('Password should be at least 8 characters long');
+    } else {
+      setPasswordError('');
     }
   };
 
@@ -127,18 +146,22 @@ function LoginPage() {
                 value={email}
                 label="Email"
                 onChange={(e) => setEmail(e.target.value)}
+                onBlur={validateEmail}
               />
+              {emailError && <FormHelperText sx={{ fontSize: '12px', fontWeight: '700' }} error>{emailError}</FormHelperText>}
             </FormControl>
 
-            <FormControl sx={{ mt: 1, width: '50ch' }} variant="outlined" size='large'>
-              <InputLabel htmlFor="password" style={{ fontSize: 15 }}>Mật khẩu</InputLabel>
+            <FormControl sx={{ mt: 1, width: '50ch' }} variant="outlined" size="large">
+              <InputLabel htmlFor="password" style={{ fontSize: 15 }}>
+                Mật khẩu
+              </InputLabel>
               <OutlinedInput
                 style={{ fontSize: '18px' }}
                 id="password"
                 value={password}
                 type={showPassword ? 'text' : 'password'}
                 endAdornment={
-                  <InputAdornment position="end" >
+                  <InputAdornment position="end">
                     <IconButton
                       onClick={handleClickShowPassword}
                       aria-label="toggle password visibility"
@@ -151,7 +174,9 @@ function LoginPage() {
                 }
                 label="Password"
                 onChange={(e) => setPassword(e.target.value)}
+                onBlur={validatePassword}
               />
+              {passwordError && <FormHelperText sx={{ fontSize: '12px', fontWeight: '700' }} error>{passwordError}</FormHelperText>}
             </FormControl>
             <Button
               sx={{

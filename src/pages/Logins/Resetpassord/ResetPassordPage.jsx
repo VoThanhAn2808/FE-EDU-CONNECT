@@ -1,5 +1,5 @@
-import { Box, Typography, IconButton, InputAdornment, FormControl, InputLabel, OutlinedInput } from '@mui/material';
-import React, { useState } from 'react';
+import { Box, Typography, IconButton, InputAdornment, FormControl, InputLabel, OutlinedInput, FormHelperText } from '@mui/material';
+import React, { useCallback, useEffect, useState } from 'react';
 import LOGIN from '../../../assests/login.png';
 import LOGO from '../../../assests/lglogin.jpg';
 import Button from '@mui/joy/Button';
@@ -11,6 +11,9 @@ function ResetPassword() {
     const [showNewPassword, setShowNewPassword] = useState(false);
     const [showConfirmPassword, setShowConfirmPassword] = useState(false);
     const [password, setPassword] = useState('');
+    const [confirmPassword, setConfirmPassword] = useState('');
+    const [passwordError, setPasswordError] = useState('');
+    const [confirmPasswordError, setConfirmPasswordError] = useState('');
 
 
     const toggleShowNewPassword = () => {
@@ -21,7 +24,44 @@ function ResetPassword() {
         setShowConfirmPassword(!showConfirmPassword);
     };
 
+    const validatePassword = () => {
+        if (password.length < 8) {
+            setPasswordError('Password should be at least 8 characters long');
+        } else {
+            setPasswordError('');
+        }
+    };
+
+    const validateConfirmPassword = () => {
+        if (password !== confirmPassword) {
+            setConfirmPasswordError('Passwords do not match');
+        } else {
+            setConfirmPasswordError('');
+        }
+    };
+    const handleSubmits = () => {
+        validatePassword();
+        validateConfirmPassword();
+    };
+
     const { token } = useParams();
+
+    const fetchStudentData = useCallback(async () => {
+        try {
+            const studentResponse = await axios.get(
+                `http://localhost:8081/edu/checktoken?token=${token}`
+            );
+            if (studentResponse.data === false) {
+                window.location.href = '/login';
+            }
+        } catch (error) {
+            console.error(error);
+        }
+    }, [token]);
+    useEffect(() => {
+        fetchStudentData();
+    }, [fetchStudentData]);
+
     const handleSubmit = async (event) => {
         event.preventDefault();
 
@@ -115,51 +155,49 @@ function ResetPassword() {
                                 width: '70%',
                             }}
                         >
-                            <Box
-                                sx={{
-                                    display: 'flex',
-                                    flexDirection: 'column',
-                                }}
-                            >
-                                <FormControl sx={{ mt: 1, width: "55ch", ml: -4 }} variant='outlined' size='large'>
-                                    <InputLabel htmlFor="password" style={{ fontSize: 18, marginLeft: "4%" }}>Mật khẩu mới</InputLabel>
+                            <Box sx={{ display: 'flex', flexDirection: 'column' }}>
+                                <FormControl sx={{ mt: 1, width: '55ch', ml: -4 }} variant="outlined" size="large">
+                                    <InputLabel htmlFor="new-password" style={{ fontSize: 18, marginLeft: '4%' }}>
+                                        Mật khẩu mới
+                                    </InputLabel>
                                     <OutlinedInput
-                                        id='password'
+                                        id="new-password"
                                         type={showNewPassword ? 'text' : 'password'}
                                         sx={{ fontSize: '18px' }}
                                         value={password}
                                         onChange={(e) => setPassword(e.target.value)}
                                         endAdornment={
-                                            <InputAdornment position='end'>
+                                            <InputAdornment position="end">
                                                 <IconButton onClick={toggleShowNewPassword}>
                                                     {showNewPassword ? <VisibilityOff /> : <Visibility />}
                                                 </IconButton>
                                             </InputAdornment>
                                         }
                                     />
+                                    {passwordError && <FormHelperText error>{passwordError}</FormHelperText>}
                                 </FormControl>
-                            </Box>
-                            <Box
-                                sx={{
-                                    display: 'flex',
-                                    flexDirection: 'column',
-                                }}
-                            >
-                                <FormControl sx={{ mt: 1, width: "55ch", ml: -4 }} variant='outlined' size='large'>
-                                    <InputLabel htmlFor="password" style={{ fontSize: 18, marginLeft: "4%" }}>Nhập lại mật khẩu</InputLabel>
+
+                                <FormControl sx={{ mt: 1, width: '55ch', ml: -4 }} variant="outlined" size="large">
+                                    <InputLabel htmlFor="confirm-password" style={{ fontSize: 18, marginLeft: '4%' }}>
+                                        Nhập lại mật khẩu
+                                    </InputLabel>
                                     <OutlinedInput
-                                        id='password'
+                                        id="confirm-password"
                                         type={showConfirmPassword ? 'text' : 'password'}
                                         sx={{ fontSize: '18px' }}
+                                        value={confirmPassword}
+                                        onChange={(e) => setConfirmPassword(e.target.value)}
                                         endAdornment={
-                                            <InputAdornment position='end'>
+                                            <InputAdornment position="end">
                                                 <IconButton onClick={toggleShowConfirmPassword}>
                                                     {showConfirmPassword ? <VisibilityOff /> : <Visibility />}
                                                 </IconButton>
                                             </InputAdornment>
                                         }
                                     />
+                                    {confirmPasswordError && <FormHelperText error>{confirmPasswordError}</FormHelperText>}
                                 </FormControl>
+
                             </Box>
                         </Box>
                         <Button type='submit'
@@ -170,6 +208,7 @@ function ResetPassword() {
                                 marginTop: '10px',
                                 background: '#2D3748',
                             }}
+                            onClick={handleSubmits}
                         >
                             Đổi Mật Khẩu
                         </Button>
