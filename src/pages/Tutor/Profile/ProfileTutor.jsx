@@ -1,10 +1,13 @@
-import React, { useCallback, useEffect, useState } from 'react';
+import React, { useState } from 'react';
 import Button from '@mui/material/Button';
 import ProfileAvatar from '../../../components/Layout/components/ProfileAvatar/ProfileAvatar';
-import UserProfileInfo from '../../../components/Layout/components/ProfileInfo/Teacher/ProfileInfo';
+import UserProfileInfo from './ProfileInfo';
 import { Box, Paper, ThemeProvider, createTheme } from '@mui/material';
+import { useCallback } from 'react';
 import axios from 'axios';
 import { jwtDecode } from 'jwt-decode';
+import { useEffect } from 'react';
+import { format } from 'date-fns';
 
 const theme = createTheme({
   typography: {
@@ -12,24 +15,16 @@ const theme = createTheme({
     fontWeight: 'bold',
   },
 });
-const ProfileTeacher = () => {
+
+const ProfileTutor = () => {
+
   const decodedToken = jwtDecode(localStorage.getItem('token'));
   const userId = decodedToken.id;
-  
-  const [userData, setUserData] = useState({
-    fullname: '',
-    email: decodedToken.sub ,
-    phone: '',
-    dateOfBirth: '',
-    wards: '',
-    city: '',
-    gender: '',
-    courseList: '',
-    class: '',
-    img: '',
-  });
-  const [isEditing, setIsEditing] = useState(false);
   const [uploadedFile, setUploadedFile] = useState(null);
+
+  const [userData, setUserData] = useState([]);
+  const [isEditing, setIsEditing] = useState(true);
+
 
   const fetchUser = useCallback(async () => {
     try {
@@ -45,7 +40,7 @@ const ProfileTeacher = () => {
     } catch (error) {
       console.error(error);
     }
-  }, [userId]);
+  }, [userId, decodedToken.sub]);
 
   const fetchCourse = useCallback(async () => {
     try {
@@ -63,15 +58,22 @@ const ProfileTeacher = () => {
     }
   }, [userId]);
 
+
+  useEffect(() => {
+    fetchUser();
+    fetchCourse();
+  }, [fetchUser, fetchCourse]);
+
   const updateInfo = async () => {
 
     try {
+      const dateString = userData.birthdate;
+      const formattedDate = format(new Date(dateString), 'yyyy/MM/dd');
       const formData = new FormData();
       formData.append('fullname', userData.fullname);
       formData.append('tutorid', decodedToken.id);
-      
       formData.append('gender', userData.gender);
-      formData.append('birthdate', userData.birthdate);
+      formData.append('birthdate', formattedDate);
       formData.append('phone', userData.phone);
       formData.append('city', userData.city);
       formData.append('wards', userData.wards);
@@ -83,17 +85,12 @@ const ProfileTeacher = () => {
         },
       });
       console.log(response.data);
+      window.location.href = "/calendartutorselect"
     } catch (error) {
       console.error(error);
     }
   };
 
-
-  useEffect(() => {
-    fetchUser();
-    fetchCourse();
-  }, []);
-  // console.log('hehehehehe',userData);
   const handleInputChange = (field, value) => {
     setUserData({
       ...userData,
@@ -107,13 +104,17 @@ const ProfileTeacher = () => {
       avt: uploadedFile,
     });
     updateInfo();
+    setUploadedFile(userData.avt);
     setIsEditing(false);
   };
-  // console.log('hehehehehe', userData);
-  
+
   const handleFileChange = (selectedFile) => {
-    setUploadedFile(selectedFile);
+    setUserData({
+      ...userData,
+      avt: selectedFile,
+    });
   };
+  
 
   return (
     <Box
@@ -124,12 +125,13 @@ const ProfileTeacher = () => {
       }}
     >
       <ThemeProvider theme={theme}>
-        {/* <ProfileAvatar
+        <ProfileAvatar
+          userData={userData}
           onFileChange={handleFileChange}
           isEditing={isEditing}
-          role={'giáo viên'}
+          role={'gia sư'}
           uploadedFile={uploadedFile}
-        /> */}
+        />
         <Paper
           style={{
             marginBottom: '30px',
@@ -148,11 +150,12 @@ const ProfileTeacher = () => {
             isEditing={isEditing}
           />
           {isEditing ? (
-            <Button variant='contained' onClick={handleSave}>
+
+            <Button variant="contained" onClick={handleSave}>
               Lưu
             </Button>
           ) : (
-            <Button variant='contained' onClick={() => setIsEditing(true)}>
+            <Button variant="contained" onClick={() => setIsEditing(!isEditing)}>
               Chỉnh Sửa
             </Button>
           )}
@@ -162,4 +165,4 @@ const ProfileTeacher = () => {
   );
 };
 
-export default ProfileTeacher;
+export default ProfileTutor;

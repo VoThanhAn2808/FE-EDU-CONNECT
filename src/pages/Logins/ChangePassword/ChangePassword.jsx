@@ -4,11 +4,19 @@ import LOGIN from '../../../assests/login.png';
 import LOGO from '../../../assests/lglogin.jpg';
 import Button from '@mui/joy/Button';
 import { Visibility, VisibilityOff } from '@mui/icons-material';
+import { jwtDecode } from 'jwt-decode';
+import axios from 'axios';
 
 function ChangePassword() {
+  const decodedToken = jwtDecode(localStorage.getItem('token') || '');
+  const userEmail = decodedToken.sub;
   const [showCurrentPassword, setShowCurrentPassword] = useState(false);
   const [showNewPassword, setShowNewPassword] = useState(false);
   const [showConfirmPassword, setShowConfirmPassword] = useState(false);
+  const [oldPass, setOldPass] = useState('');
+  const [newPass, setNewPass] = useState('');
+  const [confirmPass, setConfirmPass] = useState('');
+  const [passwordError, setPasswordError] = useState(false);
 
   const toggleShowCurrentPassword = () => {
     setShowCurrentPassword(!showCurrentPassword);
@@ -20,6 +28,32 @@ function ChangePassword() {
 
   const toggleShowConfirmPassword = () => {
     setShowConfirmPassword(!showConfirmPassword);
+  };
+
+  const handleOldPass = (e) => {
+    setOldPass(e.target.value);
+  };
+  const handleNewPass = (e) => {
+    setNewPass(e.target.value);
+  };
+  const handleConfirmPass = (e) => {
+    setConfirmPass(e.target.value);
+  };
+  const handleClickChange = async () => {
+    try {
+      await axios.put('http://localhost:8081/edu/changepass', {
+        username: userEmail,
+        password: oldPass,
+        newpass: newPass,
+      });
+      localStorage.removeItem('token');
+      window.location.href = '/';
+    } catch (error) {
+      if (error.response.data === false) {
+        setPasswordError(true);
+        console.log(error.response.data);
+      }
+    }
   };
 
   return (
@@ -93,12 +127,15 @@ function ChangePassword() {
                 flexDirection: 'column',
               }}
             >
-              <FormControl sx={{mt: 1, width: "55ch", ml: -4}} variant='outlined' size='large'>
-                <InputLabel htmlFor="password" style={{fontSize: 18, marginLeft: "4%"}}>Mật khẩu cũ</InputLabel>
+              <FormControl sx={{ mt: 1, width: '55ch', ml: -4 }} variant='outlined' size='large'>
+                <InputLabel htmlFor='password' style={{ fontSize: 18, marginLeft: '4%' }}>
+                  Mật khẩu cũ
+                </InputLabel>
                 <OutlinedInput
                   id='password'
                   type={showCurrentPassword ? 'text' : 'password'}
                   sx={{ fontSize: '18px' }}
+                  onChange={handleOldPass}
                   endAdornment={
                     <InputAdornment position='end'>
                       <IconButton onClick={toggleShowCurrentPassword}>
@@ -108,6 +145,9 @@ function ChangePassword() {
                   }
                 />
               </FormControl>
+              {passwordError && (
+                <Typography style={{ color: 'red', paddingTop : '10px' }}>Mật khẩu cũ không đúng. Vui lòng thử lại.</Typography>
+              )}
             </Box>
             <Box
               sx={{
@@ -115,12 +155,15 @@ function ChangePassword() {
                 flexDirection: 'column',
               }}
             >
-              <FormControl sx={{mt: 1, width: "55ch", ml: -4}} variant='outlined' size='large'>
-                <InputLabel htmlFor="password" style={{fontSize: 18, marginLeft: "4%"}}>Mật khẩu mới</InputLabel>
+              <FormControl sx={{ mt: 1, width: '55ch', ml: -4 }} variant='outlined' size='large'>
+                <InputLabel htmlFor='password' style={{ fontSize: 18, marginLeft: '4%' }}>
+                  Mật khẩu mới
+                </InputLabel>
                 <OutlinedInput
                   id='password'
                   type={showNewPassword ? 'text' : 'password'}
                   sx={{ fontSize: '18px' }}
+                  onChange={handleNewPass}
                   endAdornment={
                     <InputAdornment position='end'>
                       <IconButton onClick={toggleShowNewPassword}>
@@ -131,18 +174,31 @@ function ChangePassword() {
                 />
               </FormControl>
             </Box>
+            {confirmPass === '' && oldPass === newPass && oldPass !== '' && (
+              <p
+                style={{
+                  color: 'red',
+                }}
+              >
+                Mật khẩu trùng với mật khẩu cũ
+              </p>
+            )}
             <Box
               sx={{
                 display: 'flex',
                 flexDirection: 'column',
               }}
             >
-              <FormControl sx={{mt: 1, width: "55ch", ml: -4}} variant='outlined' size='large'>
-                <InputLabel htmlFor="password" style={{fontSize: 18, marginLeft: "4%"}}>Nhập lại mật khẩu</InputLabel>
+              <FormControl sx={{ mt: 1, width: '55ch', ml: -4 }} variant='outlined' size='large'>
+                <InputLabel htmlFor='password' style={{ fontSize: 18, marginLeft: '4%' }}>
+                  Nhập lại mật khẩu
+                </InputLabel>
                 <OutlinedInput
                   id='password'
                   type={showConfirmPassword ? 'text' : 'password'}
                   sx={{ fontSize: '18px' }}
+                  onChange={handleConfirmPass}
+                  disabled={oldPass === newPass}
                   endAdornment={
                     <InputAdornment position='end'>
                       <IconButton onClick={toggleShowConfirmPassword}>
@@ -154,6 +210,15 @@ function ChangePassword() {
               </FormControl>
             </Box>
           </Box>
+          {confirmPass !== '' && newPass !== confirmPass && (
+            <p
+              style={{
+                color: 'red',
+              }}
+            >
+              Mật khẩu chưa khớp
+            </p>
+          )}
           <Button
             sx={{
               width: '250px',
@@ -162,6 +227,14 @@ function ChangePassword() {
               marginTop: '10px',
               background: '#2D3748',
             }}
+            onClick={handleClickChange}
+            disabled={
+              oldPass === '' ||
+              newPass === '' ||
+              confirmPass === '' ||
+              newPass !== confirmPass ||
+              oldPass === newPass
+            }
           >
             Đổi Mật Khẩu
           </Button>
@@ -170,7 +243,7 @@ function ChangePassword() {
           sx={{
             position: 'absolute',
             bottom: '10%',
-            fontSize: "18px"
+            fontSize: '18px',
           }}
         >
           Vui lòng nhập thông tin để thay đổi mật khẩu
