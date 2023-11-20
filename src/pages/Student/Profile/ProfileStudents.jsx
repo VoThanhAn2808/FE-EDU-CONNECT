@@ -3,7 +3,11 @@ import Button from '@mui/material/Button';
 import ProfileAvatar from '../../../components/Layout/components/ProfileAvatar/ProfileAvatar';
 import UserProfileInfo from './ProfileInfo';
 import { Box, Paper, ThemeProvider, createTheme } from '@mui/material';
-import { Link } from 'react-router-dom';
+import { useCallback } from 'react';
+import axios from 'axios';
+import { jwtDecode } from 'jwt-decode';
+import { useEffect } from 'react';
+import { format } from 'date-fns';
 
 const theme = createTheme({
   typography: {
@@ -13,10 +17,78 @@ const theme = createTheme({
 });
 
 const ProfileStudents = () => {
+
+  const decodedToken = jwtDecode(localStorage.getItem('token'));
+  const userId = decodedToken.id;
+  const [uploadedFile, setUploadedFile] = useState(null);
+
   const [userData, setUserData] = useState({
+    fullname: '',
+    studentid: userId,
+    class: '',
+    gender: '',
+    wards: '',
+    city: '',
+    birthdate: null,
+    phone: '',
+    classId: '',
+    img: '',
   });
   const [isEditing, setIsEditing] = useState(true);
-  const [uploadedFile, setUploadedFile] = useState(null);
+
+
+  const fetchUser = useCallback(async () => {
+    try {
+      const response = await axios.get(
+        `http://localhost:8081/student/viewstudent?email=${userId}`,
+        {
+          headers: {
+            'Content-Type': 'application/json',
+          },
+        },
+      );
+      setUserData(response.data);
+    } catch (error) {
+      console.error(error);
+    }
+  }, [userId]);
+
+  useEffect(() => {
+    fetchUser();
+  }, [fetchUser]);
+  console.log(userData);
+
+  const updateInfo = async () => {
+    try {
+      const dateString = userData.birthdate;
+      const formattedDate = format(new Date(dateString), 'yyyy/MM/dd');
+      console.log( "ds" + formattedDate);
+      const formData = new FormData();
+      formData.append('fullname', userData.fullname);
+      formData.append('studentid', decodedToken.id);
+      formData.append('file', userData.avt);
+      formData.append('gender', userData.gender);
+      formData.append('birthdate', formattedDate);
+      formData.append('phone', userData.phone);
+      formData.append('city', userData.city);
+      formData.append('wards', userData.wards);
+      formData.append('classentity', userData.classId);
+
+      const response = await axios.put(
+        'http://localhost:8081/student/updatestudent',
+        formData,
+        {
+          headers: {
+            'Content-Type': 'multipart/form-data',
+          },
+        }
+      );
+      window.location.href = "/homestudent";
+      console.log(response.data);
+    } catch (error) {
+      console.error(error);
+    }
+  };
 
   const handleInputChange = (field, value) => {
     setUserData({
@@ -30,11 +102,16 @@ const ProfileStudents = () => {
       ...userData,
       avt: uploadedFile,
     });
+    updateInfo();
+    setUploadedFile(userData.avt);
     setIsEditing(false);
   };
 
   const handleFileChange = (selectedFile) => {
-    setUploadedFile(selectedFile);
+    setUserData({
+      ...userData,
+      avt: selectedFile,
+    });
   };
 
   return (
@@ -71,13 +148,12 @@ const ProfileStudents = () => {
             isEditing={isEditing}
           />
           {isEditing ? (
-            <Link to="/homestudent">
-              <Button variant="contained" onClick={handleSave}>
-                Lưu
-              </Button>
-            </Link>
+
+            <Button variant="contained" onClick={handleSave}>
+              Lưu
+            </Button>
           ) : (
-            <Button variant="contained" onClick={() => setIsEditing(true)}>
+            <Button variant="contained" onClick={() => setIsEditing(!isEditing)}>
               Chỉnh Sửa
             </Button>
           )}

@@ -45,6 +45,7 @@ import StaffManagement from '../pages/admin/StaffManagement/StaffManagement';
 import ResetPassword from '../pages/Logins/Resetpassord/ResetPassordPage';
 import DocumentManagement from '../pages/Staff/DocumentManagement';
 import TutorRegisterManagement from '../pages/Staff/TutorRegisterManagement';
+import ProfileTutor from '../pages/Tutor/Profile/ProfileTutor';
 
 const publicRoute = [
   { path: '/', component: Home, layout: DefaultLayout, allowedRoles: ["default"]},
@@ -75,12 +76,13 @@ const privateRoute = [
   { path: '/hometutor', component : HomeTutor, layout : LayoutTutor, allowedRoles: ["tutor"]},
   { path: '/calendartutor', component : CalendarTutor, layout : LayoutTutor, allowedRoles: ["tutor"]},
   { path: '/homeworktutorlist', component : HomeWorkTutorList, layout : LayoutTutor, allowedRoles: ["tutor"]},
-  { path: '/calendartutorselect', component : CalendarTutorSelect, layout : LayoutTutor, allowedRoles: ["tutor"]},
+  { path: '/calendartutorselect', component : CalendarTutorSelect, layout : LoginLayout, allowedRoles: ["tutor"]},
   { path: '/feedbacktutor', component : FeedbackTutor, layout : LayoutTutor, allowedRoles: ["tutor"]},
   { path: '/exerciselist', component : ExerciseListPage, layout : LayoutTutor, allowedRoles: ["tutor"]},
   { path: '/profile-teacher', component: ProfileTeacher, layout: LayoutTutor, allowedRoles: ["tutor"]},
   { path: '/homeworktutor', component : HomeWorkTutor, layout : LayoutTutor, allowedRoles: ["tutor"]},
   { path: '/managerstudent', component : ManagerStudent, layout : LayoutTutor, allowedRoles: ["tutor"]},
+  { path: '/profiletutor', component : ProfileTutor, layout : LoginLayout, allowedRoles: ["tutor"]},
   { path: '/tutormanagement', component: TutorManagement, layout: LayoutStaff, allowedRoles: ["staff"]},
   { path: '/coursemanagement', component: CourseManagement, layout: LayoutStaff, allowedRoles: ["staff"]},
   { path: '/studentmanagement', component: StudentManagement, layout: LayoutStaff, allowedRoles: ["staff"]},
