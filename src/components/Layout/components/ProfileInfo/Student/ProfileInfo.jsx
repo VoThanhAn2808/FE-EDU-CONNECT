@@ -56,7 +56,7 @@ function ProfileInfo({ userData, handleInputChange, isEditing }) {
           select
           label='Lớp'
           value={userData.classId} // Thêm thuộc tính value
-          onChange={(e) => handleInputChange('class', e.target.value)}
+          onChange={(e) => handleInputChange('classId', e.target.value)}
           disabled={!isEditing}
           sx={{
             width: '50%',

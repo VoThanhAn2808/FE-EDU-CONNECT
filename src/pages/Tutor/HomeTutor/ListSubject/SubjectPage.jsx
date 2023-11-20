@@ -1,32 +1,41 @@
-import React from "react";
+import React, { useEffect, useState } from "react";
 import './../ListSubject/Subject.css';
 import { Box, Grid, Typography } from "@mui/material";
-import dcmdxdn from "../../../../assests/subject.png";
 import PersonIcon from '@mui/icons-material/Person';
 import { Button } from '@mui/material';
 import { Link } from "react-router-dom";
-
-
-const data = [
-    { id: 1, name: 'Đại số 10', number: 100, imgLink: dcmdxdn },
-    { id: 2, name: 'Đại số 10', number: 100, imgLink: dcmdxdn },
-    { id: 3, name: 'Đại số 10', number: 100, imgLink: dcmdxdn },
-    { id: 4, name: 'Đại số 10', number: 100, imgLink: dcmdxdn },
-];
+import { jwtDecode } from "jwt-decode";
+import axios from "axios";
 
 function SubjectPage() {
+
+    const [data, setData] = useState([]);
+    const decodedToken = jwtDecode(localStorage.getItem('token'));
+    const userId = decodedToken.id;
+    useEffect(() => {
+        axios
+            .get(`http://localhost:8081/educonnect/tutor/course?tutorid=${userId}`)
+            .then((response) => {
+                setData(response.data);
+                console.log(response.data);
+            })
+            .catch((error) => {
+                console.error(error);
+            });
+    }, [userId]);
+
     return (
         <Box className="body">
             <Grid container spacing={2}>
                 {data.map((item) => (
-                    <Grid item xs={12} sm={6} md={5} lg={3} key={item.id}>
+                    <Grid item xs={12} sm={6} md={5} lg={3} key={item.classcourseid}>
                         <Box className='container'>
-                            <img src={item.imgLink} alt={item.name} className="subject-img" />
-                            <Typography className="nameSubject">{item.name}</Typography>
+                            <img src={`http://localhost:8081/edu/file/files/` + item.img} alt={item.courseName} className="subject-img" />
+                            <Typography className="nameSubject">{item.courseName} {item.class}</Typography>
                             <Box sx={{ display: 'flex' }} >
                                 <Typography className="inforsubject">
                                     <PersonIcon className="total" />
-                                    {item.number}</Typography>
+                                    {item.count_student}</Typography>
                                 <Link to='/feedbacktutor'>
                                     <Button variant="contained" color="primary" 
                                         sx={{

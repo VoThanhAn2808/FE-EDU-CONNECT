@@ -16,18 +16,7 @@ const ProfileTeacher = () => {
   const decodedToken = jwtDecode(localStorage.getItem('token'));
   const userId = decodedToken.id;
   
-  const [userData, setUserData] = useState({
-    fullname: '',
-    email: decodedToken.sub ,
-    phone: '',
-    dateOfBirth: '',
-    wards: '',
-    city: '',
-    gender: '',
-    courseList: '',
-    class: '',
-    img: '',
-  });
+  const [userData, setUserData] = useState([]);
   const [isEditing, setIsEditing] = useState(false);
   const [uploadedFile, setUploadedFile] = useState(null);
 
@@ -45,7 +34,7 @@ const ProfileTeacher = () => {
     } catch (error) {
       console.error(error);
     }
-  }, [userId]);
+  }, [userId, decodedToken.sub]);
 
   const fetchCourse = useCallback(async () => {
     try {
@@ -69,7 +58,6 @@ const ProfileTeacher = () => {
       const formData = new FormData();
       formData.append('fullname', userData.fullname);
       formData.append('tutorid', decodedToken.id);
-      
       formData.append('gender', userData.gender);
       formData.append('birthdate', userData.birthdate);
       formData.append('phone', userData.phone);
@@ -92,8 +80,7 @@ const ProfileTeacher = () => {
   useEffect(() => {
     fetchUser();
     fetchCourse();
-  }, []);
-  // console.log('hehehehehe',userData);
+  }, [fetchUser, fetchCourse]);
   const handleInputChange = (field, value) => {
     setUserData({
       ...userData,
@@ -124,12 +111,13 @@ const ProfileTeacher = () => {
       }}
     >
       <ThemeProvider theme={theme}>
-        {/* <ProfileAvatar
+        <ProfileAvatar
+          userData={userData}
           onFileChange={handleFileChange}
           isEditing={isEditing}
           role={'giáo viên'}
           uploadedFile={uploadedFile}
-        /> */}
+        />
         <Paper
           style={{
             marginBottom: '30px',
