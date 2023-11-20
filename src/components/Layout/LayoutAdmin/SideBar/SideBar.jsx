@@ -1,6 +1,5 @@
 import { Box, List, ListItemButton, ListItemIcon, Typography } from "@mui/material";
 import DashboardIcon from '@mui/icons-material/Dashboard';
-import CurrencyExchangeIcon from '@mui/icons-material/CurrencyExchange';
 import AccountCircleIcon from '@mui/icons-material/AccountCircle';
 import { Link } from "react-router-dom";
 
@@ -32,13 +31,6 @@ function SideBar() {
                         <AccountCircleIcon />
                     </ListItemIcon>
                     <Typography sx={{ fontSize: '16px', marginRight: 'auto' }}><Link to='/staffmanagement' style={{ color: "black", textDecoration: "none" }}>Quản lý nhân viên</Link></Typography>
-                </ListItemButton>
-
-                <ListItemButton>
-                    <ListItemIcon>
-                        <CurrencyExchangeIcon />
-                    </ListItemIcon>
-                    <Typography sx={{ fontSize: '16px', marginRight: 'auto' }}><Link to='/moneymanagement' style={{ color: "black", textDecoration: "none" }}>Quản lý nguồn tiền</Link></Typography>
                 </ListItemButton>
 
             </List>
