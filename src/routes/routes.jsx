@@ -97,7 +97,6 @@ const privateRoute = [
   { path: '/dashboard', component: Dashboard, layout: LayoutStaff, allowedRoles: ["staff"]},
   { path: '/admin', component: Admin, layout: LoginLayout, allowedRoles: ["admin"]},
   { path: '/staffmanagement', component: StaffManagement, layout: LayoutAdmin, allowedRoles: ["admin"]},
-  { path: '/moneymanagement', component: MoneyManagement, layout: LayoutAdmin, allowedRoles: ["admin"]},
 ];
 
 export { publicRoute, privateRoute };

@@ -97,6 +97,7 @@ function TutorManagement() {
                                     <TableCell sx={{ fontSize: "20px", fontFamily: "cursive", textAlign: "center" }}>Địa chỉ</TableCell>
                                     <TableCell sx={{ fontSize: "20px", fontFamily: "cursive", textAlign: "center" }}>Số điện thoại</TableCell>
                                     <TableCell sx={{ fontSize: "20px", fontFamily: "cursive", textAlign: "center" }}>Ngày đăng ký</TableCell>
+                                    <TableCell sx={{ fontSize: "20px", fontFamily: "cursive", textAlign: "center" }}>Thu nhập</TableCell>
                                     <TableCell sx={{ fontSize: "20px", fontFamily: "cursive", textAlign: "center" }}>Trạng thái</TableCell>
                                     <TableCell sx={{ fontSize: "20px", fontFamily: "cursive", textAlign: "center" }}></TableCell>
                                 </TableRow>
@@ -109,7 +110,15 @@ function TutorManagement() {
                                         <TableCell sx={{ fontSize: "15px", fontFamily: "cursive", textAlign: "center" }}>{item.city} {item.wards}</TableCell>
                                         <TableCell sx={{ fontSize: "15px", fontFamily: "cursive", textAlign: "center" }}>{item.phone}</TableCell>
                                         <TableCell sx={{ fontSize: "15px", fontFamily: "cursive", textAlign: "center" }}>{item.createdate}</TableCell>
-                                        <TableCell sx={{ fontSize: "15px", fontFamily: "cursive", textAlign: "center", color: item.status === '1' ? 'red' : 'green' }}>{item.status === 1 ? 'Còn dạy' : 'Đã nghỉ'}</TableCell>
+                                        <TableCell sx={{ fontSize: "15px", fontFamily: "cursive", textAlign: "center" }}>
+                                            {new Intl.NumberFormat("vi-VN", {
+                                                style: "currency",
+                                                currency: "VND",
+                                            }).format(item.price)}
+                                        </TableCell>
+                                        <TableCell sx={{ fontSize: "15px", fontFamily: "cursive", textAlign: "center", color: item.status === 1 ? 'green' : 'red' }}>
+                                            {item.status === 1 ? 'Còn dạy' : 'Đã nghỉ'}
+                                        </TableCell>
                                         <TableCell sx={{ fontSize: "15px", fontFamily: "cursive", textAlign: "center" }}>
                                             <MoreVertIcon sx={{ fontSize: "25px" }} onClick={handleClick} />
                                             <Menu
@@ -137,17 +146,17 @@ function TutorManagement() {
                         display: 'flex',
                         alignItems: 'center',
                         justifyContent: 'center',
-                      }}
+                    }}
                 >
-                    <Box sx={{backgroundColor:"#D9D9D9", width:"300px", height:"400px", borderRadius:"10px", border: '2px solid #000000', p: 2,}}>
-                        <Avatar sx={{height:"100px", width: "100px", marginLeft:"30%"}}/>
-                        <Typography sx={{fontSize:"17px", marginTop:"10px"}}>Giáo viên:</Typography>
-                        <Typography sx={{fontSize:"17px"}}>Ngày Sinh:</Typography>
-                        <Typography sx={{fontSize:"17px"}}>Số điện thoại:</Typography>
-                        <Typography sx={{fontSize:"17px"}}>Email:</Typography>
-                        <Typography sx={{fontSize:"17px"}}>Địa chỉ:</Typography>
-                        <Typography sx={{fontSize:"17px"}}>Phụ trách môn:</Typography>
-                        <Typography sx={{fontSize:"17px"}}>Thời gian dạy: </Typography>
+                    <Box sx={{ backgroundColor: "#D9D9D9", width: "300px", height: "400px", borderRadius: "10px", border: '2px solid #000000', p: 2, }}>
+                        <Avatar sx={{ height: "100px", width: "100px", marginLeft: "30%" }} />
+                        <Typography sx={{ fontSize: "17px", marginTop: "10px" }}>Giáo viên:</Typography>
+                        <Typography sx={{ fontSize: "17px" }}>Ngày Sinh:</Typography>
+                        <Typography sx={{ fontSize: "17px" }}>Số điện thoại:</Typography>
+                        <Typography sx={{ fontSize: "17px" }}>Email:</Typography>
+                        <Typography sx={{ fontSize: "17px" }}>Địa chỉ:</Typography>
+                        <Typography sx={{ fontSize: "17px" }}>Phụ trách môn:</Typography>
+                        <Typography sx={{ fontSize: "17px" }}>Thời gian dạy: </Typography>
                     </Box>
                 </Modal>
                 <Box sx={{ display: 'flex', justifyContent: 'center', marginTop: "15px" }}>

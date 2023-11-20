@@ -3,16 +3,16 @@ import { Box, Button, Menu, MenuItem, Modal, Pagination, Table, TableBody, Table
 import MoreVertIcon from '@mui/icons-material/MoreVert';
 
 const data = [
-    { id: 1, name: "Nguyễn Văn A", tutor: "Nguyễn Văn B", phoneNumber: "0987654321", date: "10/09/2023", subject: "Toán" ,status: "Đã duyệt" },
-    { id: 2, name: "Nguyễn Văn A", tutor: "Nguyễn Văn B", phoneNumber: "0987654321", date: "10/09/2023", subject: "Toán" ,status: "Đã duyệt" },
-    { id: 3, name: "Nguyễn Văn A", tutor: "Nguyễn Văn B", phoneNumber: "0987654321", date: "10/09/2023", subject: "Toán" ,status: "Đã duyệt" },
-    { id: 4, name: "Nguyễn Văn A", tutor: "Nguyễn Văn B", phoneNumber: "0987654321", date: "10/09/2023", subject: "Toán" ,status: "Đã duyệt" },
-    { id: 5, name: "Nguyễn Văn A", tutor: "Nguyễn Văn B", phoneNumber: "0987654321", date: "10/09/2023", subject: "Toán" ,status: "Đã duyệt" },
-    { id: 6, name: "Nguyễn Văn A", tutor: "Nguyễn Văn B", phoneNumber: "0987654321", date: "10/09/2023", subject: "Toán" ,status: "Chưa duyệt" },
-    { id: 7, name: "Nguyễn Văn A", tutor: "Nguyễn Văn B", phoneNumber: "0987654321", date: "10/09/2023", subject: "Toán" ,status: "Chưa duyệt" },
-    { id: 8, name: "Nguyễn Văn A", tutor: "Nguyễn Văn B", phoneNumber: "0987654321", date: "10/09/2023", subject: "Toán" ,status: "Chưa duyệt" },
-    { id: 9, name: "Nguyễn Văn A", tutor: "Nguyễn Văn B", phoneNumber: "0987654321", date: "10/09/2023", subject: "Toán" ,status: "Chưa duyệt" },
-    { id: 10, name: "Nguyễn Văn A", tutor: "Nguyễn Văn B", phoneNumber: "0987654321", date: "10/09/2023", subject: "Toán" ,status: "Chưa duyệt" },
+    { id: 1, name: "Nguyễn Văn A", tutor: "Nguyễn Văn B", phoneNumber: "0987654321", date: "10/09/2023", subject: "Toán1" ,status: "Đã duyệt" },
+    { id: 2, name: "Nguyễn Văn A", tutor: "Nguyễn Văn B", phoneNumber: "0987654321", date: "10/09/2023", subject: "Toán2" ,status: "Đã duyệt" },
+    { id: 3, name: "Nguyễn Văn A", tutor: "Nguyễn Văn B", phoneNumber: "0987654321", date: "10/09/2023", subject: "Toán3" ,status: "Đã duyệt" },
+    { id: 4, name: "Nguyễn Văn A", tutor: "Nguyễn Văn B", phoneNumber: "0987654321", date: "10/09/2023", subject: "Toán4" ,status: "Đã duyệt" },
+    { id: 5, name: "Nguyễn Văn A", tutor: "Nguyễn Văn B", phoneNumber: "0987654321", date: "10/09/2023", subject: "Toán5" ,status: "Đã duyệt" },
+    { id: 6, name: "Nguyễn Văn A", tutor: "Nguyễn Văn B", phoneNumber: "0987654321", date: "10/09/2023", subject: "Toán6" ,status: "Chưa duyệt" },
+    { id: 7, name: "Nguyễn Văn A", tutor: "Nguyễn Văn B", phoneNumber: "0987654321", date: "10/09/2023", subject: "Toán7" ,status: "Chưa duyệt" },
+    { id: 8, name: "Nguyễn Văn A", tutor: "Nguyễn Văn B", phoneNumber: "0987654321", date: "10/09/2023", subject: "Toán8" ,status: "Chưa duyệt" },
+    { id: 9, name: "Nguyễn Văn A", tutor: "Nguyễn Văn B", phoneNumber: "0987654321", date: "10/09/2023", subject: "Toán9" ,status: "Chưa duyệt" },
+    { id: 10, name: "Nguyễn Văn A", tutor: "Nguyễn Văn B", phoneNumber: "0987654321", date: "10/09/2023", subject: "Toán10" ,status: "Chưa duyệt" },
 
 ]
 
