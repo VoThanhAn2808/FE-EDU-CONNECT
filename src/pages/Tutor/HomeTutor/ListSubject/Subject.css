@@ -20,6 +20,8 @@
 .body .container .subject-img {
     display: block;
     margin: auto;
+    width: 120px;
+    height: 200px;
 }
 
 .body .container .inforsubject {
@@ -32,6 +34,7 @@
 .body .container .nameSubject {
     text-align: center;
     font-size: 15px;
+    margin-top: 1px;
 }
 
 .body .link{

@@ -49,11 +49,6 @@ function Header() {
 
     const navigate = useNavigate();
 
-    const handleProfileClick = () => {
-        handleCloseUserMenu();
-        navigate('/profile-student');
-    };
-
     const handleChangePassword = () => {
         navigate('/changepass');
     }
@@ -106,14 +101,27 @@ function Header() {
         }
     }, [token]);
 
+    const handleProfileClick = () => {
+        decodedTokenRef.current = jwtDecode(token);
+        const role = decodedTokenRef.current.role;
+        handleCloseUserMenu();
+        if(role === 1) {
+            navigate('/profile-student');
+        }else if(role === 2){
+            navigate('/profile-teacher');
+        }else if(role === 3) {
+            navigate('/profile-staff');
+        }
+    };
+
     return (
-        <AppBar position='fixed' sx={{ 
-            width: '100%', 
-            background: "#F9C01F", 
-            zIndex: "5", 
-            boxShadow: 'none', 
-            height: '70px' 
-            }}>
+        <AppBar position='fixed' sx={{
+            width: '100%',
+            background: "#F9C01F",
+            zIndex: "5",
+            boxShadow: 'none',
+            height: '70px'
+        }}>
             <Container maxWidth="">
                 <Toolbar disableGutters sx={{ justifyContent: "space-between" }}>
                     <Typography
@@ -126,6 +134,7 @@ function Header() {
                             color: 'inherit',
                             textDecoration: 'none',
                         }}
+                        onClick={() => {navigate('/')}}
                     >
                         EDU-CONNECT
                     </Typography>

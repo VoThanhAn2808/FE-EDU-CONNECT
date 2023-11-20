@@ -16,75 +16,76 @@ const theme = createTheme({
   },
 });
 
-const ProfileStudents = () => {
+const ProfileTutor = () => {
 
   const decodedToken = jwtDecode(localStorage.getItem('token'));
   const userId = decodedToken.id;
   const [uploadedFile, setUploadedFile] = useState(null);
 
-  const [userData, setUserData] = useState({
-    fullname: '',
-    studentid: userId,
-    class: '',
-    gender: '',
-    wards: '',
-    city: '',
-    birthdate: null,
-    phone: '',
-    classId: '',
-    img: '',
-  });
+  const [userData, setUserData] = useState([]);
   const [isEditing, setIsEditing] = useState(true);
 
 
   const fetchUser = useCallback(async () => {
     try {
       const response = await axios.get(
-        `http://localhost:8081/student/viewstudent?email=${userId}`,
+        `http://localhost:8081/educonnect/viewTutor?tutorId=${userId}`,
         {
           headers: {
             'Content-Type': 'application/json',
           },
         },
       );
-      setUserData(response.data);
+      setUserData({ ...response.data, email: decodedToken.sub});
+    } catch (error) {
+      console.error(error);
+    }
+  }, [userId, decodedToken.sub]);
+
+  const fetchCourse = useCallback(async () => {
+    try {
+      const response = await axios.get(
+        `http://localhost:8081/educonnect/tutor/course?tutorid=${userId}`,
+        {
+          headers: {
+            'Content-Type': 'application/json',
+          },
+        },
+      );
+      setUserData((prevUserData) => ({ ...prevUserData, courseList: response.data }));
     } catch (error) {
       console.error(error);
     }
   }, [userId]);
 
+
   useEffect(() => {
     fetchUser();
-  }, [fetchUser]);
-  console.log(userData);
+    fetchCourse();
+  }, [fetchUser, fetchCourse]);
 
   const updateInfo = async () => {
+
     try {
       const dateString = userData.birthdate;
       const formattedDate = format(new Date(dateString), 'yyyy/MM/dd');
-      console.log( "ds" + formattedDate);
       const formData = new FormData();
       formData.append('fullname', userData.fullname);
-      formData.append('studentid', decodedToken.id);
-      formData.append('file', userData.avt);
+      formData.append('tutorid', decodedToken.id);
       formData.append('gender', userData.gender);
       formData.append('birthdate', formattedDate);
       formData.append('phone', userData.phone);
       formData.append('city', userData.city);
       formData.append('wards', userData.wards);
-      formData.append('classentity', userData.classId);
-
-      const response = await axios.put(
-        'http://localhost:8081/student/updatestudent',
-        formData,
+      formData.append('file', uploadedFile);
+      const response = await axios.put('http://localhost:8081/educonnect/UpdateTutor', formData,
         {
-          headers: {
-            'Content-Type': 'multipart/form-data',
-          },
-        }
-      );
-      window.location.href = "/homestudent";
+        headers: {
+          'Content-Type': 'multipart/form-data',
+        },
+      });
       console.log(response.data);
+      window.location.href = "/calendartutorselect"
     } catch (error) {
       console.error(error);
     }
@@ -113,6 +114,7 @@ const ProfileStudents = () => {
       avt: selectedFile,
     });
   };
+  
 
   return (
     <Box
@@ -127,7 +129,7 @@ const ProfileStudents = () => {
           userData={userData}
           onFileChange={handleFileChange}
           isEditing={isEditing}
-          role={'học sinh'}
+          role={'gia sư'}
           uploadedFile={uploadedFile}
         />
         <Paper
@@ -163,4 +165,4 @@ const ProfileStudents = () => {
   );
 };
 
-export default ProfileStudents;
+export default ProfileTutor;

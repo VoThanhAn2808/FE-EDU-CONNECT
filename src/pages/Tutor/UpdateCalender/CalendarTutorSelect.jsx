@@ -16,39 +16,50 @@ import axios from "axios";
 import { jwtDecode } from "jwt-decode";
 import { useNavigate } from "react-router-dom";
 
-function CalendarTutorSelect() {
+function UpdateCalender() {
     const [data, setData] = useState([]);
     const [daysOfWeek, setDaysOfWeek] = useState([]);
     const [selectedCells, setSelectedCells] = useState([]);
     const token = localStorage.getItem("token");
     const tutor = jwtDecode(token);
     const navigate = useNavigate();
+    const [time, setTime] = useState([]);
 
     useEffect(() => {
-        axios
-            .get(`http://localhost:8081/book/timeline`)
+        // Fetch timeline data
+        axios.get(`http://localhost:8081/book/timeline`)
             .then((response) => {
                 if (response && response.data) {
                     setData(response.data);
-                    console.log(response.data);
                 }
             })
             .catch((error) => {
                 console.error("Error fetching timeline:", error);
             });
 
-        axios
-            .get(`http://localhost:8081/book/lesson`)
+        // Fetch lesson data
+        axios.get(`http://localhost:8081/book/lesson`)
             .then((response) => {
                 if (response && response.data) {
                     setDaysOfWeek(response.data);
+                }
+            })
+            .catch((error) => {
+                console.error("Error fetching lessons:", error);
+            });
+
+        // Fetch tutor's teaching time data
+        axios.get(`http://localhost:8081/educonnect/listteachtime?tutorid=${tutor.id}`)
+            .then((response) => {
+                if (response && response.data) {
+                    setTime(response.data);
                     console.log(response.data);
                 }
             })
             .catch((error) => {
                 console.error("Error fetching lessons:", error);
             });
-    }, []);
+    }, [tutor.id]);
 
     const handleCellClick = (cellIndex) => {
         const isSelected = selectedCells.includes(cellIndex);
@@ -62,6 +73,10 @@ function CalendarTutorSelect() {
         }
     };
 
+    const isCellSelectedAndChosen = (cellIndex) => {
+        const [timeId, lessonId] = cellIndex.split("-");
+        return time.some((item) => item.timeId === timeId && item.lessonid === lessonId);
+    };
     const isCellSelected = (cellIndex) => {
         return selectedCells.includes(cellIndex);
     };
@@ -83,13 +98,11 @@ function CalendarTutorSelect() {
         try {
             for (const cellIndex of selectedCells) {
                 const [timeId, lessonId] = cellIndex.split('-');
-                console.log(timeId);
                 const postData = {
                     tutorid: tutor.id,
                     lessonid: lessonId,
                     timeid: timeId,
                 };
-                console.log("ds" + postData);
 
                 const booktimeResponse = await axios.post(
                     "http://localhost:8081/educonnect/choicetime",
@@ -111,7 +124,7 @@ function CalendarTutorSelect() {
     return (
         <Box sx={{ marginBottom: "50px" }}>
             <Box>
-                <Typography sx={{ fontSize: "30px", fontFamily: "cursive", fontWeight: "700", textAlign: "center", marginTop: "100px" }}>Chọn lịch dạy</Typography>
+                <Typography sx={{ fontSize: "30px", fontFamily: "cursive", fontWeight: "700", textAlign: "center", marginTop: "100px" }}>Cập nhật lịch dạy của bạn</Typography>
             </Box>
             <Box sx={{ backgroundColor: 'gray', width: '980px', marginLeft: 'auto', borderRadius: '20%', marginRight: 'auto', marginTop: "30px" }}>
                 <TableContainer component={Paper} sx={{ width: '100%' }}>
@@ -126,12 +139,24 @@ function CalendarTutorSelect() {
                         </TableHead>
                         <TableBody>
                             {data.map((item, index) => (
-                                <TableRow key={index}>
+                                <TableRow key={item.timeId}>
                                     <TableCell sx={{ border: '1px solid #000000', width: '140px', height: '100px', backgroundColor: 'green', color: 'white', textAlign: 'center', fontSize: '15px', fontFamily: 'cursive' }}>{item.timeline} - {item.endtime}</TableCell>
                                     {daysOfWeek.map((day) => {
-                                        const choice = `${item.timeId}-${day.lessonId}`;
+                                        const cellIndex = `${item.timeId}-${day.lessonId}`;
+                                        // console.log("Cell Index:", cellIndex);
+                                        // console.log("Selected Cells:", selectedCells);
+
                                         return (
-                                            <TableCell key={day.lessonId} sx={{ border: '1px solid #000000', width: '140px', height: '100px', backgroundColor: isCellSelected(choice) ? '#71C763' : '#ffffff' }} checked={selectedCells.includes(choice)} onClick={() => handleCellClick(choice)}></TableCell>
+                                            <TableCell
+                                                key={cellIndex}
+                                                sx={{
+                                                    border: "1px solid",
+                                                    backgroundColor: isCellSelectedAndChosen(cellIndex) ? "#ffcc80" : isCellSelected(cellIndex) ? "#b2dfdb" : ""
+                                                }}
+                                                onClick={() => handleCellClick(cellIndex)}
+                                            >
+                                                {item.time}
+                                            </TableCell>
                                         );
                                     })}
                                 </TableRow>
@@ -160,4 +185,4 @@ function CalendarTutorSelect() {
     );
 }
 
-export default CalendarTutorSelect;
+export default UpdateCalender;

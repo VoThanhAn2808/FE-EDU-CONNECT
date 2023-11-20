@@ -43,14 +43,25 @@ function LoginPage() {
       const decodedToken = jwtDecode(token);
 
       if (decodedToken.role === 1) {
-        const fb = await axios.get("http://localhost:8081/student/feedback/" + decodedToken.id, config);
-        if (Array.isArray(fb.data) && fb.data.length > 0) {
-          window.location.href = "/feedback";
+        const check = await axios.get(`http://localhost:8081/student/checkstudent?studentid=${decodedToken.id}`)
+        if (check.data === false) {
+          window.location.href = "/profilestudent";
         } else {
-          window.location.href = "/homestudent";
+          const fb = await axios.get("http://localhost:8081/student/feedback/" + decodedToken.id, config);
+          if (Array.isArray(fb.data) && fb.data.length > 0) {
+            window.location.href = "/feedback";
+          } else {
+            window.location.href = "/homestudent";
+          }
         }
       } else if (decodedToken.role === 2) {
-        window.location.href = "/hometutor";
+        const check = await axios.get(`http://localhost:8081/educonnect/checktutor?tutorid=${decodedToken.id}`)
+        if(check.data === false) {
+          window.location.href = "/profiletutor";
+        }else{
+          window.location.href = "/hometutor";
+        }
+        console.log(check.data);
       } else if (decodedToken.role === 3) {
         window.location.href = "/managerstudent"
       }
