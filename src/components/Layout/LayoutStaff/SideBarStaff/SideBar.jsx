@@ -32,7 +32,7 @@ function Sidebar() {
           <ListItemIcon>
             <DashboardIcon />
           </ListItemIcon>
-          <Typography sx={{ fontSize: '16px', marginRight: 'auto' }}>Dashboard</Typography>
+          <Typography sx={{ fontSize: '16px', marginRight: 'auto' }}><Link to='/dashboard' style={{color:"black", textDecoration: "none"}}>Dashboard</Link></Typography>
         </ListItemButton>
 
         <ListItemButton>

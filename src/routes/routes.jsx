@@ -46,6 +46,8 @@ import ResetPassword from '../pages/Logins/Resetpassord/ResetPassordPage';
 import DocumentManagement from '../pages/Staff/DocumentManagement';
 import TutorRegisterManagement from '../pages/Staff/TutorRegisterManagement';
 import ProfileTutor from '../pages/Tutor/Profile/ProfileTutor';
+import MoneyManagement from '../pages/admin/MoneyManagement/MoneyManagement';
+import Dashboard from '../pages/Staff/Dashboard/Dashboard';
 
 const publicRoute = [
   { path: '/', component: Home, layout: DefaultLayout, allowedRoles: ["default"]},
@@ -90,8 +92,10 @@ const privateRoute = [
   { path: '/tutorregistermanagement', component: TutorRegisterManagement, layout: LayoutStaff, allowedRoles: ["staff"]},
   { path: '/profile-staff', component: ProfileStaff, layout: LayoutStaff, allowedRoles: ["staff"]},
   { path: '/trylearningmanagement', component: TryLearningManagement, layout: LayoutStaff, allowedRoles: ["staff"]},
+  { path: '/dashboard', component: Dashboard, layout: LayoutStaff, allowedRoles: ["staff"]},
   { path: '/admin', component: Admin, layout: LayoutAdmin, allowedRoles: ["admin"]},
   { path: '/staffmanagement', component: StaffManagement, layout: LayoutAdmin, allowedRoles: ["admin"]},
+  { path: '/moneymanagement', component: MoneyManagement, layout: LayoutAdmin, allowedRoles: ["admin"]},
 ];
 
 export { publicRoute, privateRoute };
