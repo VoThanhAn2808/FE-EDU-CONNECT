@@ -48,6 +48,7 @@ import TutorRegisterManagement from '../pages/Staff/TutorRegisterManagement';
 import ProfileTutor from '../pages/Tutor/Profile/ProfileTutor';
 import MoneyManagement from '../pages/admin/MoneyManagement/MoneyManagement';
 import Dashboard from '../pages/Staff/Dashboard/Dashboard';
+import UpdateCalender from '../pages/Tutor/UpdateCalender/CalendarTutorSelect';
 
 const publicRoute = [
   { path: '/', component: Home, layout: DefaultLayout, allowedRoles: ["default"]},
@@ -85,6 +86,7 @@ const privateRoute = [
   { path: '/homeworktutor', component : HomeWorkTutor, layout : LayoutTutor, allowedRoles: ["tutor"]},
   { path: '/managerstudent', component : ManagerStudent, layout : LayoutTutor, allowedRoles: ["tutor"]},
   { path: '/profiletutor', component : ProfileTutor, layout : LoginLayout, allowedRoles: ["tutor"]},
+  { path: '/updatecalender', component : UpdateCalender, layout : LayoutTutor, allowedRoles: ["tutor"]},
   { path: '/tutormanagement', component: TutorManagement, layout: LayoutStaff, allowedRoles: ["staff"]},
   { path: '/coursemanagement', component: CourseManagement, layout: LayoutStaff, allowedRoles: ["staff"]},
   { path: '/studentmanagement', component: StudentManagement, layout: LayoutStaff, allowedRoles: ["staff"]},
@@ -93,7 +95,7 @@ const privateRoute = [
   { path: '/profile-staff', component: ProfileStaff, layout: LayoutStaff, allowedRoles: ["staff"]},
   { path: '/trylearningmanagement', component: TryLearningManagement, layout: LayoutStaff, allowedRoles: ["staff"]},
   { path: '/dashboard', component: Dashboard, layout: LayoutStaff, allowedRoles: ["staff"]},
-  { path: '/admin', component: Admin, layout: LayoutAdmin, allowedRoles: ["admin"]},
+  { path: '/admin', component: Admin, layout: LoginLayout, allowedRoles: ["admin"]},
   { path: '/staffmanagement', component: StaffManagement, layout: LayoutAdmin, allowedRoles: ["admin"]},
   { path: '/moneymanagement', component: MoneyManagement, layout: LayoutAdmin, allowedRoles: ["admin"]},
 ];

@@ -134,6 +134,7 @@ function Header() {
                             color: 'inherit',
                             textDecoration: 'none',
                         }}
+                        onClick={() => {navigate('/')}}
                     >
                         EDU-CONNECT
                     </Typography>
