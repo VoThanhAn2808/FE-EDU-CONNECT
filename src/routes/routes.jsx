@@ -46,7 +46,6 @@ import ResetPassword from '../pages/Logins/Resetpassord/ResetPassordPage';
 import DocumentManagement from '../pages/Staff/DocumentManagement';
 import TutorRegisterManagement from '../pages/Staff/TutorRegisterManagement';
 import ProfileTutor from '../pages/Tutor/Profile/ProfileTutor';
-import MoneyManagement from '../pages/admin/MoneyManagement/MoneyManagement';
 import Dashboard from '../pages/Staff/Dashboard/Dashboard';
 import UpdateCalender from '../pages/Tutor/UpdateCalender/CalendarTutorSelect';
 
