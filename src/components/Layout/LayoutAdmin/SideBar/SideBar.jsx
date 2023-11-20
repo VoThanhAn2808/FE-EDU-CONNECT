@@ -24,7 +24,7 @@ function SideBar() {
                     <ListItemIcon>
                         <DashboardIcon />
                     </ListItemIcon>
-                    <Typography sx={{ fontSize: '16px', marginRight: 'auto' }}>Dashboard</Typography>
+                    <Typography sx={{ fontSize: '16px', marginRight: 'auto' }}><Link to='/admin' style={{ color: "black", textDecoration: "none" }}>Dashboard</Link></Typography>
                 </ListItemButton>
 
                 <ListItemButton>
@@ -38,7 +38,7 @@ function SideBar() {
                     <ListItemIcon>
                         <CurrencyExchangeIcon />
                     </ListItemIcon>
-                    <Typography sx={{ fontSize: '16px', marginRight: 'auto' }}><Link to='/' style={{ color: "black", textDecoration: "none" }}>Quản lý nguồn tiền</Link></Typography>
+                    <Typography sx={{ fontSize: '16px', marginRight: 'auto' }}><Link to='/moneymanagement' style={{ color: "black", textDecoration: "none" }}>Quản lý nguồn tiền</Link></Typography>
                 </ListItemButton>
 
             </List>
