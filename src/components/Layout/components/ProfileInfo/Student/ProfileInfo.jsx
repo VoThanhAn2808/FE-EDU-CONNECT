@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { useEffect, useState } from 'react';
 import TextField from '@mui/material/TextField';
 import Box from '@mui/material/Box';
 import { LocalizationProvider } from '@mui/x-date-pickers';
@@ -6,8 +6,22 @@ import { AdapterDayjs } from '@mui/x-date-pickers/AdapterDayjs';
 import { DatePicker } from '@mui/x-date-pickers/DatePicker';
 import dayjs from 'dayjs';
 import { MenuItem } from '@mui/material';
+import axios from 'axios';
 
 function ProfileInfo({ userData, handleInputChange, isEditing }) {
+
+  const [data, setData] = useState([]);
+  useEffect(() => {
+    axios
+      .get(`http://localhost:8081/student/class`)
+      .then((response) => {
+        setData(response.data);
+        console.log(response.data);
+      })
+      .catch((error) => {
+        console.error(error);
+      });
+  }, []);
 
   return (
     <>
@@ -39,17 +53,32 @@ function ProfileInfo({ userData, handleInputChange, isEditing }) {
         }}
       >
         <TextField
+          select
           label='Lớp'
-          value={userData.class}
+          value={userData.classId} // Thêm thuộc tính value
           onChange={(e) => handleInputChange('class', e.target.value)}
           disabled={!isEditing}
           sx={{
             width: '50%',
           }}
           InputLabelProps={{
-            shrink: userData.class ? true : undefined,
+            shrink: !!userData.classId,
           }}
-        />
+          SelectProps={{
+            MenuProps: {
+              'aria-readonly': true,
+            },
+          }}
+        >
+          {data.map((item) => (
+            <MenuItem
+              value={item.classid}
+              key={item.classid}
+            >
+              {item.className}
+            </MenuItem>
+          ))}
+        </TextField>
         <Box sx={{ width: '50%', m: 0 }}>
           <TextField
             select
