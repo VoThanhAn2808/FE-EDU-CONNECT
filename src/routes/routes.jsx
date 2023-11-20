@@ -46,7 +46,6 @@ import ResetPassword from '../pages/Logins/Resetpassord/ResetPassordPage';
 import DocumentManagement from '../pages/Staff/DocumentManagement';
 import TutorRegisterManagement from '../pages/Staff/TutorRegisterManagement';
 import ProfileTutor from '../pages/Tutor/Profile/ProfileTutor';
-import MoneyManagement from '../pages/admin/MoneyManagement/MoneyManagement';
 import Dashboard from '../pages/Staff/Dashboard/Dashboard';
 import UpdateCalender from '../pages/Tutor/UpdateCalender/CalendarTutorSelect';
 
@@ -97,7 +96,6 @@ const privateRoute = [
   { path: '/dashboard', component: Dashboard, layout: LayoutStaff, allowedRoles: ["staff"]},
   { path: '/admin', component: Admin, layout: LoginLayout, allowedRoles: ["admin"]},
   { path: '/staffmanagement', component: StaffManagement, layout: LayoutAdmin, allowedRoles: ["admin"]},
-  { path: '/moneymanagement', component: MoneyManagement, layout: LayoutAdmin, allowedRoles: ["admin"]},
 ];
 
 export { publicRoute, privateRoute };
