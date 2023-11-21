@@ -48,6 +48,7 @@ import TutorRegisterManagement from '../pages/Staff/TutorRegisterManagement';
 import ProfileTutor from '../pages/Tutor/Profile/ProfileTutor';
 import Dashboard from '../pages/Staff/Dashboard/Dashboard';
 import UpdateCalender from '../pages/Tutor/UpdateCalender/CalendarTutorSelect';
+import PageNotFound from '../pages/PageNotFound';
 
 const publicRoute = [
   { path: '/', component: Home, layout: DefaultLayout, allowedRoles: ["default"]},
@@ -58,6 +59,7 @@ const publicRoute = [
   { path: '/login', component: LoginPage, layout: LoginLayout},
   { path: '/forgotpass', component: ForgotPassword, layout: LoginLayout},
   { path: '/resetpassword/:token', component : ResetPassword, layout: LoginLayout},
+  { path: '/page-not-found', component : PageNotFound, layout: LoginLayout},
 ];
 const privateRoute = [
   { path: '/changepass', component: ChangePassword, layout: LoginLayout},
