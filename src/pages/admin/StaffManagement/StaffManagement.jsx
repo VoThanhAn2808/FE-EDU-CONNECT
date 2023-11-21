@@ -1,23 +1,33 @@
 import { useState } from "react";
-import { Box, Button, Menu, MenuItem, Pagination, Table, TableBody, TableCell, TableContainer, TableHead, TableRow, TextField, Typography } from "@mui/material";
+import { Box, Button, Menu, MenuItem, Pagination, Table, TableBody, TableCell, TableContainer, TableHead, TableRow, TextField, Typography, Modal } from "@mui/material";
 import AddBoxIcon from '@mui/icons-material/AddBox';
 import MoreVertIcon from '@mui/icons-material/MoreVert';
+import ProfileAvatar from "./ProfileAvatar";
 
 const data = [
-    { id: 1, name: "Nguyễn Văn A", phoneNumber: "0987654321", date: "10/09/2023",wage: "5.000.000 VNĐ" ,status: "Còn hoạt động" },
-    { id: 2, name: "Nguyễn Văn A", phoneNumber: "0987654321", date: "10/09/2023",wage: "5.000.000 VNĐ" ,status: "Còn hoạt động" },
-    { id: 3, name: "Nguyễn Văn A", phoneNumber: "0987654321", date: "10/09/2023",wage: "5.000.000 VNĐ" ,status: "Còn hoạt động" },
-    { id: 4, name: "Nguyễn Văn A", phoneNumber: "0987654321", date: "10/09/2023",wage: "5.000.000 VNĐ" ,status: "Còn hoạt động" },
-    { id: 5, name: "Nguyễn Văn A", phoneNumber: "0987654321", date: "10/09/2023",wage: "5.000.000 VNĐ" ,status: "Còn hoạt động" },
-    { id: 6, name: "Nguyễn Văn A", phoneNumber: "0987654321", date: "10/09/2023",wage: "5.000.000 VNĐ" ,status: "Đã nghĩ" },
-    { id: 7, name: "Nguyễn Văn A", phoneNumber: "0987654321", date: "10/09/2023",wage: "5.000.000 VNĐ" ,status: "Đã nghĩ" },
-    { id: 8, name: "Nguyễn Văn A", phoneNumber: "0987654321", date: "10/09/2023",wage: "5.000.000 VNĐ" ,status: "Đã nghĩ" },
-    { id: 9, name: "Nguyễn Văn A", phoneNumber: "0987654321", date: "10/09/2023",wage: "5.000.000 VNĐ" ,status: "Đã nghĩ" },
-    { id: 10, name: "Nguyễn Văn A", phoneNumber: "0987654321", date: "10/09/2023",wage: "5.000.000 VNĐ" ,status: "Đã nghĩ" },
+    { id: 1, name: "Nguyễn Văn A", phoneNumber: "0987654321", date: "10/09/2023", wage: "5.000.000 VNĐ", status: "Còn hoạt động" },
+    { id: 2, name: "Nguyễn Văn A", phoneNumber: "0987654321", date: "10/09/2023", wage: "5.000.000 VNĐ", status: "Còn hoạt động" },
+    { id: 3, name: "Nguyễn Văn A", phoneNumber: "0987654321", date: "10/09/2023", wage: "5.000.000 VNĐ", status: "Còn hoạt động" },
+    { id: 4, name: "Nguyễn Văn A", phoneNumber: "0987654321", date: "10/09/2023", wage: "5.000.000 VNĐ", status: "Còn hoạt động" },
+    { id: 5, name: "Nguyễn Văn A", phoneNumber: "0987654321", date: "10/09/2023", wage: "5.000.000 VNĐ", status: "Còn hoạt động" },
+    { id: 6, name: "Nguyễn Văn A", phoneNumber: "0987654321", date: "10/09/2023", wage: "5.000.000 VNĐ", status: "Đã nghĩ" },
+    { id: 7, name: "Nguyễn Văn A", phoneNumber: "0987654321", date: "10/09/2023", wage: "5.000.000 VNĐ", status: "Đã nghĩ" },
+    { id: 8, name: "Nguyễn Văn A", phoneNumber: "0987654321", date: "10/09/2023", wage: "5.000.000 VNĐ", status: "Đã nghĩ" },
+    { id: 9, name: "Nguyễn Văn A", phoneNumber: "0987654321", date: "10/09/2023", wage: "5.000.000 VNĐ", status: "Đã nghĩ" },
+    { id: 10, name: "Nguyễn Văn A", phoneNumber: "0987654321", date: "10/09/2023", wage: "5.000.000 VNĐ", status: "Đã nghĩ" },
 
 ]
 function StaffManagement() {
     const [anchorEl, setAnchorEl] = useState(null);
+    const [openModal, setOpenModal] = useState(false);
+
+    const handleOpenModal = () => {
+        setOpenModal(true);
+    };
+
+    // const handleCloseModal = () => {
+    //     setOpenModal(false);
+    // };
 
     const handleClick = (event) => {
         setAnchorEl(event.currentTarget);
@@ -26,7 +36,7 @@ function StaffManagement() {
     const handleClose = () => {
         setAnchorEl(null);
     };
-    
+
     return (
         <Box >
             <Box sx={{
@@ -97,7 +107,126 @@ function StaffManagement() {
                                     <TableCell sx={{ fontSize: "20px", fontFamily: "cursive", textAlign: "center" }}>Ngày đăng ký</TableCell>
                                     <TableCell sx={{ fontSize: "20px", fontFamily: "cursive", textAlign: "center" }}>Lương</TableCell>
                                     <TableCell sx={{ fontSize: "20px", fontFamily: "cursive", textAlign: "center" }}>Trạng thái</TableCell>
-                                    <TableCell sx={{ fontSize: "20px", fontFamily: "cursive", textAlign: "center" }}><AddBoxIcon sx={{ fontSize: "25px" }} /></TableCell>
+                                    <TableCell sx={{ fontSize: "20px", fontFamily: "cursive", textAlign: "center" }}>
+                                        <AddBoxIcon sx={{ fontSize: "25px" }} onClick={handleOpenModal} />
+                                        <Modal
+                                            open={openModal}
+                                            onClick={handleOpenModal}
+                                            sx={{
+                                                display: 'flex',
+                                                alignItems: 'center',
+                                                justifyContent: 'center',
+                                            }}
+                                        >
+                                            <Box sx={{ backgroundColor: "#D9D9D9", width: "400px", height: "570px", borderRadius: "10px", border: '2px solid #000000', p: 2, }}>
+                                                <ProfileAvatar />
+                                                <Typography sx={{ fontSize: "17px", display:"flex", justifyContent:"space-between" }}>Nhân viên:
+                                                    <TextField
+                                                        InputProps={{
+                                                            style: {
+                                                                fontSize: "14px", 
+                                                                height: "28px",
+                                                            },
+                                                        }}
+                                                    />
+                                                </Typography>
+                                                <Typography sx={{ fontSize: "17px", display:"flex", justifyContent:"space-between" }}>Email:
+                                                <TextField
+                                                        InputProps={{
+                                                            style: {
+                                                                fontSize: "14px", 
+                                                                height: "28px",
+                                                            },
+                                                        }}
+                                                    />
+                                                </Typography>
+                                                <Typography sx={{ fontSize: "17px", display:"flex", justifyContent:"space-between" }}>Mật khẩu:
+                                                <TextField
+                                                        InputProps={{
+                                                            style: {
+                                                                fontSize: "14px", 
+                                                                height: "28px",
+                                                            },
+                                                        }}
+                                                    />
+                                                </Typography>
+                                                <Typography sx={{ fontSize: "17px", display:"flex", justifyContent:"space-between" }}>Số điện thoại:
+                                                <TextField
+                                                        InputProps={{
+                                                            style: {
+                                                                fontSize: "14px", 
+                                                                height: "28px",
+                                                            },
+                                                        }}
+                                                    />
+                                                </Typography>
+                                                <Typography sx={{ fontSize: "17px", display:"flex", justifyContent:"space-between" }}>Giới tính:
+                                                <TextField
+                                                        InputProps={{
+                                                            style: {
+                                                                fontSize: "14px", 
+                                                                height: "28px",
+                                                            },
+                                                        }}
+                                                    />
+                                                </Typography>
+                                                <Typography sx={{ fontSize: "17px", display:"flex", justifyContent:"space-between" }}>Trạng thái:
+                                                <TextField
+                                                        InputProps={{
+                                                            style: {
+                                                                fontSize: "14px", 
+                                                                height: "28px",
+                                                            },
+                                                        }}
+                                                    />
+                                                </Typography>
+                                                <Typography sx={{ fontSize: "17px", display:"flex", justifyContent:"space-between" }}>Ngày sinh:
+                                                <TextField
+                                                        InputProps={{
+                                                            style: {
+                                                                fontSize: "14px", 
+                                                                height: "28px",
+                                                            },
+                                                        }}
+                                                    />
+                                                </Typography>
+                                                <Typography sx={{ fontSize: "17px", display:"flex", justifyContent:"space-between" }}>Quê quán:
+                                                <TextField
+                                                        InputProps={{
+                                                            style: {
+                                                                fontSize: "14px", 
+                                                                height: "28px",
+                                                            },
+                                                        }}
+                                                    />
+                                                </Typography>
+                                                <Typography sx={{ fontSize: "17px", display:"flex", justifyContent:"space-between" }}>Lương:
+                                                <TextField
+                                                        InputProps={{
+                                                            style: {
+                                                                fontSize: "14px", 
+                                                                height: "28px",
+                                                            },
+                                                        }}
+                                                    />
+                                                </Typography>
+                                                <Typography sx={{ fontSize: "17px", display:"flex", justifyContent:"space-between" }}>Kinh nghiệm:
+                                                <TextField
+                                                        InputProps={{
+                                                            style: {
+                                                                fontSize: "14px", 
+                                                                height: "28px",
+                                                            },
+                                                        }}
+                                                    />
+                                                </Typography>
+                                                <Box sx={{marginTop:"30px", marginLeft:"64%"}}>
+                                                    <Button sx={{ backgroundColor: "green", color: "black", fontSize: "12px", fontWeight: "600" }}>Lưu</Button>
+                                                    <Button sx={{ backgroundColor: "red", color: "black", fontSize: "12px", fontWeight: "600" }}>Huỷ</Button>
+                                                </Box>
+                                            </Box>
+                                        </Modal>
+                                    </TableCell>
                                 </TableRow>
                             </TableHead>
                             <TableBody>

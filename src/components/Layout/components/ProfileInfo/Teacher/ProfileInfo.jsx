@@ -4,9 +4,8 @@ import Box from '@mui/material/Box';
 import { LocalizationProvider } from '@mui/x-date-pickers';
 import { AdapterDayjs } from '@mui/x-date-pickers/AdapterDayjs';
 import { DatePicker } from '@mui/x-date-pickers/DatePicker';
-import Typography from '@mui/material/Typography';
 import dayjs from 'dayjs';
-import { FormControl, InputAdornment, InputLabel, List, ListItem, ListItemText, MenuItem, Select } from '@mui/material';
+import { FormControl, InputAdornment, List, ListItem, ListItemText, MenuItem } from '@mui/material';
 import { ExpandLess, ExpandMore } from '@mui/icons-material';
 
 function ProfileInfo({ userData, handleInputChange, isEditing }) {
