@@ -94,7 +94,7 @@ const privateRoute = [
   { path: '/profile-staff', component: ProfileStaff, layout: LayoutStaff, allowedRoles: ["staff"]},
   { path: '/trylearningmanagement', component: TryLearningManagement, layout: LayoutStaff, allowedRoles: ["staff"]},
   { path: '/dashboard', component: Dashboard, layout: LayoutStaff, allowedRoles: ["staff"]},
-  { path: '/admin', component: Admin, layout: LoginLayout, allowedRoles: ["admin"]},
+  { path: '/admin', component: Admin, layout: LayoutAdmin, allowedRoles: ["admin"]},
   { path: '/staffmanagement', component: StaffManagement, layout: LayoutAdmin, allowedRoles: ["admin"]},
 ];
 
