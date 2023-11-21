@@ -75,8 +75,8 @@ function UpdateCalender() {
 
     const isCellSelectedAndChosen = (cellIndex) => {
         const [timeId, lessonId] = cellIndex.split("-");
-        return time.some((item) => item.timeId === timeId && item.lessonid === lessonId);
-    };
+        return time.some((item) => item.timeId === Number(timeId) && item.lessonid === Number(lessonId));
+      };
     const isCellSelected = (cellIndex) => {
         return selectedCells.includes(cellIndex);
     };
