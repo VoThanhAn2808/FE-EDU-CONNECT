@@ -225,15 +225,16 @@ function StaffManagement() {
     };
 
     const [profilePicSrc, setProfilePicSrc] = useState('');
+    const [file, setFile] = useState('');
 
     const handleFileChange = (event) => {
         const file = event.target.files[0];
         const reader = new FileReader();
 
-        reader.onload = (e) => {
-            setProfilePicSrc(e.target.result);
+        reader.onload = () => {
+            setProfilePicSrc(reader.result);
         };
-
+        setFile(file);
         reader.readAsDataURL(file);
     };
 
@@ -251,10 +252,11 @@ function StaffManagement() {
             formData.append('phone', phone);
             formData.append('gender', gender);
             formData.append('birthdate', birthdate);
-            formData.append('file', profilePicSrc);
+            formData.append('file', file);
             formData.append('city', city);
             formData.append('wards', wards);
             formData.append('salary', salary);
+            formData.append('experience', experience);
 
             const response = await axios.post(
                 "http://localhost:8081/admin/addstaff",
@@ -356,7 +358,7 @@ function StaffManagement() {
                                             }}
                                         >
                                             <Box sx={{ backgroundColor: "#D9D9D9", width: "400px", height: "570px", borderRadius: "10px", border: '2px solid #000000', p: 2, }}>
-                                                <form>
+                                                <form onSubmit={handleSubmitAdd}>
                                                     <AvatarWrapper>
                                                         <ProfilePic alt="Profile Pic" src={profilePicSrc} className="profile-pic" />
                                                         <UploadButton>
@@ -502,7 +504,7 @@ function StaffManagement() {
                                                         />
                                                     </Typography>
                                                     <Box sx={{ marginTop: "30px", marginLeft: "64%" }}>
-                                                        <Button sx={{ backgroundColor: "green", color: "black", fontSize: "12px", fontWeight: "600" }}>Lưu</Button>
+                                                        <Button type="submit" sx={{ backgroundColor: "green", color: "black", fontSize: "12px", fontWeight: "600" }}>Lưu</Button>
                                                         <Button sx={{ backgroundColor: "red", color: "black", fontSize: "12px", fontWeight: "600" }} onClick={handleCloseModal}>Huỷ</Button>
                                                     </Box>
                                                 </form>
