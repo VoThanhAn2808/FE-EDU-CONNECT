@@ -10,7 +10,6 @@ function Footer() {
         display: 'flex',
         alignItems: 'center',
         justifyContent: 'center',
-        position: 'absolute',
         width: '100%',
         bottom: '0',
       }}
