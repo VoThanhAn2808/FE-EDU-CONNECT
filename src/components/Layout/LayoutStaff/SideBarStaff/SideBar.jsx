@@ -76,6 +76,12 @@ function Sidebar() {
           </ListItemIcon>
           <Typography sx={{ fontSize: '16px', marginRight: 'auto' }}><Link to='/tutorregistermanagement' style={{color:"black", textDecoration: "none"}}>Quản lý gia sư đăng ký</Link></Typography>
         </ListItemButton>
+        <ListItemButton>
+          <ListItemIcon>
+            <PeopleAltIcon />
+          </ListItemIcon>
+          <Typography sx={{ fontSize: '16px', marginRight: 'auto' }}><Link to='/tutorregistermanagement' style={{color:"red", textDecoration: "none"}}>Quản lý mô phỏng</Link></Typography>
+        </ListItemButton>
       </List>
     </Box>
   );
