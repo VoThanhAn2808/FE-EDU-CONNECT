@@ -43,8 +43,8 @@ const Sidebar = () => {
     <Box
       sx={{
         bgcolor: '#E2A369',
-        height: '100vh',
         minWidth: '30vh',
+        height: "100%"
       }}
     >
       <List

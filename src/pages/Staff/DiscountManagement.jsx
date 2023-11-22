@@ -1,8 +1,9 @@
-import React, { useState, useEffect } from "react";
-import { Box, Button, Pagination, Table, TableBody, TableCell, TableContainer, TableHead, TableRow, TextField, Typography, Checkbox, Grid, Container } from "@mui/material";
-import { jwtDecode } from "jwt-decode";
+import { Box, Button, Checkbox, Pagination, Table, TableBody, TableCell, TableContainer, TableHead, TableRow, TextField, Typography } from "@mui/material";
 import { makeStyles } from '@mui/styles';
 import axios from "axios";
+import { jwtDecode } from "jwt-decode";
+import React, { useEffect, useState } from "react";
+import CreateModal from "../../components/Staff/DiscountManagement/CreateModal";
 
 const useStyles = makeStyles(() => ({
     input: {
@@ -27,7 +28,7 @@ function DiscountManagement() {
         pageNo: '',
         // Add other key-value pairs as needed
     });
-
+    const [open, setOpen] = useState(false);
 
     useEffect(() => {
         axios.post('http://localhost:8081/discount/listdiscount', dataToSend)
@@ -73,35 +74,39 @@ function DiscountManagement() {
         setSearchValue(event.target.value);
     };
 
-    const onclickButtonDelete = (event) => {
-
-    };
-    const handleSubmit = (event) => {
-        event.preventDefault();
-        // Clear the form fields after submission if needed
-
-
-    };
+    const onDeleteRow = (id) => {
+        let rowIndex = dataDicount?.listDiscount?.findIndex((item, i) => {
+            return item.discountid === id
+        })
+        dataDicount?.listDiscount.splace(rowIndex, 1) // remove item in UI
+        // Add function handle call api delete here
+        //
+    }
 
     return (
-        <Box style={{ width: '100%', padding: '20px', minHeight: '200vh' }}>
+        <Box style={{ width: '100%', padding: '20px' }}>
+            <CreateModal isShowModal={open} setOpen={setOpen} />
             <Box style={{ display: 'inline-block', width: '100%' }}>
-                <Box style={{ display: 'inline-block', width: '100%', }}>
-                    <Box style={{ float: 'left' }}>
+                <Box style={{ width: '100%', }}>
+                    <Box style={{ marginBottom: "20px"}}>
                         <Typography variant="h3" style={{ fontFamily: "cursive", }}>
                             Discount
                         </Typography>
                     </Box>
-                    <Box style={{ display: 'flex', float: 'right', height: '25px' }} className=''>
-                        <TextField id="outlined-basic" label="Search Title" variant="outlined" className={classes.input} value={searchValue}
-                            onChange={handleSearchInputChange}
-                            onKeyDown={handleKeyPress}
-                        />
-                        <Button variant="contained" style={{ marginRight: '10px', fontSize: "10px", fontFamily: "cursive", }}>
+                    <Box style={{ display: 'flex', justifyContent: "space-between", alignItems: "center" }} className=''>
+                        <Box style={{ minWidth: "360px", display: "flex", alignItems: "center"}} className=''>
+                            <TextField id="outlined-basic" label="Search Title" variant="outlined" className={classes.input} value={searchValue}
+                                size="small"
+                                fullWidth
+                                onChange={handleSearchInputChange}
+                                onKeyDown={handleKeyPress}
+                            />
+                            <Button variant="outlined" type="secondary" style={{ marginLeft: '10px', fontSize: "10px", fontFamily: "cursive", minWidth: "100px" }}>
+                                Tìm kiếm
+                            </Button>
+                        </Box>
+                        <Button variant="contained" style={{ marginRight: '10px', fontSize: "10px", fontFamily: "cursive", }} onClick={setOpen}>
                             Thêm
-                        </Button>
-                        <Button variant="contained" style={{ fontSize: "10px", fontFamily: "cursive", }} onClick={onclickButtonDelete}>
-                            Xóa
                         </Button>
                     </Box>
                 </Box>
@@ -123,6 +128,7 @@ function DiscountManagement() {
                                     <TableCell style={{ fontSize: "15px", fontFamily: "cursive", textAlign: "center" }}>Start Date</TableCell>
                                     <TableCell style={{ fontSize: "15px", fontFamily: "cursive", textAlign: "center" }}>End Date</TableCell>
                                     <TableCell style={{ fontSize: "15px", fontFamily: "cursive", textAlign: "center" }}>Title</TableCell>
+                                    <TableCell style={{ fontSize: "15px", fontFamily: "cursive", textAlign: "center" }}>Action</TableCell>
                                 </TableRow>
                             </TableHead>
                             <TableBody>
@@ -142,11 +148,16 @@ function DiscountManagement() {
                                             <TableCell style={{ fontSize: "10px", fontFamily: "cursive", textAlign: "center" }}>{item.startDate}</TableCell>
                                             <TableCell style={{ fontSize: "10px", fontFamily: "cursive", textAlign: "center" }}>{item.endDate}</TableCell>
                                             <TableCell style={{ fontSize: "10px", fontFamily: "cursive", textAlign: "center" }}>{item.title}</TableCell>
+                                            <TableCell style={{ fontSize: "10px", fontFamily: "cursive", textAlign: "center" }}>
+                                            <Button variant="contained" type="danger" style={{ marginRight: '10px', fontSize: "10px", fontFamily: "cursive", }} onClick={() => onDeleteRow(item.discountid)}>
+                                                Xoá
+                                            </Button>
+                                            </TableCell>
                                         </TableRow>
                                     ))
                                 ) : (
                                     <TableRow>
-                                        <TableCell colSpan={7}>No data available</TableCell>
+                                        <TableCell style={{ fontSize: "10px", fontFamily: "cursive", textAlign: "center" }} colSpan={8}>No data available</TableCell>
                                     </TableRow>
                                 )}
                             </TableBody>
@@ -157,84 +168,6 @@ function DiscountManagement() {
                     <Pagination count={dataDicount.pageCount} sx={{ '& .MuiPaginationItem-root': { fontSize: '15px', minWidth: '50px' } }} />
                 </Box>
             </Box>
-            <Container maxWidth="md" style={{ marginTop: '10px', border: '1px solid', padding: '10px' }}>
-                <form onSubmit={handleSubmit}>
-                    <Grid container spacing={2}>
-                        <Grid style={{ float: 'left' }}>
-                            <Typography variant="h3" style={{ fontFamily: "cursive", }}>
-                                Thêm Mã Giảm Giá
-                            </Typography>
-                        </Grid>
-                        <Grid item xs={12}>
-                            <TextField
-                                fullWidth
-                                label="Discount"
-                                variant="outlined"
-                                // value={discount}
-                                // onChange={(e) => setDiscount(e.target.value)}
-                                required
-                            />
-                        </Grid>
-                        <Grid item xs={12}>
-                            <TextField
-                                fullWidth
-                                label="Description"
-                                variant="outlined"
-                                // value={discount}
-                                // onChange={(e) => setDiscount(e.target.value)}
-                                required
-                            />
-                        </Grid>
-                        <Grid item xs={12}>
-                            <TextField
-                                fullWidth
-                                label="Image"
-                                variant="outlined"
-                                // value={discount}
-                                // onChange={(e) => setDiscount(e.target.value)}
-                                required
-                            />
-                        </Grid>
-                        <Grid item xs={12}>
-                            <TextField
-                                fullWidth
-                                label="Discount"
-                                variant="outlined"
-                                // value={discount}
-                                // onChange={(e) => setDiscount(e.target.value)}
-                                required
-                            />
-                        </Grid>
-                        <Grid item xs={12}>
-                            <TextField
-                                fullWidth
-                                label="Discount"
-                                variant="outlined"
-                                // value={discount}
-                                // onChange={(e) => setDiscount(e.target.value)}
-                                required
-                            />
-                        </Grid>
-                        <Grid item xs={12}>
-                            <TextField
-                                fullWidth
-                                label="Title"
-                                variant="outlined"
-                                multiline
-                                rows={4}
-                                // value={description}
-                                // onChange={(e) => setDescription(e.target.value)}
-                                required
-                            />
-                        </Grid>
-                        <Grid item xs={12}>
-                            <Button type="submit" variant="contained" color="primary" style={{ float: 'right' }}>
-                               Lưu
-                            </Button>
-                        </Grid>
-                    </Grid>
-                </form>
-            </Container>
         </Box>
     );
 }
