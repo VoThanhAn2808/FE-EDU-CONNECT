@@ -48,6 +48,7 @@ import TutorRegisterManagement from '../pages/Staff/TutorRegisterManagement';
 import ProfileTutor from '../pages/Tutor/Profile/ProfileTutor';
 import Dashboard from '../pages/Staff/Dashboard/Dashboard';
 import UpdateCalender from '../pages/Tutor/UpdateCalender/CalendarTutorSelect';
+import SimulationManagement from '../pages/Staff/SimulationManagement';
 
 const publicRoute = [
   { path: '/', component: Home, layout: DefaultLayout, allowedRoles: ["default"]},
@@ -93,6 +94,7 @@ const privateRoute = [
   { path: '/tutorregistermanagement', component: TutorRegisterManagement, layout: LayoutStaff, allowedRoles: ["staff"]},
   { path: '/profile-staff', component: ProfileStaff, layout: LayoutStaff, allowedRoles: ["staff"]},
   { path: '/trylearningmanagement', component: TryLearningManagement, layout: LayoutStaff, allowedRoles: ["staff"]},
+  { path: '/simulationmanagement', component: SimulationManagement, layout: LayoutStaff, allowedRoles: ["staff"]},
   { path: '/dashboard', component: Dashboard, layout: LayoutStaff, allowedRoles: ["staff"]},
   { path: '/admin', component: Admin, layout: LayoutAdmin, allowedRoles: ["admin"]},
   { path: '/staffmanagement', component: StaffManagement, layout: LayoutAdmin, allowedRoles: ["admin"]},

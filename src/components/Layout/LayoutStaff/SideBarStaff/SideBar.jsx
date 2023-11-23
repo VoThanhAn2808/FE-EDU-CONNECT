@@ -11,6 +11,7 @@ import CastForEducationIcon from '@mui/icons-material/CastForEducation';
 import SchoolIcon from '@mui/icons-material/School';
 import FolderCopyIcon from '@mui/icons-material/FolderCopy';
 import PeopleAltIcon from '@mui/icons-material/PeopleAlt';
+import BiotechIcon from '@mui/icons-material/Biotech';
 
 function Sidebar() {
 
@@ -75,6 +76,13 @@ function Sidebar() {
             <PeopleAltIcon />
           </ListItemIcon>
           <Typography sx={{ fontSize: '16px', marginRight: 'auto' }}><Link to='/tutorregistermanagement' style={{color:"black", textDecoration: "none"}}>Quản lý gia sư đăng ký</Link></Typography>
+        </ListItemButton>
+
+        <ListItemButton>
+          <ListItemIcon>
+            <BiotechIcon />
+          </ListItemIcon>
+          <Typography sx={{ fontSize: '16px', marginRight: 'auto' }}><Link to='/simulationmanagement' style={{color:"black", textDecoration: "none"}}>Quản lý mô phỏng</Link></Typography>
         </ListItemButton>
       </List>
     </Box>
