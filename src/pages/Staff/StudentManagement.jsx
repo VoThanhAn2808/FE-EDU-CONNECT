@@ -35,7 +35,7 @@ function StudentManagement() {
                 height: "100px",
                 marginLeft: "20px",
                 marginRight: "20px",
-                marginTop: "90px",
+                marginTop: "20px",
                 borderRadius: "5px",
                 border: '1px solid #000000', p: 2
             }}>
@@ -59,7 +59,7 @@ function StudentManagement() {
                 border: '1px solid #000000', p: 2,
             }}>
                 <Box sx={{
-                    marginLeft: '75%',
+                    marginLeft: '70%',
                     marginTop: '10px',
                 }}>
                     <TextField

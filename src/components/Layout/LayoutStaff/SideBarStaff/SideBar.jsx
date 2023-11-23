@@ -12,6 +12,7 @@ import SchoolIcon from '@mui/icons-material/School';
 import FolderCopyIcon from '@mui/icons-material/FolderCopy';
 import PeopleAltIcon from '@mui/icons-material/PeopleAlt';
 import BiotechIcon from '@mui/icons-material/Biotech';
+import DiscountIcon from '@mui/icons-material/Discount';
 
 function Sidebar() {
 
@@ -83,6 +84,13 @@ function Sidebar() {
             <BiotechIcon />
           </ListItemIcon>
           <Typography sx={{ fontSize: '16px', marginRight: 'auto' }}><Link to='/simulationmanagement' style={{color:"black", textDecoration: "none"}}>Quản lý mô phỏng</Link></Typography>
+        </ListItemButton>
+
+        <ListItemButton>
+          <ListItemIcon>
+            <DiscountIcon />
+          </ListItemIcon>
+          <Typography sx={{ fontSize: '16px', marginRight: 'auto' }}><Link to='/discountmanagement' style={{color:"black", textDecoration: "none"}}>Quản lý voucher</Link></Typography>
         </ListItemButton>
       </List>
     </Box>
