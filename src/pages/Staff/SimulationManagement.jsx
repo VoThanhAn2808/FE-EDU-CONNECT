@@ -54,7 +54,7 @@ function SimulationManagement() {
                 height: "100px",
                 marginLeft: "20px",
                 marginRight: "20px",
-                marginTop: "90px",
+                marginTop: "20px",
                 borderRadius: "5px",
                 border: '1px solid #000000', p: 2
             }}>
