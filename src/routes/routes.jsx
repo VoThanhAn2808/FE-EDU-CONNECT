@@ -47,8 +47,9 @@ import DocumentManagement from '../pages/Staff/DocumentManagement';
 import TutorRegisterManagement from '../pages/Staff/TutorRegisterManagement';
 import ProfileTutor from '../pages/Tutor/Profile/ProfileTutor';
 import Dashboard from '../pages/Staff/Dashboard/Dashboard';
-import UpdateCalender from '../pages/Tutor/UpdateCalender/CalendarTutorSelect';
+import UpdateCalender from '../pages/Tutor/UpdateCalender/UpdateCalender';
 import PageNotFound from '../pages/PageNotFound';
+import DiscountManagement from '../pages/Staff/DiscountManagement';
 
 const publicRoute = [
   { path: '/', component: Home, layout: DefaultLayout, allowedRoles: ["default"]},

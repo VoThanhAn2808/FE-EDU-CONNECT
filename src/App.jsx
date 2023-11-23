@@ -15,9 +15,17 @@ function App() {
             key={route.path}
             path={route.path}
             element={
+              route?.allowedRoles?.includes('student') ? (
+                <Navigate to="/homestudent" />
+              ) : route?.allowedRoles?.includes('tutor') ? (
+                <Navigate to="/homestutor" />
+              ) : route?.allowedRoles?.includes('staff') ? (
+                <Navigate to="/homestaff" />
+              ) : (
                 <route.layout>
                   <route.component />
                 </route.layout>
+              )
             }
           />
         ))}
