@@ -2,6 +2,8 @@ import React, { useEffect, useState } from "react";
 import {
     Box,
     Button,
+    Menu,
+    MenuItem,
     Paper,
     Table,
     TableBody,
@@ -11,6 +13,7 @@ import {
     TableRow,
     Typography
 } from "@mui/material";
+import MoreVertIcon from '@mui/icons-material/MoreVert';
 import SendIcon from "@mui/icons-material/Send";
 import axios from "axios";
 import { jwtDecode } from "jwt-decode";
@@ -76,7 +79,7 @@ function UpdateCalender() {
     const isCellSelectedAndChosen = (cellIndex) => {
         const [timeId, lessonId] = cellIndex.split("-");
         return time.some((item) => item.timeId === Number(timeId) && item.lessonid === Number(lessonId));
-      };
+    };
     const isCellSelected = (cellIndex) => {
         return selectedCells.includes(cellIndex);
     };
@@ -120,6 +123,14 @@ function UpdateCalender() {
             console.log(error.response?.data);
         }
     };
+    const [anchorEl, setAnchorEl] = useState(null);
+    const handleClick = (event) => {
+        setAnchorEl(event.currentTarget);
+    };
+
+    const handleClose = () => {
+        setAnchorEl(null);
+    };
 
     return (
         <Box sx={{ marginBottom: "50px" }}>
@@ -143,9 +154,6 @@ function UpdateCalender() {
                                     <TableCell sx={{ border: '1px solid #000000', width: '140px', height: '100px', backgroundColor: 'green', color: 'white', textAlign: 'center', fontSize: '15px', fontFamily: 'cursive' }}>{item.timeline} - {item.endtime}</TableCell>
                                     {daysOfWeek.map((day) => {
                                         const cellIndex = `${item.timeId}-${day.lessonId}`;
-                                        // console.log("Cell Index:", cellIndex);
-                                        // console.log("Selected Cells:", selectedCells);
-
                                         return (
                                             <TableCell
                                                 key={cellIndex}
@@ -155,7 +163,8 @@ function UpdateCalender() {
                                                 }}
                                                 onClick={() => handleCellClick(cellIndex)}
                                             >
-                                                {item.time}
+                                                {isCellSelectedAndChosen(cellIndex) ?
+                                                    <MoreVertIcon sx={{ fontSize: '20px' }} onClick={handleClick} /> : null}
                                             </TableCell>
                                         );
                                     })}
@@ -164,6 +173,13 @@ function UpdateCalender() {
                         </TableBody>
                     </Table>
                 </TableContainer>
+                <Menu
+                    anchorEl={anchorEl}
+                    open={Boolean(anchorEl)}
+                    onClose={handleClose}
+                >
+                    <MenuItem onClick={handleClose}>Hủy</MenuItem>
+                </Menu>
             </Box>
             <Box sx={{
                 display: 'flex',
