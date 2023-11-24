@@ -136,7 +136,7 @@ function TeacherProgramList() {
         <Box sx={{
             height: '100%',
         }}>
-            <Box sx={{ height: "130px", marginTop: "90px", borderRadius: "5px", marginLeft: "1%", marginRight: "1%", backgroundColor: "#E2D6D6" }}>
+            <Box sx={{ height: "130px", marginTop: "10px", borderRadius: "5px", marginLeft: "1%", marginRight: "1%", backgroundColor: "#E2D6D6" }}>
                 <Typography sx={{ fontSize: "40px", marginLeft: "2%", fontFamily: "cursive", paddingBottom: "20px" }}>{data.fullname} - {data.course} {data.classname}</Typography>
                 <Box sx={{ display: 'flex' }}>
                     <Typography sx={{ fontSize: "25px", marginLeft: "2%", fontFamily: "cursive" }}>Tab chính/{data.course} {data.classname}/{data.fullname}</Typography>

@@ -103,10 +103,10 @@ function CalendarStudent() {
     return (
         <Box sx={{ marginBottom: "50px" }}>
             <Box>
-                <Typography sx={{ fontSize: "20px", fontFamily: "cursive", fontWeight: "700", textAlign: "center", marginTop: "100px" }}>{user.fullname}</Typography>
+                <Typography sx={{ fontSize: "20px", fontFamily: "cursive", fontWeight: "700", textAlign: "center", marginTop: "20px" }}>{user.fullname}</Typography>
                 <Typography sx={{ fontSize: "20px", fontFamily: "cursive", fontWeight: "700", textAlign: "center", marginTop: "10px" }}>Mã Số Học Sinh: {user.studentid}</Typography>
             </Box>
-            <Box sx={{ backgroundColor: 'gray', width: '980px', marginLeft: 'auto', borderRadius: '20%', marginRight: 'auto', marginTop: "30px" }}>
+            <Box sx={{ backgroundColor: 'gray', width: '1110px', marginLeft: 'auto', borderRadius: '20%', marginRight: 'auto', marginTop: "30px" }}>
                 <TableContainer component={Paper} sx={{ width: '100%' }}>
                     <Table>
                         <TableHead>
