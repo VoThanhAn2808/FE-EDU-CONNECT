@@ -1,16 +1,46 @@
 import React, { useCallback, useEffect, useState } from "react";
-import { Box, Link, Menu, MenuItem, Paper, Table, TableBody, TableCell, TableContainer, TableHead, TableRow, TextField, Typography } from "@mui/material";
+import { Box, Button, Link, Menu, MenuItem, Modal, Paper, Table, TableBody, TableCell, TableContainer, TableHead, TableRow, TextField, Typography } from "@mui/material";
 import { jwtDecode } from "jwt-decode";
 import MoreVertIcon from '@mui/icons-material/MoreVert';
 import axios from "axios";
+import { DatePicker, LocalizationProvider } from "@mui/x-date-pickers";
+import { AdapterDayjs } from "@mui/x-date-pickers/AdapterDayjs";
+import styled from "@emotion/styled";
+import dayjs from "dayjs";
+import { format } from "date-fns";
 
 function CalendarTutor() {
 
     const [user, setUser] = useState([]);
     const [daysOfWeek, setDaysOfWeek] = useState([]);
     const [data, setData] = useState([]);
+    const [schedule, setSchedule] = useState([]);
     const decodedToken = jwtDecode(localStorage.getItem('token'));
     const userId = decodedToken.id;
+    const [open4, setOpen4] = useState(false);
+    const handleOpen4 = () => setOpen4(true);
+    const handleClose4 = () => setOpen4(false);
+
+    const handleLinkClick = async (date, timeid, event) => {
+        event.preventDefault();
+        event.stopPropagation();
+
+        try {
+            axios
+                .get(`http://localhost:8081/schedule/detailschedule?tutorid=${userId}&date=${date}&timeid=${timeid}`)
+                .then((response) => {
+                    setSchedule(response.data);
+                    console.log(response.data);
+                })
+                .catch((error) => {
+                    console.error(error);
+                });
+            setOpen4(true)
+        } catch (error) {
+            console.error(error);
+            console.log(error.response.data);
+        }
+    };
 
     const shouldDisplayUpdateButton = (date) => {
         const currentDate = new Date();
@@ -76,6 +106,7 @@ function CalendarTutor() {
                 `http://localhost:8081/schedule/studentscheduletutor?tutorid=${userId}&week=${week}&year=${year}`
             );
             setScheduleData(studentResponse.data);
+            console.log(studentResponse.data);
         } catch (error) {
             console.error(error);
         }
@@ -108,13 +139,69 @@ function CalendarTutor() {
         return Math.ceil((pastDaysOfYear + firstDayOfYear.getDay() + 1) / 7);
     };
     const [anchorEl, setAnchorEl] = useState(null);
-    const handleClick = (event) => {
-        setAnchorEl(event.currentTarget);
-    };
 
     const handleClose = () => {
         setAnchorEl(null);
     };
+
+    const [date, setDate] = useState('');
+    const [times, setTimes] = useState('');
+
+
+    const handleSubmitTry = async (event) => {
+        event.preventDefault();
+
+        const config = {
+            headers: {
+                "Content-Type": "application/json",
+            },
+        };
+
+        try {
+            const formattedDate = format(new Date(date), 'yyyy-MM-dd');
+            const response = await axios.post(
+                "http://localhost:8081/schedule/changecalender",
+                {
+                    bookid: schedule.bookid,
+                    datechange: schedule.scheduled_Date,
+                    timeid: times,  // Ensure `times` is defined and in the expected format
+                    subject: schedule.courses,
+                    nametutor: user.fullname,
+                    time: schedule.timeline,
+                    lesson: schedule.lessonline,
+                    date: formattedDate,  // Ensure `date` is defined and in the expected format
+                },
+                config
+            );
+            console.log('date:', date);
+            console.log('times:', times);
+
+            window.location.href = '/calendartutor';
+            console.log(response.data);
+        } catch (error) {
+            console.error(error);
+            console.log(error.response.data);
+        }
+    };
+
+
+    const styles = {
+        position: 'absolute',
+        top: '50%',
+        left: '50%',
+        transform: 'translate(-50%, -50%)',
+        width: 400,
+        height: 300,
+        bgcolor: 'background.paper',
+        border: '2px solid #000',
+        boxShadow: 'rgba(0, 0, 0, 0.24) 0px 3px 8px',
+        paddingTop: '20px'
+    };
+
+    const StyledDatePicker = styled(DatePicker)({
+        fontSize: '14px',
+        height: '45px',
+    });
 
     return (
         <Box sx={{
@@ -124,7 +211,7 @@ function CalendarTutor() {
                 <Typography sx={{ fontSize: "20px", fontFamily: "cursive", fontWeight: "700", textAlign: "center", marginTop: "30px" }}>{user.fullname}</Typography>
                 <Typography sx={{ fontSize: "20px", fontFamily: "cursive", fontWeight: "700", textAlign: "center", marginTop: "10px" }}>Mã Số Gia Sư: {userId}</Typography>
             </Box>
-            <Box sx={{ backgroundColor: 'gray', width: '980px', marginLeft: 'auto', borderRadius: '20%', marginRight: 'auto', marginTop: "30px" }}>
+            <Box sx={{ backgroundColor: 'gray', width: '1110px', marginLeft: 'auto', borderRadius: '20%', marginRight: 'auto', marginTop: "30px" }}>
                 <TableContainer component={Paper} sx={{ width: '100%' }}>
                     <Table>
                         <TableHead>
@@ -153,11 +240,12 @@ function CalendarTutor() {
                                                     <Box>
                                                         <Box sx={{ display: 'flex', justifyContent: 'flex-end' }}>
                                                             {item.courses && (
-                                                                <Typography sx={{ fontSize: '15px', fontFamily: 'cursive', fontWeight: '800', textAlign: 'center', marginRight: '10px' }}>{item.courses}</Typography>
+                                                                <Typography sx={{ fontSize: '15px', fontFamily: 'cursive', fontWeight: '800', textAlign: 'center', marginRight: '10px' }}>
+                                                                    {item.courses}
+                                                                </Typography>
                                                             )}
-                                                            {shouldDisplayUpdateButton(item.scheduled_Date) && (
-                                                                <MoreVertIcon sx={{ fontSize: '15px' }} onClick={handleClick} />
-
+                                                            {shouldDisplayUpdateButton(item.scheduled_Date) && item.datechange !== null && (
+                                                                <MoreVertIcon sx={{ fontSize: '15px' }} onClick={(event) => handleLinkClick(item.scheduled_Date, itime.timeId, event)} />
                                                             )}
                                                         </Box>
                                                         {item.fullname && (
@@ -183,8 +271,64 @@ function CalendarTutor() {
                     open={Boolean(anchorEl)}
                     onClose={handleClose}
                 >
-                    <MenuItem onClick={handleClose}>Nghỉ học</MenuItem>
+                    <MenuItem onClick={handleOpen4}>Nghỉ học</MenuItem>
                 </Menu>
+                <Modal
+                    open={open4}
+                    onClose={handleClose4}
+                    aria-labelledby="modal-modal-title"
+                    aria-describedby="modal-modal-description"
+                >
+                    <form onSubmit={handleSubmitTry}>
+                        <Box sx={styles}>
+                            <Typography sx={{ fontSize: '15px', fontFamily: 'cursive', textAlign: 'center', marginTop: '20px' }}>Thay đổi lịch học</Typography>
+                            <LocalizationProvider dateAdapter={AdapterDayjs}>
+                                <StyledDatePicker
+                                    label='Chọn ngày'
+                                    value={date ? dayjs(date) : null}
+                                    onChange={(newDate) => setDate(newDate)}
+                                    InputLabelProps={{
+                                        style: {
+                                            fontSize: '12px',
+                                            color: 'rgba(0, 0, 0, 0.54)',
+                                        },
+                                    }}
+                                    sx={{
+                                        fontSize: "14px",
+                                        height: "28px",
+                                        width: "202px",
+                                        marginLeft: '25%',
+                                        marginTop: '15px'
+                                    }}
+                                />
+                            </LocalizationProvider>
+                            <TextField
+                                select
+                                label="chọn giờ"
+                                value={times}
+                                onChange={(e) => setTimes(e.target.value)}
+                                sx={{
+                                    fontSize: "14px",
+                                    height: "28px",
+                                    width: "202px",
+                                    marginLeft: '25%',
+                                    marginTop: '40px'
+                                }}
+                                InputLabelProps={{
+                                    style: {
+                                        fontSize: '12px',
+                                        color: 'rgba(0, 0, 0, 0.54)',
+                                    },
+                                }}
+                            >
+                                {data.map((item, index) => (
+                                    <MenuItem key={index} value={item.timeId}>{item.timeline}</MenuItem>
+                                ))}
+                            </TextField>
+                            <Button type="submit" variant="contained" style={{ width: '50px', fontSize: '12px', marginTop: '30px', marginLeft: '40%' }}>Lưu</Button>
+                        </Box>
+                    </form>
+                </Modal>
             </Box>
             <Box sx={{
                 display: "flex",

@@ -108,6 +108,12 @@ const Sidebar = () => {
             ))}
           </List>
         </Collapse>
+        <ListItemButton>
+          <ListItemIcon>
+            <CalendarMonthIcon />
+          </ListItemIcon>
+          <Typography sx={{ fontSize: '16px', marginRight: 'auto' }}><Link to="/updatecalender" style={{ color: "black", textDecoration: "none" }}>Sửa lịch dạy</Link></Typography>
+        </ListItemButton>
       </List>
     </Box>
   );

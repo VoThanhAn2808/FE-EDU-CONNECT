@@ -14,10 +14,9 @@ import {
     Typography
 } from "@mui/material";
 import MoreVertIcon from '@mui/icons-material/MoreVert';
-import SendIcon from "@mui/icons-material/Send";
 import axios from "axios";
 import { jwtDecode } from "jwt-decode";
-import { useNavigate } from "react-router-dom";
+import SendIcon from "@mui/icons-material/Send";
 
 function UpdateCalender() {
     const [data, setData] = useState([]);
@@ -25,7 +24,6 @@ function UpdateCalender() {
     const [selectedCells, setSelectedCells] = useState([]);
     const token = localStorage.getItem("token");
     const tutor = jwtDecode(token);
-    const navigate = useNavigate();
     const [time, setTime] = useState([]);
 
     useEffect(() => {
@@ -34,24 +32,22 @@ function UpdateCalender() {
             .then((response) => {
                 if (response && response.data) {
                     setData(response.data);
+                    console.log(response.data);
                 }
             })
             .catch((error) => {
                 console.error("Error fetching timeline:", error);
             });
-
-        // Fetch lesson data
         axios.get(`http://localhost:8081/book/lesson`)
             .then((response) => {
                 if (response && response.data) {
                     setDaysOfWeek(response.data);
+                    console.log(response.data);
                 }
             })
             .catch((error) => {
                 console.error("Error fetching lessons:", error);
             });
-
-        // Fetch tutor's teaching time data
         axios.get(`http://localhost:8081/educonnect/listteachtime?tutorid=${tutor.id}`)
             .then((response) => {
                 if (response && response.data) {
@@ -83,6 +79,41 @@ function UpdateCalender() {
     const isCellSelected = (cellIndex) => {
         return selectedCells.includes(cellIndex);
     };
+    const [anchorEl, setAnchorEl] = useState(null);
+    const handleClick = (event) => {
+        setAnchorEl(event.currentTarget);
+    };
+
+    const handleClose = () => {
+        setAnchorEl(null);
+    };
+
+    const handleSubmit = async (event) => {
+        event.preventDefault();
+
+        const config = {
+            headers: {
+                'Content-Type': 'application/json',
+            },
+        };
+
+        try {
+            for (const cellIndex of selectedCells) {
+                const [timeId, lessonId] = cellIndex.split('-');
+                console.log(timeId, lessonId);
+                console.log(tutor.id);
+                const response = await axios.delete(
+                    `http://localhost:8081/schedule/deletecalender/${timeId}/${lessonId}/${tutor.id}`,
+                    config
+                );
+                window.location.href = '/updatecalender';
+                console.log(response.data);
+            }
+        } catch (error) {
+            console.error(error);
+            console.log(error.response.data);
+        }
+    };
 
     const handleChoice = async (event) => {
         event.preventDefault();
@@ -101,11 +132,13 @@ function UpdateCalender() {
         try {
             for (const cellIndex of selectedCells) {
                 const [timeId, lessonId] = cellIndex.split('-');
+                console.log(timeId);
                 const postData = {
                     tutorid: tutor.id,
                     lessonid: lessonId,
                     timeid: timeId,
                 };
+                console.log("ds" + postData);
 
                 const booktimeResponse = await axios.post(
                     "http://localhost:8081/educonnect/choicetime",
@@ -116,26 +149,17 @@ function UpdateCalender() {
                 console.log("Đặt lịch thành công:", booktimeResponse.data);
             }
 
-            // Use React Router for navigation
-            navigate("/hometutor");
+            window.location.href = '/updatecalender';
         } catch (error) {
             console.error("Error choosing time:", error);
             console.log(error.response?.data);
         }
     };
-    const [anchorEl, setAnchorEl] = useState(null);
-    const handleClick = (event) => {
-        setAnchorEl(event.currentTarget);
-    };
-
-    const handleClose = () => {
-        setAnchorEl(null);
-    };
 
     return (
         <Box sx={{ marginBottom: "50px" }}>
             <Box>
-                <Typography sx={{ fontSize: "30px", fontFamily: "cursive", fontWeight: "700", textAlign: "center", marginTop: "100px" }}>Cập nhật lịch dạy của bạn</Typography>
+                <Typography sx={{ fontSize: "30px", fontFamily: "cursive", fontWeight: "700", textAlign: "center", marginTop: "20px" }}>Cập nhật lịch dạy của bạn</Typography>
             </Box>
             <Box sx={{ backgroundColor: 'gray', width: '980px', marginLeft: 'auto', borderRadius: '20%', marginRight: 'auto', marginTop: "30px" }}>
                 <TableContainer component={Paper} sx={{ width: '100%' }}>
@@ -149,7 +173,7 @@ function UpdateCalender() {
                             </TableRow>
                         </TableHead>
                         <TableBody>
-                            {data.map((item, index) => (
+                            {data.map((item) => (
                                 <TableRow key={item.timeId}>
                                     <TableCell sx={{ border: '1px solid #000000', width: '140px', height: '100px', backgroundColor: 'green', color: 'white', textAlign: 'center', fontSize: '15px', fontFamily: 'cursive' }}>{item.timeline} - {item.endtime}</TableCell>
                                     {daysOfWeek.map((day) => {
@@ -164,7 +188,17 @@ function UpdateCalender() {
                                                 onClick={() => handleCellClick(cellIndex)}
                                             >
                                                 {isCellSelectedAndChosen(cellIndex) ?
-                                                    <MoreVertIcon sx={{ fontSize: '20px' }} onClick={handleClick} /> : null}
+                                                    <>
+                                                        <MoreVertIcon sx={{ fontSize: '20px' }} onClick={handleClick} />
+                                                        <Menu
+                                                            anchorEl={anchorEl}
+                                                            open={Boolean(anchorEl)}
+                                                            onClose={handleClose}
+                                                        >
+                                                            <MenuItem onClick={(event) => handleSubmit(event)}>Hủy</MenuItem>
+                                                        </Menu>
+                                                    </>
+                                                    : null}
                                             </TableCell>
                                         );
                                     })}
@@ -173,13 +207,7 @@ function UpdateCalender() {
                         </TableBody>
                     </Table>
                 </TableContainer>
-                <Menu
-                    anchorEl={anchorEl}
-                    open={Boolean(anchorEl)}
-                    onClose={handleClose}
-                >
-                    <MenuItem onClick={handleClose}>Hủy</MenuItem>
-                </Menu>
+
             </Box>
             <Box sx={{
                 display: 'flex',
