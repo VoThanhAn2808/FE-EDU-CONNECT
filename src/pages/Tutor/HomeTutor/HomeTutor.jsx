@@ -10,7 +10,7 @@ import CalendarTodayIcon from '@mui/icons-material/CalendarToday';
 
 function HomeTutor() {
     return (
-        <Box sx={{}}>
+        <Box>
             <Slide />
             <Box
                 sx={{
@@ -82,7 +82,7 @@ function HomeTutor() {
                     marginBottom: "5px",
                 }} />
             </Typography>
-            <Grid container spacing={1} sx={{marginBottom: "100px"}}>
+            <Grid container spacing={1} sx={{marginBottom: "30px"}}>
 
                     <Grid item xs={4}>
                         <img src={HOTNEW} alt="hotnew" className='hotnew' />

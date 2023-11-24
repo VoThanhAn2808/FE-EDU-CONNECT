@@ -57,7 +57,7 @@ const Sidebar = () => {
           <ListItemIcon>
             <HomeIcon />
           </ListItemIcon>
-          <Typography sx={{ fontSize: '16px', marginRight: 'auto' }}><Link style={{ color: "black", textDecoration: "none" }}>Trang chủ</Link></Typography>
+          <Typography sx={{ fontSize: '16px', marginRight: 'auto' }}><Link to="/hometutor" style={{ color: "black", textDecoration: "none" }}>Trang chủ</Link></Typography>
         </ListItemButton>
 
         <ListItemButton>

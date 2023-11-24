@@ -72,7 +72,7 @@ function Home() {
             });
     }, []);
     return (
-        <Box sx={{ marginBottom: "200px" }}>
+        <Box sx={{ marginBottom: "80px" }}>
             <Slide />
             <Box
                 sx={{

@@ -9,6 +9,12 @@ function StudentManagement() {
     const handleOpen = () => setOpen(true);
     const handleClose1 = () => setOpen(false);
     const [anchorEl, setAnchorEl] = useState(null);
+    const [searchName, setSearchName] = useState("");
+
+    const handleSearch = (event) => {
+        setSearchName(event.target.value);
+    };
+
     const handleClick = (event) => {
         setAnchorEl(event.currentTarget);
     };
@@ -19,7 +25,7 @@ function StudentManagement() {
 
     useEffect(() => {
         axios
-            .get(`http://localhost:8081/staffsconnect/student/2`)
+            .get(`http://localhost:8081/staffsconnect/student`)
             .then((response) => {
                 setData(response.data);
                 console.log(response.data);
@@ -35,7 +41,7 @@ function StudentManagement() {
                 height: "100px",
                 marginLeft: "20px",
                 marginRight: "20px",
-                marginTop: "90px",
+                marginTop: "20px",
                 borderRadius: "5px",
                 border: '1px solid #000000', p: 2
             }}>
@@ -59,7 +65,7 @@ function StudentManagement() {
                 border: '1px solid #000000', p: 2,
             }}>
                 <Box sx={{
-                    marginLeft: '75%',
+                    marginLeft: '70%',
                     marginTop: '10px',
                 }}>
                     <TextField
@@ -69,9 +75,12 @@ function StudentManagement() {
                         }}
                         InputProps={{
                             style: {
-                                height: '45px'
+                                height: '45px',
+                                fontSize:"14px"
                             },
                         }}
+                        value={searchName}
+                        onChange={handleSearch}
                     />
                     <Button variant="contained" component="a" href="#" hrefLang="#"
                         sx={{
@@ -102,27 +111,32 @@ function StudentManagement() {
                                 </TableRow>
                             </TableHead>
                             <TableBody>
-                                {data.map((item, index) => (
-                                    <TableRow key={index}>
-                                        <TableCell sx={{ fontSize: "15px", fontFamily: "cursive", textAlign: "center" }}>{item.studentid}</TableCell>
-                                        <TableCell sx={{ fontSize: "15px", fontFamily: "cursive", textAlign: "center" }}>{item.fullname}</TableCell>
-                                        <TableCell sx={{ fontSize: "15px", fontFamily: "cursive", textAlign: "center" }}>{item.city} {item.wards}</TableCell>
-                                        <TableCell sx={{ fontSize: "15px", fontFamily: "cursive", textAlign: "center" }}>{item.phone}</TableCell>
-                                        <TableCell sx={{ fontSize: "15px", fontFamily: "cursive", textAlign: "center" }}>{item.createdate}</TableCell>
-                                        <TableCell sx={{ fontSize: "15px", fontFamily: "cursive", textAlign: "center", color: item.status === '1' ? 'red' : 'green' }}>{item.status === 1 ? 'Thành công' : 'Còn học'}</TableCell>
-                                        <TableCell sx={{ fontSize: "15px", fontFamily: "cursive", textAlign: "center" }}>
-                                            <MoreVertIcon sx={{fontSize:"25px"}} onClick={handleClick}/>
-                                            <Menu
-                                                anchorEl={anchorEl}
-                                                open={Boolean(anchorEl)}
-                                                onClose={handleClose}
-                                            >
-                                                <MenuItem onClick={handleOpen}>Xem thông tin</MenuItem>
-                                                {/* <MenuItem onClick={handleClose}>Cắm cờ</MenuItem> */}
-                                            </Menu>
-                                        </TableCell>
-                                    </TableRow>
-                                ))}
+                                {data.map((item, index) => {
+                                    if (item.fullname.toLowerCase().includes(searchName.toLowerCase())) {
+                                        return (
+                                            <TableRow key={index}>
+                                                <TableCell sx={{ fontSize: "15px", fontFamily: "cursive", textAlign: "center" }}>{item.studentid}</TableCell>
+                                                <TableCell sx={{ fontSize: "15px", fontFamily: "cursive", textAlign: "center" }}>{item.fullname}</TableCell>
+                                                <TableCell sx={{ fontSize: "15px", fontFamily: "cursive", textAlign: "center" }}>{item.city} {item.wards}</TableCell>
+                                                <TableCell sx={{ fontSize: "15px", fontFamily: "cursive", textAlign: "center" }}>{item.phone}</TableCell>
+                                                <TableCell sx={{ fontSize: "15px", fontFamily: "cursive", textAlign: "center" }}>{item.createdate}</TableCell>
+                                                <TableCell sx={{ fontSize: "15px", fontFamily: "cursive", textAlign: "center", color: item.status === '1' ? 'red' : 'green' }}>{item.status === 1 ? 'Thành công' : 'Còn học'}</TableCell>
+                                                <TableCell sx={{ fontSize: "15px", fontFamily: "cursive", textAlign: "center" }}>
+                                                    <MoreVertIcon sx={{ fontSize: "25px" }} onClick={handleClick} />
+                                                    <Menu
+                                                        anchorEl={anchorEl}
+                                                        open={Boolean(anchorEl)}
+                                                        onClose={handleClose}
+                                                    >
+                                                        <MenuItem onClick={handleOpen}>Xem thông tin</MenuItem>
+                                                        {/* <MenuItem onClick={handleClose}>Cắm cờ</MenuItem> */}
+                                                    </Menu>
+                                                </TableCell>
+                                            </TableRow>
+                                        );
+                                    }
+                                    return null;
+                                })}
                             </TableBody>
                         </Table>
                     </TableContainer>
@@ -136,20 +150,20 @@ function StudentManagement() {
                         display: 'flex',
                         alignItems: 'center',
                         justifyContent: 'center',
-                      }}
+                    }}
                 >
-                    <Box sx={{backgroundColor:"#D9D9D9", width:"300px", height:"400px", borderRadius:"10px", border: '2px solid #000000', p: 2,}}>
-                        <Avatar sx={{height:"100px", width: "100px", marginLeft:"30%"}}/>
-                        <Typography sx={{fontSize:"17px", marginTop:"10px"}}>Học sinh:</Typography>
-                        <Typography sx={{fontSize:"17px"}}>Ngày Sinh:</Typography>
-                        <Typography sx={{fontSize:"17px"}}>Số điện thoại:</Typography>
-                        <Typography sx={{fontSize:"17px"}}>Email:</Typography>
-                        <Typography sx={{fontSize:"17px"}}>Địa chỉ:</Typography>
-                        <Typography sx={{fontSize:"17px"}}>Môn học:</Typography>
-                        <Typography sx={{fontSize:"17px"}}>Thời gian học: </Typography>
+                    <Box sx={{ backgroundColor: "#D9D9D9", width: "300px", height: "400px", borderRadius: "10px", border: '2px solid #000000', p: 2, }}>
+                        <Avatar sx={{ height: "100px", width: "100px", marginLeft: "30%" }} />
+                        <Typography sx={{ fontSize: "17px", marginTop: "10px" }}>Học sinh:</Typography>
+                        <Typography sx={{ fontSize: "17px" }}>Ngày Sinh:</Typography>
+                        <Typography sx={{ fontSize: "17px" }}>Số điện thoại:</Typography>
+                        <Typography sx={{ fontSize: "17px" }}>Email:</Typography>
+                        <Typography sx={{ fontSize: "17px" }}>Địa chỉ:</Typography>
+                        <Typography sx={{ fontSize: "17px" }}>Môn học:</Typography>
+                        <Typography sx={{ fontSize: "17px" }}>Thời gian học: </Typography>
                     </Box>
                 </Modal>
-                <Box sx={{ display: 'flex', justifyContent: 'center', marginTop:"15px" }}>
+                <Box sx={{ display: 'flex', justifyContent: 'center', marginTop: "15px" }}>
                     <Pagination count={10} sx={{ '& .MuiPaginationItem-root': { fontSize: '15px', minWidth: '50px' } }} />
                 </Box>
             </Box>

@@ -20,6 +20,11 @@ const data = [
 function DocumentManagement() {
     const [anchorEl, setAnchorEl] = useState(null);
     const [tableData, setTableData] = useState(data);
+    const [searchName, setSearchName] = useState("");
+
+    const handleSearch = (event) => {
+        setSearchName(event.target.value);
+    };
 
     const handleClick = (event) => {
         setAnchorEl(event.currentTarget);
@@ -32,7 +37,7 @@ function DocumentManagement() {
     const handleDeleteRow = (id) => {
         setTableData((prevData) => prevData.filter((item) => item.id !== id));
         handleClose();
-      };
+    };
     return (
         <Box sx={{ marginBottom: "50px" }}>
             <Box sx={{
@@ -40,7 +45,7 @@ function DocumentManagement() {
                 height: "100px",
                 marginLeft: "20px",
                 marginRight: "20px",
-                marginTop: "90px",
+                marginTop: "20px",
                 borderRadius: "5px",
                 border: '1px solid #000000', p: 2
             }}>
@@ -51,7 +56,7 @@ function DocumentManagement() {
                         fontSize: "40px",
                         fontFamily: "cursive",
                     }}>
-                        Thông tin gia sư đăng ký bài dạy 
+                        Thông tin gia sư đăng ký bài dạy
                     </Typography>
                 </Box>
             </Box>
@@ -64,7 +69,7 @@ function DocumentManagement() {
                 border: '1px solid #000000', p: 2,
             }}>
                 <Box sx={{
-                    marginLeft: '75%',
+                    marginLeft: '70%',
                     marginTop: '10px',
                 }}>
                     <TextField
@@ -74,9 +79,12 @@ function DocumentManagement() {
                         }}
                         InputProps={{
                             style: {
-                                height: '45px'
+                                height: '45px',
+                                fontSize:"14px"
                             },
                         }}
+                        value={searchName}
+                        onChange={handleSearch}
                     />
                     <Button variant="contained" component="a" href="#" hrefLang="#"
                         sx={{
@@ -107,38 +115,43 @@ function DocumentManagement() {
                                 </TableRow>
                             </TableHead>
                             <TableBody>
-                                {tableData.map((item) => (
-                                    <TableRow key={item.id}>
-                                        <TableCell sx={{ fontSize: "15px", fontFamily: "cursive", textAlign: "center" }}>{item.id}</TableCell>
-                                        <TableCell sx={{ fontSize: "15px", fontFamily: "cursive", textAlign: "center" }}>{item.tutor}</TableCell>
-                                        <TableCell sx={{ fontSize: "15px", fontFamily: "cursive", textAlign: "center" }}>{item.name}</TableCell>
-                                        <TableCell sx={{ fontSize: "15px", fontFamily: "cursive", textAlign: "center" }}>{item.subject}</TableCell>
-                                        <TableCell sx={{ fontSize: "15px", fontFamily: "cursive", textAlign: "center" }}>{item.file ? (
-                                            <Link style={{ textDecoration: "none" }} href={item.file} target="_blank" rel="noopener noreferrer">
-                                                Tải File
-                                            </Link>
-                                        ) : (
-                                            "No file available"
-                                        )}</TableCell>
-                                        <TableCell sx={{ fontSize: "15px", fontFamily: "cursive", textAlign: "center", color: "red" }}>{item.status}</TableCell>
-                                        <TableCell sx={{ fontSize: "15px", fontFamily: "cursive", textAlign: "center" }}>
-                                            <MoreVertIcon sx={{fontSize:"25px"}} onClick={handleClick}/>
-                                            <Menu
-                                                anchorEl={anchorEl}
-                                                open={Boolean(anchorEl)}
-                                                onClose={handleClose}
-                                            >
-                                                <MenuItem onClick={() => handleDeleteRow(item.id)}>Duyệt</MenuItem>
-                                                <MenuItem onClick={() => handleDeleteRow(item.id)}>Không duyệt</MenuItem>
-                                            </Menu>
-                                            </TableCell>
-                                    </TableRow>
-                                ))}
+                                {tableData.map((item) => {
+                                    if (item.tutor.toLowerCase().includes(searchName.toLowerCase())) {
+                                        return (
+                                            <TableRow key={item.id}>
+                                                <TableCell sx={{ fontSize: "15px", fontFamily: "cursive", textAlign: "center" }}>{item.id}</TableCell>
+                                                <TableCell sx={{ fontSize: "15px", fontFamily: "cursive", textAlign: "center" }}>{item.tutor}</TableCell>
+                                                <TableCell sx={{ fontSize: "15px", fontFamily: "cursive", textAlign: "center" }}>{item.name}</TableCell>
+                                                <TableCell sx={{ fontSize: "15px", fontFamily: "cursive", textAlign: "center" }}>{item.subject}</TableCell>
+                                                <TableCell sx={{ fontSize: "15px", fontFamily: "cursive", textAlign: "center" }}>{item.file ? (
+                                                    <Link style={{ textDecoration: "none" }} href={item.file} target="_blank" rel="noopener noreferrer">
+                                                        Tải File
+                                                    </Link>
+                                                ) : (
+                                                    "No file available"
+                                                )}</TableCell>
+                                                <TableCell sx={{ fontSize: "15px", fontFamily: "cursive", textAlign: "center", color: "red" }}>{item.status}</TableCell>
+                                                <TableCell sx={{ fontSize: "15px", fontFamily: "cursive", textAlign: "center" }}>
+                                                    <MoreVertIcon sx={{ fontSize: "25px" }} onClick={handleClick} />
+                                                    <Menu
+                                                        anchorEl={anchorEl}
+                                                        open={Boolean(anchorEl)}
+                                                        onClose={handleClose}
+                                                    >
+                                                        <MenuItem onClick={() => handleDeleteRow(item.id)}>Duyệt</MenuItem>
+                                                        <MenuItem onClick={() => handleDeleteRow(item.id)}>Không duyệt</MenuItem>
+                                                    </Menu>
+                                                </TableCell>
+                                            </TableRow>
+                                        );
+                                    }
+                                    return null;
+                                })}
                             </TableBody>
                         </Table>
                     </TableContainer>
                 </Box>
-                <Box sx={{ display: 'flex', justifyContent: 'center', marginTop:"15px" }}>
+                <Box sx={{ display: 'flex', justifyContent: 'center', marginTop: "15px" }}>
                     <Pagination count={10} sx={{ '& .MuiPaginationItem-root': { fontSize: '15px', minWidth: '50px' } }} />
                 </Box>
             </Box>
