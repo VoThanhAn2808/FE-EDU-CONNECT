@@ -45,7 +45,7 @@ function StudentGrade() {
 
     return (
         <Box>
-            <Box sx={{ border: '1px solid #000000', marginTop: "90px", borderRadius: "5px", marginLeft: "1%", marginRight: "1%", backgroundColor: "#E2D6D6", textAlign: "center", marginBottom: "10px" }}>
+            <Box sx={{ border: '1px solid #000000', marginTop: "20px", borderRadius: "5px", marginLeft: "1%", marginRight: "1%", backgroundColor: "#E2D6D6", textAlign: "center", marginBottom: "10px" }}>
                 <Typography sx={{ fontSize: "40px", marginLeft: "2%", fontFamily: "cursive", paddingBottom: "20px" }}>{tutor.fullname} - {tutor.course} {tutor.classname}</Typography>
             </Box>
             <Box sx={{ marginLeft: "1%", marginRight: "1%", marginBottom:"50px" }}>

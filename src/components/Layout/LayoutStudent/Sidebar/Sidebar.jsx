@@ -10,7 +10,6 @@ import HomeIcon from '@mui/icons-material/Home';
 import MenuBookIcon from '@mui/icons-material/MenuBook';
 import CalendarMonthIcon from '@mui/icons-material/CalendarMonth';
 import SchoolIcon from '@mui/icons-material/School';
-import SettingsIcon from '@mui/icons-material/Settings';
 import { Link } from 'react-router-dom';
 import { jwtDecode } from 'jwt-decode';
 import { useState } from 'react';
@@ -139,13 +138,6 @@ const Sidebar = () => {
             ))}
           </List>
         </Collapse>
-
-        <ListItemButton>
-          <ListItemIcon>
-            <SettingsIcon />
-          </ListItemIcon>
-          <Typography sx={{ fontSize: '16px', marginRight: 'auto' }}>Cài đặt</Typography>
-        </ListItemButton>
       </List>
     </Box>
   );
