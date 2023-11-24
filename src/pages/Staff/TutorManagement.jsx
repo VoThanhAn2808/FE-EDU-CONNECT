@@ -9,6 +9,12 @@ function TutorManagement() {
     const handleClose1 = () => setOpen(false);
     const [data, setData] = useState([]);
     const [anchorEl, setAnchorEl] = useState(null);
+    const [searchName, setSearchName] = useState("");
+
+    const handleSearch = (event) => {
+        setSearchName(event.target.value);
+    };
+
     const handleClick = (event) => {
         setAnchorEl(event.currentTarget);
     };
@@ -69,9 +75,12 @@ function TutorManagement() {
                         }}
                         InputProps={{
                             style: {
-                                height: '45px'
+                                height: '45px',
+                                fontSize: "14px"
                             },
                         }}
+                        value={searchName}
+                        onChange={handleSearch}
                     />
                     <Button variant="contained" component="a" href="#" hrefLang="#"
                         sx={{
@@ -103,36 +112,41 @@ function TutorManagement() {
                                 </TableRow>
                             </TableHead>
                             <TableBody>
-                                {data.map((item, index) => (
-                                    <TableRow key={index}>
-                                        <TableCell sx={{ fontSize: "15px", fontFamily: "cursive", textAlign: "center" }}>{item.tutorid}</TableCell>
-                                        <TableCell sx={{ fontSize: "15px", fontFamily: "cursive", textAlign: "center" }}>{item.fullname}</TableCell>
-                                        <TableCell sx={{ fontSize: "15px", fontFamily: "cursive", textAlign: "center" }}>{item.city} {item.wards}</TableCell>
-                                        <TableCell sx={{ fontSize: "15px", fontFamily: "cursive", textAlign: "center" }}>{item.phone}</TableCell>
-                                        <TableCell sx={{ fontSize: "15px", fontFamily: "cursive", textAlign: "center" }}>{item.createdate}</TableCell>
-                                        <TableCell sx={{ fontSize: "15px", fontFamily: "cursive", textAlign: "center" }}>
-                                            {new Intl.NumberFormat("vi-VN", {
-                                                style: "currency",
-                                                currency: "VND",
-                                            }).format(item.price)}
-                                        </TableCell>
-                                        <TableCell sx={{ fontSize: "15px", fontFamily: "cursive", textAlign: "center", color: item.status === 1 ? 'green' : 'red' }}>
-                                            {item.status === 1 ? 'Còn dạy' : 'Đã nghỉ'}
-                                        </TableCell>
-                                        <TableCell sx={{ fontSize: "15px", fontFamily: "cursive", textAlign: "center" }}>
-                                            <MoreVertIcon sx={{ fontSize: "25px" }} onClick={handleClick} />
-                                            <Menu
-                                                anchorEl={anchorEl}
-                                                open={Boolean(anchorEl)}
-                                                onClose={handleClose}
-                                            >
-                                                <MenuItem onClick={handleOpen}>Xem thông tin</MenuItem>
-                                                <MenuItem onClick={handleClose}>Update Tiền</MenuItem>
-                                                <MenuItem onClick={handleClose}>Cắm cờ</MenuItem>
-                                            </Menu>
-                                        </TableCell>
-                                    </TableRow>
-                                ))}
+                                {data.map((item, index) => {
+                                    if (item.fullname.toLowerCase().includes(searchName.toLowerCase())) {
+                                        return (
+                                            <TableRow key={index}>
+                                                <TableCell sx={{ fontSize: "15px", fontFamily: "cursive", textAlign: "center" }}>{item.tutorid}</TableCell>
+                                                <TableCell sx={{ fontSize: "15px", fontFamily: "cursive", textAlign: "center" }}>{item.fullname}</TableCell>
+                                                <TableCell sx={{ fontSize: "15px", fontFamily: "cursive", textAlign: "center" }}>{item.city} {item.wards}</TableCell>
+                                                <TableCell sx={{ fontSize: "15px", fontFamily: "cursive", textAlign: "center" }}>{item.phone}</TableCell>
+                                                <TableCell sx={{ fontSize: "15px", fontFamily: "cursive", textAlign: "center" }}>{item.createdate}</TableCell>
+                                                <TableCell sx={{ fontSize: "15px", fontFamily: "cursive", textAlign: "center" }}>
+                                                    {new Intl.NumberFormat("vi-VN", {
+                                                        style: "currency",
+                                                        currency: "VND",
+                                                    }).format(item.price)}
+                                                </TableCell>
+                                                <TableCell sx={{ fontSize: "15px", fontFamily: "cursive", textAlign: "center", color: item.status === 1 ? 'green' : 'red' }}>
+                                                    {item.status === 1 ? 'Còn dạy' : 'Đã nghỉ'}
+                                                </TableCell>
+                                                <TableCell sx={{ fontSize: "15px", fontFamily: "cursive", textAlign: "center" }}>
+                                                    <MoreVertIcon sx={{ fontSize: "25px" }} onClick={handleClick} />
+                                                    <Menu
+                                                        anchorEl={anchorEl}
+                                                        open={Boolean(anchorEl)}
+                                                        onClose={handleClose}
+                                                    >
+                                                        <MenuItem onClick={handleOpen}>Xem thông tin</MenuItem>
+                                                        <MenuItem onClick={handleClose}>Update Tiền</MenuItem>
+                                                        <MenuItem onClick={handleClose}>Cắm cờ</MenuItem>
+                                                    </Menu>
+                                                </TableCell>
+                                            </TableRow>
+                                        );
+                                    }
+                                    return null;
+                                })}
                             </TableBody>
                         </Table>
                     </TableContainer>

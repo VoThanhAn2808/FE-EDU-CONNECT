@@ -6,6 +6,7 @@ import CloudUploadIcon from '@mui/icons-material/CloudUpload';
 import { styled } from '@mui/material/styles';
 
 
+
 function SimulationManagement() {
     const [classAnchorEl, setClassAnchorEl] = useState(null);
     const [subjectAnchorEl, setSubjectAnchorEl] = useState(null);
@@ -127,7 +128,7 @@ function SimulationManagement() {
                                             justifyContent: 'center',
                                         }}
                                     >
-                                        <Box sx={{ backgroundColor: "#D9D9D9", width: "400px", height: "300px", borderRadius: "10px", border: '2px solid #000000', p: 2, }}>
+                                        <Box sx={{ backgroundColor: "#D9D9D9", width: "400px", height: "320px", borderRadius: "10px", border: '2px solid #000000', p: 2, }}>
                                             <Typography sx={{ fontSize: "20px", fontWeight: "600", textAlign: "center" }}>Thêm Mô Phỏng</Typography>
                                             <Typography sx={{ fontSize: "17px", display: "flex", justifyContent: "space-between", marginTop: "20px" }}>Tên mô phỏng:
                                                 <TextField
@@ -163,6 +164,10 @@ function SimulationManagement() {
                                                 Upload file
                                                 <VisuallyHiddenInput type="file" />
                                             </Button>
+                                            <Box sx={{marginTop:"20px", marginLeft:"63%"}}>
+                                                <Button sx={{height:"30px", width:"20px", backgroundColor:"red", color:"white", marginRight:"5px"}}>Huỷ</Button>
+                                                <Button sx={{height:"30px", width:"20px", backgroundColor:"green", color:"white"}}>Lưu</Button>
+                                            </Box>
                                         </Box>
                                     </Modal>
                                 </TableCell>
