@@ -100,8 +100,6 @@ function UpdateCalender() {
         try {
             for (const cellIndex of selectedCells) {
                 const [timeId, lessonId] = cellIndex.split('-');
-                console.log(timeId, lessonId);
-                console.log(tutor.id);
                 const response = await axios.delete(
                     `http://localhost:8081/schedule/deletecalender/${timeId}/${lessonId}/${tutor.id}`,
                     config
@@ -190,13 +188,6 @@ function UpdateCalender() {
                                                 {isCellSelectedAndChosen(cellIndex) ?
                                                     <>
                                                         <MoreVertIcon sx={{ fontSize: '20px' }} onClick={handleClick} />
-                                                        <Menu
-                                                            anchorEl={anchorEl}
-                                                            open={Boolean(anchorEl)}
-                                                            onClose={handleClose}
-                                                        >
-                                                            <MenuItem onClick={(event) => handleSubmit(event)}>Hủy</MenuItem>
-                                                        </Menu>
                                                     </>
                                                     : null}
                                             </TableCell>
@@ -207,7 +198,13 @@ function UpdateCalender() {
                         </TableBody>
                     </Table>
                 </TableContainer>
-
+                <Menu
+                    anchorEl={anchorEl}
+                    open={Boolean(anchorEl)}
+                    onClose={handleClose}
+                >
+                    <MenuItem onClick={(event) => handleSubmit(event)}>Hủy</MenuItem>
+                </Menu>
             </Box>
             <Box sx={{
                 display: 'flex',

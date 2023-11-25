@@ -62,6 +62,7 @@ function StaffManagement() {
     const [open, setOpen] = useState(false);
     const [open1, setOpen1] = useState(false);
     const [staff, setStaff] = useState([]);
+    const [staffs, setStaffs] = useState([]);
     const [name, setName] = useState('');
     const [email, setEmail] = useState('');
     const [pass, setPass] = useState('');
@@ -74,13 +75,13 @@ function StaffManagement() {
     const [experience, setExperience] = useState('');
     const handleCloses = () => setOpen(false);
     const handleCloses1 = () => setOpen1(false);
-    const handleLinkClick = async (staffId, event) => {
+    const handleLinkClick = async (event) => {
         event.preventDefault();
         event.stopPropagation();
 
         try {
             axios
-                .get(`http://localhost:8081/staffsconnect/ViewInfoStaff?staffId=${staffId}`)
+                .get(`http://localhost:8081/staffsconnect/ViewInfoStaff?staffId=${staffs}`)
                 .then((response) => {
                     setStaff(response.data);
                     console.log(response.data);
@@ -88,19 +89,20 @@ function StaffManagement() {
                 .catch((error) => {
                     console.error(error);
                 });
+            console.log("ds", staffs);
             setOpen(true)
         } catch (error) {
             console.error(error);
             console.log(error.response.data);
         }
     };
-    const handleOpen = async (staffId, event) => {
+    const handleOpen = async (event) => {
         event.preventDefault();
         event.stopPropagation();
 
         try {
             axios
-                .get(`http://localhost:8081/staffsconnect/ViewInfoStaff?staffId=${staffId}`)
+                .get(`http://localhost:8081/staffsconnect/ViewInfoStaff?staffId=${staffs}`)
                 .then((response) => {
                     setStaff(response.data);
                     console.log(response.data);
@@ -108,6 +110,7 @@ function StaffManagement() {
                 .catch((error) => {
                     console.error(error);
                 });
+            console.log("ds", anchorEl);
             setOpen1(true)
         } catch (error) {
             console.error(error);
@@ -159,8 +162,9 @@ function StaffManagement() {
         setOpenModal(false);
     };
 
-    const handleClick = (event) => {
+    const handleClick = (event, staffid) => {
         setAnchorEl(event.currentTarget);
+        setStaffs(staffid);
     };
 
     const handleClose = () => {
@@ -283,7 +287,7 @@ function StaffManagement() {
                 height: "100px",
                 marginLeft: "20px",
                 marginRight: "20px",
-                marginTop: "90px",
+                marginTop: "20px",
                 borderRadius: "5px",
                 border: '1px solid #000000', p: 2
             }}>
@@ -523,22 +527,27 @@ function StaffManagement() {
                                         <TableCell sx={{ fontSize: "15px", fontFamily: "cursive", textAlign: "center" }}>
                                             {item.salary.toLocaleString("vi-VN", { style: "currency", currency: "VND" })}
                                         </TableCell>
-                                        <TableCell sx={{ fontSize: "15px", fontFamily: "cursive", textAlign: "center", color: item.status === 1 ? 'green' : 'red' }}>{item.status === 1 ? 'còn hoạt động' : 'ngừng hoạt động'}</TableCell>
+                                        <TableCell sx={{ fontSize: "15px", fontFamily: "cursive", textAlign: "center", color: item.status === 1 ? 'green' : 'red' }}>
+                                            {item.status === 1 ? 'còn hoạt động' : 'ngừng hoạt động'}
+                                        </TableCell>
                                         <TableCell sx={{ fontSize: "15px", fontFamily: "cursive", textAlign: "center" }}>
-                                            <MoreVertIcon sx={{ fontSize: "25px" }} onClick={handleClick} />
+                                            <MoreVertIcon sx={{ fontSize: "25px" }} onClick={(event) => handleClick(event, item.staffid)} />
                                             <Menu
+                                                id={`actions-${item.staffid}`}
+                                                keepMounted
                                                 anchorEl={anchorEl}
                                                 open={Boolean(anchorEl)}
                                                 onClose={handleClose}
                                             >
-                                                <MenuItem onClick={(event) => handleLinkClick(item.staffid, event)}>Thông tin</MenuItem>
-                                                <MenuItem onClick={(event) => handleOpen(item.staffid, event)}>Sửa</MenuItem>
-                                                <MenuItem onClick={(event) => handleDelete(item.staffid, event)}>Xoá</MenuItem>
+                                                <MenuItem onClick={(event) => handleLinkClick(event)}>Thông tin</MenuItem>
+                                                <MenuItem onClick={(event) => handleOpen(event)}>Sửa</MenuItem>
+                                                <MenuItem onClick={(event) => handleDelete(event)}>Xoá</MenuItem>
                                             </Menu>
                                         </TableCell>
                                     </TableRow>
                                 ))}
                             </TableBody>
+
                         </Table>
                     </TableContainer>
                     <Modal
@@ -548,7 +557,7 @@ function StaffManagement() {
                         aria-describedby="modal-modal-description"
                     >
                         <Box sx={style}>
-                            <Avatar src={`http://localhost:8081/edu/file/files/` + staff.img} sx={{ width: '90px', height: '90px', marginLeft: 'auto', marginRight: 'auto', marginBottom: '20px' }} />
+                            <Avatar src={`http://localhost:8081/edu/file/files/${staff.img}`} sx={{ width: '90px', height: '90px', marginLeft: 'auto', marginRight: 'auto', marginBottom: '20px' }} />
                             <Typography sx={{ fontSize: '15px', fontFamily: 'cursive', textAlign: 'center' }}>Tên Nhân viên: {staff.fullName} - {staff.staffid}</Typography>
                             <Typography sx={{ fontSize: '15px', fontFamily: 'cursive', textAlign: 'center' }}>Ngày Sinh: {staff.birthdate}</Typography>
                             <Typography sx={{ fontSize: '15px', fontFamily: 'cursive', textAlign: 'center' }}>SĐT: {staff.phone}</Typography>

@@ -1,23 +1,25 @@
-import React, { useEffect, useState } from "react";
+import React
+// , { useEffect, useState } 
+from "react";
 import { Box, Button, Pagination, Table, TableBody, TableCell, TableContainer, TableHead, TableRow, TextField, Typography } from "@mui/material";
-import MoreVertIcon from '@mui/icons-material/MoreVert';
-import axios from "axios";
+// import MoreVertIcon from '@mui/icons-material/MoreVert';
+// import axios from "axios";
 
 
 function CourseManagement() {
-    const [data, setData] = useState([]);
+    // const [data, setData] = useState([]);
 
-    useEffect(() => {
-        axios
-            .get(`http://localhost:8081/staffsconnect/student`)
-            .then((response) => {
-                setData(response.data);
-                console.log(response.data);
-            })
-            .catch((error) => {
-                console.error(error);
-            });
-    }, []);
+    // useEffect(() => {
+    //     axios
+    //         .get(`http://localhost:8081/staffsconnect/student`)
+    //         .then((response) => {
+    //             setData(response.data);
+    //             console.log(response.data);
+    //         })
+    //         .catch((error) => {
+    //             console.error(error);
+    //         });
+    // }, []);
     return (
         <Box sx={{ marginBottom: "50px" }}>
             <Box sx={{
