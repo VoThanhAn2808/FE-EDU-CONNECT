@@ -36,19 +36,6 @@ function ViewInfomationPage() {
       });
   }, [tutorid]);
 
-  const [tryl, setTry] = useState([]);
-  useEffect(() => {
-    axios
-      .get(`http://localhost:8081/student/feedbacktrylearning/${tutorid}`)
-      .then((response) => {
-        setTry(response.data);
-        console.log(response.data);
-      })
-      .catch((error) => {
-        console.error(error);
-      });
-  }, [tutorid]);
-
   const [course, setCourse] = useState([]);
   useEffect(() => {
     axios
@@ -173,52 +160,6 @@ function ViewInfomationPage() {
             style={{ width: '100%', height: '100%' }}
           >
             {data.map((item, index) => {
-              return (
-                <SwiperSlide key={index} style={{
-                  textAlign: 'center', fontSize: '18px', backgroundColor: '#fff'
-                }}>
-                  <Box sx={{ backgroundColor: 'GrayText', width: '300px', borderRadius: '5%' }}>
-                    <Typography variant="h5" sx={{ marginBottom: '20px', width: '200px', fontFamily: 'cursive', marginLeft: 'auto', marginRight: 'auto', paddingTop: '10px' }}>{item.notes}</Typography>
-                    <Typography variant="h5" sx={{ marginBottom: '20px', width: '200px', fontFamily: 'cursive', marginLeft: 'auto', marginRight: 'auto' }}>{`${item.coursename} ${item.classname}`}</Typography>
-                    <img src={`http://localhost:8081/edu/file/files/` + item.img} alt={`Slide ${index}`} style={{
-                      display: 'block', width: '150px', height: '150px', borderRadius: '50%',
-                      marginTop: '20px', objectFit: 'cover', marginLeft: '25%'
-                    }} />
-                    <Typography variant="h5" sx={{ width: '200px', fontFamily: 'cursive', marginLeft: 'auto', marginRight: 'auto', paddingTop: '10px' }}>{item.fullname}</Typography>
-                    <Rating
-                      name="five-star-rating"
-                      value={item.ranks}
-                      max={5}
-                      readOnly
-                      emptyIcon={<StarIcon style={{ fontSize: '25px', color: '#e0e0e0' }} />}
-                      icon={<StarIcon style={{ fontSize: '25px', color: '#ffc107' }} />}
-                      sx={{
-                        fontSize: '20px',
-                        marginTop: '10px'
-                      }}
-                    />
-                  </Box>
-                </SwiperSlide>
-              );
-            })}
-          </Swiper>
-        </Box>
-      </Box>
-
-      <Box sx={{ display: "flex", justifyContent: "center", alignItems: "center", marginTop: "30px" }}>
-        <Typography sx={{ fontSize: "20px", fontWeight: "700", color: "blue" }}>Chia sẻ, cảm nhận của học sinh học thử</Typography>
-      </Box>
-      <Box sx={{ marginTop: '40px', marginBottom: '80px', marginLeft: "70px" }}>
-        <Box sx={{ height: "auto" }}>
-          <Swiper
-            slidesPerView={3}
-            pagination={{
-              dynamicBullets: true,
-            }}
-            modules={[Pagination]}
-            style={{ width: '100%', height: '100%' }}
-          >
-            {tryl.map((item, index) => {
               return (
                 <SwiperSlide key={index} style={{
                   textAlign: 'center', fontSize: '18px', backgroundColor: '#fff'

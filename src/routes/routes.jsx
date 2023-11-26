@@ -51,6 +51,7 @@ import SimulationManagement from '../pages/Staff/SimulationManagement';
 import UpdateCalender from '../pages/Tutor/UpdateCalender/UpdateCalender';
 import PageNotFound from '../pages/PageNotFound';
 import DiscountManagement from '../pages/Staff/DiscountManagement';
+import ManagerPayment from '../pages/Staff/ManagerPayment';
 
 const publicRoute = [
   { path: '/', component: Home, layout: DefaultLayout, allowedRoles: ["default"] },
@@ -101,6 +102,8 @@ const privateRoute = [
   { path: '/admin', component: Admin, layout: LayoutAdmin, allowedRoles: ["admin"] },
   { path: '/staffManagement', component: StaffManagement, layout: LayoutAdmin, allowedRoles: ["admin"] },
   { path: '/discountManagement', component: DiscountManagement, layout: LayoutStaff, allowedRoles: ["staff"] },
+  { path: '/simulationmanagement', component: SimulationManagement, layout: LayoutStaff, allowedRoles: ["staff"]},
+  { path: '/managerpayment', component: ManagerPayment, layout: LayoutStaff, allowedRoles: ["staff"]},
   { path: '/simulationmanagement', component: SimulationManagement, layout: LayoutStaff, allowedRoles: ["staff"] },
 ];
 

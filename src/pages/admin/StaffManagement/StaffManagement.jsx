@@ -179,7 +179,7 @@ function StaffManagement() {
                 `http://localhost:8081/admin/staff/updatesalary`,
                 {
                     staffid: staffid,
-                    salary: salary,
+                    salary: staff.salary,
                 },
                 {
                     headers: {
@@ -578,9 +578,9 @@ function StaffManagement() {
                                     <Typography sx={{ fontSize: '15px', fontFamily: 'cursive', textAlign: 'center' }}>MSNV: {staff.staffid}</Typography>
                                     <TextField
                                         sx={{ marginTop: '20px', marginLeft: '26%' }}
-                                        label='lương'
-                                        value={salary}
-                                        onChange={(e) => setSalary(e.target.value)}
+                                        label='Lương'
+                                        value={staff.salary}
+                                        onChange={(e) => setStaff({ ...staff, salary: e.target.value })}
                                         InputLabelProps={{
                                             style: {
                                                 fontSize: '12px',
@@ -594,6 +594,7 @@ function StaffManagement() {
                                             },
                                         }}
                                     />
+
                                     <Box sx={{ marginTop: "30px", marginLeft: "34%", display: 'flex' }}>
                                         <Button type="submit" sx={{ backgroundColor: "green", color: "black", fontSize: "12px", fontWeight: "600" }}>Lưu</Button>
                                         <Button sx={{ backgroundColor: "red", color: "black", fontSize: "12px", fontWeight: "600", marginLeft: '10px' }} onClick={handleCloses1}>Huỷ</Button>
