@@ -9,6 +9,7 @@ import { AdapterDayjs } from '@mui/x-date-pickers/AdapterDayjs';
 import { DatePicker } from '@mui/x-date-pickers/DatePicker';
 import { jwtDecode } from "jwt-decode";
 import axios from "axios";
+import dayjs from 'dayjs';
 
 const style = {
   position: 'absolute',
@@ -22,17 +23,52 @@ const style = {
   p: 4,
 };
 
-export default function CreateModal(props) {
+export default function UpdateModal(props) {
   const decodedToken = jwtDecode(localStorage.getItem('token'));
-  const { isShowModal, setOpen } = props;
+  const [dataDetailDiscount, setDataDetailDiscount] = useState({});
+  const { isShowModal, setOpenUpdate, selectDiscountId } = props;
   const [discount, setDiscount] = useState('');
   const [description, setDescription] = useState('');
   const [image, setImage] = useState(null);
   const [startDate, setStartDate] = useState(null);
   const [endDate, setEndDate] = useState(null);
   const [title, setTitle] = useState('');
+  const [dataToSend, setDataToSend] = useState({
+    discountId: selectDiscountId
+  });
+  const handleClose = () => setOpenUpdate(false);
 
-  const handleClose = () => setOpen(false);
+  useEffect(() => {
+    setDataToSend(prevData => ({
+      ...prevData,
+      discountId: selectDiscountId
+    }));
+  }, [selectDiscountId]);
+
+  useEffect(() => {
+    axios.post('http://localhost:8081/discount/detailDiscount', dataToSend)
+      .then((response) => {
+        setDataDetailDiscount(response.data);
+        console.log(response.data);
+      })
+      .catch((error) => {
+        console.error(error);
+      });
+  }, [dataToSend]);
+
+  useEffect(() => {
+    const filename = dataDetailDiscount.img;
+    console.log("filename" + filename);
+    axios.get(`http://localhost:8081/edu/file/fileImg/${filename}`, {
+      responseType: 'blob',  // Important: Set the response type to 'blob'
+    })
+      .then((response) => {
+        console.log(response.data);
+      })
+      .catch((error) => {
+        console.error(error);
+      });
+  }, [dataDetailDiscount]);
 
   const handleImageChange = (e) => {
     const selectedImage = e.target.files[0];
@@ -84,7 +120,7 @@ export default function CreateModal(props) {
       if (responseUploadImage.status === 200) {
         const response = await axios.post('http://localhost:8081/discount/adddiscount', myObject);
         alert(response.data.message);
-           handleClose();
+        handleClose();
       } else {
         // Handle image upload failure
         console.error('Image upload failed');
@@ -119,7 +155,7 @@ export default function CreateModal(props) {
             <Grid container spacing={2}>
               <Grid style={{ float: 'left' }}>
                 <Typography variant='h3' style={{ fontFamily: 'cursive' }}>
-                  Thêm Mã Giảm Giá
+                  Cập Nhập Mã Giảm Giá
                 </Typography>
               </Grid>
               <Grid item xs={12}>
@@ -128,7 +164,7 @@ export default function CreateModal(props) {
                   label='Giảm Giá'
                   variant='outlined'
                   style={{ fontSize: '15px', fontFamily: 'cursive', textAlign: 'center' }}
-                  value={discount}
+                  value={dataDetailDiscount.discount || ''}
                   onChange={(e) => setDiscount(e.target.value)}
                   required
                 />
@@ -139,7 +175,7 @@ export default function CreateModal(props) {
                   label='Tiêu Đề'
                   variant='outlined'
                   sx={{ fontSize: '15px', fontFamily: 'cursive', textAlign: 'center' }}
-                  value={title}
+                  value={dataDetailDiscount.title || ''}
                   onChange={(e) => setTitle(e.target.value)}
                   required
                 />
@@ -152,6 +188,7 @@ export default function CreateModal(props) {
                   style={{ fontSize: '15px', fontFamily: 'cursive', textAlign: 'center' }}
                   type="file"
                   id="contained-button-file"
+                  // value={dataDetailDiscount.img}
                   onChange={handleImageChange}
                   required
                 />
@@ -161,7 +198,7 @@ export default function CreateModal(props) {
                   <DatePicker
                     label='Ngày Bắt Đầu'
                     fullWidth
-                    value={startDate}
+                    value={dayjs(dataDetailDiscount.startDate)}
                     onChange={handleStartDateChange}
                   />
                 </LocalizationProvider>
@@ -171,7 +208,7 @@ export default function CreateModal(props) {
                   <DatePicker
                     label='Ngày Kết Thúc'
                     fullWidth
-                    value={endDate}
+                    value={dayjs(dataDetailDiscount.endDate)}
                     onChange={handleEndDateChange}
                   />
                 </LocalizationProvider>
@@ -184,8 +221,8 @@ export default function CreateModal(props) {
                   multiline
                   rows={4}
                   style={{ fontSize: '15px', fontFamily: 'cursive', textAlign: 'center' }}
-                  value={description}
-                  onChange={(e) => setDescription(e.target.value)}
+                  value={dataDetailDiscount.desciption || ''}
+                  onChange={(e) => setDescription({ ...dataDetailDiscount, desciption: e.target.value })}
                   required
                 />
               </Grid>

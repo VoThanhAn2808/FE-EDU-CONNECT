@@ -3,8 +3,11 @@ import { privateRoute, publicRoute } from './routes/routes';
 import PageNotFound from './pages/PageNotFound';
 import TutorRoute from './components/Auth/TutorRoute';
 import StudentRoute from './components/Auth/StudentRoute';
+import { jwtDecode } from 'jwt-decode';
 
 function App() {
+  const token = localStorage.getItem("token");
+  const isAuthenticated = token ? jwtDecode(token) : null;
 
   return (
     <Router>
@@ -15,9 +18,19 @@ function App() {
             key={route.path}
             path={route.path}
             element={
-              <route.layout>
-                <route.component />
-              </route.layout>
+              token ? (
+                isAuthenticated.role === 1 ? (
+                  <Navigate to="/homestudent" />
+                ) : isAuthenticated.role === 2 ? (
+                  <Navigate to="/hometutor" />
+                ) : (
+                  <Navigate to="/hometutor" />
+                )
+              ) : (
+                <route.layout>
+                  <route.component />
+                </route.layout>
+              )
             }
           />
         ))}
@@ -41,6 +54,23 @@ function App() {
               />
             );
           } else if (route?.allowedRoles?.includes('student')) {
+            return (
+              <Route
+                key={route.path}
+                path={route.path}
+                element={
+                  <StudentRoute
+                    element={
+                      <route.layout>
+                        <route.component />
+                      </route.layout>
+                    }
+                    allowedRoles={route.allowedRoles}
+                  />
+                }
+              />
+            );
+          } else if (route?.allowedRoles?.includes('staff')) {
             return (
               <Route
                 key={route.path}

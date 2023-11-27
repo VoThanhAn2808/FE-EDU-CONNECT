@@ -63,7 +63,7 @@ function LoginPage() {
         }
         console.log(check.data);
       } else if (decodedToken.role === 3) {
-        window.location.href = "/managerstudent"
+        window.location.href = "/tutormanagement"
       }
       console.log(response.data);
 

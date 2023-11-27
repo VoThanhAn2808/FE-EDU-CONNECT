@@ -51,18 +51,18 @@ import SimulationManagement from '../pages/Staff/SimulationManagement';
 import UpdateCalender from '../pages/Tutor/UpdateCalender/UpdateCalender';
 import PageNotFound from '../pages/PageNotFound';
 import DiscountManagement from '../pages/Staff/DiscountManagement';
-
+import ManagerPayment from '../pages/Staff/ManagerPayment';
 
 const publicRoute = [
-  { path: '/', component: Home, layout: DefaultLayout, allowedRoles: ["default"]},
-  { path: '/subject/:id', component: SubjectPage, layout: DefaultLayout, allowedRoles: ["default"]},
-  { path: '/listtutor/:id', component: ListTutor, layout: DefaultLayout, allowedRoles: ["default"]},
-  { path: '/booktutor/:tutorid/:classcourseid', component: BookTutorPage, layout: DefaultLayout, allowedRoles: ["default"]},
-  { path: '/signup', component: SignUp, layout: LoginLayout},
-  { path: '/login', component: LoginPage, layout: LoginLayout},
-  { path: '/forgotpass', component: ForgotPassword, layout: LoginLayout},
-  { path: '/resetpassword/:token', component : ResetPassword, layout: LoginLayout},
-  { path: '/page-not-found', component : PageNotFound, layout: LoginLayout},
+  { path: '/', component: Home, layout: DefaultLayout, allowedRoles: ["default"] },
+  { path: '/subject/:id', component: SubjectPage, layout: DefaultLayout, allowedRoles: ["default"] },
+  { path: '/listtutor/:id', component: ListTutor, layout: DefaultLayout, allowedRoles: ["default"] },
+  { path: '/booktutor/:tutorid/:classcourseid', component: BookTutorPage, layout: DefaultLayout, allowedRoles: ["default"] },
+  { path: '/signup', component: SignUp, layout: LoginLayout },
+  { path: '/login', component: LoginPage, layout: LoginLayout },
+  { path: '/forgotpass', component: ForgotPassword, layout: LoginLayout },
+  { path: '/resetpassword/:token', component: ResetPassword, layout: LoginLayout },
+  { path: '/page-not-found', component: PageNotFound, layout: LoginLayout },
 ];
 const privateRoute = [
   { path: '/changepass', component: ChangePassword, layout: LoginLayout },
@@ -91,7 +91,7 @@ const privateRoute = [
   { path: '/managerstudent', component: ManagerStudent, layout: LayoutTutor, allowedRoles: ["tutor"] },
   { path: '/profiletutor', component: ProfileTutor, layout: LoginLayout, allowedRoles: ["tutor"] },
   { path: '/updatecalender', component: UpdateCalender, layout: LayoutTutor, allowedRoles: ["tutor"] },
-  { path: '/tutormanagement', component: TutorManagement, layout: LayoutStaff, allowedRoles: ["staff"] },
+  { path: '/tutormanagement', component: TutorManagement, layout: LayoutStaff, allowedRoles: ["tutor"] },
   { path: '/coursemanagement', component: CourseManagement, layout: LayoutStaff, allowedRoles: ["staff"] },
   { path: '/studentmanagement', component: StudentManagement, layout: LayoutStaff, allowedRoles: ["staff"] },
   { path: '/documentmanagement', component: DocumentManagement, layout: LayoutStaff, allowedRoles: ["staff"] },
@@ -100,9 +100,11 @@ const privateRoute = [
   { path: '/trylearningmanagement', component: TryLearningManagement, layout: LayoutStaff, allowedRoles: ["staff"] },
   { path: '/dashboard', component: Dashboard, layout: LayoutStaff, allowedRoles: ["staff"] },
   { path: '/admin', component: Admin, layout: LayoutAdmin, allowedRoles: ["admin"] },
-  { path: '/staffmanagement', component: StaffManagement, layout: LayoutAdmin, allowedRoles: ["admin"] },
+  { path: '/staffManagement', component: StaffManagement, layout: LayoutAdmin, allowedRoles: ["admin"] },
   { path: '/discountManagement', component: DiscountManagement, layout: LayoutStaff, allowedRoles: ["staff"] },
   { path: '/simulationmanagement', component: SimulationManagement, layout: LayoutStaff, allowedRoles: ["staff"]},
+  { path: '/managerpayment', component: ManagerPayment, layout: LayoutStaff, allowedRoles: ["staff"]},
+  { path: '/simulationmanagement', component: SimulationManagement, layout: LayoutStaff, allowedRoles: ["staff"] },
 ];
 
 export { publicRoute, privateRoute };
