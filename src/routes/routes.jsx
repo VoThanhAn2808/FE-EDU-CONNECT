@@ -91,7 +91,7 @@ const privateRoute = [
   { path: '/managerstudent', component: ManagerStudent, layout: LayoutTutor, allowedRoles: ["tutor"] },
   { path: '/profiletutor', component: ProfileTutor, layout: LoginLayout, allowedRoles: ["tutor"] },
   { path: '/updatecalender', component: UpdateCalender, layout: LayoutTutor, allowedRoles: ["tutor"] },
-  { path: '/tutormanagement', component: TutorManagement, layout: LayoutStaff, allowedRoles: ["tutor"] },
+  { path: '/tutormanagement', component: TutorManagement, layout: LayoutStaff, allowedRoles: ["staff"] },
   { path: '/coursemanagement', component: CourseManagement, layout: LayoutStaff, allowedRoles: ["staff"] },
   { path: '/studentmanagement', component: StudentManagement, layout: LayoutStaff, allowedRoles: ["staff"] },
   { path: '/documentmanagement', component: DocumentManagement, layout: LayoutStaff, allowedRoles: ["staff"] },

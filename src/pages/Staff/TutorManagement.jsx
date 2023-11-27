@@ -1,7 +1,8 @@
-import React, { useEffect, useState } from "react";
+import React, { useCallback, useEffect, useState } from "react";
 import { Avatar, Box, Button, Menu, MenuItem, Modal, Pagination, Table, TableBody, TableCell, TableContainer, TableHead, TableRow, TextField, Typography } from "@mui/material";
 import MoreVertIcon from '@mui/icons-material/MoreVert';
 import axios from "axios";
+import { jwtDecode } from "jwt-decode";
 
 function TutorManagement() {
     const [open, setOpen] = React.useState(false);
@@ -25,10 +26,11 @@ function TutorManagement() {
         setAnchorEl(null);
     };
     const [history, setHistory] = useState([]);
+    const decodedToken = jwtDecode(localStorage.getItem('token'));
 
-    useEffect(() => {
+    const fetchTop = useCallback((pageNumber) => {
         axios
-            .get(`http://localhost:8081/staffsconnect/tutor/2`)
+            .get(`http://localhost:8081/staffsconnect/tutor/${decodedToken.id}/${pageNumber}`)
             .then((response) => {
                 setData(response.data);
                 console.log(response.data);
@@ -36,7 +38,27 @@ function TutorManagement() {
             .catch((error) => {
                 console.error(error);
             });
-    }, []);
+    }, [decodedToken.id]);
+    const [page, setPage] = useState(1);
+    const [total, settotal] = useState([]);
+    useEffect(() => {
+        fetchTop(page);
+    }, [page, fetchTop]);
+    const handlePageChange = (event, pageNumber) => {
+        setPage(pageNumber);
+    };
+
+    useEffect(() => {
+        axios
+            .get(`http://localhost:8081/staffsconnect/totaltutor?staffid=${decodedToken.id}`)
+            .then((response) => {
+                settotal(response.data);
+                console.log(response.data);
+            })
+            .catch((error) => {
+                console.error(error);
+            });
+    }, [decodedToken.id]);
 
     useEffect(() => {
         if (tutor !== null) {
@@ -254,7 +276,7 @@ function TutorManagement() {
                     </Box>
                 </Modal>
                 <Box sx={{ display: 'flex', justifyContent: 'center', marginTop: "15px" }}>
-                    <Pagination count={10} sx={{ '& .MuiPaginationItem-root': { fontSize: '15px', minWidth: '50px' } }} />
+                    <Pagination count={total.length} page={page} onChange={handlePageChange} sx={{ '& .MuiPaginationItem-root': { fontSize: '15px', minWidth: '50px' } }} />
                 </Box>
             </Box>
         </Box>

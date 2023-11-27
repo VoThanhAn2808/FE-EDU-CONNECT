@@ -1,18 +1,8 @@
-import { Box, Button, Pagination, Table, TableBody, TableCell, TableContainer, TableHead, TableRow, TextField, Typography } from "@mui/material";
-import { makeStyles } from '@mui/styles';
+import { Box, Button, Pagination, Table, TableBody, TableCell, TableContainer, TableHead, TableRow, Typography } from "@mui/material";
 import axios from "axios";
 import { jwtDecode } from "jwt-decode";
 import React, { useCallback, useEffect, useState } from "react";
 import CreateModal from "../../components/Staff/DiscountManagement/CreateModal";
-
-const useStyles = makeStyles(() => ({
-    input: {
-        width: '120px',
-        marginRight: '10px',
-        fontSize: '20px !important',
-        fontFamily: 'caption !important'
-    },
-}));
 
 
 function ManagerPayment() {
@@ -20,15 +10,10 @@ function ManagerPayment() {
     const [dataDicount, setDicount] = useState([]);
     const [page, setPage] = useState('');
     const [pages, setPages] = useState(1);
-    const classes = useStyles();
-    const [searchValue, setSearchValue] = useState('');
-    const [dataToSend, setDataToSend] = useState({
-        nametutor: '',
-    });
     const [open, setOpen] = useState(false);
     const fetchData = useCallback((pageNumber) => {
         axios
-            .get(`http://localhost:8081/staffsconnect/payfortutor?staffid=${decodedToken.id}&page=${pageNumber}`, dataToSend)
+            .get(`http://localhost:8081/staffsconnect/payfortutor?staffid=${decodedToken.id}&page=${pageNumber}`)
             .then((response) => {
                 setDicount(response.data);
                 console.log(response.data);
@@ -36,7 +21,7 @@ function ManagerPayment() {
             .catch((error) => {
                 console.error(error);
             });
-    }, [decodedToken.id, dataToSend]);
+    }, [decodedToken.id]);
 
     useEffect(() => {
         fetchData(pages);
@@ -56,18 +41,6 @@ function ManagerPayment() {
                 console.error(error);
             });
     }, [decodedToken.id]);
-    const handleKeyPress = (event) => {
-        if (event.key === 'Enter') {
-            setDataToSend({
-                ...dataToSend,
-                title: searchValue,
-            });
-
-        }
-    };
-    const handleSearchInputChange = (event) => {
-        setSearchValue(event.target.value);
-    };
 
     const handleClickChange = async (tutorid, event) => {
         event.preventDefault();
@@ -93,19 +66,6 @@ function ManagerPayment() {
                         <Typography variant="h3" style={{ fontFamily: "cursive", }}>
                             Thanh toán cho gia sư
                         </Typography>
-                    </Box>
-                    <Box style={{ display: 'flex', justifyContent: "space-between", alignItems: "center" }} className=''>
-                        <Box style={{ minWidth: "360px", display: "flex", alignItems: "center" }} className=''>
-                            <TextField id="outlined-basic" label="Search Title" variant="outlined" className={classes.input} value={searchValue}
-                                size="small"
-                                fullWidth
-                                onChange={handleSearchInputChange}
-                                onKeyDown={handleKeyPress}
-                            />
-                            <Button variant="outlined" type="secondary" style={{ marginLeft: '10px', fontSize: "10px", fontFamily: "cursive", minWidth: "100px" }}>
-                                Tìm kiếm
-                            </Button>
-                        </Box>
                     </Box>
                 </Box>
                 <Box style={{ display: 'inline-block', height: 200, width: '100%' }}>

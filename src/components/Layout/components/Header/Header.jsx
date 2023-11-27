@@ -306,14 +306,24 @@ function Header() {
                                         onClick={handleOpenUserMenu}
                                     >
                                         <IconButton>
-                                            <Avatar
-                                                alt={data.fullname}
-                                                src={`http://localhost:8081/edu/file/files/` + data.img}
-                                                sx={{
-                                                    height: "55px",
-                                                    width: "55px",
-                                                }}
-                                            />
+                                            {data.img ? (
+                                                <Avatar
+                                                    alt={data.fullname}
+                                                    src={`http://localhost:8081/edu/file/files/${data.img}`}
+                                                    sx={{
+                                                        height: "55px",
+                                                        width: "55px",
+                                                    }}
+                                                />
+                                            ) : (
+                                                <Avatar
+                                                    alt={data.fullname}
+                                                    sx={{
+                                                        height: "55px",
+                                                        width: "55px",
+                                                    }}
+                                                />
+                                            )}
                                         </IconButton>
                                         <Typography
                                             sx={{
