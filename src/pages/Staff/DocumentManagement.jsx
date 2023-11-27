@@ -1,26 +1,15 @@
-import React, { useState } from "react";
+import React, { useEffect, useState } from "react";
 import { Box, Button, Menu, MenuItem, Pagination, Table, TableBody, TableCell, TableContainer, TableHead, TableRow, TextField, Typography } from "@mui/material";
 import MoreVertIcon from '@mui/icons-material/MoreVert';
 import { Link } from "react-router-dom";
+import axios from "axios";
 
-const data = [
-    { id: 1, name: "Mệnh đề và tập hợp", tutor: "Nguyễn Văn B", subject: "Toán", file: "../../../assets/Vo-Thanh-An.pdf", status: "Chưa duyệt" },
-    { id: 2, name: "Mệnh đề và tập hợp", tutor: "Nguyễn Văn B", subject: "Toán", file: "../../../assets/Vo-Thanh-An.pdf", status: "Chưa duyệt" },
-    { id: 3, name: "Mệnh đề và tập hợp", tutor: "Nguyễn Văn B", subject: "Toán", file: "../../../assets/Vo-Thanh-An.pdf", status: "Chưa duyệt" },
-    { id: 4, name: "Mệnh đề và tập hợp", tutor: "Nguyễn Văn B", subject: "Toán", file: "../../../assets/Vo-Thanh-An.pdf", status: "Chưa duyệt" },
-    { id: 5, name: "Mệnh đề và tập hợp", tutor: "Nguyễn Văn B", subject: "Toán", file: "../../../assets/Vo-Thanh-An.pdf", status: "Chưa duyệt" },
-    { id: 6, name: "Bất phương trình và hệ bất phương trình bậc nhất hai ẩn", tutor: "Nguyễn Văn B", subject: "Toán", file: "../../../assets/Vo-Thanh-An.pdf", status: "Chưa duyệt" },
-    { id: 7, name: "Bất phương trình và hệ bất phương trình bậc nhất hai ẩn", tutor: "Nguyễn Văn B", subject: "Toán", file: "../../../assets/Vo-Thanh-An.pdf", status: "Chưa duyệt" },
-    { id: 8, name: "Bất phương trình và hệ bất phương trình bậc nhất hai ẩn", tutor: "Nguyễn Văn B", subject: "Toán", file: "../../../assets/Vo-Thanh-An.pdf", status: "Chưa duyệt" },
-    { id: 9, name: "Bất phương trình và hệ bất phương trình bậc nhất hai ẩn", tutor: "Nguyễn Văn B", subject: "Toán", file: "../../../assets/Vo-Thanh-An.pdf", status: "Chưa duyệt" },
-    { id: 10, name: "Bất phương trình và hệ bất phương trình bậc nhất hai ẩn", tutor: "Nguyễn Văn B", subject: "Toán", file: "../../../assets/Vo-Thanh-An.pdf", status: "Chưa duyệt" },
-
-]
 
 function DocumentManagement() {
     const [anchorEl, setAnchorEl] = useState(null);
-    const [tableData, setTableData] = useState(data);
     const [searchName, setSearchName] = useState("");
+    const [data, setData] = useState([]);
+
 
     const handleSearch = (event) => {
         setSearchName(event.target.value);
@@ -34,10 +23,17 @@ function DocumentManagement() {
         setAnchorEl(null);
     };
 
-    const handleDeleteRow = (id) => {
-        setTableData((prevData) => prevData.filter((item) => item.id !== id));
-        handleClose();
-    };
+    useEffect(() => {
+        axios
+            .get(`http://localhost:8081/staffsconnect/listtutorregistersforlessons?staffid=3`)
+            .then((response) => {
+                setData(response.data);
+                console.log(response.data);
+            })
+            .catch((error) => {
+                console.error(error);
+            });
+    }, []);
     return (
         <Box sx={{ marginBottom: "50px" }}>
             <Box sx={{
@@ -115,16 +111,16 @@ function DocumentManagement() {
                                 </TableRow>
                             </TableHead>
                             <TableBody>
-                                {tableData.map((item) => {
-                                    if (item.tutor.toLowerCase().includes(searchName.toLowerCase())) {
+                                {data.map((item) => {
+                                    if (item.tutorname.toLowerCase().includes(searchName.toLowerCase())) {
                                         return (
                                             <TableRow key={item.id}>
-                                                <TableCell sx={{ fontSize: "15px", fontFamily: "cursive", textAlign: "center" }}>{item.id}</TableCell>
-                                                <TableCell sx={{ fontSize: "15px", fontFamily: "cursive", textAlign: "center" }}>{item.tutor}</TableCell>
-                                                <TableCell sx={{ fontSize: "15px", fontFamily: "cursive", textAlign: "center" }}>{item.name}</TableCell>
-                                                <TableCell sx={{ fontSize: "15px", fontFamily: "cursive", textAlign: "center" }}>{item.subject}</TableCell>
-                                                <TableCell sx={{ fontSize: "15px", fontFamily: "cursive", textAlign: "center" }}>{item.file ? (
-                                                    <Link style={{ textDecoration: "none" }} href={item.file} target="_blank" rel="noopener noreferrer">
+                                                <TableCell sx={{ fontSize: "15px", fontFamily: "cursive", textAlign: "center" }}>{item.exerciseid}</TableCell>
+                                                <TableCell sx={{ fontSize: "15px", fontFamily: "cursive", textAlign: "center" }}>{item.tutorname}</TableCell>
+                                                <TableCell sx={{ fontSize: "15px", fontFamily: "cursive", textAlign: "center" }}>{item.nameFile}</TableCell>
+                                                <TableCell sx={{ fontSize: "15px", fontFamily: "cursive", textAlign: "center" }}>{item.coursename}</TableCell>
+                                                <TableCell sx={{ fontSize: "15px", fontFamily: "cursive", textAlign: "center" }}>{item.files ? (
+                                                    <Link style={{ textDecoration: "none" }} href={item.files} target="_blank" rel="noopener noreferrer">
                                                         Tải File
                                                     </Link>
                                                 ) : (
@@ -138,8 +134,8 @@ function DocumentManagement() {
                                                         open={Boolean(anchorEl)}
                                                         onClose={handleClose}
                                                     >
-                                                        <MenuItem onClick={() => handleDeleteRow(item.id)}>Duyệt</MenuItem>
-                                                        <MenuItem onClick={() => handleDeleteRow(item.id)}>Không duyệt</MenuItem>
+                                                        {/* <MenuItem onClick={() => handleDeleteRow(item.id)}>Duyệt</MenuItem>
+                                                        <MenuItem onClick={() => handleDeleteRow(item.id)}>Không duyệt</MenuItem> */}
                                                     </Menu>
                                                 </TableCell>
                                             </TableRow>

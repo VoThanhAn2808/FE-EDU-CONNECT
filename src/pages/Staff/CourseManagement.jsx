@@ -1,25 +1,29 @@
 import React
-// , { useEffect, useState } 
+ , { useEffect, useState } 
 from "react";
 import { Box, Button, Pagination, Table, TableBody, TableCell, TableContainer, TableHead, TableRow, TextField, Typography } from "@mui/material";
-// import MoreVertIcon from '@mui/icons-material/MoreVert';
-// import axios from "axios";
+import MoreVertIcon from '@mui/icons-material/MoreVert';
+import axios from "axios";
 
 
 function CourseManagement() {
-    // const [data, setData] = useState([]);
+    const [data, setData] = useState([]);
+    const [searchName, setSearchName] = useState("");
+    const handleSearch = (event) => {
+        setSearchName(event.target.value);
+    };
 
-    // useEffect(() => {
-    //     axios
-    //         .get(`http://localhost:8081/staffsconnect/student`)
-    //         .then((response) => {
-    //             setData(response.data);
-    //             console.log(response.data);
-    //         })
-    //         .catch((error) => {
-    //             console.error(error);
-    //         });
-    // }, []);
+    useEffect(() => {
+        axios
+            .get(`http://localhost:8081/staffsconnect/managestudent`)
+            .then((response) => {
+                setData(response.data);
+                console.log(response.data);
+            })
+            .catch((error) => {
+                console.error(error);
+            });
+    }, []);
     return (
         <Box sx={{ marginBottom: "50px" }}>
             <Box sx={{
@@ -38,7 +42,7 @@ function CourseManagement() {
                         fontSize: "40px",
                         fontFamily: "cursive",
                     }}>
-                        Thông tin học sinh đăng ký khoá học 
+                        Thông tin học sinh đăng ký khoá học
                     </Typography>
                 </Box>
             </Box>
@@ -62,9 +66,11 @@ function CourseManagement() {
                         InputProps={{
                             style: {
                                 height: '45px',
-                                fontSize:"14px"
+                                fontSize: "14px"
                             },
                         }}
+                        value={searchName}
+                        onChange={handleSearch}
                     />
                     <Button variant="contained" component="a" href="#" hrefLang="#"
                         sx={{
@@ -96,22 +102,28 @@ function CourseManagement() {
                                 </TableRow>
                             </TableHead>
                             <TableBody>
-                                {/* {data.map((item, index) => (
-                                    <TableRow key={index}>
-                                        <TableCell sx={{ fontSize: "15px", fontFamily: "cursive", textAlign: "center" }}>{item.studentid}</TableCell>
-                                        <TableCell sx={{ fontSize: "15px", fontFamily: "cursive", textAlign: "center" }}>{item.fullname}</TableCell>
-                                        <TableCell sx={{ fontSize: "15px", fontFamily: "cursive", textAlign: "center" }}>{item.tutor}</TableCell>
-                                        <TableCell sx={{ fontSize: "15px", fontFamily: "cursive", textAlign: "center" }}>{item.subject}</TableCell>
-                                        <TableCell sx={{ fontSize: "15px", fontFamily: "cursive", textAlign: "center" }}>{item.date}</TableCell>
-                                        <TableCell sx={{ fontSize: "15px", fontFamily: "cursive", textAlign: "center", color: item.status === 'Đã hoàn thành' ? 'green' : 'red' }}>{item.status}</TableCell>
-                                        <TableCell sx={{ fontSize: "15px", fontFamily: "cursive", textAlign: "center" }}><MoreVertIcon sx={{fontSize:"25px"}}/></TableCell>
-                                    </TableRow>
-                                ))} */}
+                                {data.map((item, index) => {
+                                    if (item.studentName.toLowerCase().includes(searchName.toLowerCase())) {
+                                        return (
+                                            <TableRow key={index}>
+                                                <TableCell sx={{ fontSize: "15px", fontFamily: "cursive", textAlign: "center" }}>{item.studentid}</TableCell>
+                                                <TableCell sx={{ fontSize: "15px", fontFamily: "cursive", textAlign: "center" }}>{item.studentName}</TableCell>
+                                                <TableCell sx={{ fontSize: "15px", fontFamily: "cursive", textAlign: "center" }}>{item.tutorName}</TableCell>
+                                                <TableCell sx={{ fontSize: "15px", fontFamily: "cursive", textAlign: "center" }}>{item.courseName}</TableCell>
+                                                <TableCell sx={{ fontSize: "15px", fontFamily: "cursive", textAlign: "center" }}>{item.dateregister}</TableCell>
+                                                <TableCell sx={{ fontSize: "15px", fontFamily: "cursive", textAlign: "center" }}>{item.endDate}</TableCell>
+                                                <TableCell sx={{ fontSize: "15px", fontFamily: "cursive", textAlign: "center", color: item.trangThai === 'Đã hoàn thành' ? 'green' : 'red' }}>{item.trangThai}</TableCell>
+                                                <TableCell sx={{ fontSize: "15px", fontFamily: "cursive", textAlign: "center" }}><MoreVertIcon sx={{ fontSize: "25px" }} /></TableCell>
+                                            </TableRow>
+                                        );
+                                    }
+                                    return null;
+                                })}
                             </TableBody>
                         </Table>
                     </TableContainer>
                 </Box>
-                <Box sx={{ display: 'flex', justifyContent: 'center', marginTop:"15px" }}>
+                <Box sx={{ display: 'flex', justifyContent: 'center', marginTop: "15px" }}>
                     <Pagination count={10} sx={{ '& .MuiPaginationItem-root': { fontSize: '15px', minWidth: '50px' } }} />
                 </Box>
             </Box>
