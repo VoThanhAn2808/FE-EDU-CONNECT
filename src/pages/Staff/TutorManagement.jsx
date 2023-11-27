@@ -8,6 +8,9 @@ function TutorManagement() {
     const handleOpen = () => setOpen(true);
     const handleClose1 = () => setOpen(false);
     const [data, setData] = useState([]);
+    const [data1, setData1] = useState([]);
+    const [data2, setData2] = useState([]);
+    const [data3, setData3] = useState([]);
     const [anchorEl, setAnchorEl] = useState(null);
     const [searchName, setSearchName] = useState("");
 
@@ -28,6 +31,42 @@ function TutorManagement() {
             .get(`http://localhost:8081/staffsconnect/tutor/2`)
             .then((response) => {
                 setData(response.data);
+                console.log(response.data);
+            })
+            .catch((error) => {
+                console.error(error);
+            });
+    }, []);
+
+    useEffect(() => {
+        axios
+            .get(`http://localhost:8081/staffsconnect/tutor/viewprofile/1`)
+            .then((response) => {
+                setData1(response.data);
+                console.log(response.data);
+            })
+            .catch((error) => {
+                console.error(error);
+            });
+    }, []);
+
+    useEffect(() => {
+        axios
+            .get(`http://localhost:8081/staffsconnect/tutor/viewprofile/classcourse/1`)
+            .then((response) => {
+                setData2(response.data);
+                console.log(response.data);
+            })
+            .catch((error) => {
+                console.error(error);
+            });
+    }, []);
+
+    useEffect(() => {
+        axios
+            .get(`http://localhost:8081/staffsconnect/tutor/viewprofile/timeline/1`)
+            .then((response) => {
+                setData3(response.data);
                 console.log(response.data);
             })
             .catch((error) => {
@@ -162,15 +201,32 @@ function TutorManagement() {
                         justifyContent: 'center',
                     }}
                 >
-                    <Box sx={{ backgroundColor: "#D9D9D9", width: "300px", height: "400px", borderRadius: "10px", border: '2px solid #000000', p: 2, }}>
-                        <Avatar sx={{ height: "100px", width: "100px", marginLeft: "30%" }} />
-                        <Typography sx={{ fontSize: "17px", marginTop: "10px" }}>Giáo viên:</Typography>
-                        <Typography sx={{ fontSize: "17px" }}>Ngày Sinh:</Typography>
-                        <Typography sx={{ fontSize: "17px" }}>Số điện thoại:</Typography>
-                        <Typography sx={{ fontSize: "17px" }}>Email:</Typography>
-                        <Typography sx={{ fontSize: "17px" }}>Địa chỉ:</Typography>
-                        <Typography sx={{ fontSize: "17px" }}>Phụ trách môn:</Typography>
-                        <Typography sx={{ fontSize: "17px" }}>Thời gian dạy: </Typography>
+                    <Box sx={{ backgroundColor: "#D9D9D9", width: "340px", height: "86%", borderRadius: "10px", border: '2px solid #000000', p: 2, }}>
+                        <Avatar sx={{ height: "100px", width: "100px", marginLeft: "30%" }} src={`http://localhost:8081/edu/file/files/` + data1.img} />
+                        <Typography sx={{ fontSize: "17px", marginTop: "20px" }}>Giáo viên: {data1.fullname}</Typography>
+                        <Typography sx={{ fontSize: "17px" }}>Ngày sinh: {data1.birthdate}</Typography>
+                        <Typography sx={{ fontSize: "17px" }}>Số điện thoại: {data1.phone}</Typography>
+                        <Typography sx={{ fontSize: "17px" }}>Email: {data1.email}</Typography>
+                        <Typography sx={{ fontSize: "17px" }}>Địa chỉ: {data1.wards}</Typography>
+
+                        <Box sx={{ display: "flex" }}>
+                            <Typography sx={{ fontSize: "17px" }}>Phụ trách môn:</Typography>
+                            <Box sx={{ display: "flex", flexDirection: "column" }}>
+                                {data2.map((item) => (
+                                    <Typography sx={{ fontSize: "17px" }}> +{item.coursename}</Typography>
+                                ))}
+                            </Box>
+                        </Box>
+
+                        <Box sx={{display:"flex"}}>
+                            <Typography sx={{ fontSize: "17px" }}>Thời gian dạy:</Typography>
+                            <Box sx={{ display: "flex", flexDirection: "column" }}>
+                                {data3.map((item) => (
+                                    <Typography sx={{ fontSize: "17px" }}> +{item.lesson} : {item.timeline}</Typography>
+                                ))}
+                            </Box>
+                        </Box>
+
                     </Box>
                 </Modal>
                 <Box sx={{ display: 'flex', justifyContent: 'center', marginTop: "15px" }}>
