@@ -1,8 +1,9 @@
-import React, { useState } from 'react';
+import React, { useEffect, useState } from 'react';
 import CloudUploadIcon from '@mui/icons-material/CloudUpload';
 import Avatar from '@mui/material/Avatar';
 import Box from '@mui/material/Box';
 import PersonIcon from '@mui/icons-material/Person';
+import axios from 'axios';
 
 function ProfileAvatar({ userData, onFileChange, isEditing, role, uploadedFile }) {
   const [profilePic, setProfilePic] = useState(null);
@@ -18,11 +19,16 @@ function ProfileAvatar({ userData, onFileChange, isEditing, role, uploadedFile }
     reader.readAsDataURL(file);
     onFileChange(file);
   };
-
   const handleUploadClick = () => {
     document.getElementById('file-upload').click();
   };
-  const avatarSrc = profilePic === null ? `http://localhost:8081/edu/file/files/${userData.img}` : profilePic;
+  let avatarSrc;
+
+  if (userData.img) {
+    avatarSrc = profilePic === null ? `http://localhost:8081/edu/file/files/${userData.img}` : profilePic;
+  } else {
+    avatarSrc = profilePic;
+  }
   return (
     <Box
       sx={{

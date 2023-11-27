@@ -1,4 +1,4 @@
-import React, { useEffect, useState } from "react";
+import React, { useCallback, useEffect, useState } from "react";
 import { Avatar, Box, Button, Menu, MenuItem, Modal, Pagination, Table, TableBody, TableCell, TableContainer, TableHead, TableRow, TextField, Typography } from "@mui/material";
 import MoreVertIcon from '@mui/icons-material/MoreVert';
 import axios from "axios";
@@ -10,22 +10,26 @@ function StudentManagement() {
     const handleClose1 = () => setOpen(false);
     const [anchorEl, setAnchorEl] = useState(null);
     const [searchName, setSearchName] = useState("");
+    const [student, setStudent] = useState(null);
+    const [vstudent, setVstudent] = useState('');
 
     const handleSearch = (event) => {
         setSearchName(event.target.value);
     };
 
-    const handleClick = (event) => {
+    const handleClick = (event, studentid) => {
         setAnchorEl(event.currentTarget);
+        setStudent(studentid)
     };
 
     const handleClose = () => {
         setAnchorEl(null);
     };
-
-    useEffect(() => {
+    const [page, setPage] = useState(1);
+    const [pstudent, setPstudent] = useState('');
+    const fetchTop = useCallback((pageNumber) => {
         axios
-            .get(`http://localhost:8081/staffsconnect/student`)
+            .get(`http://localhost:8081/staffsconnect/student?page=${pageNumber}`)
             .then((response) => {
                 setData(response.data);
                 console.log(response.data);
@@ -34,6 +38,39 @@ function StudentManagement() {
                 console.error(error);
             });
     }, []);
+
+    useEffect(() => {
+        fetchTop(page);
+    }, [page, fetchTop]);
+
+    useEffect(() => {
+        axios
+            .get(`http://localhost:8081/staffsconnect/pagestudent`)
+            .then((response) => {
+                setPstudent(response.data);
+                console.log(response.data);
+            })
+            .catch((error) => {
+                console.error(error);
+            });
+    }, []);
+
+    const handlePageChange = (pageNumber) => {
+        setPage(pageNumber);
+    };
+    useEffect(() => {
+        if (student !== null) {
+            axios
+                .get(`http://localhost:8081/staffsconnect/student/viewprofile/${student}`)
+                .then((response) => {
+                    setVstudent(response.data);
+                    console.log(response.data);
+                })
+                .catch((error) => {
+                    console.error(error);
+                });
+        }
+    }, [student]);
     return (
         <Box sx={{ marginBottom: "50px" }}>
             <Box sx={{
@@ -76,7 +113,7 @@ function StudentManagement() {
                         InputProps={{
                             style: {
                                 height: '45px',
-                                fontSize:"14px"
+                                fontSize: "14px"
                             },
                         }}
                         value={searchName}
@@ -122,15 +159,7 @@ function StudentManagement() {
                                                 <TableCell sx={{ fontSize: "15px", fontFamily: "cursive", textAlign: "center" }}>{item.createdate}</TableCell>
                                                 <TableCell sx={{ fontSize: "15px", fontFamily: "cursive", textAlign: "center", color: item.status === '1' ? 'red' : 'green' }}>{item.status === 1 ? 'Thành công' : 'Còn học'}</TableCell>
                                                 <TableCell sx={{ fontSize: "15px", fontFamily: "cursive", textAlign: "center" }}>
-                                                    <MoreVertIcon sx={{ fontSize: "25px" }} onClick={handleClick} />
-                                                    <Menu
-                                                        anchorEl={anchorEl}
-                                                        open={Boolean(anchorEl)}
-                                                        onClose={handleClose}
-                                                    >
-                                                        <MenuItem onClick={handleOpen}>Xem thông tin</MenuItem>
-                                                        {/* <MenuItem onClick={handleClose}>Cắm cờ</MenuItem> */}
-                                                    </Menu>
+                                                    <MoreVertIcon sx={{ fontSize: "25px" }} onClick={(event) => handleClick(event, item.studentid)} />
                                                 </TableCell>
                                             </TableRow>
                                         );
@@ -141,6 +170,13 @@ function StudentManagement() {
                         </Table>
                     </TableContainer>
                 </Box>
+                <Menu
+                    anchorEl={anchorEl}
+                    open={Boolean(anchorEl)}
+                    onClose={handleClose}
+                >
+                    <MenuItem onClick={handleOpen}>Xem thông tin</MenuItem>
+                </Menu>
                 <Modal
                     open={open}
                     onClick={handleClose1}
@@ -153,18 +189,21 @@ function StudentManagement() {
                     }}
                 >
                     <Box sx={{ backgroundColor: "#D9D9D9", width: "300px", height: "400px", borderRadius: "10px", border: '2px solid #000000', p: 2, }}>
-                        <Avatar sx={{ height: "100px", width: "100px", marginLeft: "30%" }} />
-                        <Typography sx={{ fontSize: "17px", marginTop: "10px" }}>Học sinh:</Typography>
-                        <Typography sx={{ fontSize: "17px" }}>Ngày Sinh:</Typography>
-                        <Typography sx={{ fontSize: "17px" }}>Số điện thoại:</Typography>
-                        <Typography sx={{ fontSize: "17px" }}>Email:</Typography>
-                        <Typography sx={{ fontSize: "17px" }}>Địa chỉ:</Typography>
-                        <Typography sx={{ fontSize: "17px" }}>Môn học:</Typography>
-                        <Typography sx={{ fontSize: "17px" }}>Thời gian học: </Typography>
+                        {vstudent.img ? (
+                            <Avatar sx={{ height: "100px", width: "100px", marginLeft: "30%" }} src={`http://localhost:8081/edu/file/files/${vstudent.img}`}/>
+                        ) : (
+                            <Avatar sx={{ height: "100px", width: "100px", marginLeft: "30%" }}/>
+                        )}
+                        <Typography sx={{ fontSize: "17px", marginTop: "10px" }}>Học sinh: {vstudent.fullname}</Typography>
+                        <Typography sx={{ fontSize: "17px" }}>Ngày Sinh: {vstudent.birthdate}</Typography>
+                        <Typography sx={{ fontSize: "17px" }}>Số điện thoại: {vstudent.phone}</Typography>
+                        <Typography sx={{ fontSize: "17px" }}>Email: {vstudent.email}</Typography>
+                        <Typography sx={{ fontSize: "17px" }}>Địa chỉ: Thành phố {vstudent.city} Huyện/phường {vstudent.wards}</Typography>
+                        <Typography sx={{ fontSize: "17px" }}>Lớp: {vstudent.class}</Typography>
                     </Box>
                 </Modal>
                 <Box sx={{ display: 'flex', justifyContent: 'center', marginTop: "15px" }}>
-                    <Pagination count={10} sx={{ '& .MuiPaginationItem-root': { fontSize: '15px', minWidth: '50px' } }} />
+                    <Pagination count={pstudent.length} page={page} onChange={handlePageChange} sx={{ '& .MuiPaginationItem-root': { fontSize: '15px', minWidth: '50px' } }} />
                 </Box>
             </Box>
         </Box>

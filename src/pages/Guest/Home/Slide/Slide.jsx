@@ -13,7 +13,7 @@ function Slide() {
   const [data, setData] = useState([]);
   useEffect(() => {
     axios
-        .get(`http://localhost:8081/discount/listdiscount`)
+        .get(`http://localhost:8081/discount/listdiscounts`)
         .then((response) => {
             setData(response.data);
             console.log(response.data);

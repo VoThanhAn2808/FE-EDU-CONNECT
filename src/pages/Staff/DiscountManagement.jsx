@@ -2,9 +2,12 @@ import { Box, Button, Checkbox, Pagination, Table, TableBody, TableCell, TableCo
 import { makeStyles } from '@mui/styles';
 import axios from "axios";
 import { jwtDecode } from "jwt-decode";
+import DiscountForCourse from "../../components/Staff/DiscountManagement/Discountforcourse";
 import React, { useEffect, useState } from "react";
 import CreateModal from "../../components/Staff/DiscountManagement/CreateModal";
 import UpdateModal from "../../components/Staff/DiscountManagement/UpdateModal";
+import RemoveRedEyeIcon from '@mui/icons-material/RemoveRedEye';
+import ListCourseByDiscout from "../../components/Staff/DiscountManagement/ListCourseByDiscount";
 
 const useStyles = makeStyles(() => ({
     input: {
@@ -25,7 +28,9 @@ function DiscountManagement() {
     const [selectedItems, setSelectedItems] = useState([]);
     const classes = useStyles();
     const [open, setOpen] = useState(false);
+    const [openDiscount, setOpenDiscount] = useState(false);
     const [openUpdate, setOpenUpdate] = useState(false);
+    const [openCourse, setOpenCourse] = useState(false);
     const [searchValue, setSearchValue] = useState('');
     const [currentPage, setCurrentPage] = useState(1);
     const [dataToSend, setDataToSend] = useState({
@@ -126,7 +131,9 @@ function DiscountManagement() {
     return (
         <Box style={{ width: '100%', padding: '20px' }}>
             <CreateModal isShowModal={open} setOpen={setOpen} />
+            <DiscountForCourse isShowModal={openDiscount} setOpen={setOpenDiscount} />
             <UpdateModal selectDiscountId={selectDiscountId} isShowModal={openUpdate} setOpenUpdate={setOpenUpdate} />
+            <ListCourseByDiscout selectDiscountId={selectDiscountId} isShowModal={openCourse} setOpen={setOpenCourse} />
             <Box style={{ display: 'inline-block', width: '100%' }}>
                 <Box style={{ width: '100%', }}>
                     <Box style={{ marginBottom: "20px" }}>
@@ -147,6 +154,9 @@ function DiscountManagement() {
                             </Button>
                         </Box>
                         <Box>
+                            <Button variant="contained" style={{ marginRight: '10px', fontSize: "10px", fontFamily: "cursive", }} onClick={setOpenDiscount}>
+                                Thêm giảm giá cho môn
+                            </Button>
                             <Button variant="contained" style={{ marginRight: '10px', fontSize: "10px", fontFamily: "cursive", }} onClick={setOpen}>
                                 Thêm
                             </Button>
@@ -197,10 +207,11 @@ function DiscountManagement() {
                                             <TableCell onClick={() => handleCellClick(item.discountid)} style={{ fontSize: "10px", fontFamily: "cursive", textAlign: "center" }}>{item.startDate}</TableCell>
                                             <TableCell onClick={() => handleCellClick(item.discountid)} style={{ fontSize: "10px", fontFamily: "cursive", textAlign: "center" }}>{item.endDate}</TableCell>
                                             <TableCell onClick={() => handleCellClick(item.discountid)} style={{ fontSize: "10px", fontFamily: "cursive", textAlign: "center" }}>{item.title}</TableCell>
-                                            <TableCell style={{ fontSize: "10px", fontFamily: "cursive", textAlign: "center" }}>
-                                                <Button variant="contained" type="danger" style={{ marginRight: '10px', fontSize: "10px", fontFamily: "cursive", }} onClick={() => onDeleteRow(item.discountid)}>
+                                            <TableCell style={{ fontSize: "10px", fontFamily: "cursive"}}>
+                                                <Button variant="contained" type="danger" style={{ marginRight: '10px', fontSize: "10px", fontFamily: "cursive", marginBottom : '10px'}} onClick={() => onDeleteRow(item.discountid)}>
                                                     Xoá
                                                 </Button>
+                                                <RemoveRedEyeIcon sx={{fontSize : '22px', marginLeft : '10px'}} onClick={setOpenCourse}/>
                                             </TableCell>
                                         </TableRow>
                                     ))
