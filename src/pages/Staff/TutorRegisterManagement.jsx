@@ -1,26 +1,14 @@
-import React, { useState } from "react";
+import React, { useEffect, useState } from "react";
 import { Box, Button, Menu, MenuItem, Pagination, Table, TableBody, TableCell, TableContainer, TableHead, TableRow, TextField, Typography } from "@mui/material";
 import MoreVertIcon from '@mui/icons-material/MoreVert';
 import { Link } from "react-router-dom";
+import axios from "axios";
 
-const data = [
-    { id: 1, tutor: "Nguyễn Văn B", file: "../../../assets/Vo-Thanh-An.pdf", status: "Chưa duyệt" },
-    { id: 2, tutor: "Nguyễn Văn B", file: "../../../assets/Vo-Thanh-An.pdf", status: "Chưa duyệt" },
-    { id: 3, tutor: "Nguyễn Văn B", file: "../../../assets/Vo-Thanh-An.pdf", status: "Chưa duyệt" },
-    { id: 4, tutor: "Nguyễn Văn B", file: "../../../assets/Vo-Thanh-An.pdf", status: "Chưa duyệt" },
-    { id: 5, tutor: "Nguyễn Văn B", file: "../../../assets/Vo-Thanh-An.pdf", status: "Chưa duyệt" },
-    { id: 6, tutor: "Nguyễn Văn B", file: "../../../assets/Vo-Thanh-An.pdf", status: "Chưa duyệt" },
-    { id: 7, tutor: "Nguyễn Văn B", file: "../../../assets/Vo-Thanh-An.pdf", status: "Chưa duyệt" },
-    { id: 8, tutor: "Nguyễn Văn B", file: "../../../assets/Vo-Thanh-An.pdf", status: "Chưa duyệt" },
-    { id: 9, tutor: "Nguyễn Văn B", file: "../../../assets/Vo-Thanh-An.pdf", status: "Chưa duyệt" },
-    { id: 10, tutor: "Nguyễn Văn B", file: "../../../assets/Vo-Thanh-An.pdf", status: "Chưa duyệt" },
-
-]
 
 function TutorRegisterManagement() {
     const [anchorEl, setAnchorEl] = useState(null);
-    const [tableData, setTableData] = useState(data);
     const [searchName, setSearchName] = useState("");
+    const [data, setData] = useState([]);
 
     const handleSearch = (event) => {
         setSearchName(event.target.value);
@@ -34,10 +22,18 @@ function TutorRegisterManagement() {
         setAnchorEl(null);
     };
 
-    const handleDeleteRow = (id) => {
-        setTableData((prevData) => prevData.filter((item) => item.id !== id));
-        handleClose();
-    };
+    useEffect(() => {
+        axios
+            .get(`http://localhost:8081/staffsconnect/listwaitforconfirm`)
+            .then((response) => {
+                setData(response.data);
+                console.log(response.data);
+            })
+            .catch((error) => {
+                console.error(error);
+            });
+    }, []);
+
     return (
         <Box sx={{ marginBottom: "50px" }}>
             <Box sx={{
@@ -113,14 +109,14 @@ function TutorRegisterManagement() {
                                 </TableRow>
                             </TableHead>
                             <TableBody>
-                                {tableData.map((item) => {
-                                    if (item.tutor.toLowerCase().includes(searchName.toLowerCase())) {
+                                {data.map((item) => {
+                                    if (item.fullName.toLowerCase().includes(searchName.toLowerCase())) {
                                         return (
                                             <TableRow key={item.id}>
-                                                <TableCell sx={{ fontSize: "15px", fontFamily: "cursive", textAlign: "center" }}>{item.id}</TableCell>
-                                                <TableCell sx={{ fontSize: "15px", fontFamily: "cursive", textAlign: "center" }}>{item.tutor}</TableCell>
-                                                <TableCell sx={{ fontSize: "15px", fontFamily: "cursive", textAlign: "center" }}>{item.file ? (
-                                                    <Link style={{ textDecoration: "none" }} href={item.file} target="_blank" rel="noopener noreferrer">
+                                                <TableCell sx={{ fontSize: "15px", fontFamily: "cursive", textAlign: "center" }}>{item.tutorid}</TableCell>
+                                                <TableCell sx={{ fontSize: "15px", fontFamily: "cursive", textAlign: "center" }}>{item.fullName}</TableCell>
+                                                <TableCell sx={{ fontSize: "15px", fontFamily: "cursive", textAlign: "center" }}>{item.cv ? (
+                                                    <Link style={{ textDecoration: "none" }} href={item.cv} target="_blank" rel="noopener noreferrer">
                                                         Tải File
                                                     </Link>
                                                 ) : (
@@ -134,8 +130,8 @@ function TutorRegisterManagement() {
                                                         open={Boolean(anchorEl)}
                                                         onClose={handleClose}
                                                     >
-                                                        <MenuItem onClick={() => handleDeleteRow(item.id)}>Duyệt</MenuItem>
-                                                        <MenuItem onClick={() => handleDeleteRow(item.id)}>Không duyệt</MenuItem>
+                                                        {/* <MenuItem onClick={() => handleDeleteRow(item.id)}>Duyệt</MenuItem>
+                                                        <MenuItem onClick={() => handleDeleteRow(item.id)}>Không duyệt</MenuItem> */}
                                                     </Menu>
                                                 </TableCell>
                                             </TableRow>
