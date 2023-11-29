@@ -23,11 +23,38 @@ function Sidebar() {
 
   const decodedToken = jwtDecode(localStorage.getItem('token'));
   const [data, setData] = useState([]);
+  const [tryl, setTry] = useState([]);
+  const [book, setBook] = useState([]);
+  const [file, setFile] = useState([]);
 
   useEffect(() => {
     axios.get(`http://localhost:8081/staffsconnect/totalpayment?staffid=${decodedToken.id}`)
       .then((response) => {
         setData(response.data);
+        console.log(response.data);
+      })
+      .catch((error) => {
+        console.error(error);
+      });
+    axios.get(`http://localhost:8081/staffsconnect/countTutorRegistersForLessons?staffid=${decodedToken.id}`)
+      .then((response) => {
+        setFile(response.data);
+        console.log(response.data);
+      })
+      .catch((error) => {
+        console.error(error);
+      });
+    axios.get(`http://localhost:8081/staffsconnect/counttrylearn`)
+      .then((response) => {
+        setTry(response.data);
+        console.log(response.data);
+      })
+      .catch((error) => {
+        console.error(error);
+      });
+    axios.get(`http://localhost:8081/staffsconnect/totalPageStudentRegistration`)
+      .then((response) => {
+        setBook(response.data);
         console.log(response.data);
       })
       .catch((error) => {
@@ -75,6 +102,23 @@ function Sidebar() {
             <CalendarMonthIcon />
           </ListItemIcon>
           <Typography sx={{ fontSize: '16px', marginRight: 'auto' }}><Link to='/trylearningmanagement' style={{ color: "black", textDecoration: "none" }}>Quản lý lịch học thử</Link></Typography>
+          {tryl > 0 && (
+            <span
+              style={{
+                marginLeft: '40px',
+                backgroundColor: 'red',
+                color: 'white',
+                width: '20px',
+                height: '20px',
+                borderRadius: '50%',
+                padding: '2px 6px',
+                fontSize: '12px',
+                textAlign: 'center'
+              }}
+            >
+              {tryl}
+            </span>
+          )}
         </ListItemButton>
 
         <ListItemButton>
@@ -82,13 +126,47 @@ function Sidebar() {
             <ClassIcon />
           </ListItemIcon>
           <Typography sx={{ fontSize: '16px', marginRight: 'auto' }}><Link to='/coursemanagement' style={{ color: "black", textDecoration: "none" }}>Quản lý đăng ký khoá học</Link></Typography>
+          {book > 0 && (
+            <span
+              style={{
+                marginLeft: '40px',
+                backgroundColor: 'red',
+                color: 'white',
+                width: '20px',
+                height: '20px',
+                borderRadius: '50%',
+                padding: '2px 6px',
+                fontSize: '12px',
+                textAlign: 'center'
+              }}
+            >
+              {book}
+            </span>
+          )}
         </ListItemButton>
 
         <ListItemButton>
           <ListItemIcon>
             <FolderCopyIcon />
           </ListItemIcon>
-          <Typography sx={{ fontSize: '16px', marginRight: 'auto' }}><Link to='/documentmanagement' style={{ color: "black", textDecoration: "none" }}>Quản lý tài liệu dạy</Link></Typography>
+          <Typography sx={{ fontSize: '16px', marginRight: 'auto' }}><Link to='/documentmanagement' style={{ color: "black", textDecoration: "none" }}>Quản lý tài liệu dạy</Link>
+          {file > 0 && (
+            <span
+              style={{
+                marginLeft: '40px',
+                backgroundColor: 'red',
+                color: 'white',
+                width: '20px',
+                height: '20px',
+                borderRadius: '50%',
+                padding: '2px 6px',
+                fontSize: '12px',
+                textAlign: 'center'
+              }}
+            >
+              {file}
+            </span>
+          )}</Typography>
         </ListItemButton>
 
         <ListItemButton>
@@ -135,15 +213,18 @@ function Sidebar() {
             }}
           >
             Quản lý thanh toán
-            {data && (
+            {data > 0 && (
               <span
                 style={{
-                  marginLeft: '50px',
+                  marginLeft: '40px',
                   backgroundColor: 'red',
                   color: 'white',
+                  width: '20px',
+                  height: '20px',
                   borderRadius: '50%',
                   padding: '2px 6px',
                   fontSize: '12px',
+                  textAlign: 'center'
                 }}
               >
                 {data}

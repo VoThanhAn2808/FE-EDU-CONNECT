@@ -244,7 +244,7 @@ function CalendarTutor() {
                                                                     {item.courses}
                                                                 </Typography>
                                                             )}
-                                                            {shouldDisplayUpdateButton(item.scheduled_Date) && item.datechange !== null && (
+                                                            {shouldDisplayUpdateButton(item.scheduled_Date) && item.datechange === null && (
                                                                 <MoreVertIcon sx={{ fontSize: '15px' }} onClick={(event) => handleLinkClick(item.scheduled_Date, itime.timeId, event)} />
                                                             )}
                                                         </Box>

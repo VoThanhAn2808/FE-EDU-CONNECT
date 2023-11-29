@@ -16,6 +16,7 @@ function TutorManagement() {
     const [searchName, setSearchName] = useState("");
     const [tutor, setTutor] = useState(null);
 
+
     const handleSearch = (event) => {
         setSearchName(event.target.value);
     };
@@ -50,7 +51,6 @@ function TutorManagement() {
     const handlePageChange = (event, pageNumber) => {
         setPage(pageNumber);
     };
-
     useEffect(() => {
         axios
             .get(`http://localhost:8081/staffsconnect/totaltutor?staffid=${decodedToken.id}`)
@@ -61,44 +61,34 @@ function TutorManagement() {
             .catch((error) => {
                 console.error(error);
             });
-    }, [decodedToken.id]);
-
-    useEffect(() => {
-        axios
-            .get(`http://localhost:8081/staffsconnect/tutor/viewprofile/1`)
-            .then((response) => {
-                setData1(response.data);
-                console.log(response.data);
-            })
-            .catch((error) => {
-                console.error(error);
-            });
-    }, []);
-
-    useEffect(() => {
-        axios
-            .get(`http://localhost:8081/staffsconnect/tutor/viewprofile/classcourse/1`)
-            .then((response) => {
-                setData2(response.data);
-                console.log(response.data);
-            })
-            .catch((error) => {
-                console.error(error);
-            });
-    }, []);
-
-    useEffect(() => {
-        axios
-            .get(`http://localhost:8081/staffsconnect/tutor/viewprofile/timeline/1`)
-            .then((response) => {
-                setData3(response.data);
-                console.log(response.data);
-            })
-            .catch((error) => {
-                console.error(error);
-            });
-    }, []);
         if (tutor !== null) {
+            axios
+                .get(`http://localhost:8081/staffsconnect/tutor/viewprofile/${tutor}`)
+                .then((response) => {
+                    setData1(response.data);
+                    console.log(response.data);
+                })
+                .catch((error) => {
+                    console.error(error);
+                });
+            axios
+                .get(`http://localhost:8081/staffsconnect/tutor/viewprofile/classcourse/${tutor}`)
+                .then((response) => {
+                    setData2(response.data);
+                    console.log(response.data);
+                })
+                .catch((error) => {
+                    console.error(error);
+                });
+            axios
+                .get(`http://localhost:8081/staffsconnect/tutor/viewprofile/timeline/${tutor}`)
+                .then((response) => {
+                    setData3(response.data);
+                    console.log(response.data);
+                })
+                .catch((error) => {
+                    console.error(error);
+                });
             axios
                 .get(`http://localhost:8081/educonnect/historypay?tutorid=${tutor}`)
                 .then((response) => {
@@ -109,12 +99,126 @@ function TutorManagement() {
                     console.error(error);
                 });
         }
-    }, [tutor]);
-    
-    
+    }, [tutor, decodedToken.id]);
+    const handleClickClasscourse = async (tutorid, event) => {
+        event.preventDefault();
+        event.stopPropagation();
+        try {
+            const formData = new FormData();
+            formData.append('classcourseid', course);
+            formData.append('tutorid', tutorid);
+            const response = await axios.post(
+                `http://localhost:8081/staffsconnect/addClasscourseForTutor`,
+                formData,
+                {
+                    headers: {
+                        "Content-Type": "multipart/form-data",
+                    },
+                }
+            );
+            alert(response.data);
+            window.location.reload();
+            console.log(response);
+        } catch (error) {
+            console.error(error);
+            console.log(error.response.data);
+        }
+    };
+
+    const handleClickChange = async (tutorid, event) => {
+        event.preventDefault();
+        event.stopPropagation();
+        try {
+            const response = await axios.put(
+                `http://localhost:8081/staffsconnect/tutor/updatesalary`,
+                {
+                    tutorid: tutorid,
+                    price: data1.price,
+                },
+                {
+                    headers: {
+                        "Content-Type": "application/json",
+                    },
+                }
+            );
+            if (response.status === 200) {
+                alert("succsess");
+            } else {
+                alert("faill");
+            }
+            window.location.reload();
+            console.log(response.data);
+        } catch (error) {
+            console.error(error);
+            console.log(error.response.data);
+        }
+    };
+
+    const handleClickFlag = async (event) => {
+        event.preventDefault();
+        event.stopPropagation();
+        try {
+            const response = await axios.get(`http://localhost:8081/staffsconnect/tutor/block/${tutor}`);
+            if (response.data === true) {
+                alert("succsess");
+                window.location.reload();
+            } else {
+                alert("faill");
+            }
+            console.log(response.data);
+        } catch (error) {
+            console.error(error);
+            console.log(error.response.data);
+        }
+    };
+
+    const [classEntity, setClassEntity] = useState([]);
+    const [courseC, setCourseC] = useState([]);
+    const [course, setCourse] = useState('');
+    const [classcourse, setClassCourse] = useState('');
+
+    useEffect(() => {
+        axios
+            .get("http://localhost:8081/student/class")
+            .then((response) => {
+                setClassEntity(response.data);
+                console.log(response.data);
+            })
+            .catch((error) => {
+                console.error(error);
+            });
+    }, []);
+
+    useEffect(() => {
+        if (classcourse) {
+            axios
+                .get(`http://localhost:8081/course/findCourseByClass?classcourseid=${classcourse}`)
+                .then((response) => {
+                    setCourseC(response.data);
+                    console.log(response.data);
+                })
+                .catch((error) => {
+                    console.error(error);
+                });
+        } else {
+            setCourseC([]);
+        }
+    }, [classcourse]);
+
+    const handleClassChange = (event) => {
+        setClassCourse(event.target.value);
+    };
+
+
     const [open1, setOpen1] = useState(false);
     const handleClose1 = () => setOpen1(false);
     const handleOpen1 = () => setOpen1(true);
+    const [open2, setOpen2] = useState(false);
+    const handleCloses2 = () => setOpen2(false);
+    const handleOpen2 = () => setOpen2(true);
+    const [open3, setOpen3] = useState(false);
+    const handleCloses3 = () => setOpen3(false);
+    const handleOpen3 = () => setOpen3(true);
     const styles = {
         position: 'absolute',
         top: '50%',
@@ -127,6 +231,18 @@ function TutorManagement() {
         boxShadow: 'rgba(0, 0, 0, 0.24) 0px 3px 8px',
         paddingTop: '20px',
         borderRadius: '10px'
+    };
+    const style = {
+        position: 'absolute',
+        top: '50%',
+        left: '50%',
+        transform: 'translate(-50%, -50%)',
+        width: 400,
+        height: 350,
+        bgcolor: 'background.paper',
+        border: '2px solid #000',
+        boxShadow: 'rgba(0, 0, 0, 0.24) 0px 3px 8px',
+        paddingTop: '20px'
     };
     return (
         <Box sx={{ marginBottom: "50px" }}>
@@ -243,8 +359,9 @@ function TutorManagement() {
                 >
                     <MenuItem onClick={handleOpen}>Xem thông tin</MenuItem>
                     <MenuItem onClick={handleOpen1}>Lịch sử rút tiền</MenuItem>
-                    <MenuItem onClick={handleClose}>Update Tiền</MenuItem>
-                    <MenuItem onClick={handleClose}>Cắm cờ</MenuItem>
+                    <MenuItem onClick={handleOpen2}>Update Tiền</MenuItem>
+                    <MenuItem onClick={handleOpen3}>Thêm môn dạy</MenuItem>
+                    <MenuItem onClick={handleClickFlag}>Cắm cờ</MenuItem>
                 </Menu>
                 <Modal
                     open={open}
@@ -257,7 +374,7 @@ function TutorManagement() {
                         justifyContent: 'center',
                     }}
                 >
-                    <Box sx={{ backgroundColor: "#D9D9D9", width: "340px", height: "86%", borderRadius: "10px", border: '2px solid #000000', p: 2, }}>
+                    <Box sx={{ backgroundColor: "#D9D9D9", width: "340px", borderRadius: "10px", border: '2px solid #000000', p: 2, maxHeight: 'calc(100vh - 200px)', overflowY: 'auto', }}>
                         <Avatar sx={{ height: "100px", width: "100px", marginLeft: "30%" }} src={`http://localhost:8081/edu/file/files/` + data1.img} />
                         <Typography sx={{ fontSize: "17px", marginTop: "20px" }}>Giáo viên: {data1.fullname}</Typography>
                         <Typography sx={{ fontSize: "17px" }}>Ngày sinh: {data1.birthdate}</Typography>
@@ -268,21 +385,20 @@ function TutorManagement() {
                         <Box sx={{ display: "flex" }}>
                             <Typography sx={{ fontSize: "17px" }}>Phụ trách môn:</Typography>
                             <Box sx={{ display: "flex", flexDirection: "column" }}>
-                                {data2.map((item) => (
-                                    <Typography sx={{ fontSize: "17px" }}> +{item.coursename}</Typography>
+                                {data2.map((item, index) => (
+                                    <Typography key={index} sx={{ fontSize: "17px" }}> +{item.coursename} {item.classname}</Typography>
                                 ))}
                             </Box>
                         </Box>
 
-                        <Box sx={{display:"flex"}}>
+                        <Box sx={{ display: "flex" }}>
                             <Typography sx={{ fontSize: "17px" }}>Thời gian dạy:</Typography>
                             <Box sx={{ display: "flex", flexDirection: "column" }}>
-                                {data3.map((item) => (
-                                    <Typography sx={{ fontSize: "17px" }}> +{item.lesson} : {item.timeline}</Typography>
+                                {data3.map((item, index) => (
+                                    <Typography key={index} sx={{ fontSize: "17px" }}> +{item.lesson} : {item.timeline}</Typography>
                                 ))}
                             </Box>
                         </Box>
-
                     </Box>
                 </Modal>
                 <Modal
@@ -327,6 +443,122 @@ function TutorManagement() {
                                 </TableBody>
                             </Table>
                         </TableContainer>
+                    </Box>
+                </Modal>
+                <Modal
+                    open={open2}
+                    onClose={handleCloses2}
+                    aria-labelledby="modal-modal-title"
+                    aria-describedby="modal-modal-description"
+                >
+                    <Box sx={style}>
+                        <Box sx={{ marginTop: '40px' }}>
+                            <Typography sx={{ fontSize: '15px', fontFamily: 'cursive', textAlign: 'center' }}>Tên gia sư: {data1.fullname}</Typography>
+                            <Typography sx={{ fontSize: '15px', fontFamily: 'cursive', textAlign: 'center' }}>MSGS: {data1.tutorid}</Typography>
+                            <TextField
+                                sx={{ marginTop: '20px', marginLeft: '26%' }}
+                                label='Giá'
+                                value={data1.price}
+                                onChange={(e) => setData1({ ...data1, price: e.target.value })}
+                                InputLabelProps={{
+                                    shrink: data1.price ? true : undefined,
+                                }}
+                                InputProps={{
+                                    style: {
+                                        fontSize: '14px',
+                                        height: '45px'
+                                    },
+                                }}
+                            />
+
+                            <Box sx={{ marginTop: "30px", marginLeft: "34%", display: 'flex' }}>
+                                <Button type="submit" sx={{ backgroundColor: "green", color: "black", fontSize: "12px", fontWeight: "600" }} onClick={(event) => handleClickChange(data1.tutorid, event)}>Lưu</Button>
+                                <Button sx={{ backgroundColor: "red", color: "black", fontSize: "12px", fontWeight: "600", marginLeft: '10px' }} onClick={handleCloses2}>Huỷ</Button>
+                            </Box>
+                        </Box>
+                    </Box>
+                </Modal>
+                <Modal
+                    open={open3}
+                    onClose={handleCloses3}
+                    aria-labelledby="modal-modal-title"
+                    aria-describedby="modal-modal-description"
+                >
+                    <Box sx={style}>
+                        <Box sx={{ marginTop: '40px' }}>
+                            <Typography sx={{ fontSize: '15px', fontFamily: 'cursive', textAlign: 'center' }}>
+                                Tên gia sư: {data1.fullname}
+                            </Typography>
+                            <Typography sx={{ fontSize: '15px', fontFamily: 'cursive', textAlign: 'center' }}>
+                                MSGS: {data1.tutorid}
+                            </Typography>
+                            <TextField
+                                sx={{ marginTop: '20px', marginLeft: '26%', width: '200px' }}
+                                label="Lớp"
+                                select
+                                value={classcourse}
+                                onChange={handleClassChange}
+                                InputLabelProps={{
+                                    style: {
+                                        fontSize: '12px',
+                                        color: 'rgba(0, 0, 0, 0.54)',
+                                    },
+                                }}
+                                InputProps={{
+                                    style: {
+                                        fontSize: '14px',
+                                        height: '45px',
+                                    },
+                                }}
+                            >
+                                {classEntity.map((item, index) => (
+                                    <MenuItem key={index} value={item.classid} sx={{ fontSize: '15px' }}>
+                                        {item.className}
+                                    </MenuItem>
+                                ))}
+                            </TextField>
+                            <TextField
+                                sx={{ marginTop: '20px', marginLeft: '26%', width: '200px' }}
+                                label="Môn"
+                                select
+                                value={course}
+                                onChange={(e) => setCourse(e.target.value)}
+                                InputLabelProps={{
+                                    style: {
+                                        fontSize: '12px',
+                                        color: 'rgba(0, 0, 0, 0.54)',
+                                    },
+                                }}
+                                InputProps={{
+                                    style: {
+                                        fontSize: '14px',
+                                        height: '45px',
+                                    },
+                                }}
+                            >
+                                {courseC.map((item, index) => (
+                                    <MenuItem key={index} value={item.classCourseId} sx={{ fontSize: '15px' }}>
+                                        {item.courseName}
+                                    </MenuItem>
+                                ))}
+                            </TextField>
+
+                            <Box sx={{ marginTop: '30px', marginLeft: '34%', display: 'flex' }}>
+                                <Button
+                                    type="submit"
+                                    sx={{ backgroundColor: 'green', color: 'black', fontSize: '12px', fontWeight: '600' }}
+                                    onClick={(event) => handleClickClasscourse(data1.tutorid, event)}
+                                >
+                                    Lưu
+                                </Button>
+                                <Button
+                                    sx={{ backgroundColor: 'red', color: 'black', fontSize: '12px', fontWeight: '600', marginLeft: '10px' }}
+                                    onClick={handleCloses3}
+                                >
+                                    Huỷ
+                                </Button>
+                            </Box>
+                        </Box>
                     </Box>
                 </Modal>
                 <Box sx={{ display: 'flex', justifyContent: 'center', marginTop: "15px" }}>

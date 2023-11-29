@@ -1,9 +1,8 @@
-import React, { useEffect, useState } from 'react';
+import React, { useState } from 'react';
 import CloudUploadIcon from '@mui/icons-material/CloudUpload';
 import Avatar from '@mui/material/Avatar';
 import Box from '@mui/material/Box';
 import PersonIcon from '@mui/icons-material/Person';
-import axios from 'axios';
 
 function ProfileAvatar({ userData, onFileChange, isEditing, role, uploadedFile }) {
   const [profilePic, setProfilePic] = useState(null);

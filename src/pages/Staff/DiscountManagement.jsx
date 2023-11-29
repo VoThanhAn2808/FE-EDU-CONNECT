@@ -1,7 +1,7 @@
 import { Box, Button, Checkbox, Pagination, Table, TableBody, TableCell, TableContainer, TableHead, TableRow, TextField, Typography } from "@mui/material";
 import { makeStyles } from '@mui/styles';
 import axios from "axios";
-import { jwtDecode } from "jwt-decode";
+// import { jwtDecode } from "jwt-decode";
 import DiscountForCourse from "../../components/Staff/DiscountManagement/Discountforcourse";
 import React, { useEffect, useState } from "react";
 import CreateModal from "../../components/Staff/DiscountManagement/CreateModal";
@@ -22,7 +22,7 @@ const useStyles = makeStyles(() => ({
 
 function DiscountManagement() {
     const [dataDicount, setDicount] = useState([]);
-    const [selectAll, setSelectAll] = useState(true);
+    // const [selectAll, setSelectAll] = useState(true);
     const [selectDiscountId, setSelectDiscoutId] = useState('');
     const [listDelete, setListDelete] = useState([]);
     const [selectedItems, setSelectedItems] = useState([]);
@@ -71,7 +71,7 @@ function DiscountManagement() {
         console.log(selectedItems);
     };
     const onSelectAllClick = (event) => {
-        setSelectAll(event.target.checked);
+        // setSelectAll(event.target.checked);
         const selected = event.target.checked ? (Array.isArray(dataDicount.listDiscount) ? (dataDicount.listDiscount).map((item) => item.discountid) : []) : [];
         setSelectedItems(selected);
         setListDelete(selected);
