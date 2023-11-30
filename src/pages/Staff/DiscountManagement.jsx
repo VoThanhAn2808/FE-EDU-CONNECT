@@ -33,6 +33,7 @@ function DiscountManagement() {
     const [openCourse, setOpenCourse] = useState(false);
     const [searchValue, setSearchValue] = useState('');
     const [currentPage, setCurrentPage] = useState(1);
+    const [title, setTitle] = useState('');
     const [dataToSend, setDataToSend] = useState({
         title: '',
         pageNo: '',
@@ -107,6 +108,12 @@ function DiscountManagement() {
         setOpenUpdate(true);
     };
 
+    const handleCoursellClick = (discountId, title) => {
+        setSelectDiscoutId(discountId);
+        setOpenCourse(true);
+        setTitle(title);
+    };
+
     const onDeleteRow = async (id) => {
         try {
             const response = await axios.post('http://localhost:8081/discount/deleteDiscount', listDelete);
@@ -133,7 +140,7 @@ function DiscountManagement() {
             <CreateModal isShowModal={open} setOpen={setOpen} />
             <DiscountForCourse isShowModal={openDiscount} setOpen={setOpenDiscount} />
             <UpdateModal selectDiscountId={selectDiscountId} isShowModal={openUpdate} setOpenUpdate={setOpenUpdate} />
-            <ListCourseByDiscout selectDiscountId={selectDiscountId} isShowModal={openCourse} setOpen={setOpenCourse} />
+            <ListCourseByDiscout selectDiscountId={selectDiscountId} isShowModal={openCourse} setOpen={setOpenCourse} title={title} />
             <Box style={{ display: 'inline-block', width: '100%' }}>
                 <Box style={{ width: '100%', }}>
                     <Box style={{ marginBottom: "20px" }}>
@@ -211,7 +218,7 @@ function DiscountManagement() {
                                                 <Button variant="contained" type="danger" style={{ marginRight: '10px', fontSize: "10px", fontFamily: "cursive", marginBottom : '10px'}} onClick={() => onDeleteRow(item.discountid)}>
                                                     Xoá
                                                 </Button>
-                                                <RemoveRedEyeIcon sx={{fontSize : '22px', marginLeft : '10px'}} onClick={setOpenCourse}/>
+                                                <RemoveRedEyeIcon sx={{fontSize : '22px', marginLeft : '10px'}} onClick={() => handleCoursellClick(item.discountid, item.title)}/>
                                             </TableCell>
                                         </TableRow>
                                     ))

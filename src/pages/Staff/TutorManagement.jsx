@@ -380,7 +380,7 @@ function TutorManagement() {
                         <Typography sx={{ fontSize: "17px" }}>Ngày sinh: {data1.birthdate}</Typography>
                         <Typography sx={{ fontSize: "17px" }}>Số điện thoại: {data1.phone}</Typography>
                         <Typography sx={{ fontSize: "17px" }}>Email: {data1.email}</Typography>
-                        <Typography sx={{ fontSize: "17px" }}>Địa chỉ: {data1.wards}</Typography>
+                        <Typography sx={{ fontSize: "17px" }}>Địa chỉ: {data1.city} - {data1.wards}</Typography>
 
                         <Box sx={{ display: "flex" }}>
                             <Typography sx={{ fontSize: "17px" }}>Phụ trách môn:</Typography>

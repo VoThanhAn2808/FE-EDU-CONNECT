@@ -77,6 +77,10 @@ function Header() {
     const handleChangePassword = () => {
         navigate('/changepass');
     }
+
+    const handleFeedback = () => {
+        navigate('/feedbacktutors');
+    }
     const handleLogoutClick = () => {
         localStorage.removeItem("token");
         window.location.href = "/";
@@ -204,7 +208,7 @@ function Header() {
                     .catch((error) => {
                         console.error(error);
                     });
-            }else if(role === 3){
+            } else if (role === 3) {
                 axios
                     .get(`http://localhost:8081/staffsconnect/ViewInfoStaff?staffId=${decodedTokenRef.current.id}`)
                     .then((response) => {
@@ -370,6 +374,10 @@ function Header() {
                                         <Typography variant="body1" sx={{ fontSize: "15px" }}>Lịch sử rút tiền</Typography>
                                     </MenuItem>
                                 </>
+                            ) : check === 1 ? (
+                                <MenuItem key="withdraw" onClick={handleFeedback}>
+                                    <Typography variant="body1" sx={{ fontSize: "15px" }}>Đánh giá gia sư</Typography>
+                                </MenuItem>
                             ) : (
                                 null
                             )}
@@ -467,7 +475,7 @@ function Header() {
                 aria-describedby="modal-modal-description"
             >
                 <Box sx={{ ...styles, maxHeight: 'calc(100vh - 200px)', overflowY: 'auto' }}>
-                <Typography sx={{ fontSize: '15px', fontFamily: 'cursive', textAlign: 'center', marginTop: '10px', marginBottom : '20px' }}>Lịch sử rút tiền</Typography>
+                    <Typography sx={{ fontSize: '15px', fontFamily: 'cursive', textAlign: 'center', marginTop: '10px', marginBottom: '20px' }}>Lịch sử rút tiền</Typography>
                     <TableContainer>
                         <Table>
                             <TableHead>

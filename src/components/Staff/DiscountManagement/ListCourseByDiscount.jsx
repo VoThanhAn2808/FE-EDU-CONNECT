@@ -19,7 +19,7 @@ const style = {
 };
 
 export default function ListCourseByDiscout(props) {
-    const { isShowModal, setOpen, selectDiscountId } = props;
+    const { isShowModal, setOpen, selectDiscountId, title } = props;
     const [course, setCourse] = useState([]);
 
     const handleClose = () => setOpen(false);
@@ -37,7 +37,7 @@ export default function ListCourseByDiscout(props) {
 
     useEffect(() => {
         axios
-            .get(`http://localhost:8081/discount/listcoursebydiscourseid?discountid=1`)
+            .get(`http://localhost:8081/discount/listcoursebydiscourseid?discountid=${selectDiscountId}`)
             .then((response) => {
                 setCourse(response.data);
                 console.log(response.data);
@@ -46,7 +46,7 @@ export default function ListCourseByDiscout(props) {
                 console.error(error);
             });
             console.log(dataToSend);
-    }, [dataToSend]);
+    }, [selectDiscountId]);
 
     return (
 
@@ -63,6 +63,9 @@ export default function ListCourseByDiscout(props) {
                         <Grid style={{ float: 'left' }}>
                             <Typography variant='h3' style={{ fontFamily: 'cursive' }}>
                                 Những khóa học được giảm giá
+                            </Typography>
+                            <Typography variant='h4' style={{ fontFamily: 'cursive', marginTop : '10px', textAlign :'center' }}>
+                                Tiêu đề : {title}
                             </Typography>
                         </Grid>
                         {course.map((item, index) => (

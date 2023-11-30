@@ -18,6 +18,8 @@ function ProfileStaff() {
   const userId = decodedToken.id;
   const [userData, setUserData] = useState('');
   const [isEditing, setIsEditing] = useState(false);
+  const [city, setCity] = useState([]);
+  const [wards, setWards] = useState([]);
   const [uploadedFile, setUploadedFile] = useState(null);
 
   const fetchUser = useCallback(async () => {
@@ -37,6 +39,24 @@ function ProfileStaff() {
   }, [userId]);
 
   useEffect(() => {
+    axios
+      .get(`https://provinces.open-api.vn/api/p/`)
+      .then((response) => {
+        setCity(response.data);
+        console.log(response.data);
+      })
+      .catch((error) => {
+        console.error(error);
+      });
+    axios
+      .get(`https://provinces.open-api.vn/api/d/`)
+      .then((response) => {
+        setWards(response.data);
+        console.log(response.data);
+      })
+      .catch((error) => {
+        console.error(error);
+      });
     fetchUser();
   }, [fetchUser]);
   console.log(userData);
@@ -117,6 +137,8 @@ function ProfileStaff() {
           }}
         >
           <UserProfileInfo
+            wards={wards}
+            city={city}
             userData={userData}
             handleInputChange={handleInputChange}
             isEditing={isEditing}

@@ -73,6 +73,7 @@ function Feedback() {
 
     return (
         <Box sx={{ height: '100%' }}>
+            <Typography variant="h3" sx={{textAlign : 'center', marginTop : '40px', fontFamily : 'cursive'}}>Đánh giá gia sư</Typography>
             <Box sx={{ backgroundColor: 'gray', width: '980px', marginLeft: 'auto', borderRadius: '20%', marginRight: 'auto', marginTop: '50px' }}>
                 <TableContainer component={Paper} sx={{ width: '100%' }}>
                     <Table>

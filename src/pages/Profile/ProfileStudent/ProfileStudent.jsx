@@ -20,6 +20,8 @@ const ProfileStudent = () => {
   const decodedToken = jwtDecode(localStorage.getItem('token'));
   const userId = decodedToken.id;
   const [uploadedFile, setUploadedFile] = useState(null);
+  const [city, setCity] = useState([]);
+  const [wards, setWards] = useState([]);
 
   const [userData, setUserData] = useState({
     fullname: '',
@@ -30,8 +32,8 @@ const ProfileStudent = () => {
     city: '',
     birthdate: null,
     phone: '',
-    classId : '',
-    img : '',
+    classId: '',
+    img: '',
   });
   const [isEditing, setIsEditing] = useState(false);
 
@@ -53,6 +55,24 @@ const ProfileStudent = () => {
   }, [userId]);
 
   useEffect(() => {
+    axios
+      .get(`https://provinces.open-api.vn/api/p/`)
+      .then((response) => {
+        setCity(response.data);
+        console.log(response.data);
+      })
+      .catch((error) => {
+        console.error(error);
+      });
+    axios
+      .get(`https://provinces.open-api.vn/api/d/`)
+      .then((response) => {
+        setWards(response.data);
+        console.log(response.data);
+      })
+      .catch((error) => {
+        console.error(error);
+      });
     fetchUser();
   }, [fetchUser]);
   console.log(userData);
@@ -139,6 +159,8 @@ const ProfileStudent = () => {
           }}
         >
           <UserProfileInfo
+            wards={wards}
+            city={city}
             userData={userData}
             handleInputChange={handleInputChange}
             isEditing={isEditing}

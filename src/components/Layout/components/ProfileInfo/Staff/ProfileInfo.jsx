@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { useState } from 'react';
 import TextField from '@mui/material/TextField';
 import Box from '@mui/material/Box';
 import { LocalizationProvider } from '@mui/x-date-pickers';
@@ -6,9 +6,10 @@ import { AdapterDayjs } from '@mui/x-date-pickers/AdapterDayjs';
 import { DatePicker } from '@mui/x-date-pickers/DatePicker';
 import Typography from '@mui/material/Typography';
 import dayjs from 'dayjs';
-import {MenuItem} from '@mui/material';
+import { MenuItem } from '@mui/material';
 
-function ProfileInfo({ userData, handleInputChange, isEditing }) {
+function ProfileInfo({ wards, userData, city, handleInputChange, isEditing }) {
+  const [code, setCode] = useState('');
   return (
     <>
       <TextField
@@ -61,19 +62,34 @@ function ProfileInfo({ userData, handleInputChange, isEditing }) {
         }}
       >
         <TextField
+          select
           label='Huyện'
           fullWidth
           value={userData.wards || ''}
           onChange={(e) => handleInputChange('wards', e.target.value)}
           disabled={!isEditing}
-        />
+        >
+          {city.map((c) => {
+            const code = c.name === userData.city ? c.code : null;
+            const filteredWards = code ? wards.filter((item) => item.province_code === code) : [];
+
+            return filteredWards.map((item, index) => (
+              <MenuItem key={index} value={item.name}>{item.name}</MenuItem>
+            ));
+          })}
+        </TextField>
         <TextField
+          select
           label='Tỉnh / Thành Phố'
           fullWidth
           value={userData.city || ''}
           onChange={(e) => handleInputChange('city', e.target.value)}
           disabled={!isEditing}
-        />
+        >
+          {city.map((item, index) => (
+            <MenuItem key={index} value={item.name}>{item.name}</MenuItem>
+          ))}
+        </TextField>
       </Box>
       <Box
         sx={{

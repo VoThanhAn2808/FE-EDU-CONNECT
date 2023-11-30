@@ -26,6 +26,7 @@ function Sidebar() {
   const [tryl, setTry] = useState([]);
   const [book, setBook] = useState([]);
   const [file, setFile] = useState([]);
+  const [tutor, setTutor] = useState([]);
 
   useEffect(() => {
     axios.get(`http://localhost:8081/staffsconnect/totalpayment?staffid=${decodedToken.id}`)
@@ -55,6 +56,14 @@ function Sidebar() {
     axios.get(`http://localhost:8081/staffsconnect/totalPageStudentRegistration`)
       .then((response) => {
         setBook(response.data);
+        console.log(response.data);
+      })
+      .catch((error) => {
+        console.error(error);
+      });
+    axios.get(`http://localhost:8081/staffsconnect/countWaitForConfirmTutor`)
+      .then((response) => {
+        setTutor(response.data);
         console.log(response.data);
       })
       .catch((error) => {
@@ -150,30 +159,47 @@ function Sidebar() {
             <FolderCopyIcon />
           </ListItemIcon>
           <Typography sx={{ fontSize: '16px', marginRight: 'auto' }}><Link to='/documentmanagement' style={{ color: "black", textDecoration: "none" }}>Quản lý tài liệu dạy</Link>
-          {file > 0 && (
-            <span
-              style={{
-                marginLeft: '40px',
-                backgroundColor: 'red',
-                color: 'white',
-                width: '20px',
-                height: '20px',
-                borderRadius: '50%',
-                padding: '2px 6px',
-                fontSize: '12px',
-                textAlign: 'center'
-              }}
-            >
-              {file}
-            </span>
-          )}</Typography>
+            {file > 0 && (
+              <span
+                style={{
+                  marginLeft: '40px',
+                  backgroundColor: 'red',
+                  color: 'white',
+                  width: '20px',
+                  height: '20px',
+                  borderRadius: '50%',
+                  padding: '2px 6px',
+                  fontSize: '12px',
+                  textAlign: 'center'
+                }}
+              >
+                {file}
+              </span>
+            )}</Typography>
         </ListItemButton>
 
         <ListItemButton>
           <ListItemIcon>
             <PeopleAltIcon />
           </ListItemIcon>
-          <Typography sx={{ fontSize: '16px', marginRight: 'auto' }}><Link to='/tutorregistermanagement' style={{ color: "black", textDecoration: "none" }}>Quản lý gia sư đăng ký</Link></Typography>
+          <Typography sx={{ fontSize: '16px', marginRight: 'auto' }}><Link to='/tutorregistermanagement' style={{ color: "black", textDecoration: "none" }}>Quản lý gia sư đăng ký</Link>
+            {tutor > 0 && (
+              <span
+                style={{
+                  marginLeft: '10px',
+                  backgroundColor: 'red',
+                  color: 'white',
+                  width: '20px',
+                  height: '20px',
+                  borderRadius: '50%',
+                  padding: '2px 6px',
+                  fontSize: '12px',
+                  textAlign: 'center'
+                }}
+              >
+                {tutor}
+              </span>)}
+          </Typography>
         </ListItemButton>
 
         <ListItemButton>

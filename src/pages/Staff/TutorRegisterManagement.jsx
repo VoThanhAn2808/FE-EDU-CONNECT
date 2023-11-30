@@ -1,6 +1,5 @@
 import React, { useEffect, useState } from "react";
-import { Box, Button, Modal, Pagination, Table, TableBody, TableCell, TableContainer, TableHead, TableRow, TextField, Typography } from "@mui/material";
-import { Link } from "react-router-dom";
+import { Box, Button, Link, Modal, Pagination, Table, TableBody, TableCell, TableContainer, TableHead, TableRow, TextField, Typography } from "@mui/material";
 import axios from "axios";
 import InterpreterModeIcon from '@mui/icons-material/InterpreterMode';
 import CheckCircleIcon from '@mui/icons-material/CheckCircle';
@@ -19,11 +18,16 @@ function TutorRegisterManagement() {
     const [open, setOpen] = React.useState(false);
     const handleCloses = () => setOpen(false);
     const [open1, setOpen1] = React.useState(false);
+    const [page, setPage] = useState(1);
+    const [total, settotal] = useState([]);
     const handleCloses1 = () => setOpen1(false);
     const handleOpen1 = (email, tutor) => {
         setEmail(email);
         setTutor(tutor);
         setOpen1(true);
+    };
+    const handlePageChange = (pageNumber) => {
+        setPage(pageNumber);
     };
     const handleOpen = (email, tutor) => {
         setEmail(email);
@@ -33,11 +37,6 @@ function TutorRegisterManagement() {
 
     const handleSearch = (event) => {
         setSearchName(event.target.value);
-    };
-
-    const handleClick = (event, email, tutor) => {
-        setEmail(email);
-        setTutor(tutor);
     };
     const handleSend = async (event) => {
         event.preventDefault();
@@ -78,7 +77,7 @@ function TutorRegisterManagement() {
                     staffid: decodedToken.id,
                     message: message,
                     email: email,
-                    price : prices,
+                    price: prices,
                 },
                 {
                     headers: {
@@ -114,7 +113,7 @@ function TutorRegisterManagement() {
 
     useEffect(() => {
         axios
-            .get(`http://localhost:8081/staffsconnect/listwaitforconfirm`)
+            .get(`http://localhost:8081/staffsconnect/listwaitforconfirm?page=${page}`)
             .then((response) => {
                 setData(response.data);
                 console.log(response.data);
@@ -122,7 +121,16 @@ function TutorRegisterManagement() {
             .catch((error) => {
                 console.error(error);
             });
-    }, []);
+        axios
+            .get(`http://localhost:8081/staffsconnect/pageforwaittutor`)
+            .then((response) => {
+                settotal(response.data);
+                console.log(response.data);
+            })
+            .catch((error) => {
+                console.error(error);
+            });
+    }, [page]);
 
     return (
         <Box sx={{ marginBottom: "50px" }}>
@@ -206,7 +214,7 @@ function TutorRegisterManagement() {
                                                 <TableCell sx={{ fontSize: "15px", fontFamily: "cursive", textAlign: "center" }}>{item.tutorid}</TableCell>
                                                 <TableCell sx={{ fontSize: "15px", fontFamily: "cursive", textAlign: "center" }}>{item.fullName}</TableCell>
                                                 <TableCell sx={{ fontSize: "15px", fontFamily: "cursive", textAlign: "center" }}>{item.cv ? (
-                                                    <Link style={{ textDecoration: "none" }} href={`` + item.cv} target="_blank" rel="noopener noreferrer">
+                                                    <Link style={{ textDecoration: "none" }} href={`http://localhost:8081/edu/file/files/` + item.cv} target="_blank" rel="noopener noreferrer">
                                                         Tải File
                                                     </Link>
                                                 ) : (
@@ -231,7 +239,7 @@ function TutorRegisterManagement() {
                     </TableContainer>
                 </Box>
                 <Box sx={{ display: 'flex', justifyContent: 'center', marginTop: "15px" }}>
-                    <Pagination count={10} sx={{ '& .MuiPaginationItem-root': { fontSize: '15px', minWidth: '50px' } }} />
+                    <Pagination count={total.length} page={page} onChange={handlePageChange} sx={{ '& .MuiPaginationItem-root': { fontSize: '15px', minWidth: '50px' } }} />
                 </Box>
             </Box>
             <Modal
@@ -359,21 +367,21 @@ function TutorRegisterManagement() {
                         onChange={(e) => setMessage(e.target.value)}
                     />
                     <TextField
-                            fullWidth
-                            value={prices}
-                            onChange={(e) => setPrice(e.target.value)}
-                            label='Tiền'
-                            type="number"
-                            variant='outlined'
-                            InputLabelProps={{
-                                style: { fontSize: '15px' },
-                            }}
-                            InputProps={{
-                                style: { fontSize: '14px' },
-                            }}
-                            required
-                            sx={{ marginTop: "20px" }}
-                        />
+                        fullWidth
+                        value={prices}
+                        onChange={(e) => setPrice(e.target.value)}
+                        label='Tiền'
+                        type="number"
+                        variant='outlined'
+                        InputLabelProps={{
+                            style: { fontSize: '15px' },
+                        }}
+                        InputProps={{
+                            style: { fontSize: '14px' },
+                        }}
+                        required
+                        sx={{ marginTop: "20px" }}
+                    />
                     <Box sx={{ marginTop: "30px", marginLeft: "45%" }}>
                         <Button
                             variant="outlined"

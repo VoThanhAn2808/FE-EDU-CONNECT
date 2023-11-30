@@ -1,4 +1,4 @@
-import { Box, FormControl, IconButton, InputAdornment, InputLabel, MenuItem, OutlinedInput, Select, Typography } from '@mui/material';
+import { Box, FormControl, FormHelperText, IconButton, InputAdornment, InputLabel, MenuItem, OutlinedInput, Select, Snackbar, Typography } from '@mui/material';
 import React, { useEffect, useState } from 'react';
 import LOGIN from '../../../assests/login.png';
 import LOGO from '../../../assests/lglogin.jpg';
@@ -7,6 +7,7 @@ import { Visibility, VisibilityOff } from '@mui/icons-material';
 import { styled } from '@mui/material/styles';
 import { Link } from 'react-router-dom';
 import axios from 'axios';
+import MuiAlert from '@mui/material/Alert';
 
 function SignupPage() {
   const [showPassword, setShowPassword] = useState(false);
@@ -20,6 +21,13 @@ function SignupPage() {
   const [name, setName] = useState('');
   const [phone, setPhone] = useState('');
   const [data, setData] = useState([]);
+  const [nameError, setNameError] = useState('');
+  const [phoneError, setPhoneError] = useState('');
+  const [emailError, setEmailError] = useState('');
+  const [passwordError, setPasswordError] = useState('');
+  const [confirmPassword, setConfirmPassword] = useState('');
+  const [snackbarOpen, setSnackbarOpen] = useState(false);
+  const [snackbarMessage, setSnackbarMessage] = useState('');
   useEffect(() => {
     axios
       .get(`http://localhost:8081/student/class`)
@@ -31,6 +39,48 @@ function SignupPage() {
         console.error(error);
       });
   }, []);
+
+  const validateName = () => {
+    if (!name) {
+      setNameError('Vui lòng nhập họ và tên.');
+    } else {
+      setNameError('');
+    }
+  };
+
+  const validatePhone = () => {
+    if (!phone) {
+      setPhoneError('Vui lòng nhập số điện thoại.');
+    } else {
+      setPhoneError('');
+    }
+  };
+
+  const validateEmail = () => {
+    const emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
+    if (!emailRegex.test(email)) {
+      setEmailError('Vui lòng nhập địa chỉ email hợp lệ.');
+    } else {
+      setEmailError('');
+    }
+  };
+
+  const validatePassword = () => {
+    if (password.length < 8) {
+      setPasswordError('Mật khẩu cần ít nhất 8 ký tự.');
+    } else {
+      setPasswordError('');
+    }
+  };
+
+  const showSnackbar = (message) => {
+    setSnackbarMessage(message);
+    setSnackbarOpen(true);
+  };
+
+  const handleSnackbarClose = () => {
+    setSnackbarOpen(false);
+  };
 
   const handleSubmit = async (event) => {
     event.preventDefault();
@@ -53,7 +103,14 @@ function SignupPage() {
           },
         }
       );
-
+      validateName();
+      validatePhone();
+      validateEmail();
+      validatePassword();
+      if (password !== confirmPassword) {
+        showSnackbar('Hai mật khẩu không khớp.');
+        return;
+      }
       window.location.href = "/login";
       console.log(response.data);
     } catch (error) {
@@ -176,9 +233,11 @@ function SignupPage() {
                     style={{ fontSize: '18px' }}
                     id="Name"
                     value={name}
-                    label="Namee"
+                    label="Name"
                     onChange={(e) => setName(e.target.value)}
+                    onBlur={validateName}
                   />
+                  {nameError && <FormHelperText sx={{ fontSize: '12px', fontWeight: '700' }} error>{nameError}</FormHelperText>}
                 </FormControl>
               </Box>
               <Box
@@ -195,7 +254,9 @@ function SignupPage() {
                     value={phone}
                     label="Number"
                     onChange={(e) => setPhone(e.target.value)}
+                    onBlur={validatePhone}
                   />
+                  {phoneError && <FormHelperText sx={{ fontSize: '12px', fontWeight: '700' }} error>{phoneError}</FormHelperText>}
                 </FormControl>
               </Box>
               <Box
@@ -212,7 +273,9 @@ function SignupPage() {
                     value={email}
                     label="Email"
                     onChange={(e) => setEmail(e.target.value)}
+                    onBlur={validateEmail}
                   />
+                  {emailError && <FormHelperText sx={{ fontSize: '12px', fontWeight: '700' }} error>{emailError}</FormHelperText>}
                 </FormControl>
               </Box>
               <Box
@@ -320,6 +383,11 @@ function SignupPage() {
                   display: 'flex',
                   justifyContent: 'center',
                 }}>
+                <Snackbar open={snackbarOpen} autoHideDuration={6000} onClose={handleSnackbarClose}>
+                  <MuiAlert onClose={handleSnackbarClose} severity="error" sx={{ width: '100%' }}>
+                    {snackbarMessage}
+                  </MuiAlert>
+                </Snackbar>
                 <Button
                   sx={{
                     width: '250px',
