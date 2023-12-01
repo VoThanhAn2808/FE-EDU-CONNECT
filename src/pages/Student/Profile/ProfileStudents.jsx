@@ -21,6 +21,8 @@ const ProfileStudents = () => {
   const decodedToken = jwtDecode(localStorage.getItem('token'));
   const userId = decodedToken.id;
   const [uploadedFile, setUploadedFile] = useState(null);
+  const [city, setCity] = useState([]);
+  const [wards, setWards] = useState([]);
 
   const [userData, setUserData] = useState({
     fullname: '',
@@ -54,6 +56,24 @@ const ProfileStudents = () => {
   }, [userId]);
 
   useEffect(() => {
+    axios
+      .get(`https://provinces.open-api.vn/api/p/`)
+      .then((response) => {
+        setCity(response.data);
+        console.log(response.data);
+      })
+      .catch((error) => {
+        console.error(error);
+      });
+    axios
+      .get(`https://provinces.open-api.vn/api/d/`)
+      .then((response) => {
+        setWards(response.data);
+        console.log(response.data);
+      })
+      .catch((error) => {
+        console.error(error);
+      });
     fetchUser();
   }, [fetchUser]);
   console.log(userData);
@@ -62,7 +82,7 @@ const ProfileStudents = () => {
     try {
       const dateString = userData.birthdate;
       const formattedDate = format(new Date(dateString), 'yyyy/MM/dd');
-      console.log( "ds" + formattedDate);
+      console.log("ds" + formattedDate);
       const formData = new FormData();
       formData.append('fullname', userData.fullname);
       formData.append('studentid', decodedToken.id);
@@ -124,6 +144,7 @@ const ProfileStudents = () => {
     >
       <ThemeProvider theme={theme}>
         <ProfileAvatar
+          city={city}
           userData={userData}
           onFileChange={handleFileChange}
           isEditing={isEditing}
@@ -143,6 +164,8 @@ const ProfileStudents = () => {
           }}
         >
           <UserProfileInfo
+            wards={wards}
+            city={city}
             userData={userData}
             handleInputChange={handleInputChange}
             isEditing={isEditing}

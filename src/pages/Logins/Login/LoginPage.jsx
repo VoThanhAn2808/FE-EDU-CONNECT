@@ -12,6 +12,8 @@ function LoginPage() {
   const [email, setEmail] = useState('');
   const [password, setPassword] = useState('');
   const [showPassword, setShowPassword] = useState(false);
+  const [emailError, setEmailError] = useState('');
+  const [passwordError, setPasswordError] = useState('');
 
   const handleClickShowPassword = () => setShowPassword((show) => !show);
 
@@ -21,7 +23,6 @@ function LoginPage() {
 
   const handleSubmit = async (event) => {
     event.preventDefault();
-
     const config = {
       headers: {
         "Content-Type": "application/json",
@@ -37,9 +38,9 @@ function LoginPage() {
         },
         config
       );
+      alert(response.data.message);
       const token = response.data.token;
       localStorage.setItem("token", token);
-
       const decodedToken = jwtDecode(token);
 
       if (decodedToken.role === 1) {
@@ -56,25 +57,20 @@ function LoginPage() {
         }
       } else if (decodedToken.role === 2) {
         const check = await axios.get(`http://localhost:8081/educonnect/checktutor?tutorid=${decodedToken.id}`)
-        if(check.data === false) {
+        if (check.data === false) {
           window.location.href = "/profiletutor";
-        }else{
+        } else {
           window.location.href = "/hometutor";
         }
-        console.log(check.data);
       } else if (decodedToken.role === 3) {
         window.location.href = "/tutormanagement"
       }
-      console.log(response.data);
-
-      // Điều hướng đến trang chính hoặc trang khác tùy theo logic của ứng dụng
+      validateEmail();
+      validatePassword();
     } catch (error) {
-      console.error(error);
+      alert("Tài khoản hoặc mật khẩu của bạn không chính xác!");
     }
   };
-
-  const [emailError, setEmailError] = useState('');
-  const [passwordError, setPasswordError] = useState('');
 
   const validateEmail = () => {
     const regex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
@@ -86,7 +82,7 @@ function LoginPage() {
   };
   const validatePassword = () => {
     if (password.length < 8) {
-      setPasswordError('Password should be at least 8 characters long');
+      setPasswordError('Mật khẩu cần ít nhất 8 ký tự');
     } else {
       setPasswordError('');
     }

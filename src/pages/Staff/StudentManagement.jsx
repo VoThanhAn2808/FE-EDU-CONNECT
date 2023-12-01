@@ -25,6 +25,19 @@ function StudentManagement() {
     const handleClose = () => {
         setAnchorEl(null);
     };
+    const handleClickFlag = async (event) => {
+        event.preventDefault();
+        event.stopPropagation();
+        try {
+            const response = await axios.get(`http://localhost:8081/staffsconnect/student/block/${student}`);
+            alert(response.data);
+            window.location.reload();
+            console.log(response.data);
+        } catch (error) {
+            console.error(error);
+            console.log(error.response.data);
+        }
+    };
     const [page, setPage] = useState(1);
     const [pstudent, setPstudent] = useState('');
     const fetchTop = useCallback((pageNumber) => {
@@ -157,7 +170,7 @@ function StudentManagement() {
                                                 <TableCell sx={{ fontSize: "15px", fontFamily: "cursive", textAlign: "center" }}>{item.city} {item.wards}</TableCell>
                                                 <TableCell sx={{ fontSize: "15px", fontFamily: "cursive", textAlign: "center" }}>{item.phone}</TableCell>
                                                 <TableCell sx={{ fontSize: "15px", fontFamily: "cursive", textAlign: "center" }}>{item.createdate}</TableCell>
-                                                <TableCell sx={{ fontSize: "15px", fontFamily: "cursive", textAlign: "center", color: item.status === '1' ? 'red' : 'green' }}>{item.status === 1 ? 'Thành công' : 'Còn học'}</TableCell>
+                                                <TableCell sx={{ fontSize: "15px", fontFamily: "cursive", textAlign: "center", color: item.status === 1 ? 'green' : 'red' }}>{item.status === 1 ? 'Còn học' : 'Đã bị block'}</TableCell>
                                                 <TableCell sx={{ fontSize: "15px", fontFamily: "cursive", textAlign: "center" }}>
                                                     <MoreVertIcon sx={{ fontSize: "25px" }} onClick={(event) => handleClick(event, item.studentid)} />
                                                 </TableCell>
@@ -176,6 +189,7 @@ function StudentManagement() {
                     onClose={handleClose}
                 >
                     <MenuItem onClick={handleOpen}>Xem thông tin</MenuItem>
+                    <MenuItem onClick={handleClickFlag}>Cắm cờ</MenuItem>
                 </Menu>
                 <Modal
                     open={open}
@@ -190,15 +204,15 @@ function StudentManagement() {
                 >
                     <Box sx={{ backgroundColor: "#D9D9D9", width: "300px", height: "400px", borderRadius: "10px", border: '2px solid #000000', p: 2, }}>
                         {vstudent.img ? (
-                            <Avatar sx={{ height: "100px", width: "100px", marginLeft: "30%" }} src={`http://localhost:8081/edu/file/files/${vstudent.img}`}/>
+                            <Avatar sx={{ height: "100px", width: "100px", marginLeft: "30%" }} src={`http://localhost:8081/edu/file/files/${vstudent.img}`} />
                         ) : (
-                            <Avatar sx={{ height: "100px", width: "100px", marginLeft: "30%" }}/>
+                            <Avatar sx={{ height: "100px", width: "100px", marginLeft: "30%" }} />
                         )}
                         <Typography sx={{ fontSize: "17px", marginTop: "10px" }}>Học sinh: {vstudent.fullname}</Typography>
                         <Typography sx={{ fontSize: "17px" }}>Ngày Sinh: {vstudent.birthdate}</Typography>
                         <Typography sx={{ fontSize: "17px" }}>Số điện thoại: {vstudent.phone}</Typography>
                         <Typography sx={{ fontSize: "17px" }}>Email: {vstudent.email}</Typography>
-                        <Typography sx={{ fontSize: "17px" }}>Địa chỉ: Thành phố {vstudent.city} Huyện/phường {vstudent.wards}</Typography>
+                        <Typography sx={{ fontSize: "17px" }}>Địa chỉ: {vstudent.city} - {vstudent.wards}</Typography>
                         <Typography sx={{ fontSize: "17px" }}>Lớp: {vstudent.class}</Typography>
                     </Box>
                 </Modal>

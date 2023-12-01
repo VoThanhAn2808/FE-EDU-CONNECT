@@ -141,9 +141,9 @@ export default function UpdateModal(props) {
   const handleEndDateChange = (e) => {
     setEndDate(e);
   };
-  const onChangeCallback = ({ target }) => {
-    // a callback function when user select a date
-  };
+  // const onChangeCallback = ({ target }) => {
+  //   // a callback function when user select a date
+  // };
 
   return (
 

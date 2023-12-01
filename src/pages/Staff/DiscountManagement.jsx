@@ -1,7 +1,7 @@
 import { Box, Button, Checkbox, Pagination, Table, TableBody, TableCell, TableContainer, TableHead, TableRow, TextField, Typography } from "@mui/material";
 import { makeStyles } from '@mui/styles';
 import axios from "axios";
-import { jwtDecode } from "jwt-decode";
+// import { jwtDecode } from "jwt-decode";
 import DiscountForCourse from "../../components/Staff/DiscountManagement/Discountforcourse";
 import React, { useEffect, useState } from "react";
 import CreateModal from "../../components/Staff/DiscountManagement/CreateModal";
@@ -22,7 +22,7 @@ const useStyles = makeStyles(() => ({
 
 function DiscountManagement() {
     const [dataDicount, setDicount] = useState([]);
-    const [selectAll, setSelectAll] = useState(true);
+    // const [selectAll, setSelectAll] = useState(true);
     const [selectDiscountId, setSelectDiscoutId] = useState('');
     const [listDelete, setListDelete] = useState([]);
     const [selectedItems, setSelectedItems] = useState([]);
@@ -33,6 +33,7 @@ function DiscountManagement() {
     const [openCourse, setOpenCourse] = useState(false);
     const [searchValue, setSearchValue] = useState('');
     const [currentPage, setCurrentPage] = useState(1);
+    const [title, setTitle] = useState('');
     const [dataToSend, setDataToSend] = useState({
         title: '',
         pageNo: '',
@@ -71,7 +72,7 @@ function DiscountManagement() {
         console.log(selectedItems);
     };
     const onSelectAllClick = (event) => {
-        setSelectAll(event.target.checked);
+        // setSelectAll(event.target.checked);
         const selected = event.target.checked ? (Array.isArray(dataDicount.listDiscount) ? (dataDicount.listDiscount).map((item) => item.discountid) : []) : [];
         setSelectedItems(selected);
         setListDelete(selected);
@@ -107,6 +108,12 @@ function DiscountManagement() {
         setOpenUpdate(true);
     };
 
+    const handleCoursellClick = (discountId, title) => {
+        setSelectDiscoutId(discountId);
+        setOpenCourse(true);
+        setTitle(title);
+    };
+
     const onDeleteRow = async (id) => {
         try {
             const response = await axios.post('http://localhost:8081/discount/deleteDiscount', listDelete);
@@ -133,7 +140,7 @@ function DiscountManagement() {
             <CreateModal isShowModal={open} setOpen={setOpen} />
             <DiscountForCourse isShowModal={openDiscount} setOpen={setOpenDiscount} />
             <UpdateModal selectDiscountId={selectDiscountId} isShowModal={openUpdate} setOpenUpdate={setOpenUpdate} />
-            <ListCourseByDiscout selectDiscountId={selectDiscountId} isShowModal={openCourse} setOpen={setOpenCourse} />
+            <ListCourseByDiscout selectDiscountId={selectDiscountId} isShowModal={openCourse} setOpen={setOpenCourse} title={title} />
             <Box style={{ display: 'inline-block', width: '100%' }}>
                 <Box style={{ width: '100%', }}>
                     <Box style={{ marginBottom: "20px" }}>
@@ -211,7 +218,7 @@ function DiscountManagement() {
                                                 <Button variant="contained" type="danger" style={{ marginRight: '10px', fontSize: "10px", fontFamily: "cursive", marginBottom : '10px'}} onClick={() => onDeleteRow(item.discountid)}>
                                                     Xoá
                                                 </Button>
-                                                <RemoveRedEyeIcon sx={{fontSize : '22px', marginLeft : '10px'}} onClick={setOpenCourse}/>
+                                                <RemoveRedEyeIcon sx={{fontSize : '22px', marginLeft : '10px'}} onClick={() => handleCoursellClick(item.discountid, item.title)}/>
                                             </TableCell>
                                         </TableRow>
                                     ))

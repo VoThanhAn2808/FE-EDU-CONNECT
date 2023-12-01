@@ -582,11 +582,8 @@ function StaffManagement() {
                                         value={staff.salary}
                                         onChange={(e) => setStaff({ ...staff, salary: e.target.value })}
                                         InputLabelProps={{
-                                            style: {
-                                                fontSize: '12px',
-                                                color: 'rgba(0, 0, 0, 0.54)',
-                                            },
-                                        }}
+                                            shrink: staff.salary ? true : undefined,
+                                          }}
                                         InputProps={{
                                             style: {
                                                 fontSize: '14px',

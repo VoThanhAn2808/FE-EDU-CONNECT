@@ -1,30 +1,119 @@
 import React, { useEffect, useState } from "react";
-import { Box, Button, Menu, MenuItem, Pagination, Table, TableBody, TableCell, TableContainer, TableHead, TableRow, TextField, Typography } from "@mui/material";
-import MoreVertIcon from '@mui/icons-material/MoreVert';
-import { Link } from "react-router-dom";
+import { Box, Button, Link, Modal, Pagination, Table, TableBody, TableCell, TableContainer, TableHead, TableRow, TextField, Typography } from "@mui/material";
 import axios from "axios";
+import InterpreterModeIcon from '@mui/icons-material/InterpreterMode';
+import CheckCircleIcon from '@mui/icons-material/CheckCircle';
+import RemoveCircleOutlineIcon from '@mui/icons-material/RemoveCircleOutline';
+import { jwtDecode } from "jwt-decode";
 
 
 function TutorRegisterManagement() {
-    const [anchorEl, setAnchorEl] = useState(null);
     const [searchName, setSearchName] = useState("");
+    const decodedToken = jwtDecode(localStorage.getItem('token'));
     const [data, setData] = useState([]);
+    const [email, setEmail] = useState('');
+    const [message, setMessage] = useState('');
+    const [tutor, setTutor] = useState('');
+    const [prices, setPrice] = useState('');
+    const [open, setOpen] = React.useState(false);
+    const handleCloses = () => setOpen(false);
+    const [open1, setOpen1] = React.useState(false);
+    const [page, setPage] = useState(1);
+    const [total, settotal] = useState([]);
+    const handleCloses1 = () => setOpen1(false);
+    const handleOpen1 = (email, tutor) => {
+        setEmail(email);
+        setTutor(tutor);
+        setOpen1(true);
+    };
+    const handlePageChange = (pageNumber) => {
+        setPage(pageNumber);
+    };
+    const handleOpen = (email, tutor) => {
+        setEmail(email);
+        setTutor(tutor);
+        setOpen(true);
+    };
 
     const handleSearch = (event) => {
         setSearchName(event.target.value);
     };
-
-    const handleClick = (event) => {
-        setAnchorEl(event.currentTarget);
+    const handleSend = async (event) => {
+        event.preventDefault();
+        event.stopPropagation();
+        try {
+            const response = await axios.put(
+                `http://localhost:8081/staffsconnect/accepttutor`,
+                {
+                    tutorid: tutor,
+                    staffid: decodedToken.id,
+                    message: message,
+                    email: email,
+                },
+                {
+                    headers: {
+                        "Content-Type": "application/json",
+                    },
+                }
+            );
+            alert(response.data);
+            window.location.reload();
+            console.log(response.data);
+        } catch (error) {
+            console.error(error);
+            console.log(error.response.data);
+        }
+        handleCloses();
     };
 
-    const handleClose = () => {
-        setAnchorEl(null);
+    const handleSendfinal = async (event) => {
+        event.preventDefault();
+        event.stopPropagation();
+        try {
+            const response = await axios.put(
+                `http://localhost:8081/staffsconnect/accepttutorfinal`,
+                {
+                    tutorid: tutor,
+                    staffid: decodedToken.id,
+                    message: message,
+                    email: email,
+                    price: prices,
+                },
+                {
+                    headers: {
+                        "Content-Type": "application/json",
+                    },
+                }
+            );
+            alert(response.data);
+            window.location.reload();
+            console.log(response.data);
+        } catch (error) {
+            console.error(error);
+            console.log(error.response.data);
+        }
+        handleCloses();
+    };
+
+    const handleDelete = async (event, tutorid) => {
+        event.preventDefault();
+        event.stopPropagation();
+        try {
+            const response = await axios.delete(
+                `http://localhost:8081/staffsconnect/deletetutorregister/${tutorid}`);
+            alert(response.data);
+            window.location.reload();
+            console.log(response.data);
+        } catch (error) {
+            console.error(error);
+            console.log(error.response.data);
+        }
+        handleCloses();
     };
 
     useEffect(() => {
         axios
-            .get(`http://localhost:8081/staffsconnect/listwaitforconfirm`)
+            .get(`http://localhost:8081/staffsconnect/listwaitforconfirm?page=${page}`)
             .then((response) => {
                 setData(response.data);
                 console.log(response.data);
@@ -32,7 +121,16 @@ function TutorRegisterManagement() {
             .catch((error) => {
                 console.error(error);
             });
-    }, []);
+        axios
+            .get(`http://localhost:8081/staffsconnect/pageforwaittutor`)
+            .then((response) => {
+                settotal(response.data);
+                console.log(response.data);
+            })
+            .catch((error) => {
+                console.error(error);
+            });
+    }, [page]);
 
     return (
         <Box sx={{ marginBottom: "50px" }}>
@@ -112,27 +210,24 @@ function TutorRegisterManagement() {
                                 {data.map((item) => {
                                     if (item.fullName.toLowerCase().includes(searchName.toLowerCase())) {
                                         return (
-                                            <TableRow key={item.id}>
+                                            <TableRow key={item.tutorid}>
                                                 <TableCell sx={{ fontSize: "15px", fontFamily: "cursive", textAlign: "center" }}>{item.tutorid}</TableCell>
                                                 <TableCell sx={{ fontSize: "15px", fontFamily: "cursive", textAlign: "center" }}>{item.fullName}</TableCell>
                                                 <TableCell sx={{ fontSize: "15px", fontFamily: "cursive", textAlign: "center" }}>{item.cv ? (
-                                                    <Link style={{ textDecoration: "none" }} href={item.cv} target="_blank" rel="noopener noreferrer">
+                                                    <Link style={{ textDecoration: "none" }} href={`http://localhost:8081/edu/file/files/` + item.cv} target="_blank" rel="noopener noreferrer">
                                                         Tải File
                                                     </Link>
                                                 ) : (
                                                     "No file available"
                                                 )}</TableCell>
-                                                <TableCell sx={{ fontSize: "15px", fontFamily: "cursive", textAlign: "center", color: "red" }}>{item.status}</TableCell>
+                                                <TableCell sx={{ fontSize: "15px", fontFamily: "cursive", textAlign: "center", color: "red" }}>{item.status === 3 ? 'Đang đợi duyệt' : 'Đợi phỏng vấn'}</TableCell>
                                                 <TableCell sx={{ fontSize: "15px", fontFamily: "cursive", textAlign: "center" }}>
-                                                    <MoreVertIcon sx={{ fontSize: "25px" }} onClick={handleClick} />
-                                                    <Menu
-                                                        anchorEl={anchorEl}
-                                                        open={Boolean(anchorEl)}
-                                                        onClose={handleClose}
-                                                    >
-                                                        {/* <MenuItem onClick={() => handleDeleteRow(item.id)}>Duyệt</MenuItem>
-                                                        <MenuItem onClick={() => handleDeleteRow(item.id)}>Không duyệt</MenuItem> */}
-                                                    </Menu>
+                                                    {item.status === 3 ? (
+                                                        <InterpreterModeIcon sx={{ fontSize: "25px" }} onClick={() => handleOpen(item.email, item.tutorid)} />
+                                                    ) : (
+                                                        <CheckCircleIcon sx={{ fontSize: "25px" }} onClick={() => handleOpen1(item.email, item.tutorid)} />
+                                                    )}
+                                                    <RemoveCircleOutlineIcon sx={{ fontSize: "25px", marginLeft: '10px' }} onClick={(e) => handleDelete(e, item.tutorid)} />
                                                 </TableCell>
                                             </TableRow>
                                         );
@@ -144,9 +239,167 @@ function TutorRegisterManagement() {
                     </TableContainer>
                 </Box>
                 <Box sx={{ display: 'flex', justifyContent: 'center', marginTop: "15px" }}>
-                    <Pagination count={10} sx={{ '& .MuiPaginationItem-root': { fontSize: '15px', minWidth: '50px' } }} />
+                    <Pagination count={total.length} page={page} onChange={handlePageChange} sx={{ '& .MuiPaginationItem-root': { fontSize: '15px', minWidth: '50px' } }} />
                 </Box>
             </Box>
+            <Modal
+                open={open}
+                aria-labelledby="modal-modal-title"
+                aria-describedby="modal-modal-description"
+                sx={{
+                    display: 'flex',
+                    alignItems: 'center',
+                    justifyContent: 'center',
+                }}
+            >
+                <Box
+                    sx={{
+                        backgroundColor: "#D9D9D9",
+                        width: "500px",
+                        height: "410px",
+                        borderRadius: "10px",
+                        border: '2px solid #000000',
+                        p: 2
+                    }}
+                >
+                    <Typography
+                        sx={{ fontSize: "20px", fontWeight: "600", textAlign: "center" }}
+                    >
+                        Duyệt gia sư
+                    </Typography>
+                    <TextField
+                        fullWidth
+                        label='Email'
+                        disabled={true}
+                        value={email}
+                        InputProps={{
+                            style: { fontSize: '14px' },
+                        }}
+                        required
+                        sx={{ marginTop: "20px" }}
+                    />
+                    <TextField
+                        fullWidth
+                        label='Nội dung'
+                        variant='outlined'
+                        InputLabelProps={{
+                            style: { fontSize: '15px' },
+                        }}
+                        InputProps={{
+                            style: { fontSize: '14px' },
+                            multiline: true,
+                            rows: 7,
+                        }}
+                        required
+                        sx={{ marginTop: "20px" }}
+                        value={message}
+                        onChange={(e) => setMessage(e.target.value)}
+                    />
+                    <Box sx={{ marginTop: "30px", marginLeft: "45%" }}>
+                        <Button
+                            variant="outlined"
+                            sx={{ backgroundColor: "red", color: "white" }}
+                            onClick={handleCloses}
+                        >
+                            Hủy
+                        </Button>
+                        <Button
+                            variant="contained"
+                            sx={{ backgroundColor: "green", marginLeft: '10px' }}
+                            onClick={(e) => handleSend(e)}
+                        >
+                            Send
+                        </Button>
+                    </Box>
+                </Box>
+            </Modal>
+            <Modal
+                open={open1}
+                aria-labelledby="modal-modal-title"
+                aria-describedby="modal-modal-description"
+                sx={{
+                    display: 'flex',
+                    alignItems: 'center',
+                    justifyContent: 'center',
+                }}
+            >
+                <Box
+                    sx={{
+                        backgroundColor: "#D9D9D9",
+                        width: "500px",
+                        height: "500px",
+                        borderRadius: "10px",
+                        border: '2px solid #000000',
+                        p: 2
+                    }}
+                >
+                    <Typography
+                        sx={{ fontSize: "20px", fontWeight: "600", textAlign: "center" }}
+                    >
+                        Duyệt gia sư
+                    </Typography>
+                    <TextField
+                        fullWidth
+                        label='Email'
+                        disabled={true}
+                        value={email}
+                        InputProps={{
+                            style: { fontSize: '14px' },
+                        }}
+                        required
+                        sx={{ marginTop: "20px" }}
+                    />
+                    <TextField
+                        fullWidth
+                        label='Nội dung'
+                        variant='outlined'
+                        InputLabelProps={{
+                            style: { fontSize: '15px' },
+                        }}
+                        InputProps={{
+                            style: { fontSize: '14px' },
+                            multiline: true,
+                            rows: 7,
+                        }}
+                        required
+                        sx={{ marginTop: "20px" }}
+                        value={message}
+                        onChange={(e) => setMessage(e.target.value)}
+                    />
+                    <TextField
+                        fullWidth
+                        value={prices}
+                        onChange={(e) => setPrice(e.target.value)}
+                        label='Tiền'
+                        type="number"
+                        variant='outlined'
+                        InputLabelProps={{
+                            style: { fontSize: '15px' },
+                        }}
+                        InputProps={{
+                            style: { fontSize: '14px' },
+                        }}
+                        required
+                        sx={{ marginTop: "20px" }}
+                    />
+                    <Box sx={{ marginTop: "30px", marginLeft: "45%" }}>
+                        <Button
+                            variant="outlined"
+                            sx={{ backgroundColor: "red", color: "white" }}
+                            onClick={handleCloses1}
+                        >
+                            Hủy
+                        </Button>
+                        <Button
+                            variant="contained"
+                            sx={{ backgroundColor: "green", marginLeft: '10px' }}
+                            onClick={(e) => handleSendfinal(e)}
+                        >
+                            Send
+                        </Button>
+                    </Box>
+                </Box>
+            </Modal>
         </Box>
     );
 }

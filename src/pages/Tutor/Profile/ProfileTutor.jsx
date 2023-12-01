@@ -24,6 +24,8 @@ const ProfileTutor = () => {
 
   const [userData, setUserData] = useState([]);
   const [isEditing, setIsEditing] = useState(true);
+  const [city, setCity] = useState([]);
+  const [wards, setWards] = useState([]);
 
 
   const fetchUser = useCallback(async () => {
@@ -36,7 +38,7 @@ const ProfileTutor = () => {
           },
         },
       );
-      setUserData({ ...response.data, email: decodedToken.sub});
+      setUserData({ ...response.data, email: decodedToken.sub });
     } catch (error) {
       console.error(error);
     }
@@ -60,6 +62,24 @@ const ProfileTutor = () => {
 
 
   useEffect(() => {
+    axios
+      .get(`https://provinces.open-api.vn/api/p/`)
+      .then((response) => {
+        setCity(response.data);
+        console.log(response.data);
+      })
+      .catch((error) => {
+        console.error(error);
+      });
+    axios
+      .get(`https://provinces.open-api.vn/api/d/`)
+      .then((response) => {
+        setWards(response.data);
+        console.log(response.data);
+      })
+      .catch((error) => {
+        console.error(error);
+      });
     fetchUser();
     fetchCourse();
   }, [fetchUser, fetchCourse]);
@@ -80,10 +100,10 @@ const ProfileTutor = () => {
       formData.append('file', uploadedFile);
       const response = await axios.put('http://localhost:8081/educonnect/UpdateTutor', formData,
         {
-        headers: {
-          'Content-Type': 'multipart/form-data',
-        },
-      });
+          headers: {
+            'Content-Type': 'multipart/form-data',
+          },
+        });
       console.log(response.data);
       window.location.href = "/calendartutorselect"
     } catch (error) {
@@ -114,7 +134,7 @@ const ProfileTutor = () => {
       avt: selectedFile,
     });
   };
-  
+
 
   return (
     <Box
@@ -145,6 +165,8 @@ const ProfileTutor = () => {
           }}
         >
           <UserProfileInfo
+            wards={wards}
+            city={city}
             userData={userData}
             handleInputChange={handleInputChange}
             isEditing={isEditing}
