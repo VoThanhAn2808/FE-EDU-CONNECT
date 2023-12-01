@@ -1,4 +1,4 @@
-import { Box, FormControl, IconButton, InputAdornment, InputLabel, MenuItem, OutlinedInput, Select, Typography } from '@mui/material';
+import { Box, FormControl, FormHelperText, IconButton, InputAdornment, InputLabel, MenuItem, OutlinedInput, Select, Snackbar, Typography } from '@mui/material';
 import React, { useEffect, useState } from 'react';
 import LOGIN from '../../../assests/login.png';
 import LOGO from '../../../assests/lglogin.jpg';
@@ -7,6 +7,7 @@ import { Visibility, VisibilityOff } from '@mui/icons-material';
 import { styled } from '@mui/material/styles';
 import { Link } from 'react-router-dom';
 import axios from 'axios';
+import MuiAlert from '@mui/material/Alert';
 
 function SignupPage() {
   const [showPassword, setShowPassword] = useState(false);
@@ -14,12 +15,20 @@ function SignupPage() {
   const [isStudent, setIsStudent] = useState(false); // Biến trạng thái cho lựa chọn Học sinh/Giáo viên
   const [isTeacher, setIsTeacher] = useState(false);
   const [selectedClass, setSelectedClass] = useState(''); // Biến trạng thái cho lựa chọn lớp
-  const [files, setFiles] = useState(null);
+  const [files, setFiles] = useState(null); 
   const [email, setEmail] = useState('');
   const [password, setPassword] = useState('');
   const [name, setName] = useState('');
   const [phone, setPhone] = useState('');
   const [data, setData] = useState([]);
+  const [nameError, setNameError] = useState('');
+  const [phoneError, setPhoneError] = useState('');
+  const [emailError, setEmailError] = useState('');
+  const [classError, setClassError] = useState('');
+  const [passwordError, setPasswordError] = useState('');
+  const [confirmPassword, setConfirmPassword] = useState('');
+  const [snackbarOpen, setSnackbarOpen] = useState(false);
+  const [snackbarMessage, setSnackbarMessage] = useState('');
   useEffect(() => {
     axios
       .get(`http://localhost:8081/student/class`)
@@ -32,8 +41,83 @@ function SignupPage() {
       });
   }, []);
 
+  const validateName = () => {
+    if (!name) {
+      setNameError('Vui lòng nhập họ và tên.');
+    } else {
+      setNameError('');
+    }
+  };
+
+  const validatePhone = () => {
+    if (!phone) {
+      setPhoneError('Vui lòng nhập số điện thoại.');
+    } else {
+      setPhoneError('');
+    }
+  };
+
+  const validateClass = () => {
+    if (!selectedClass) {
+      setClassError('Vui lòng chọn lớp bạn muốn đăng kí.');
+    } else {
+      setClassError('');
+    }
+  };
+
+  const validateEmail = () => {
+    const emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
+    if (!emailRegex.test(email)) {
+      setEmailError('Vui lòng nhập địa chỉ email hợp lệ.');
+    } else {
+      setEmailError('');
+    }
+  };
+
+  const validatePassword = () => {
+    if (password.length < 8) {
+      setPasswordError('Mật khẩu cần ít nhất 8 ký tự.');
+    } else {
+      setPasswordError('');
+    }
+  };
+
+  const showSnackbar = (message) => {
+    setSnackbarMessage(message);
+    setSnackbarOpen(true);
+  };
+
+  const handleSnackbarClose = () => {
+    setSnackbarOpen(false);
+  };
+
   const handleSubmit = async (event) => {
     event.preventDefault();
+     if (!name || !phone || !email || !password || !confirmPassword) {
+       showSnackbar('Vui lòng điền đầy đủ thông tin.');
+       return;
+     }
+
+     validateName();
+     validatePhone();
+     validateEmail();
+     validatePassword();
+     validateClass();
+
+    // Nếu có lỗi, không gọi API
+    if (isTeacher && !files) {
+      showSnackbar('Vui lòng tải lên file CV.');
+      return;
+    }
+    if (isStudent && !selectedClass) {
+      showSnackbar('Vui lòng chọn lớp để đăng kí.');
+      return;
+    }
+     if (nameError || phoneError || emailError || passwordError || classError) {
+      showSnackbar('Vui lòng điền đúng thông tin.');
+       return;
+     }
+     
     try {
       const formData = new FormData();
       formData.append('fullname', name);
@@ -44,17 +128,14 @@ function SignupPage() {
       formData.append('classentity', selectedClass ? selectedClass : 1);
       formData.append('file', files);
 
-      const response = await axios.post(
-        "http://localhost:8081/edu/register",
-        formData,
-        {
-          headers: {
-            "Content-Type": "multipart/form-data",
-          },
-        }
-      );
+      const response = await axios.post('http://localhost:8081/edu/register', formData, {
+        headers: {
+          'Content-Type': 'multipart/form-data',
+        },
+      });
 
-      window.location.href = "/login";
+      // Chuyển hướng sau khi đăng ký thành công
+      window.location.href = '/login';
       console.log(response.data);
     } catch (error) {
       console.error(error);
@@ -161,7 +242,7 @@ function SignupPage() {
                 gap: '20px',
                 width: '100%',
                 padding: '20px',
-                fontSize: '13px'
+                fontSize: '13px',
               }}
             >
               <Box
@@ -170,15 +251,23 @@ function SignupPage() {
                   flexDirection: 'column',
                 }}
               >
-                <FormControl sx={{ mt: 1, width: '50ch' }} variant="outlined" size='large'>
-                  <InputLabel htmlFor="Name" style={{ fontSize: 15 }}>Họ và tên</InputLabel>
+                <FormControl sx={{ mt: 1, width: '50ch' }} variant='outlined' size='large'>
+                  <InputLabel htmlFor='Name' style={{ fontSize: 15 }}>
+                    Họ và tên
+                  </InputLabel>
                   <OutlinedInput
                     style={{ fontSize: '18px' }}
-                    id="Name"
+                    id='Name'
                     value={name}
-                    label="Namee"
+                    label='Name'
                     onChange={(e) => setName(e.target.value)}
+                    onBlur={validateName}
                   />
+                  {nameError && (
+                    <FormHelperText sx={{ fontSize: '12px', fontWeight: '700' }} error>
+                      {nameError}
+                    </FormHelperText>
+                  )}
                 </FormControl>
               </Box>
               <Box
@@ -187,15 +276,23 @@ function SignupPage() {
                   flexDirection: 'column',
                 }}
               >
-                <FormControl sx={{ width: '50ch' }} variant="outlined" size='large'>
-                  <InputLabel htmlFor="Number" style={{ fontSize: 15 }}>Số điện thoại</InputLabel>
+                <FormControl sx={{ width: '50ch' }} variant='outlined' size='large'>
+                  <InputLabel htmlFor='Number' style={{ fontSize: 15 }}>
+                    Số điện thoại
+                  </InputLabel>
                   <OutlinedInput
                     style={{ fontSize: '18px' }}
-                    id="Number"
+                    id='Number'
                     value={phone}
-                    label="Number"
+                    label='Number'
                     onChange={(e) => setPhone(e.target.value)}
+                    onBlur={validatePhone}
                   />
+                  {phoneError && (
+                    <FormHelperText sx={{ fontSize: '12px', fontWeight: '700' }} error>
+                      {phoneError}
+                    </FormHelperText>
+                  )}
                 </FormControl>
               </Box>
               <Box
@@ -204,15 +301,23 @@ function SignupPage() {
                   flexDirection: 'column',
                 }}
               >
-                <FormControl sx={{ width: '50ch' }} variant="outlined" size='large'>
-                  <InputLabel htmlFor="Email" style={{ fontSize: 15 }}>Email</InputLabel>
+                <FormControl sx={{ width: '50ch' }} variant='outlined' size='large'>
+                  <InputLabel htmlFor='Email' style={{ fontSize: 15 }}>
+                    Email
+                  </InputLabel>
                   <OutlinedInput
                     style={{ fontSize: '18px' }}
-                    id="Email"
+                    id='Email'
                     value={email}
-                    label="Email"
+                    label='Email'
                     onChange={(e) => setEmail(e.target.value)}
+                    onBlur={validateEmail}
                   />
+                  {emailError && (
+                    <FormHelperText sx={{ fontSize: '12px', fontWeight: '700' }} error>
+                      {emailError}
+                    </FormHelperText>
+                  )}
                 </FormControl>
               </Box>
               <Box
@@ -221,16 +326,22 @@ function SignupPage() {
                   flexDirection: 'column',
                 }}
               >
-                <FormControl sx={{ width: '50ch' }} variant="outlined" size='large'>
-                  <InputLabel htmlFor="Age" style={{ fontSize: "15px" }}>Bạn là :</InputLabel>
+                <FormControl sx={{ width: '50ch' }} variant='outlined' size='large'>
+                  <InputLabel htmlFor='Age' style={{ fontSize: '15px' }}>
+                    Bạn là :
+                  </InputLabel>
                   <Select
                     value={age}
                     onChange={handleChange}
-                    label="Ageee"
+                    label='Ageee'
                     style={{ fontSize: 16 }}
                   >
-                    <MenuItem value={1} sx={{ fontSize: "13px" }}>Học sinh</MenuItem>
-                    <MenuItem value={2} sx={{ fontSize: "13px" }}>Giáo viên</MenuItem>
+                    <MenuItem value={1} sx={{ fontSize: '13px' }}>
+                      Học sinh
+                    </MenuItem>
+                    <MenuItem value={2} sx={{ fontSize: '13px' }}>
+                      Giáo viên
+                    </MenuItem>
                   </Select>
                 </FormControl>
               </Box>
@@ -241,15 +352,24 @@ function SignupPage() {
                     flexDirection: 'column',
                   }}
                 >
-                  <FormControl sx={{ width: '50ch' }} variant="outlined" size='large'>
-                    <InputLabel htmlFor="Class" style={{ fontSize: 15 }}>Chọn lớp</InputLabel>
+                  {selectedClass === '' && (
+                    <FormHelperText sx={{ fontSize: '12px', fontWeight: '700' }} error>
+                      Bắt buộc
+                    </FormHelperText>
+                  )}
+                  <FormControl sx={{ width: '50ch' }} variant='outlined' size='large'>
+                    <InputLabel htmlFor='Class' style={{ fontSize: '15px' }}>
+                      Chọn lớp
+                    </InputLabel>
+
                     <Select
                       value={selectedClass}
                       onChange={handleClassChange}
-                      label="Class" sx={{ fontSize: "15px" }}
+                      label='Class'
+                      sx={{ fontSize: '15px' }}
                     >
                       {data.map((item, index) => (
-                        <MenuItem key={index} value={item.classid} sx={{ fontSize: "15px" }}>
+                        <MenuItem key={index} value={item.classid} sx={{ fontSize: '15px' }}>
                           {item.className}
                         </MenuItem>
                       ))}
@@ -258,75 +378,110 @@ function SignupPage() {
                 </Box>
               )}
               {isTeacher && (
-                <Button component="label" sx={{ fontSize: "18px" }}>
-                  Upload file CV
-                  <VisuallyHiddenInput type="file" onChange={handleUploadFile} />
-                </Button>
+                <Box>
+                  <Button component='label' sx={{ fontSize: '18px' }}>
+                    Upload file CV
+                    <VisuallyHiddenInput type='file' onChange={handleUploadFile} />
+                  </Button>
+                  {files === null && (
+                    <FormHelperText sx={{ fontSize: '12px', fontWeight: '700' }} error>
+                      Bắt buộc
+                    </FormHelperText>
+                  )}
+                </Box>
               )}
-              <Box
-                sx={{
-                  display: 'flex',
-                  flexDirection: 'row',
-                }}
-              >
-                <FormControl sx={{ width: '25ch' }} variant="outlined" size='large'>
-                  <InputLabel htmlFor="Password" style={{ fontSize: 15 }}>Mật khẩu</InputLabel>
-                  <OutlinedInput
-                    style={{ fontSize: '18px' }}
-                    id="Password"
-                    type={showPassword ? 'text' : 'password'}
-                    label="Mật khẩu"
-                    value={password}
-                    endAdornment={
-                      <InputAdornment position="end">
-                        <IconButton
-                          aria-label="toggle password visibility"
-                          onClick={handleClickShowPassword}
-                          onMouseDown={handleMouseDownPassword}
-                          edge="end"
-                        >
-                          {showPassword ? <VisibilityOff /> : <Visibility />}
-                        </IconButton>
-                      </InputAdornment>
-                    }
-                    onChange={(e) => setPassword(e.target.value)}
-                  />
-                </FormControl>
 
-                <FormControl sx={{ width: '25ch' }} variant="outlined" size='large'>
-                  <InputLabel htmlFor="password" style={{ fontSize: 15 }}>Nhập lại mật khẩu</InputLabel>
-                  <OutlinedInput
-                    style={{ fontSize: '18px' }}
-                    id="password"
-                    type={showPassword ? 'text' : 'password'}
-                    endAdornment={
-                      <InputAdornment position="end" >
-                        <IconButton
-                          aria-label="toggle password visibility"
-                          onClick={handleClickShowPassword}
-                          // onMouseDown={handleMouseDownPassword}
-                          edge="end"
-                        >
-                          {showPassword ? <VisibilityOff /> : <Visibility />}
-                        </IconButton>
-                      </InputAdornment>
-                    }
-                    label="Password"
-                  />
-                </FormControl>
+              <Box>
+                <Box
+                  sx={{
+                    display: 'flex',
+                    flexDirection: 'row',
+                  }}
+                >
+                  <FormControl sx={{ width: '25ch' }} variant='outlined' size='large'>
+                    <InputLabel htmlFor='Password' style={{ fontSize: 15 }}>
+                      Mật khẩu
+                    </InputLabel>
+                    <OutlinedInput
+                      style={{ fontSize: '18px' }}
+                      id='Password'
+                      type={showPassword ? 'text' : 'password'}
+                      label='Mật khẩu'
+                      value={password}
+                      endAdornment={
+                        <InputAdornment position='end'>
+                          <IconButton
+                            aria-label='toggle password visibility'
+                            onClick={handleClickShowPassword}
+                            onMouseDown={handleMouseDownPassword}
+                            edge='end'
+                          >
+                            {showPassword ? <VisibilityOff /> : <Visibility />}
+                          </IconButton>
+                        </InputAdornment>
+                      }
+                      onChange={(e) => setPassword(e.target.value)}
+                    />
+                  </FormControl>
+
+                  <FormControl sx={{ width: '25ch' }} variant='outlined' size='large'>
+                    <InputLabel htmlFor='password' style={{ fontSize: 15 }}>
+                      Nhập lại mật khẩu
+                    </InputLabel>
+                    <OutlinedInput
+                      style={{ fontSize: '18px' }}
+                      id='password'
+                      type={showPassword ? 'text' : 'password'}
+                      endAdornment={
+                        <InputAdornment position='end'>
+                          <IconButton
+                            aria-label='toggle password visibility'
+                            onClick={handleClickShowPassword}
+                            // onMouseDown={handleMouseDownPassword}
+                            edge='end'
+                          >
+                            {showPassword ? <VisibilityOff /> : <Visibility />}
+                          </IconButton>
+                        </InputAdornment>
+                      }
+                      label='Password'
+                      onChange={(e) => setConfirmPassword(e.target.value)}
+                    />
+                  </FormControl>
+                </Box>
+                {confirmPassword && confirmPassword !== password && (
+                  <FormHelperText
+                    sx={{ fontSize: '12px', fontWeight: '700', textAlign: 'center' }}
+                    error
+                  >
+                    Mật khẩu không trùng khớp
+                  </FormHelperText>
+                )}
               </Box>
+
               <Box
                 sx={{
                   display: 'flex',
                   justifyContent: 'center',
-                }}>
+                }}
+              >
+                <Snackbar
+                  open={snackbarOpen}
+                  autoHideDuration={3000}
+                  onClose={handleSnackbarClose}
+                  anchorOrigin={{ vertical: 'top', horizontal: 'right' }}
+                >
+                  <MuiAlert onClose={handleSnackbarClose} severity='error' sx={{ width: '100%', fontSize: '15px' }}>
+                    {snackbarMessage}
+                  </MuiAlert>
+                </Snackbar>
                 <Button
                   sx={{
                     width: '250px',
                     height: '45px',
                     fontSize: '23px',
                     background: '#2D3748',
-                    margin: "auto"
+                    margin: 'auto',
                   }}
                   type='submit'
                 >
@@ -335,19 +490,21 @@ function SignupPage() {
                 <Typography
                   sx={{
                     position: 'absolute',
-                    marginTop: "60px",
-                    fontSize: "18px",
-
+                    marginTop: '60px',
+                    fontSize: '18px',
                   }}
                 >
-                  Bạn đã có tài khoản, đăng nhập <Link to='/login' style={{ color: "blue", textDecoration: "none" }}>tại đây</Link>
+                  Bạn đã có tài khoản, đăng nhập{' '}
+                  <Link to='/login' style={{ color: 'blue', textDecoration: 'none' }}>
+                    tại đây
+                  </Link>
                 </Typography>
               </Box>
             </Box>
           </form>
         </Box>
       </Box>
-    </Box >
+    </Box>
   );
 }
 

@@ -1,8 +1,10 @@
-import React, { useState } from 'react';
+import React, { useCallback, useEffect, useState } from 'react';
 import Button from '@mui/material/Button';
 import ProfileAvatar from '../../../components/Layout/components/ProfileAvatar/ProfileAvatar';
 import UserProfileInfo from '../../../components/Layout/components/ProfileInfo/Staff/ProfileInfo';
 import { Box, Paper, ThemeProvider, createTheme } from '@mui/material';
+import { jwtDecode } from 'jwt-decode';
+import axios from 'axios';
 
 const theme = createTheme({
   typography: {
@@ -12,20 +14,78 @@ const theme = createTheme({
 });
 
 function ProfileStaff() {
-  const [userData, setUserData] = useState({
-    name: 'Nguyen Duc Nghia',
-    email: 'nghiadeptrai@gmail.com',
-    address: '123 Vn',
-    phone: '0780800909',
-    dateOfBirth: new Date('2001-08-09'),
-    district: 'Duy Xuyên',
-    city: 'Quảng Nam',
-    gen: 0,
-    avt: '',
-  });
+  const decodedToken = jwtDecode(localStorage.getItem('token'));
+  const userId = decodedToken.id;
+  const [userData, setUserData] = useState('');
   const [isEditing, setIsEditing] = useState(false);
+  const [city, setCity] = useState([]);
+  const [wards, setWards] = useState([]);
   const [uploadedFile, setUploadedFile] = useState(null);
 
+  const fetchUser = useCallback(async () => {
+    try {
+      const response = await axios.get(
+        `http://localhost:8081/staffsconnect/ViewInfoStaff?staffId=${userId}`,
+        {
+          headers: {
+            'Content-Type': 'application/json',
+          },
+        },
+      );
+      setUserData(response.data);
+    } catch (error) {
+      console.error(error);
+    }
+  }, [userId]);
+
+  useEffect(() => {
+    axios
+      .get(`https://provinces.open-api.vn/api/p/`)
+      .then((response) => {
+        setCity(response.data);
+        console.log(response.data);
+      })
+      .catch((error) => {
+        console.error(error);
+      });
+    axios
+      .get(`https://provinces.open-api.vn/api/d/`)
+      .then((response) => {
+        setWards(response.data);
+        console.log(response.data);
+      })
+      .catch((error) => {
+        console.error(error);
+      });
+    fetchUser();
+  }, [fetchUser]);
+  console.log(userData);
+
+  const updateInfo = async () => {
+    try {
+      const formData = new FormData();
+      formData.append('fullname', userData.fullName);
+      formData.append('staffid', decodedToken.id);
+      formData.append('file', userData.avt);
+      formData.append('birthdate', userData.birthdate);
+      formData.append('city', userData.city);
+      formData.append('wards', userData.wards);
+
+      const response = await axios.put(
+        'http://localhost:8081/staffsconnect/UpdateStaff',
+        formData,
+        {
+          headers: {
+            'Content-Type': 'multipart/form-data',
+          },
+        }
+      );
+
+      console.log(response.data);
+    } catch (error) {
+      console.error(error);
+    }
+  };
 
   const handleInputChange = (field, value) => {
     setUserData({
@@ -39,6 +99,8 @@ function ProfileStaff() {
       ...userData,
       avt: uploadedFile,
     });
+    updateInfo();
+    setUploadedFile(userData.avt);
     setIsEditing(false);
   };
 
@@ -56,6 +118,7 @@ function ProfileStaff() {
     >
       <ThemeProvider theme={theme}>
         <ProfileAvatar
+          userData={userData}
           onFileChange={handleFileChange}
           isEditing={isEditing}
           role={'nhân viên'}
@@ -74,6 +137,8 @@ function ProfileStaff() {
           }}
         >
           <UserProfileInfo
+            wards={wards}
+            city={city}
             userData={userData}
             handleInputChange={handleInputChange}
             isEditing={isEditing}

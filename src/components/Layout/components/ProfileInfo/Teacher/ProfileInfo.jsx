@@ -8,14 +8,14 @@ import dayjs from 'dayjs';
 import { FormControl, InputAdornment, List, ListItem, ListItemText, MenuItem } from '@mui/material';
 import { ExpandLess, ExpandMore } from '@mui/icons-material';
 
-function ProfileInfo({ userData, handleInputChange, isEditing }) {
+function ProfileInfo({city, wards, userData, handleInputChange, isEditing }) {
 
   const [open, setOpen] = React.useState(false);
 
   const handleClick = () => {
     setOpen(!open);
   };
-  
+
   return (
     <>
       <TextField
@@ -110,19 +110,34 @@ function ProfileInfo({ userData, handleInputChange, isEditing }) {
         }}
       >
         <TextField
+          select
           label='Huyện'
           fullWidth
           value={userData.wards || ''}
           onChange={(e) => handleInputChange('wards', e.target.value)}
           disabled={!isEditing}
-        />
+        >
+          {city.map((c) => {
+            const code = c.name === userData.city ? c.code : null;
+            const filteredWards = code ? wards.filter((item) => item.province_code === code) : [];
+
+            return filteredWards.map((item, index) => (
+              <MenuItem key={index} value={item.name}>{item.name}</MenuItem>
+            ));
+          })}
+        </TextField>
         <TextField
+          select
           label='Tỉnh / Thành Phố'
           fullWidth
           value={userData.city || ''}
           onChange={(e) => handleInputChange('city', e.target.value)}
           disabled={!isEditing}
-        />
+        >
+          {city.map((item, index) => (
+            <MenuItem key={index} value={item.name}>{item.name}</MenuItem>
+          ))}
+        </TextField>
       </Box>
       <Box
         sx={{

@@ -18,11 +18,16 @@ function ProfileAvatar({ userData, onFileChange, isEditing, role, uploadedFile }
     reader.readAsDataURL(file);
     onFileChange(file);
   };
-
   const handleUploadClick = () => {
     document.getElementById('file-upload').click();
   };
-  const avatarSrc = profilePic === null ? `http://localhost:8081/edu/file/files/${userData.img}` : profilePic;
+  let avatarSrc;
+
+  if (userData.img) {
+    avatarSrc = profilePic === null ? `http://localhost:8081/edu/file/files/${userData.img}` : profilePic;
+  } else {
+    avatarSrc = profilePic;
+  }
   return (
     <Box
       sx={{

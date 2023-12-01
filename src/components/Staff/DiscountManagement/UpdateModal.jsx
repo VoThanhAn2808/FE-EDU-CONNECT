@@ -10,6 +10,7 @@ import { DatePicker } from '@mui/x-date-pickers/DatePicker';
 import { jwtDecode } from "jwt-decode";
 import axios from "axios";
 import dayjs from 'dayjs';
+import { format } from "date-fns";
 
 const style = {
   position: 'absolute',
@@ -27,12 +28,11 @@ export default function UpdateModal(props) {
   const decodedToken = jwtDecode(localStorage.getItem('token'));
   const [dataDetailDiscount, setDataDetailDiscount] = useState({});
   const { isShowModal, setOpenUpdate, selectDiscountId } = props;
-  const [discount, setDiscount] = useState('');
-  const [description, setDescription] = useState('');
+  // const [discount, setDiscount] = useState('');
+  // const [description, setDescription] = useState('');
   const [image, setImage] = useState(null);
   const [startDate, setStartDate] = useState(null);
   const [endDate, setEndDate] = useState(null);
-  const [title, setTitle] = useState('');
   const [dataToSend, setDataToSend] = useState({
     discountId: selectDiscountId
   });
@@ -99,14 +99,18 @@ export default function UpdateModal(props) {
     // Clear the form fields after submission if needed
     const formData = new FormData();
     formData.append('file', image)
+    const checkstartdate = startDate ? startDate : dataDetailDiscount.startDate
+    const formatstartDate = format(new Date(checkstartdate), 'yyyy-MM-dd');
+    const checkenddate = endDate ? endDate : dataDetailDiscount.endDate
+    const formatendDate = format(new Date(checkenddate), 'yyyy-MM-dd');
     const myObject = {
-      discount,
-      description,
+      discountid: dataDetailDiscount.discountid,
+      discount : dataDetailDiscount.discount,
       img: image.name,
-      startDate,
-      endDate,
-      title,
-      desciption: description,
+      startDate : formatstartDate,
+      endDate : formatendDate,
+      title : dataDetailDiscount.title,
+      desciption: dataDetailDiscount.description,
       staffid: decodedToken.id,
     };
     try {
@@ -118,9 +122,10 @@ export default function UpdateModal(props) {
       });
       console.log('Image Upload Response:', responseUploadImage);
       if (responseUploadImage.status === 200) {
-        const response = await axios.post('http://localhost:8081/discount/adddiscount', myObject);
+        const response = await axios.put('http://localhost:8081/discount/updateDiscount', myObject);
         alert(response.data.message);
         handleClose();
+        window.location.reload();
       } else {
         // Handle image upload failure
         console.error('Image upload failed');
@@ -136,9 +141,9 @@ export default function UpdateModal(props) {
   const handleEndDateChange = (e) => {
     setEndDate(e);
   };
-  const onChangeCallback = ({ target }) => {
-    // a callback function when user select a date
-  };
+  // const onChangeCallback = ({ target }) => {
+  //   // a callback function when user select a date
+  // };
 
   return (
 
@@ -164,8 +169,8 @@ export default function UpdateModal(props) {
                   label='Giảm Giá'
                   variant='outlined'
                   style={{ fontSize: '15px', fontFamily: 'cursive', textAlign: 'center' }}
-                  value={dataDetailDiscount.discount || ''}
-                  onChange={(e) => setDiscount(e.target.value)}
+                  value={dataDetailDiscount.discount}
+                  onChange={(e) => setDataDetailDiscount({ ...dataDetailDiscount, discount: e.target.value })}
                   required
                 />
               </Grid>
@@ -175,8 +180,8 @@ export default function UpdateModal(props) {
                   label='Tiêu Đề'
                   variant='outlined'
                   sx={{ fontSize: '15px', fontFamily: 'cursive', textAlign: 'center' }}
-                  value={dataDetailDiscount.title || ''}
-                  onChange={(e) => setTitle(e.target.value)}
+                  value={dataDetailDiscount.title}
+                  onChange={(e) => setDataDetailDiscount({ ...dataDetailDiscount, title: e.target.value })}
                   required
                 />
               </Grid>
@@ -221,8 +226,8 @@ export default function UpdateModal(props) {
                   multiline
                   rows={4}
                   style={{ fontSize: '15px', fontFamily: 'cursive', textAlign: 'center' }}
-                  value={dataDetailDiscount.desciption || ''}
-                  onChange={(e) => setDescription({ ...dataDetailDiscount, desciption: e.target.value })}
+                  value={dataDetailDiscount.desciption}
+                  onChange={(e) => setDataDetailDiscount({ ...dataDetailDiscount, desciption: e.target.value })}
                   required
                 />
               </Grid>

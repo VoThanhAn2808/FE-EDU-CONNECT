@@ -8,7 +8,7 @@ import dayjs from 'dayjs';
 import { MenuItem } from '@mui/material';
 import axios from 'axios';
 
-function ProfileInfo({ userData, handleInputChange, isEditing }) {
+function ProfileInfo({ wards, userData, city, handleInputChange, isEditing }) {
 
   const [data, setData] = useState([]);
   useEffect(() => {
@@ -106,25 +106,34 @@ function ProfileInfo({ userData, handleInputChange, isEditing }) {
         }}
       >
         <TextField
+          select
           label='Huyện'
           fullWidth
-          value={userData.wards}
+          value={userData.wards || ''}
           onChange={(e) => handleInputChange('wards', e.target.value)}
           disabled={!isEditing}
-          InputLabelProps={{
-            shrink: userData.wards ? true : undefined,
-          }}
-        />
+        >
+          {city.map((c) => {
+            const code = c.name === userData.city ? c.code : null;
+            const filteredWards = code ? wards.filter((item) => item.province_code === code) : [];
+
+            return filteredWards.map((item, index) => (
+              <MenuItem key={index} value={item.name}>{item.name}</MenuItem>
+            ));
+          })}
+        </TextField>
         <TextField
+          select
           label='Tỉnh / Thành Phố'
           fullWidth
-          value={userData.city}
+          value={userData.city || ''}
           onChange={(e) => handleInputChange('city', e.target.value)}
           disabled={!isEditing}
-          InputLabelProps={{
-            shrink: userData.city ? true : undefined,
-          }}
-        />
+        >
+          {city.map((item, index) => (
+            <MenuItem key={index} value={item.name}>{item.name}</MenuItem>
+          ))}
+        </TextField>
       </Box>
       <Box
         sx={{

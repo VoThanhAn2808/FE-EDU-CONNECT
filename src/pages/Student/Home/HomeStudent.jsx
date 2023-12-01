@@ -130,7 +130,7 @@ function Home() {
                                     <img
                                         src={`http://localhost:8081/edu/file/files/` + item.img}
                                         alt={item.courseName}
-                                        style={{ height: '200px' }}
+                                        style={{ height: '200px', width : '150px' }}
                                         className="subject-img"
                                     />
                                     <Typography className="nameSubject">

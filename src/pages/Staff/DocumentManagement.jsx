@@ -1,31 +1,28 @@
-import React, { useEffect, useState } from "react";
-import { Box, Button, Menu, MenuItem, Pagination, Table, TableBody, TableCell, TableContainer, TableHead, TableRow, TextField, Typography } from "@mui/material";
-import MoreVertIcon from '@mui/icons-material/MoreVert';
-import { Link } from "react-router-dom";
+import React, { useCallback, useEffect, useState } from "react";
+import { Box, Button, Link, Pagination, Table, TableBody, TableCell, TableContainer, TableHead, TableRow, TextField, Typography } from "@mui/material";
 import axios from "axios";
+import { jwtDecode } from "jwt-decode";
+import CheckIcon from '@mui/icons-material/Check';
+import RemoveDoneIcon from '@mui/icons-material/RemoveDone';
 
 
 function DocumentManagement() {
-    const [anchorEl, setAnchorEl] = useState(null);
     const [searchName, setSearchName] = useState("");
+    const decodedToken = jwtDecode(localStorage.getItem('token'));
     const [data, setData] = useState([]);
-
+    const [page, setPage] = useState(1);
+    const [pages, setPages] = useState('');
 
     const handleSearch = (event) => {
         setSearchName(event.target.value);
     };
 
-    const handleClick = (event) => {
-        setAnchorEl(event.currentTarget);
+    const handlePageChange = (pageNumber) => {
+        setPage(pageNumber);
     };
-
-    const handleClose = () => {
-        setAnchorEl(null);
-    };
-
-    useEffect(() => {
+    const fetchData = useCallback((pageNumber) => {
         axios
-            .get(`http://localhost:8081/staffsconnect/listtutorregistersforlessons?staffid=3`)
+            .get(`http://localhost:8081/staffsconnect/listtutorregistersforlessons?page=${pageNumber}&staffid=${decodedToken.id}`)
             .then((response) => {
                 setData(response.data);
                 console.log(response.data);
@@ -33,7 +30,45 @@ function DocumentManagement() {
             .catch((error) => {
                 console.error(error);
             });
-    }, []);
+    }, [decodedToken.id]);
+
+    useEffect(() => {
+        fetchData(page);
+        axios
+            .get(`http://localhost:8081/staffsconnect/totalpageTutor?staffid=${decodedToken.id}`)
+            .then((response) => {
+                setPages(response.data);
+                console.log(response.data);
+            })
+            .catch((error) => {
+                console.error(error);
+            });
+    }, [decodedToken.id, fetchData, page]);
+
+    const handleClickChange = async (event, fileid, status) => {
+        event.preventDefault();
+        event.stopPropagation();
+        try {
+            const response = await axios.put(
+                `http://localhost:8081/staffsconnect/acceptfile`,
+                {
+                    fileid : fileid,
+                    status : status,
+                },
+                {
+                    headers: {
+                        "Content-Type": "application/json",
+                    },
+                }
+            );
+            alert(response.data);
+            window.location.reload();
+            console.log(response.data);
+        } catch (error) {
+            console.error(error);
+            console.log(error.response.data);
+        }
+    };
     return (
         <Box sx={{ marginBottom: "50px" }}>
             <Box sx={{
@@ -76,7 +111,7 @@ function DocumentManagement() {
                         InputProps={{
                             style: {
                                 height: '45px',
-                                fontSize:"14px"
+                                fontSize: "14px"
                             },
                         }}
                         value={searchName}
@@ -114,29 +149,20 @@ function DocumentManagement() {
                                 {data.map((item) => {
                                     if (item.tutorname.toLowerCase().includes(searchName.toLowerCase())) {
                                         return (
-                                            <TableRow key={item.id}>
-                                                <TableCell sx={{ fontSize: "15px", fontFamily: "cursive", textAlign: "center" }}>{item.exerciseid}</TableCell>
+                                            <TableRow key={item.fileid}>
+                                                <TableCell sx={{ fontSize: "15px", fontFamily: "cursive", textAlign: "center" }}>{item.fileid}</TableCell>
                                                 <TableCell sx={{ fontSize: "15px", fontFamily: "cursive", textAlign: "center" }}>{item.tutorname}</TableCell>
                                                 <TableCell sx={{ fontSize: "15px", fontFamily: "cursive", textAlign: "center" }}>{item.nameFile}</TableCell>
                                                 <TableCell sx={{ fontSize: "15px", fontFamily: "cursive", textAlign: "center" }}>{item.coursename}</TableCell>
-                                                <TableCell sx={{ fontSize: "15px", fontFamily: "cursive", textAlign: "center" }}>{item.files ? (
-                                                    <Link style={{ textDecoration: "none" }} href={item.files} target="_blank" rel="noopener noreferrer">
+                                                <TableCell sx={{ fontSize: "15px", fontFamily: "cursive", textAlign: "center" }}>
+                                                    <Link style={{ textDecoration: "none" }} href={'http://localhost:8081/edu/file/files/' + item.files} target="_blank">
                                                         Tải File
                                                     </Link>
-                                                ) : (
-                                                    "No file available"
-                                                )}</TableCell>
-                                                <TableCell sx={{ fontSize: "15px", fontFamily: "cursive", textAlign: "center", color: "red" }}>{item.status}</TableCell>
+                                                </TableCell>
+                                                <TableCell sx={{ fontSize: "15px", fontFamily: "cursive", textAlign: "center", color: "red" }}>Đang đợi duyệt</TableCell>
                                                 <TableCell sx={{ fontSize: "15px", fontFamily: "cursive", textAlign: "center" }}>
-                                                    <MoreVertIcon sx={{ fontSize: "25px" }} onClick={handleClick} />
-                                                    <Menu
-                                                        anchorEl={anchorEl}
-                                                        open={Boolean(anchorEl)}
-                                                        onClose={handleClose}
-                                                    >
-                                                        {/* <MenuItem onClick={() => handleDeleteRow(item.id)}>Duyệt</MenuItem>
-                                                        <MenuItem onClick={() => handleDeleteRow(item.id)}>Không duyệt</MenuItem> */}
-                                                    </Menu>
+                                                    <CheckIcon sx={{ fontSize: "25px", marginRight : '15px' }} onClick={(e) => handleClickChange(e, item.fileid, 2)}/>
+                                                    <RemoveDoneIcon sx={{ fontSize: "25px" }} onClick={(e) => handleClickChange(e, item.fileid, 0)} />
                                                 </TableCell>
                                             </TableRow>
                                         );
@@ -148,7 +174,7 @@ function DocumentManagement() {
                     </TableContainer>
                 </Box>
                 <Box sx={{ display: 'flex', justifyContent: 'center', marginTop: "15px" }}>
-                    <Pagination count={10} sx={{ '& .MuiPaginationItem-root': { fontSize: '15px', minWidth: '50px' } }} />
+                    <Pagination count={pages.length} page={page} onChange={handlePageChange} sx={{ '& .MuiPaginationItem-root': { fontSize: '15px', minWidth: '50px' } }} />
                 </Box>
             </Box>
         </Box>

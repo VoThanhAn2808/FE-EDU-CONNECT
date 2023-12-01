@@ -1,4 +1,4 @@
-import React, { useEffect, useState } from "react";
+import React, { useState } from "react";
 import Box from '@mui/material/Box';
 import Button from '@mui/material/Button';
 import Typography from '@mui/material/Typography';
@@ -84,7 +84,8 @@ export default function CreateModal(props) {
       if (responseUploadImage.status === 200) {
         const response = await axios.post('http://localhost:8081/discount/adddiscount', myObject);
         alert(response.data.message);
-           handleClose();
+        handleClose();
+        window.location.reload();
       } else {
         // Handle image upload failure
         console.error('Image upload failed');
@@ -100,9 +101,9 @@ export default function CreateModal(props) {
   const handleEndDateChange = (e) => {
     setEndDate(e);
   };
-  const onChangeCallback = ({ target }) => {
-    // a callback function when user select a date
-  };
+  // const onChangeCallback = ({ target }) => {
+  //   // a callback function when user select a date
+  // };
 
   return (
 
