@@ -201,12 +201,12 @@ function Home() {
                                             height: "35px",
                                             width: "150px",
                                             backgroundColor: "red",
-                                            borderRadius: "5px",
+                                            borderRadius: "5px"
                                         }}>
                                         Thông tin
                                     </Typography>
                                 </Link>
-                                <img src={`http://localhost:8081/edu/file/files/` + item.img} alt="giasu" className='giasu' />
+                                <img src={`http://localhost:8081/edu/file/files/` + item.img} alt="giasu" className='giasu' style={{height : '330px'}} />
                             </Box>
                         </Grid>
                     ))}

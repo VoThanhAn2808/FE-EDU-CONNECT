@@ -45,7 +45,7 @@ function ListTutorST() {
 
     useEffect(() => {
         axios
-            .get(`http://localhost:8081/tutorByCourse/page?courseid=${id}`)
+            .get(`http://localhost:8081/tutorByCourse/pagetutor/${id}`)
             .then((response) => {
                 setPage(response.data);
                 console.log(response.data);
