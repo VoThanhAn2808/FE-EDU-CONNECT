@@ -72,7 +72,7 @@ const Sidebar = () => {
   return (
     <Box
       sx={{
-        bgcolor: '#E2A369',
+        bgcolor: '#E0D3A8',
         minWidth: '30vh',
         height: "100%"
       }}
@@ -80,7 +80,7 @@ const Sidebar = () => {
       <List
         sx={{
           width: '100%',
-          bgcolor: '#E2A369',
+          bgcolor: '#E0D3A8',
         }}
       >
         <ListItemButton>

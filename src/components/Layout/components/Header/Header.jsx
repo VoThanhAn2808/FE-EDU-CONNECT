@@ -21,6 +21,7 @@ import { Button, Modal, Table, TableBody, TableCell, TableContainer, TableHead, 
 import { styled, keyframes } from '@mui/system';
 import RemoveRedEyeIcon from '@mui/icons-material/RemoveRedEye';
 import VisibilityOffIcon from '@mui/icons-material/VisibilityOff';
+import LOGO from "../../../../assests/logo.png"
 
 
 function Header() {
@@ -240,7 +241,7 @@ function Header() {
     return (
         <AppBar position='fixed' sx={{
             width: '100%',
-            background: "#F9C01F",
+            background: "#D1BD7F",
             zIndex: "5",
             boxShadow: 'none',
             height: '70px'
@@ -256,10 +257,13 @@ function Header() {
                             fontWeight: 800,
                             color: 'inherit',
                             textDecoration: 'none',
+                            display: 'flex',
+                            alignItems: 'center',
                         }}
                         onClick={() => { navigate('/') }}
                     >
-                        EDU-CONNECT
+                        <img src={LOGO} alt="logo" style={{height:"70px"}}/>
+                        <span style={{ marginLeft: '10px' }}>EDU-CONNECT</span>
                     </Typography>
 
                     <Box sx={{
@@ -341,8 +345,8 @@ function Header() {
                                 </Tooltip>
                             ) : (
                                 <Box>
-                                    <Link to="/login"><Button variant="contained" color="success" sx={{ backgroundColor: "#C6D331", color: "white", fontSize: "13px", fontWeight: "600", marginRight: "5px" }}>Đăng nhập</Button></Link>
-                                    <Link to="/signup"><Button variant="contained" color='error' sx={{ backgroundColor: "#C6D331", color: "white", fontSize: "13px", fontWeight: "600" }}>Đăng ký</Button></Link>
+                                    <Link to="/login"><Button sx={{  color: "black", fontSize: "13px", fontWeight: "600", marginRight: "5px" }}>Đăng nhập</Button></Link>
+                                    <Link to="/signup"><Button sx={{ backgroundColor: "#C6D331", color: "black", fontSize: "13px", fontWeight: "600" }}>Đăng ký</Button></Link>
                                 </Box>
                             )
                         }

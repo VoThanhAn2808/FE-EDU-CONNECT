@@ -10,8 +10,7 @@ import HomeIcon from '@mui/icons-material/Home';
 import MenuBookIcon from '@mui/icons-material/MenuBook';
 import SchoolIcon from '@mui/icons-material/School';
 import AccountBalanceIcon from '@mui/icons-material/AccountBalance';
-import LibraryBooksIcon from '@mui/icons-material/LibraryBooks';
-import HelpOutlineIcon from '@mui/icons-material/HelpOutline';
+import SendIcon from '@mui/icons-material/Send';
 import { Link } from 'react-router-dom';
 import { useEffect } from 'react';
 import axios from 'axios';
@@ -54,7 +53,7 @@ const Sidebar = () => {
     return (
         <Box
             sx={{
-                bgcolor: '#E2A369',
+                bgcolor: '#E0D3A8',
                 minWidth: '30vh',
                 height: "100%"
             }}
@@ -62,7 +61,7 @@ const Sidebar = () => {
             <List
                 sx={{
                     width: '100%',
-                    bgcolor: '#E2A369',
+                    bgcolor: '#E0D3A8',
                 }}
             >
                 <ListItemButton >
@@ -153,18 +152,13 @@ const Sidebar = () => {
                     </List>
                 </Collapse>
 
-                <ListItemButton>
+                <ListItemButton component={Link} to="https://www.facebook.com/profile.php?id=61554408680276" target="_blank">
                     <ListItemIcon>
-                        <LibraryBooksIcon />
+                        <SendIcon />
                     </ListItemIcon>
-                    <Typography sx={{ fontSize: '16px', marginRight: 'auto', }}>Thư Viện </Typography>
-                </ListItemButton>
-
-                <ListItemButton>
-                    <ListItemIcon>
-                        <HelpOutlineIcon />
-                    </ListItemIcon>
-                    <Typography sx={{ fontSize: '16px', marginRight: 'auto', }}>Hướng dẫn đăng ký </Typography>
+                    <Typography sx={{ fontSize: '16px', marginRight: 'auto', }}>
+                        Liên lạc với chúng tôi
+                        </Typography>
                 </ListItemButton>
             </List>
         </Box>
