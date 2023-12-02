@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import React from 'react';
 import TextField from '@mui/material/TextField';
 import Box from '@mui/material/Box';
 import { LocalizationProvider } from '@mui/x-date-pickers';
@@ -9,7 +9,7 @@ import dayjs from 'dayjs';
 import { MenuItem } from '@mui/material';
 
 function ProfileInfo({ wards, userData, city, handleInputChange, isEditing }) {
-  const [code, setCode] = useState('');
+  // const [code, setCode] = useState('');
   return (
     <>
       <TextField

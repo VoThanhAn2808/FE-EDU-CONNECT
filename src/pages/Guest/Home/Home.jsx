@@ -8,6 +8,11 @@ import GIASU2 from "../../../assests/image7.jpg"
 import INFOR from "../../../assests/image9.jpg"
 import WHY from "../../../assests/image10.jpg"
 import IMAGE25 from "../../../assests/image 25.jpg"
+import IMAGE26 from "../../../assests/image 26.jpg"
+import IMAGE27 from "../../../assests/image 27.jpg"
+import IMAGE28 from "../../../assests/image 28.jpg"
+import IMAGE31 from "../../../assests/image 31.jpg"
+import IMAGE32 from "../../../assests/image 32.jpg"
 // import Rating from '@mui/material/Rating';
 // import StarIcon from '@mui/icons-material/Star';
 import HOTNEW from "../../../assests/hotnew.jpg"
@@ -15,6 +20,7 @@ import FooterHome from './Footerhome/FooterHome';
 import { Box, Button, Grid, Typography } from '@mui/material';
 import CalendarTodayIcon from '@mui/icons-material/CalendarToday';
 import axios from 'axios';
+import { Link } from 'react-router-dom';
 
 const data2 = [
     { hotnew: HOTNEW, infor: "Lượng học sinh năm 2023", date: "20-08-2023", para: "Số lượng học sinh trong năm 2023 tăng hơn", more: "XEM THÊM", fullContent: "hết rồi nhé mọi người" },
@@ -92,7 +98,7 @@ function Home() {
                             <Box className='giasu-container'>
                                 <Typography className='giasutext'
                                     sx={{
-                                        color: "#00000",
+                                        color: "green",
                                         fontWeight: "700",
                                         fontSize: "20px",
                                         fontFamily: "math"
@@ -101,26 +107,36 @@ function Home() {
                                 </Typography>
                                 <Typography className='giasu-name'
                                     sx={{
-                                        color: "#00000",
+                                        color: "green",
                                         fontWeight: "800",
                                         fontSize: "20px",
                                     }}>
                                     {item.fullname}
                                 </Typography>
-                                
-                                <Typography className='giasu-infor'
-                                    sx={{
-                                        color: "#00000",
-                                        fontWeight: "400",
-                                        fontSize: "20px",
-                                        fontFamily: "cursive",
-                                        height: "35px",
-                                        width: "150px",
-                                        backgroundColor: "red",
-                                        borderRadius: "5px"
-                                    }}>
-                                    Thông tin
-                                </Typography>
+
+                                <Link to={`/viewinfomationpage/${item.tutorid}`} style={{ color: 'black' }}>
+                                    <Button
+                                    variant="contained" 
+                                    color="success"
+                                        sx={{
+                                            fontWeight: "400",
+                                            fontSize: "20px",
+                                            fontFamily: "cursive",
+                                            height: "35px",
+                                            width: "200px", 
+                                            borderRadius: "5px",
+                                            position: "absolute",
+                                            top: "95%",
+                                            left: "50%",
+                                            transform: "translate(-50%, -50%)",
+                                            textAlign: "center",
+                                            textTransform: "uppercase",
+                                            zIndex: 1
+                                        }}
+                                    >
+                                        Thông tin
+                                    </Button>
+                                </Link>
                                 <img src={`http://localhost:8081/edu/file/files/` + item.img} alt="giasu" className='giasu' />
                             </Box>
                         </Grid>
@@ -241,7 +257,7 @@ function Home() {
                                     </Typography>
                                     <Typography className='why-content'
                                         sx={{
-                                            marginTop: "4%",
+                                            marginTop: "5%",
                                             fontSize: "12px",
 
                                         }}>
@@ -259,20 +275,22 @@ function Home() {
                                             color: "#00000",
                                             fontSize: "17px",
                                             fontFamily: "cursive",
+                                            marginLeft:"33px"
                                         }}
                                     >
-                                        Tư duy sáng tạo
+                                        Đảm bảo chất lượng dạy học
                                     </Typography>
                                     <Typography className='why-content'
                                         sx={{
-                                            marginTop: "4%",
+                                            marginTop: "5%",
                                             fontSize: "12px",
+                                            marginLeft:"37px"
 
                                         }}>
-                                        Phát triển tư duy <br />
-                                        trong những bài học
+                                            Chương trình dạy <br /> 
+                                            một kèm một
                                     </Typography>
-                                    <img src={IMAGE25} alt="image27" className='image27' />
+                                    <img src={IMAGE27} alt="image27" className='image27' />
                                 </Box>
                             </Grid>
                         </Grid>
@@ -290,18 +308,18 @@ function Home() {
                                             fontFamily: "cursive",
                                         }}
                                     >
-                                        Tư duy sáng tạo
+                                        Tích hợp công nghệ
                                     </Typography>
                                     <Typography className='why-content'
                                         sx={{
-                                            marginTop: "6%",
+                                            marginTop: "7%",
                                             fontSize: "12px",
 
                                         }}>
-                                        Phát triển tư duy <br />
-                                        trong những bài học
+                                        Áp dụng công nghệ mới nhất <br />
+                                        để hỗ trợ việc dạy và học
                                     </Typography>
-                                    <img src={IMAGE25} alt="image25" className='image25' />
+                                    <img src={IMAGE31} alt="image31" className='image31' />
                                 </Box>
                             </Grid>
 
@@ -316,20 +334,21 @@ function Home() {
                                             color: "#00000",
                                             fontSize: "17px",
                                             fontFamily: "cursive",
+                                            marginLeft: "5px"
                                         }}
                                     >
-                                        Tư duy sáng tạo
+                                        Tăng kích thích học
                                     </Typography>
                                     <Typography className='why-content'
                                         sx={{
                                             marginTop: "6%",
                                             fontSize: "12px",
+                                            marginLeft: "5px"
 
                                         }}>
-                                        Phát triển tư duy <br />
-                                        trong những bài học
+                                        Giúp bạn có hứng thú học bài
                                     </Typography>
-                                    <img src={IMAGE25} alt="image27" className='image28' />
+                                    <img src={IMAGE32} alt="image27" className='image32' />
                                 </Box>
                             </Grid>
 
@@ -349,18 +368,18 @@ function Home() {
                                             fontFamily: "cursive",
                                         }}
                                     >
-                                        Tư duy sáng tạo
+                                        Cung cấp bài học
                                     </Typography>
                                     <Typography className='why-content'
                                         sx={{
-                                            marginTop: "4%",
+                                            marginTop: "5%",
                                             fontSize: "12px",
 
                                         }}>
-                                        Phát triển tư duy <br />
-                                        trong những bài học
+                                        Đảm bảo những bài học <br />
+                                        mới giành cho bạn
                                     </Typography>
-                                    <img src={IMAGE25} alt="image25" className='image25' />
+                                    <img src={IMAGE26} alt="image26" className='image26' />
                                 </Box>
                             </Grid>
 
@@ -371,20 +390,21 @@ function Home() {
                                             color: "#00000",
                                             fontSize: "17px",
                                             fontFamily: "cursive",
+                                            marginLeft:"20px"
                                         }}
                                     >
-                                        Tư duy sáng tạo
+                                        Luôn luôn cung cấp bài giảng mới
                                     </Typography>
                                     <Typography className='why-content'
                                         sx={{
-                                            marginTop: "4%",
+                                            marginTop: "6%",
                                             fontSize: "12px",
+                                            marginLeft:"20px",
 
                                         }}>
-                                        Phát triển tư duy <br />
-                                        trong những bài học
+                                            Được cập nhật bài giảng liên tục
                                     </Typography>
-                                    <img src={IMAGE25} alt="image27" className='image27' />
+                                    <img src={IMAGE28} alt="image28" className='image28' />
                                 </Box>
                             </Grid>
                         </Grid>

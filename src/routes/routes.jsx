@@ -59,6 +59,7 @@ const publicRoute = [
   { path: '/subject/:id', component: SubjectPage, layout: DefaultLayout, allowedRoles: ["default"] },
   { path: '/listtutor/:id', component: ListTutor, layout: DefaultLayout, allowedRoles: ["default"] },
   { path: '/booktutor/:tutorid/:classcourseid', component: BookTutorPage, layout: DefaultLayout, allowedRoles: ["default"] },
+  { path: '/viewinfomationpage/:tutorid', component: ViewInfomationPage, layout: DefaultLayout, allowedRoles: ["default"] },
   { path: '/signup', component: SignUp, layout: LoginLayout },
   { path: '/login', component: LoginPage, layout: LoginLayout },
   { path: '/forgotpass', component: ForgotPassword, layout: LoginLayout },

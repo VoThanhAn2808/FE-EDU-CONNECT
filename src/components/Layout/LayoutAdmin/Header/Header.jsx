@@ -76,7 +76,7 @@ function Header() {
       }, [token]);
 
     return (
-        <AppBar position='fixed' sx={{ width: '100%', background: "#F9C01F", zIndex: "5", boxShadow: 'none', height: '70px' }}>
+        <AppBar position='fixed' sx={{ width: '100%', background: "#D1BD7F", zIndex: "5", boxShadow: 'none', height: '70px' }}>
             <Container maxWidth="">
                 <Toolbar disableGutters sx={{ justifyContent: "space-between" }}>
                     <Typography
