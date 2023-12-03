@@ -25,6 +25,7 @@ import TryLearningManagement from "../pages/Staff/TryLearningManagement";
 import CourseManagement from "../pages/Staff/CourseManagement";
 import CalendarStudent from "../pages/Student/CalendarStudent/CalendarStudent";
 import ExerciseListPage from '../pages/Tutor/ExerciseList/ExercisePage';
+import ExerciseDetailPage from '../pages/Tutor/ExerciseDetail/ExerciseDetail';
 import CalendarTutor from '../pages/Tutor/CalendarTutor/CalendarTutor';
 import StudentGrade from "../pages/Student/StudentGrade/StudentGrade";
 import HomeTutor from '../pages/Tutor/HomeTutor/HomeTutor';
@@ -89,6 +90,7 @@ const privateRoute = [
   { path: '/calendartutorselect', component: CalendarTutorSelect, layout: LoginLayout, allowedRoles: ["tutor"] },
   { path: '/feedbacktutor', component: FeedbackTutor, layout: LayoutTutor, allowedRoles: ["tutor"] },
   { path: '/exerciselist', component: ExerciseListPage, layout: LayoutTutor, allowedRoles: ["tutor"] },
+  { path: '/exercisedetail/:exerciseid', component: ExerciseDetailPage, layout: LayoutTutor, allowedRoles: ["tutor"] },
   { path: '/profile-teacher', component: ProfileTeacher, layout: LayoutTutor, allowedRoles: ["tutor"] },
   { path: '/homeworktutor', component: HomeWorkTutor, layout: LayoutTutor, allowedRoles: ["tutor"] },
   { path: '/managerstudent', component: ManagerStudent, layout: LayoutTutor, allowedRoles: ["tutor"] },

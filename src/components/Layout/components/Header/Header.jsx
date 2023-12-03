@@ -154,11 +154,9 @@ function Header() {
                 }
             );
             handleClose();
-            console.log(response.data);
             window.location.reload();
         } catch (error) {
             console.error(error);
-            console.log(error.response.data);
         }
     };
 
@@ -176,7 +174,6 @@ function Header() {
                     .get(`http://localhost:8081/student/viewstudent?email=${decodedTokenRef.current.id}`)
                     .then((response) => {
                         setData(response.data);
-                        console.log(response.data);
                     })
                     .catch((error) => {
                         console.error(error);
@@ -186,7 +183,6 @@ function Header() {
                     .get(`http://localhost:8081/educonnect/viewTutor?tutorId=${decodedTokenRef.current.id}`)
                     .then((response) => {
                         setData(response.data);
-                        console.log(response.data);
                     })
                     .catch((error) => {
                         console.error(error);
@@ -195,7 +191,6 @@ function Header() {
                     .get(`http://localhost:8081/educonnect/showbank?tutorid=${decodedTokenRef.current.id}`)
                     .then((response) => {
                         setShow(response.data);
-                        console.log(response.data);
                     })
                     .catch((error) => {
                         console.error(error);
@@ -204,7 +199,6 @@ function Header() {
                     .get(`http://localhost:8081/educonnect/historypay?tutorid=${decodedTokenRef.current.id}`)
                     .then((response) => {
                         setHistory(response.data);
-                        console.log(response.data);
                     })
                     .catch((error) => {
                         console.error(error);
@@ -214,7 +208,6 @@ function Header() {
                     .get(`http://localhost:8081/staffsconnect/ViewInfoStaff?staffId=${decodedTokenRef.current.id}`)
                     .then((response) => {
                         setData(response.data);
-                        console.log(response.data);
                     })
                     .catch((error) => {
                         console.error(error);
@@ -237,7 +230,24 @@ function Header() {
             navigate('/profile-staff');
         }
     };
-
+    const MenuItemWithRole = () => {
+        return check === 2 ? (
+            <>
+                <MenuItem key="withdraw" onClick={handleOpen}>
+                    <Typography variant="body1" sx={{ fontSize: "15px" }}>Rút tiền</Typography>
+                </MenuItem>
+                <MenuItem key="withdraw" onClick={handleOpen1}>
+                    <Typography variant="body1" sx={{ fontSize: "15px" }}>Lịch sử rút tiền</Typography>
+                </MenuItem>
+            </>
+        ) : check === 1 ? (
+            <MenuItem key="withdraw" onClick={handleFeedback}>
+                <Typography variant="body1" sx={{ fontSize: "15px" }}>Đánh giá gia sư</Typography>
+            </MenuItem>
+        ) : (
+            null
+        )
+    }
     return (
         <AppBar position='fixed' sx={{
             width: '100%',
@@ -369,22 +379,7 @@ function Header() {
                             <MenuItem key="profile" onClick={handleProfileClick}>
                                 <Typography variant="body1" sx={{ fontSize: "15px" }}>Thông tin cá nhân</Typography>
                             </MenuItem>
-                            {check === 2 ? (
-                                <>
-                                    <MenuItem key="withdraw" onClick={handleOpen}>
-                                        <Typography variant="body1" sx={{ fontSize: "15px" }}>Rút tiền</Typography>
-                                    </MenuItem>
-                                    <MenuItem key="withdraw" onClick={handleOpen1}>
-                                        <Typography variant="body1" sx={{ fontSize: "15px" }}>Lịch sử rút tiền</Typography>
-                                    </MenuItem>
-                                </>
-                            ) : check === 1 ? (
-                                <MenuItem key="withdraw" onClick={handleFeedback}>
-                                    <Typography variant="body1" sx={{ fontSize: "15px" }}>Đánh giá gia sư</Typography>
-                                </MenuItem>
-                            ) : (
-                                null
-                            )}
+                            <MenuItemWithRole />
                             <MenuItem key="change-password" onClick={handleChangePassword}>
                                 <Typography variant="body1" sx={{ fontSize: "15px" }}>Đổi mật khẩu</Typography>
                             </MenuItem>

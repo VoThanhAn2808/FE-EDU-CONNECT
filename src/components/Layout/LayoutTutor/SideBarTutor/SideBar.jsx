@@ -26,7 +26,6 @@ const Sidebar = () => {
       .get(`http://localhost:8081/educonnect/tutor/listcourse?tutorid=${userId}`)
       .then((response) => {
         setCourse(response.data);
-        console.log(response.data);
       })
       .catch((error) => {
         console.error(error);
