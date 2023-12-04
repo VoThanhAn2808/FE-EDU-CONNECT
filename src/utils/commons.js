@@ -12,5 +12,5 @@ export const decodeToken = () => {
   }
 }
 export const getRole = (roleId) => {
-  return roleId === 1 ? "student" : roleId === 2 ? "tutor" : roleId === 3  ? "staff" : ""
+  return roleId === 1 ? "student" : roleId === 2 ? "tutor" : roleId === 3  ? "staff" : roleId === 4  ? "admin" : ""
 }

@@ -166,58 +166,60 @@ function Header() {
 
     useEffect(() => {
         try {
-            decodedTokenRef.current = jwtDecode(token);
-            const role = decodedTokenRef.current.role;
-            setCheck(role);
+            if (token !== null) {
+                decodedTokenRef.current = jwtDecode(token);
+                const role = decodedTokenRef.current.role;
+                setCheck(role);
 
-            if (role === 1) {
-                axios
-                    .get(`http://localhost:8081/student/viewstudent?email=${decodedTokenRef.current.id}`)
-                    .then((response) => {
-                        setData(response.data);
-                        console.log(response.data);
-                    })
-                    .catch((error) => {
-                        console.error(error);
-                    });
-            } else if (role === 2) {
-                axios
-                    .get(`http://localhost:8081/educonnect/viewTutor?tutorId=${decodedTokenRef.current.id}`)
-                    .then((response) => {
-                        setData(response.data);
-                        console.log(response.data);
-                    })
-                    .catch((error) => {
-                        console.error(error);
-                    });
-                axios
-                    .get(`http://localhost:8081/educonnect/showbank?tutorid=${decodedTokenRef.current.id}`)
-                    .then((response) => {
-                        setShow(response.data);
-                        console.log(response.data);
-                    })
-                    .catch((error) => {
-                        console.error(error);
-                    });
-                axios
-                    .get(`http://localhost:8081/educonnect/historypay?tutorid=${decodedTokenRef.current.id}`)
-                    .then((response) => {
-                        setHistory(response.data);
-                        console.log(response.data);
-                    })
-                    .catch((error) => {
-                        console.error(error);
-                    });
-            } else if (role === 3) {
-                axios
-                    .get(`http://localhost:8081/staffsconnect/ViewInfoStaff?staffId=${decodedTokenRef.current.id}`)
-                    .then((response) => {
-                        setData(response.data);
-                        console.log(response.data);
-                    })
-                    .catch((error) => {
-                        console.error(error);
-                    });
+                if (role === 1) {
+                    axios
+                        .get(`http://localhost:8081/student/viewstudent?email=${decodedTokenRef.current.id}`)
+                        .then((response) => {
+                            setData(response.data);
+                            console.log(response.data);
+                        })
+                        .catch((error) => {
+                            console.error(error);
+                        });
+                } else if (role === 2) {
+                    axios
+                        .get(`http://localhost:8081/educonnect/viewTutor?tutorId=${decodedTokenRef.current.id}`)
+                        .then((response) => {
+                            setData(response.data);
+                            console.log(response.data);
+                        })
+                        .catch((error) => {
+                            console.error(error);
+                        });
+                    axios
+                        .get(`http://localhost:8081/educonnect/showbank?tutorid=${decodedTokenRef.current.id}`)
+                        .then((response) => {
+                            setShow(response.data);
+                            console.log(response.data);
+                        })
+                        .catch((error) => {
+                            console.error(error);
+                        });
+                    axios
+                        .get(`http://localhost:8081/educonnect/historypay?tutorid=${decodedTokenRef.current.id}`)
+                        .then((response) => {
+                            setHistory(response.data);
+                            console.log(response.data);
+                        })
+                        .catch((error) => {
+                            console.error(error);
+                        });
+                } else if (role === 3) {
+                    axios
+                        .get(`http://localhost:8081/staffsconnect/ViewInfoStaff?staffId=${decodedTokenRef.current.id}`)
+                        .then((response) => {
+                            setData(response.data);
+                            console.log(response.data);
+                        })
+                        .catch((error) => {
+                            console.error(error);
+                        });
+                }
             }
         } catch (error) {
             console.error('Error decoding the token:', error);

@@ -41,7 +41,7 @@ function ListTutorST() {
             });
     }, [id]);
 
-    const [page, setPage] = useState([]);
+    const [page, setPage] = useState(1);
 
     useEffect(() => {
         axios
@@ -84,7 +84,7 @@ function ListTutorST() {
     };
 
 
-    const [cpage, setCpage] = useState([]);
+    const [cpage, setCpage] = useState(1);
 
     useEffect(() => {
         axios
@@ -176,7 +176,7 @@ function ListTutorST() {
             </Box >
             <Box sx={{ marginBottom: '10px', display: 'flex', justifyContent: 'center' }}>
                 <Pagination
-                    count={page.length}
+                    count={page}
                     page={pages}
                     onChange={handlePageChange}
                     sx={{ '& .MuiPaginationItem-root': { fontSize: '15px', minWidth: '50px' } }}
