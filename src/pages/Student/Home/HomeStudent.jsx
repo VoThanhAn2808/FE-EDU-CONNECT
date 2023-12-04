@@ -214,7 +214,7 @@ function Home() {
                                     Thông tin
                                 </Button>
                                 </Link>
-                                <img src={`http://localhost:8081/edu/file/files/` + item.img} alt="giasu" className='giasu' />
+                                <img src={`http://localhost:8081/edu/file/files/` + item.img} alt="giasu" className='giasu' style={{height : '330px'}} />
                             </Box>
                         </Grid>
                     ))}

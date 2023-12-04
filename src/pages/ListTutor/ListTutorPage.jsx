@@ -53,11 +53,11 @@ function ListTutor() {
         setPageTop(pageNumber);
     };
 
-    const [page, setPage] = useState([]);
+    const [page, setPage] = useState(1);
 
     useEffect(() => {
         axios
-            .get(`http://localhost:8081/tutorByCourse/page?courseid=${id}`)
+            .get(`http://localhost:8081/tutorByCourse/pagetutor/${id}`)
             .then((response) => {
                 setPage(response.data);
                 console.log(response.data);
@@ -67,7 +67,7 @@ function ListTutor() {
             });
     }, [id]);
 
-    const [cpage, setCpage] = useState([]);
+    const [cpage, setCpage] = useState(1);
 
     useEffect(() => {
         axios
@@ -102,7 +102,7 @@ function ListTutor() {
         }}>
             <Box sx={{
                 marginLeft: '75%',
-                marginTop: '90px',
+                marginTop: '20px',
 
             }}>
                 <TextField
@@ -225,7 +225,7 @@ function ListTutor() {
                     </Grid>
                 </Box>
                 <Box sx={{ marginBottom: '60px', display: 'flex', justifyContent: 'center' }}>
-                    <Pagination count={cpage.length}
+                    <Pagination count={cpage}
                         page={pageTop}
                         onChange={handlePageTopChange} sx={{ '& .MuiPaginationItem-root': { fontSize: '15px', minWidth: '50px' } }} />
                 </Box>

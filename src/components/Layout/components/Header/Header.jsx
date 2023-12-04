@@ -175,10 +175,10 @@ function Header() {
 
     useEffect(() => {
         try {
-            decodedTokenRef.current = jwtDecode(token);
-            const role = decodedTokenRef.current.role;
-            setCheck(role);
-
+            if (token !== null) {
+                decodedTokenRef.current = jwtDecode(token);
+                const role = decodedTokenRef.current.role;
+                setCheck(role);
             if (role === 1) {
                 axios
                     .get(`http://localhost:8081/student/viewstudent?email=${decodedTokenRef.current.id}`)

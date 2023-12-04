@@ -38,7 +38,7 @@ function CourseManagement() {
     const handleOpenV = (bookid) => {
         try {
             axios
-                .get(`http://localhost:8081/staffsconnect/learntime?bookid=1`)
+                .get(`http://localhost:8081/staffsconnect/learntime?bookid=${bookid}`)
                 .then((response) => {
                     setTime(response.data);
                     console.log(response.data);
