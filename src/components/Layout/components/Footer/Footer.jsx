@@ -15,7 +15,7 @@ function Footer() {
   return (
     <Box
       sx={{
-        height: '75px',
+        height: '77px',
         background: '#D1BD7F',
         display: 'flex',
         alignItems: 'center',

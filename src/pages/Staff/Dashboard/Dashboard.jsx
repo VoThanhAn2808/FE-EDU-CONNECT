@@ -57,7 +57,7 @@ function Dashboard() {
           </Grid>
         </Grid>
       </Box>
-      <Box sx={{marginTop:"40px", marginLeft:"15%"}}>
+      <Box sx={{ marginTop: "40px", marginLeft: "15%" }}>
         <LineChart width={900} height={400} data={data}>
           <CartesianGrid strokeDasharray="3 3" />
           <XAxis dataKey="name" />
@@ -69,17 +69,17 @@ function Dashboard() {
           <Line type="monotone" dataKey="tiền" stroke="#E80F0F" />
         </LineChart>
       </Box>
-      <Box sx={{marginTop:"40px", marginLeft:"3%", marginBottom:"60px"}}>
-      <BarChart width={1200} height={500} data={data}>
-      <CartesianGrid strokeDasharray="3 3" />
-      <XAxis dataKey="name" />
-      <YAxis />
-      <Tooltip />
-      <Legend />
-      <Bar dataKey="học_sinh" fill="#78068B" />
-      <Bar dataKey="gia_sư" fill="#08950D" />
-      <Bar dataKey="tiền" fill="#E80F0F" />
-    </BarChart>
+      <Box sx={{ marginTop: "40px", marginLeft: "3%", marginBottom: "60px" }}>
+        <BarChart width={1100} height={500} data={data}>
+          <CartesianGrid strokeDasharray="3 3" />
+          <XAxis dataKey="name" />
+          <YAxis />
+          <Tooltip />
+          <Legend />
+          <Bar dataKey="học_sinh" fill="#78068B" />
+          <Bar dataKey="gia_sư" fill="#08950D" />
+          <Bar dataKey="tiền" fill="#E80F0F" />
+        </BarChart>
       </Box>
     </Box>
   );

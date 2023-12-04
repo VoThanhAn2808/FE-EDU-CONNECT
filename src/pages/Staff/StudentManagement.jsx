@@ -1,5 +1,5 @@
 import React, { useCallback, useEffect, useState } from "react";
-import { Avatar, Box, Button, Menu, MenuItem, Modal, Pagination, Table, TableBody, TableCell, TableContainer, TableHead, TableRow, TextField, Typography } from "@mui/material";
+import { Avatar, Box, Menu, MenuItem, Modal, Pagination, Table, TableBody, TableCell, TableContainer, TableHead, TableRow, TextField, Typography } from "@mui/material";
 import MoreVertIcon from '@mui/icons-material/MoreVert';
 import axios from "axios";
 
@@ -115,10 +115,11 @@ function StudentManagement() {
                 border: '1px solid #000000', p: 2,
             }}>
                 <Box sx={{
-                    marginLeft: '70%',
+                    marginLeft: '80%',
                     marginTop: '10px',
                 }}>
                     <TextField
+                    label="Tìm Kiếm"
                         sx={{
                             borderRadius: '11%',
                             width: '200px',
@@ -132,15 +133,6 @@ function StudentManagement() {
                         value={searchName}
                         onChange={handleSearch}
                     />
-                    <Button variant="contained" component="a" href="#" hrefLang="#"
-                        sx={{
-                            height: '45px',
-                            marginLeft: '10px',
-                            fontSize: '12px',
-                            borderRadius: '11%'
-                        }}>
-                        Tìm Kiếm
-                    </Button>
                 </Box>
                 <Box sx={{
                     display: "flex",

@@ -59,6 +59,7 @@ const FileUpload = styled(Input)({
 
 function StaffManagement() {
 
+    const [searchName, setSearchName] = useState("");
     const [open, setOpen] = useState(false);
     const [open1, setOpen1] = useState(false);
     const [staff, setStaff] = useState([]);
@@ -75,6 +76,11 @@ function StaffManagement() {
     const [experience, setExperience] = useState('');
     const handleCloses = () => setOpen(false);
     const handleCloses1 = () => setOpen1(false);
+
+    const handleSearch = (event) => {
+        setSearchName(event.target.value);
+    };
+    
     const handleLinkClick = async (event) => {
         event.preventDefault();
         event.stopPropagation();
@@ -311,29 +317,24 @@ function StaffManagement() {
                 border: '1px solid #000000', p: 2,
             }}>
                 <Box sx={{
-                    marginLeft: '75%',
+                    marginLeft: '80%',
                     marginTop: '10px',
                 }}>
                     <TextField
+                    label="Tìm Kiếm"
                         sx={{
                             borderRadius: '11%',
                             width: '200px',
                         }}
                         InputProps={{
                             style: {
-                                height: '45px'
+                                height: '45px',
+                                fontSize: "14px"
                             },
                         }}
+                        value={searchName}
+                        onChange={handleSearch}
                     />
-                    <Button variant="contained" component="a" href="#" hrefLang="#"
-                        sx={{
-                            height: '45px',
-                            marginLeft: '10px',
-                            fontSize: '12px',
-                            borderRadius: '11%'
-                        }}>
-                        Tìm Kiếm
-                    </Button>
                 </Box>
                 <Box sx={{
                     display: "flex",
