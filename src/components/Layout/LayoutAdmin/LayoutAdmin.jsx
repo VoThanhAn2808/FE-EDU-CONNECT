@@ -1,6 +1,7 @@
 import { Box } from '@mui/material';
 import Header from './Header/Header';
 import Sidebar from './SideBar/SideBar';
+import Footer from '../components/Footer/Footer';
 
 function LayoutAdmin({ children }) {
   return (
@@ -41,6 +42,7 @@ function LayoutAdmin({ children }) {
             }}>
               {children}
             </Box>
+            <Footer />
           </Box>
         </Box>
       </Box>

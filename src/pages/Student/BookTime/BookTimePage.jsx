@@ -1,4 +1,5 @@
 import { Button, Paper, Table, TableBody, TableCell, TableContainer, TableHead, TableRow, Typography } from "@mui/material";
+import { Snackbar, Alert } from '@mui/material';
 import { Box } from "@mui/system";
 import React, { useEffect, useRef, useState } from "react";
 import { Checkbox } from '@mui/material';
@@ -90,6 +91,8 @@ function BookTime() {
         }
     };
 
+    const [showAlert, setShowAlert] = useState(false);
+
     const handlePaymentAndBooktime = async (event) => {
         event.preventDefault();
 
@@ -106,6 +109,11 @@ function BookTime() {
         };
 
         try {
+            if (selectedCheckboxes.length !== 3) {
+                setShowAlert(true);
+                return;
+            }
+
             const paymentResponse = await axios.get(
                 `http://localhost:8081/book/createpayment?studentid=${student.studentid}`,
                 config
@@ -133,6 +141,10 @@ function BookTime() {
             console.error(error);
             console.log(error.response.data);
         }
+    };
+
+    const handleAlertClose = () => {
+        setShowAlert(false);
     };
 
     const [selectedCheckboxes, setSelectedCheckboxes] = useState([]);
@@ -242,10 +254,15 @@ function BookTime() {
                         <Typography sx={{ fontSize: '20px', fontWeight: "700", color: "red" }}>Notes:</Typography>
                         <Typography sx={{ fontSize: '20px', marginLeft: "7px", color: "#5E5D5D" }}> Lịch học này sẽ đi theo bạn đến hết kỳ học của bạn(1 tuần 3 ngày mỗi 1 slot). </Typography>
                     </Box>
-                    <Box sx={{marginLeft : 'auto', marginRight : '20%'}}>
+                    <Box sx={{ marginLeft: 'auto', marginRight: '20%' }}>
                         <Button onClick={handlePaymentAndBooktime} variant="contained" sx={{ height: '30px', backgroundColor: 'green', fontSize: '12px', marginRight: '20px' }}>
                             Thanh toán
                         </Button>
+                        <Snackbar open={showAlert} autoHideDuration={3000} onClose={handleAlertClose}>
+                            <Alert onClose={handleAlertClose} autoHideDuration={1000} severity="warning" sx={{ backgroundColor: '#ffee58', fontSize:"15px" }}>
+                                Vui lòng chọn đủ 3 lịch học để tiến hành thanh toán.
+                            </Alert>
+                        </Snackbar>
                         <Button onClick={handleSubmit} variant="contained" sx={{ height: '30px', backgroundColor: 'red', fontSize: '12px' }}>
                             Cancel
                         </Button>

@@ -124,15 +124,11 @@ const ProfileTutor = () => {
       avt: uploadedFile,
     });
     updateInfo();
-    setUploadedFile(userData.avt);
     setIsEditing(false);
   };
 
   const handleFileChange = (selectedFile) => {
-    setUserData({
-      ...userData,
-      avt: selectedFile,
-    });
+    setUploadedFile(selectedFile);
   };
 
 

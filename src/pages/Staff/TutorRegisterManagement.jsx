@@ -15,6 +15,7 @@ function TutorRegisterManagement() {
     const [message, setMessage] = useState('');
     const [tutor, setTutor] = useState('');
     const [prices, setPrice] = useState('');
+    const [experience, setExperience] = useState('');
     const [open, setOpen] = React.useState(false);
     const handleCloses = () => setOpen(false);
     const [open1, setOpen1] = React.useState(false);
@@ -49,6 +50,7 @@ function TutorRegisterManagement() {
                     staffid: decodedToken.id,
                     message: message,
                     email: email,
+                    experience : experience,
                 },
                 {
                     headers: {
@@ -163,10 +165,11 @@ function TutorRegisterManagement() {
                 border: '1px solid #000000', p: 2,
             }}>
                 <Box sx={{
-                    marginLeft: '70%',
+                    marginLeft: '80%',
                     marginTop: '10px',
                 }}>
                     <TextField
+                    label="Tìm Kiếm"
                         sx={{
                             borderRadius: '11%',
                             width: '200px',
@@ -180,15 +183,6 @@ function TutorRegisterManagement() {
                         value={searchName}
                         onChange={handleSearch}
                     />
-                    <Button variant="contained" component="a" href="#" hrefLang="#"
-                        sx={{
-                            height: '45px',
-                            marginLeft: '10px',
-                            fontSize: '12px',
-                            borderRadius: '11%'
-                        }}>
-                        Tìm Kiếm
-                    </Button>
                 </Box>
                 <Box sx={{
                     display: "flex",
@@ -327,7 +321,7 @@ function TutorRegisterManagement() {
                     sx={{
                         backgroundColor: "#D9D9D9",
                         width: "500px",
-                        height: "500px",
+                        height: "550px",
                         borderRadius: "10px",
                         border: '2px solid #000000',
                         p: 2
@@ -371,6 +365,22 @@ function TutorRegisterManagement() {
                         value={prices}
                         onChange={(e) => setPrice(e.target.value)}
                         label='Tiền'
+                        type="number"
+                        variant='outlined'
+                        InputLabelProps={{
+                            style: { fontSize: '15px' },
+                        }}
+                        InputProps={{
+                            style: { fontSize: '14px' },
+                        }}
+                        required
+                        sx={{ marginTop: "20px" }}
+                    />
+                    <TextField
+                        fullWidth
+                        value={experience}
+                        onChange={(e) => setExperience(e.target.value)}
+                        label='Kinh nghiệm'
                         type="number"
                         variant='outlined'
                         InputLabelProps={{

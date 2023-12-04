@@ -111,14 +111,14 @@ function CalendarStudent() {
                     <Table>
                         <TableHead>
                             <TableRow>
-                                <TableCell sx={{ padding: '20px 45px', backgroundColor: '#71C763' }}><TextField
+                                <TableCell sx={{ border: '1px solid #000000', padding: '20px 45px', backgroundColor: '#71C763' }}><TextField
                                     type="week"
                                     value={selectedWeek}
                                     onChange={handleWeekChange}
                                     sx={{ width: '100%' }}
                                 /></TableCell>
                                 {daysOfWeek.map((day, index) => (
-                                    <TableCell key={index} sx={{ padding: '20px 40px', fontSize: '15px', fontFamily: 'cursive', backgroundColor: '#71C763' }}>{day.lessonline}</TableCell>
+                                    <TableCell key={index} sx={{ border: '1px solid #000000', padding: '20px 40px', fontSize: '15px', fontFamily: 'cursive', backgroundColor: '#71C763' }}>{day.lessonline}</TableCell>
                                 ))}
                             </TableRow>
                         </TableHead>

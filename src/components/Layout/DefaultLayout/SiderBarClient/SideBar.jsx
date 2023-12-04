@@ -16,9 +16,9 @@ import { useEffect } from 'react';
 import axios from 'axios';
 
 const Sidebar = () => {
-    const [openPrimary, setOpenPrimary] = React.useState(true);
-    const [openSecondary, setOpenSecondary] = React.useState(true);
-    const [openHighschool, setOpenHighschool] = React.useState(true);
+    const [openPrimary, setOpenPrimary] = React.useState(false);
+    const [openSecondary, setOpenSecondary] = React.useState(false);
+    const [openHighschool, setOpenHighschool] = React.useState(false);
     const [data, setData] = React.useState([]);
 
     useEffect(() => {
