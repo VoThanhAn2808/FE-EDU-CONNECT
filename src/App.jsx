@@ -23,8 +23,12 @@ function App() {
                   <Navigate to="/homestudent" />
                 ) : isAuthenticated.role === 2 ? (
                   <Navigate to="/hometutor" />
+                ) : isAuthenticated.role === 3 ? (
+                  <Navigate to="/dashboard" />
+                ) : isAuthenticated.role === 4 ? (
+                  <Navigate to="/admin" />
                 ) : (
-                  <Navigate to="/hometutor" />
+                  null
                 )
               ) : (
                 <route.layout>
@@ -71,6 +75,23 @@ function App() {
               />
             );
           } else if (route?.allowedRoles?.includes('staff')) {
+            return (
+              <Route
+                key={route.path}
+                path={route.path}
+                element={
+                  <StudentRoute
+                    element={
+                      <route.layout>
+                        <route.component />
+                      </route.layout>
+                    }
+                    allowedRoles={route.allowedRoles}
+                  />
+                }
+              />
+            );
+          } else if (route?.allowedRoles?.includes('admin')) {
             return (
               <Route
                 key={route.path}
