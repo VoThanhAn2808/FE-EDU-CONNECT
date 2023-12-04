@@ -1,5 +1,5 @@
 import React, { useCallback, useEffect, useState } from "react";
-import { Box, Button, Link, Pagination, Table, TableBody, TableCell, TableContainer, TableHead, TableRow, TextField, Typography } from "@mui/material";
+import { Box, Link, Pagination, Table, TableBody, TableCell, TableContainer, TableHead, TableRow, TextField, Typography } from "@mui/material";
 import axios from "axios";
 import { jwtDecode } from "jwt-decode";
 import CheckIcon from '@mui/icons-material/Check';
@@ -100,10 +100,11 @@ function DocumentManagement() {
                 border: '1px solid #000000', p: 2,
             }}>
                 <Box sx={{
-                    marginLeft: '70%',
+                    marginLeft: '80%',
                     marginTop: '10px',
                 }}>
                     <TextField
+                    label="Tìm Kiếm"
                         sx={{
                             borderRadius: '11%',
                             width: '200px',
@@ -117,15 +118,6 @@ function DocumentManagement() {
                         value={searchName}
                         onChange={handleSearch}
                     />
-                    <Button variant="contained" component="a" href="#" hrefLang="#"
-                        sx={{
-                            height: '45px',
-                            marginLeft: '10px',
-                            fontSize: '12px',
-                            borderRadius: '11%'
-                        }}>
-                        Tìm Kiếm
-                    </Button>
                 </Box>
                 <Box sx={{
                     display: "flex",

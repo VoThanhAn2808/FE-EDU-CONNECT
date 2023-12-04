@@ -145,10 +145,11 @@ function CourseManagement() {
                 border: '1px solid #000000', p: 2,
             }}>
                 <Box sx={{
-                    marginLeft: '70%',
+                    marginLeft: '80%',
                     marginTop: '10px',
                 }}>
                     <TextField
+                    label="Tìm Kiếm"
                         sx={{
                             borderRadius: '11%',
                             width: '200px',
@@ -162,15 +163,6 @@ function CourseManagement() {
                         value={searchName}
                         onChange={handleSearch}
                     />
-                    <Button variant="contained" component="a" href="#" hrefLang="#"
-                        sx={{
-                            height: '45px',
-                            marginLeft: '10px',
-                            fontSize: '12px',
-                            borderRadius: '11%'
-                        }}>
-                        Tìm Kiếm
-                    </Button>
                 </Box>
                 <Box sx={{
                     display: "flex",
@@ -231,7 +223,7 @@ function CourseManagement() {
                         justifyContent: 'center',
                     }}
                 >
-                    <Box sx={{ backgroundColor: "#D9D9D9", width: "300px", height: "300px", borderRadius: "10px", border: '2px solid #000000', p: 2, }}>
+                    <Box sx={{ backgroundColor: "#D9D9D9", width: "300px", height: "200px", borderRadius: "10px", border: '2px solid #000000', p: 2, }}>
                         <Typography sx={{ fontSize: "17px", marginTop: "10px" , textAlign : 'center'}}>Học sinh: {detail.studentName}</Typography>
                         <Typography sx={{ fontSize: "17px", textAlign : 'center' }}>Gia sư: {detail.tutorName}</Typography>
                         <Typography sx={{ fontSize: "17px", textAlign : 'center' }}>Ngày đăng ký: {detail.dateregister}</Typography>

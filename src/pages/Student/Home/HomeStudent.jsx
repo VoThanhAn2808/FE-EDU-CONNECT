@@ -176,7 +176,7 @@ function Home() {
                             <Box className='giasu-container'>
                                 <Typography className='giasutext'
                                     sx={{
-                                        color: "#00000",
+                                        color: "green",
                                         fontWeight: "700",
                                         fontSize: "20px",
                                         fontFamily: "math"
@@ -185,26 +185,34 @@ function Home() {
                                 </Typography>
                                 <Typography className='giasu-name'
                                     sx={{
-                                        color: "#00000",
+                                        color: "green",
                                         fontWeight: "800",
                                         fontSize: "20px",
                                     }}>
                                     {item.fullname}
                                 </Typography>
                                 <Link to={`/viewinfomationpage/${item.tutorid}`} style={{ color: 'black' }}>
-                                    <Typography className='giasu-infor'
-                                        sx={{
-                                            color: "#00000",
-                                            fontWeight: "400",
-                                            fontSize: "20px",
-                                            fontFamily: "cursive",
-                                            height: "35px",
-                                            width: "150px",
-                                            backgroundColor: "red",
-                                            borderRadius: "5px"
-                                        }}>
-                                        Thông tin
-                                    </Typography>
+                                <Button
+                                variant="contained" 
+                                color="success"
+                                    sx={{
+                                        fontWeight: "400",
+                                        fontSize: "20px",
+                                        fontFamily: "cursive",
+                                        height: "35px",
+                                        width: "200px", 
+                                        borderRadius: "5px",
+                                        position: "absolute",
+                                        top: "95%",
+                                        left: "50%",
+                                        transform: "translate(-50%, -50%)",
+                                        textAlign: "center",
+                                        textTransform: "uppercase",
+                                        zIndex: 1
+                                    }}
+                                >
+                                    Thông tin
+                                </Button>
                                 </Link>
                                 <img src={`http://localhost:8081/edu/file/files/` + item.img} alt="giasu" className='giasu' style={{height : '330px'}} />
                             </Box>

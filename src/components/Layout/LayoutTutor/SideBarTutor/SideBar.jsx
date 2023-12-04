@@ -16,8 +16,8 @@ import { useEffect } from 'react';
 import { jwtDecode } from 'jwt-decode';
 
 const Sidebar = () => {
-  const [openGrades, setOpenGrades] = useState(true);
-  const [openSubject, setOpenSubject] = useState(true);
+  const [openGrades, setOpenGrades] = useState(false);
+  const [openSubject, setOpenSubject] = useState(false);
   const decodedToken = jwtDecode(localStorage.getItem('token'));
   const userId = decodedToken.id;
   const [course, setCourse] = useState([]);
@@ -35,14 +35,16 @@ const Sidebar = () => {
 
   const handleGradesClick = () => {
     setOpenGrades(!openGrades);
+    setOpenSubject(false);
   };
   const handleSubjectClick = () => {
     setOpenSubject(!openSubject);
+    setOpenGrades(false);
   };
   return (
     <Box
       sx={{
-        bgcolor: '#E2A369',
+        bgcolor: '#E0D3A8',
         minWidth: '30vh',
         height: "100%"
       }}
@@ -50,7 +52,7 @@ const Sidebar = () => {
       <List
         sx={{
           width: '100%',
-          bgcolor: '#E2A369',
+          bgcolor: '#E0D3A8',
         }}
       >
         <ListItemButton>

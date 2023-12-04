@@ -7,7 +7,6 @@ import { Link } from "react-router-dom";
 function FooterHome() {
     return (
         <Box sx={{
-            marginBottom: "40px",
             display: "flex",
             flexDirection: "column",
             alignItems: "center",

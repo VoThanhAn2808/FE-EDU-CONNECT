@@ -17,8 +17,8 @@ import axios from 'axios';
 import { useCallback } from 'react';
 
 const Sidebar = () => {
-  const [openCourse, setOpenCourse] = React.useState(true);
-  const [openGrades, setOpenGrades] = React.useState(true);
+  const [openCourse, setOpenCourse] = React.useState(false);
+  const [openGrades, setOpenGrades] = React.useState(false);
   const [user, setUser] = useState([]);
   const [course, setStudentData] = useState([]);
   const decodedToken = jwtDecode(localStorage.getItem('token'));
@@ -72,7 +72,7 @@ const Sidebar = () => {
   return (
     <Box
       sx={{
-        bgcolor: '#E2A369',
+        bgcolor: '#E0D3A8',
         minWidth: '30vh',
         height: "100%"
       }}
@@ -80,7 +80,7 @@ const Sidebar = () => {
       <List
         sx={{
           width: '100%',
-          bgcolor: '#E2A369',
+          bgcolor: '#E0D3A8',
         }}
       >
         <ListItemButton>

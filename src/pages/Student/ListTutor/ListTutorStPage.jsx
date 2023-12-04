@@ -11,11 +11,7 @@ function ListTutorST() {
     const { id } = useParams();
     const [pages, setPages] = useState(1);
     const [pageTop, setPageTop] = useState(1);
-    const [searchName, setSearchName] = useState('');
-
-    const handleSearchChange = (event) => {
-        setSearchName(event.target.value);
-    };
+    const [searchName] = useState("");
 
     const handleSearch = () => {
         axios
@@ -102,39 +98,25 @@ function ListTutorST() {
         <Box sx={{
         }}>
             <Box sx={{
-                marginLeft: '75%',
-                marginTop: '10px',
-
-            }}>
-                <TextField
-                    label="Tìm Kiếm..."
-                    InputLabelProps={{
-                        style: {
-                            fontSize: '12px',
-                            color: 'rgba(0, 0, 0, 0.54)',
-                        },
-                    }}
-                    sx={{
-                        borderRadius: '11%',
-                        width: '200px',
-                    }}
-                    InputProps={{
-                        style: {
-                            fontSize: '14px',
-                            height: '45px'
-                        },
-                    }}
-                    value={searchName} onChange={handleSearchChange}
-                />
-                <Button variant="contained" color="primary" sx={{
-                    height: '45px',
-                    marginLeft: '10px',
-                    fontSize: '10px',
-                    borderRadius: '11%'
-                }} onClick={handleSearch}>
-                    Tìm Kiếm
-                </Button>
-            </Box>
+                    marginLeft: '80%',
+                    marginTop: '10px',
+                }}>
+                    <TextField
+                    label="Tìm Kiếm"
+                        sx={{
+                            borderRadius: '11%',
+                            width: '200px',
+                        }}
+                        InputProps={{
+                            style: {
+                                height: '45px',
+                                fontSize: "14px"
+                            },
+                        }}
+                        value={searchName}
+                        onChange={handleSearch}
+                    />
+                </Box>
             <Box className="tutor">
                 <Grid container spacing={2}  >
                     {data.map((item, index) => (

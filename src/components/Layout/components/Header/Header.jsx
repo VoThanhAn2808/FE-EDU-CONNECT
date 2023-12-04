@@ -21,6 +21,7 @@ import { Button, Modal, Table, TableBody, TableCell, TableContainer, TableHead, 
 import { styled, keyframes } from '@mui/system';
 import RemoveRedEyeIcon from '@mui/icons-material/RemoveRedEye';
 import VisibilityOffIcon from '@mui/icons-material/VisibilityOff';
+import LOGO from "../../../../assests/logo.png"
 
 
 function Header() {
@@ -133,6 +134,14 @@ function Header() {
     };
 
     const [money, setMoney] = useState('');
+    const [valid, setValid] = useState(true);
+    const [banks, setBanks] = useState([]);
+
+    const handleMoneyChange = (e) => {
+        const value = e.target.value;
+        setMoney(value);
+        setValid(value >= 1000000); // Kiểm tra giá trị nhập có lớn hơn hoặc bằng 1.000.000 không
+    };
 
     const handleClickPay = async (event, tutorid) => {
         event.preventDefault();
@@ -170,56 +179,63 @@ function Header() {
                 decodedTokenRef.current = jwtDecode(token);
                 const role = decodedTokenRef.current.role;
                 setCheck(role);
-
-                if (role === 1) {
-                    axios
-                        .get(`http://localhost:8081/student/viewstudent?email=${decodedTokenRef.current.id}`)
-                        .then((response) => {
-                            setData(response.data);
-                            console.log(response.data);
-                        })
-                        .catch((error) => {
-                            console.error(error);
-                        });
-                } else if (role === 2) {
-                    axios
-                        .get(`http://localhost:8081/educonnect/viewTutor?tutorId=${decodedTokenRef.current.id}`)
-                        .then((response) => {
-                            setData(response.data);
-                            console.log(response.data);
-                        })
-                        .catch((error) => {
-                            console.error(error);
-                        });
-                    axios
-                        .get(`http://localhost:8081/educonnect/showbank?tutorid=${decodedTokenRef.current.id}`)
-                        .then((response) => {
-                            setShow(response.data);
-                            console.log(response.data);
-                        })
-                        .catch((error) => {
-                            console.error(error);
-                        });
-                    axios
-                        .get(`http://localhost:8081/educonnect/historypay?tutorid=${decodedTokenRef.current.id}`)
-                        .then((response) => {
-                            setHistory(response.data);
-                            console.log(response.data);
-                        })
-                        .catch((error) => {
-                            console.error(error);
-                        });
-                } else if (role === 3) {
-                    axios
-                        .get(`http://localhost:8081/staffsconnect/ViewInfoStaff?staffId=${decodedTokenRef.current.id}`)
-                        .then((response) => {
-                            setData(response.data);
-                            console.log(response.data);
-                        })
-                        .catch((error) => {
-                            console.error(error);
-                        });
-                }
+            if (role === 1) {
+                axios
+                    .get(`http://localhost:8081/student/viewstudent?email=${decodedTokenRef.current.id}`)
+                    .then((response) => {
+                        setData(response.data);
+                        console.log(response.data);
+                    })
+                    .catch((error) => {
+                        console.error(error);
+                    });
+            } else if (role === 2) {
+                axios
+                    .get(`http://localhost:8081/educonnect/viewTutor?tutorId=${decodedTokenRef.current.id}`)
+                    .then((response) => {
+                        setData(response.data);
+                        console.log(response.data);
+                    })
+                    .catch((error) => {
+                        console.error(error);
+                    });
+                axios
+                    .get(`http://localhost:8081/educonnect/showbank?tutorid=${decodedTokenRef.current.id}`)
+                    .then((response) => {
+                        setShow(response.data);
+                        console.log(response.data);
+                    })
+                    .catch((error) => {
+                        console.error(error);
+                    });
+                axios
+                    .get(`http://localhost:8081/educonnect/historypay?tutorid=${decodedTokenRef.current.id}`)
+                    .then((response) => {
+                        setHistory(response.data);
+                        console.log(response.data);
+                    })
+                    .catch((error) => {
+                        console.error(error);
+                    });
+                axios
+                    .get('https://api.vietqr.io/v2/banks')
+                    .then((response) => {
+                        setBanks(response.data.data);
+                        console.log('ds', response.data.data);
+                    })
+                    .catch((error) => {
+                        console.error(error);
+                    });
+            } else if (role === 3) {
+                axios
+                    .get(`http://localhost:8081/staffsconnect/ViewInfoStaff?staffId=${decodedTokenRef.current.id}`)
+                    .then((response) => {
+                        setData(response.data);
+                        console.log(response.data);
+                    })
+                    .catch((error) => {
+                        console.error(error);
+                    });
             }
         } catch (error) {
             console.error('Error decoding the token:', error);
@@ -242,7 +258,7 @@ function Header() {
     return (
         <AppBar position='fixed' sx={{
             width: '100%',
-            background: "#F9C01F",
+            background: "#D1BD7F",
             zIndex: "5",
             boxShadow: 'none',
             height: '70px'
@@ -258,10 +274,13 @@ function Header() {
                             fontWeight: 800,
                             color: 'inherit',
                             textDecoration: 'none',
+                            display: 'flex',
+                            alignItems: 'center',
                         }}
                         onClick={() => { navigate('/') }}
                     >
-                        EDU-CONNECT
+                        <img src={LOGO} alt="logo" style={{ height: "70px" }} />
+                        <span style={{ marginLeft: '10px' }}>EDU-CONNECT</span>
                     </Typography>
 
                     <Box sx={{
@@ -343,12 +362,11 @@ function Header() {
                                 </Tooltip>
                             ) : (
                                 <Box>
-                                    <Link to="/login"><Button variant="contained" color="success" sx={{ backgroundColor: "#C6D331", color: "white", fontSize: "13px", fontWeight: "600", marginRight: "5px" }}>Đăng nhập</Button></Link>
-                                    <Link to="/signup"><Button variant="contained" color='error' sx={{ backgroundColor: "#C6D331", color: "white", fontSize: "13px", fontWeight: "600" }}>Đăng ký</Button></Link>
+                                    <Link to="/login"><Button sx={{ color: "black", fontSize: "13px", fontWeight: "600", marginRight: "5px" }}>Đăng nhập</Button></Link>
+                                    <Link to="/signup"><Button sx={{ backgroundColor: "#C6D331", color: "black", fontSize: "13px", fontWeight: "600" }}>Đăng ký</Button></Link>
                                 </Box>
                             )
                         }
-
 
                         <Menu
                             anchorEl={anchorElUser}
@@ -364,31 +382,32 @@ function Header() {
                             open={Boolean(anchorElUser)}
                             onClose={handleCloseUserMenu}
                         >
-                            <MenuItem key="profile" onClick={handleProfileClick}>
-                                <Typography variant="body1" sx={{ fontSize: "15px" }}>Thông tin cá nhân</Typography>
-                            </MenuItem>
-                            {check === 2 ? (
-                                <>
+                            {[
+                                <MenuItem key="profile" onClick={handleProfileClick}>
+                                    <Typography variant="body1" sx={{ fontSize: "15px" }}>Thông tin cá nhân</Typography>
+                                </MenuItem>,
+                                check === 2 && (
                                     <MenuItem key="withdraw" onClick={handleOpen}>
                                         <Typography variant="body1" sx={{ fontSize: "15px" }}>Rút tiền</Typography>
                                     </MenuItem>
-                                    <MenuItem key="withdraw" onClick={handleOpen1}>
+                                ),
+                                check === 2 && (
+                                    <MenuItem key="withdraw-history" onClick={handleOpen1}>
                                         <Typography variant="body1" sx={{ fontSize: "15px" }}>Lịch sử rút tiền</Typography>
                                     </MenuItem>
-                                </>
-                            ) : check === 1 ? (
-                                <MenuItem key="withdraw" onClick={handleFeedback}>
-                                    <Typography variant="body1" sx={{ fontSize: "15px" }}>Đánh giá gia sư</Typography>
+                                ),
+                                check === 1 && (
+                                    <MenuItem key="feedback" onClick={handleFeedback}>
+                                        <Typography variant="body1" sx={{ fontSize: "15px" }}>Đánh giá gia sư</Typography>
+                                    </MenuItem>
+                                ),
+                                <MenuItem key="change-password" onClick={handleChangePassword}>
+                                    <Typography variant="body1" sx={{ fontSize: "15px" }}>Đổi mật khẩu</Typography>
+                                </MenuItem>,
+                                <MenuItem key="logout" onClick={handleLogoutClick}>
+                                    <Typography variant="body1" sx={{ fontSize: "15px" }}>Đăng xuất</Typography>
                                 </MenuItem>
-                            ) : (
-                                null
-                            )}
-                            <MenuItem key="change-password" onClick={handleChangePassword}>
-                                <Typography variant="body1" sx={{ fontSize: "15px" }}>Đổi mật khẩu</Typography>
-                            </MenuItem>
-                            <MenuItem key="logout" onClick={handleLogoutClick}>
-                                <Typography variant="body1" sx={{ fontSize: "15px" }}>Đăng xuất</Typography>
-                            </MenuItem>
+                            ]}
                         </Menu>
                     </Box>
                 </Toolbar>
@@ -405,11 +424,11 @@ function Header() {
                         <Typography sx={{ fontSize: '20px', fontFamily: 'cursive', textAlign: 'center', marginTop: '5px' }}>{data.fullname}</Typography>
                         <TextField
                             value={money}
-                            onChange={(e) => setMoney(e.target.value)}
+                            onChange={handleMoneyChange}
                             label='Nhập số tiền cần rút'
                             type='number'
                             inputProps={{
-                                min: 100000,
+                                min: 1000000,
                                 max: data.salary,
                                 style: {
                                     fontSize: '14px'
@@ -421,10 +440,12 @@ function Header() {
                                     color: 'rgba(0, 0, 0, 0.54)',
                                 },
                             }}
+                            error={!valid} // Đánh dấu trường nhập là lỗi nếu giá trị không hợp lệ
+                            helperText={!valid ? <span style={{ fontSize: '12px' }}>Tối thiểu là 1.000.000 VND</span> : ''}
                             sx={{ marginLeft: '25%', width: '200px', marginTop: '20px' }}
                         />
                         <TextField
-                            value={show.banknumber}
+                            value={show.banknumber || ''} // Initialize with an empty string if show.banknumber is null
                             onChange={(e) => {
                                 setShow({ ...show, banknumber: e.target.value });
                             }}
@@ -444,11 +465,12 @@ function Header() {
                             }}
                         />
                         <TextField
-                            value={show.bank}
+                            select
+                            value={show.bank || ''} // Initialize with an empty string if show.bank is null
                             onChange={(e) => {
                                 setShow({ ...show, bank: e.target.value });
                             }}
-                            sx={{ marginTop: '20px', marginLeft: '26%' }}
+                            sx={{ marginTop: '20px', marginLeft: '26%', width: "202px" }}
                             label='Tên ngân hàng'
                             InputLabelProps={{
                                 style: {
@@ -462,10 +484,18 @@ function Header() {
                                     height: '45px'
                                 },
                             }}
-                        />
+                        >
+                            {banks.map((item, index) => (
+                                <MenuItem key={index} value={item.shortName}>
+                                    {item.shortName}
+                                </MenuItem>
+                            ))}
+                        </TextField>
+
+
                         <Box sx={{ marginTop: "30px", marginLeft: "34%", display: 'flex' }}>
-                            <Button type="submit" sx={{ backgroundColor: "green", color: "white", fontSize: "12px", fontWeight: "600" }} >Rút</Button>
-                            <Button sx={{ backgroundColor: "red", color: "white", fontSize: "12px", fontWeight: "600", marginLeft: '10px' }} onClick={handleClose}>Huỷ</Button>
+                            <Button type="submit" variant='contained' color='success' sx={{ backgroundColor: "green", color: "white", fontSize: "12px", fontWeight: "600" }} >Rút</Button>
+                            <Button variant='contained' color='error' sx={{ backgroundColor: "red", color: "white", fontSize: "12px", fontWeight: "600", marginLeft: '10px' }} onClick={handleClose}>Huỷ</Button>
                         </Box>
                     </Box>
                 </form>

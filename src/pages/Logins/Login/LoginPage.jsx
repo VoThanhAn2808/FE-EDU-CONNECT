@@ -1,4 +1,5 @@
 import { Box, FormControl, FormHelperText, IconButton, InputAdornment, InputLabel, OutlinedInput, Typography } from '@mui/material';
+import { Snackbar, Alert } from '@mui/material';
 import React, { useState } from 'react';
 import LOGIN from '../../../assests/login.png';
 import LOGO from '../../../assests/lglogin.jpg';
@@ -14,6 +15,14 @@ function LoginPage() {
   const [showPassword, setShowPassword] = useState(false);
   const [emailError, setEmailError] = useState('');
   const [passwordError, setPasswordError] = useState('');
+
+  const [showAlert, setShowAlert] = useState(false);
+  const [alertMessage, setAlertMessage] = useState('');
+  const [alertSeverity, setAlertSeverity] = useState('success');
+
+  const handleAlertClose = () => {
+    setShowAlert(false);
+  };
 
   const handleClickShowPassword = () => setShowPassword((show) => !show);
 
@@ -38,13 +47,16 @@ function LoginPage() {
         },
         config
       );
-      alert(response.data.message);
+      setAlertMessage(response.data.message);
+      setAlertSeverity('success');
+      setShowAlert(true);
+
       const token = response.data.token;
       localStorage.setItem("token", token);
       const decodedToken = jwtDecode(token);
 
       if (decodedToken.role === 1) {
-        const check = await axios.get(`http://localhost:8081/student/checkstudent?studentid=${decodedToken.id}`)
+        const check = await axios.get(`http://localhost:8081/student/checkstudent?studentid=${decodedToken.id}`);
         if (check.data === false) {
           window.location.href = "/profilestudent";
         } else {
@@ -56,19 +68,21 @@ function LoginPage() {
           }
         }
       } else if (decodedToken.role === 2) {
-        const check = await axios.get(`http://localhost:8081/educonnect/checktutor?tutorid=${decodedToken.id}`)
+        const check = await axios.get(`http://localhost:8081/educonnect/checktutor?tutorid=${decodedToken.id}`);
         if (check.data === false) {
           window.location.href = "/profiletutor";
         } else {
           window.location.href = "/hometutor";
         }
       } else if (decodedToken.role === 3) {
-        window.location.href = "/tutormanagement"
+        window.location.href = "/dashboard";
       }
       validateEmail();
       validatePassword();
     } catch (error) {
-      alert("Tài khoản hoặc mật khẩu của bạn không chính xác!");
+      setAlertMessage("Tài khoản hoặc mật khẩu của bạn không chính xác!");
+      setAlertSeverity('error');
+      setShowAlert(true);
     }
   };
 
@@ -197,6 +211,15 @@ function LoginPage() {
             >
               Đăng nhập
             </Button>
+            <Snackbar open={showAlert}
+              autoHideDuration={5000}
+              onClose={handleAlertClose}
+              anchorOrigin={{ vertical: 'top', horizontal: 'center' }}
+            >
+              <Alert onClose={handleAlertClose} severity={alertSeverity} sx={{ backgroundColor: alertSeverity === 'error' ? '#ffee58' : '#4caf50', fontSize: "15px" }}>
+                {alertMessage}
+              </Alert>
+            </Snackbar>
             <Link to="/forgotpass" style={{ textDecoration: "none" }}>
               <Typography variant='h5' sx={{ color: "#8B8B8B", marginLeft: "180px" }}>Quên mật khẩu</Typography>
             </Link>
