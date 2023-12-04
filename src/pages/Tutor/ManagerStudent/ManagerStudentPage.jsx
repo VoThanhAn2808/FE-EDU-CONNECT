@@ -1,31 +1,48 @@
 import { Avatar, Box, Button, Menu, MenuItem, Modal, Pagination, Paper, Table, TableBody, TableCell, TableContainer, TableHead, TableRow, Typography } from "@mui/material";
-import React from "react";
+import IconButton from '@material-ui/core/IconButton';
+import React, { useEffect, useState } from "react";
 import MoreHorizIcon from '@mui/icons-material/MoreHoriz';
+import RefreshIcon from '@material-ui/icons/Refresh';
 import avt from './../../../assests/giasu.jpg'
 import { Link } from "react-router-dom";
-
-const data = [
-    { id: 1, student: 'Nguyễn Văn A', date: '2023-04-03', status : 'hoàn thành' },
-    { id: 2, student: 'Nguyễn Văn A', date: '2023-04-03', status : 'hoàn thành' },
-    { id: 3, student: 'Nguyễn Văn A', date: '2023-04-03', status : 'hoàn thành' },
-    { id: 4, student: 'Nguyễn Văn A', date: '2023-04-03', status : 'hoàn thành' },
-    { id: 5, student: 'Nguyễn Văn A', date: '2023-04-03', status : 'hoàn thành' },
-    { id: 6, student: 'Nguyễn Văn A', date: '2023-04-03', status : 'hoàn thành' },
-    { id: 7, student: 'Nguyễn Văn A', date: '2023-04-03', status : 'hoàn thành' },
-    { id: 8, student: 'Nguyễn Văn A', date: '2023-04-03', status : 'hoàn thành' },
-    { id: 9, student: 'Nguyễn Văn A', date: '2023-04-03', status : 'hoàn thành' },
-    { id: 10, student: 'Nguyễn Văn A', date: '2023-04-03', status : 'hoàn thành' },
-    
-];
-
+import axios from "axios";
+import { jwtDecode } from 'jwt-decode';
 function ManagerStudent() {
 
-    const [open, setOpen] = React.useState(false);
+    const [open, setOpen] = useState(false);
 
     const handleOpen = () => setOpen(true);
     const handleClose = () => setOpen(false);
 
-    const [anchorElUser, setAnchorElUser] = React.useState(null);
+    const [anchorElUser, setAnchorElUser] = useState(null);
+
+    const [listStudentfinished, setListStudentfinished] = useState([]);
+    const decodedToken = jwtDecode(localStorage.getItem('token'));
+    const [page, setPage] = useState(1);
+    const [status, setStatus] = useState(0);
+
+    const [currentDate, setCurrentDate] = useState(new Date());
+
+    useEffect(() => {
+        // Update the current date every second
+        const intervalId = setInterval(() => {
+            setCurrentDate(new Date());
+        }, 1000);
+
+        // Clear the interval on component unmount
+        return () => clearInterval(intervalId);
+    }, []);
+    useEffect(() => {
+        axios.get(`http://localhost:8081/educonnect/tutor/studentfinished?tutorid=${decodedToken.id}&page=${page}&status=${status}`)
+            .then((response) => {
+                setListStudentfinished(response.data);
+                console.log(response.data);
+            })
+            .catch((error) => {
+                console.log(error);
+            })
+    }, [page, status]);
+
 
     const handleOpenUserMenu = (event) => {
         setAnchorElUser(event.currentTarget);
@@ -34,6 +51,17 @@ function ManagerStudent() {
     const handleCloseUserMenu = () => {
         setAnchorElUser(null);
     };
+    const checkStatus = (startDate, endDate) => {
+        if (startDate < currentDate.getTime() && endDate < currentDate.getTime()) {
+            return "Hoàn Thành";
+        } else if (startDate < currentDate.getTime() && endDate > currentDate.getTime()) {
+            return "Còn Học";
+        }
+        else if (startDate > currentDate.getTime()) {
+            return "Đợi Học";
+        }
+    };
+
 
     const style = {
         position: 'absolute',
@@ -54,12 +82,18 @@ function ManagerStudent() {
                 <Typography sx={{ fontSize: "40px", marginLeft: "2%", fontFamily: "cursive", paddingBottom: "20px" }}>Toán đại 10 - Nguyễn Văn A</Typography>
                 <Typography sx={{ fontSize: "25px", marginLeft: "2%", fontFamily: "cursive" }}>Tab chính/Môn/Học Sinh</Typography>
             </Box>
-            <Box sx={{ width: '98%', height : '100%',  marginBottom: '50px', marginTop: "10px", borderRadius: "5px", marginLeft: "1%", marginRight: "1%", backgroundColor: "#E2D6D6" }}>
-                <Box sx={{ marginLeft: '60%', paddingTop: '20px' }}>
-                    <Button variant="contained" style={{ fontSize: '12px', fontFamily: 'cursive' }}>
+            <Box sx={{ width: '98%', height: '100%', marginBottom: '50px', marginTop: "10px", borderRadius: "5px", marginLeft: "1%", marginRight: "1%", backgroundColor: "#E2D6D6" }}>
+                <Box sx={{ marginLeft: '40%', paddingTop: '20px', display: 'flex', marginRight: '12px', }}>
+                    <IconButton variant="contained" style={{ color: 'primary', }} onClick={() => { setStatus(0) }}>
+                        <RefreshIcon style={{ color: 'primary', fontSize: '25px', }} />
+                    </IconButton >
+                    <Button variant="contained" style={{ fontSize: '12px', fontFamily: 'cursive', flex: '1', marginRight: '10px', }} onClick={() => { setStatus(1) }}>
+                        Học sinh đang đợi học
+                    </Button>
+                    <Button variant="contained" style={{ fontSize: '12px', fontFamily: 'cursive', flex: '1', marginRight: '10px', }} onClick={() => { setStatus(2) }}>
                         Học sinh còn học
                     </Button>
-                    <Button variant="contained" sx={{ fontSize: '12px', fontFamily: 'cursive', marginLeft: '50px' }} >
+                    <Button variant="contained" sx={{ fontSize: '12px', fontFamily: 'cursive', flex: '1', }} onClick={() => { setStatus(3) }}>
                         Học sinh đã hoàn thành
                     </Button>
                 </Box>
@@ -70,23 +104,28 @@ function ManagerStudent() {
                                 <TableRow>
                                     <TableCell sx={{ fontSize: '15px', fontFamily: 'cursive', backgroundColor: '#F9F3F3', }}>MSHS</TableCell>
                                     <TableCell sx={{ fontSize: '15px', fontFamily: 'cursive', backgroundColor: '#F9F3F3', }}>Tên học sinh</TableCell>
-                                    <TableCell sx={{ fontSize: '15px', fontFamily: 'cursive', backgroundColor: '#F9F3F3', }}>Ngày đăng ký</TableCell>
+                                    <TableCell sx={{ fontSize: '15px', fontFamily: 'cursive', backgroundColor: '#F9F3F3', }}>Ngày bắt đầu học</TableCell>
                                     <TableCell sx={{ fontSize: '15px', fontFamily: 'cursive', backgroundColor: '#F9F3F3', }}>Trạng thái</TableCell>
                                     <TableCell sx={{ backgroundColor: '#F9F3F3', width: '20px' }}></TableCell>
                                 </TableRow>
                             </TableHead>
                             <TableBody>
-                                {data.map((item, index) => (
+                                {listStudentfinished.length > 0 ? listStudentfinished.map((item, index) => (
                                     <TableRow key={index}>
-                                        <TableCell sx={{ width: '140px', height: '50px', fontSize: '15px', fontFamily: 'cursive' }}>{item.id}</TableCell>
-                                        <TableCell sx={{ width: '140px', height: '50px', fontSize: '15px', fontFamily: 'cursive' }}>{item.student}</TableCell>
-                                        <TableCell sx={{ width: '140px', height: '50px', fontSize: '15px', fontFamily: 'cursive' }}>{item.date}</TableCell>
-                                        <TableCell sx={{ width: '140px', height: '50px', fontSize: '15px', fontFamily: 'cursive' }}>{item.status}</TableCell>
+                                        <TableCell sx={{ width: '20%', height: '50px', fontSize: '15px', fontFamily: 'cursive' }}>{item.studentid}</TableCell>
+                                        <TableCell sx={{ width: '30%', height: '50px', fontSize: '15px', fontFamily: 'cursive' }}>{item.fullname}</TableCell>
+                                        <TableCell sx={{ width: '20%', height: '50px', fontSize: '15px', fontFamily: 'cursive' }}>{item.startdate}</TableCell>
+                                        <TableCell sx={{ width: '20%', height: '50px', fontSize: '15px', fontFamily: 'cursive' }}>{checkStatus((new Date(item.startdate)).getTime(), (new Date(item.enddate)).getTime())}</TableCell>
+                                        <TableCell sx={{ width: '20%', height: '50px', fontSize: '15px', fontFamily: 'cursive' }}><img src={'http://localhost:8081/edu/file/fileImg/' + item.studentid + '/' + item.img} alt={`Discount Image for ${item.title}`} style={{ maxWidth: '100%', maxHeight: '100%', }} /></TableCell>
                                         <TableCell sx={{ height: '50px', textAlign: 'center' }}>
                                             <MoreHorizIcon onClick={handleOpenUserMenu} sx={{ fontSize: '30px' }} />
                                         </TableCell>
                                     </TableRow>
-                                ))}
+                                )) :
+                                    (<TableRow >
+                                        <TableCell sx={{ width: '140px', height: '50px', fontSize: '15px', fontFamily: 'cursive', textAlign: 'center' }} colSpan={8}>Không có dữ liệu</TableCell>
+                                    </TableRow>)
+                                }
                             </TableBody>
                         </Table>
                     </TableContainer>
@@ -105,7 +144,7 @@ function ManagerStudent() {
                         onClose={handleCloseUserMenu}
                     >
                         <MenuItem onClick={handleOpen}>Xem thông tin</MenuItem>
-                        <Link to='/exerciselist' style={{textDecoration : 'none', color : 'black'}}>
+                        <Link to='/exerciselist' style={{ textDecoration: 'none', color: 'black' }}>
                             <MenuItem onClick={handleCloseUserMenu}>Bài tập</MenuItem>
                         </Link>
                     </Menu>
