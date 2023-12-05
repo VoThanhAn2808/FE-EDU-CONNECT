@@ -230,6 +230,7 @@ function Header() {
                         console.error(error);
                     });
             }
+        }
         } catch (error) {
             console.error('Error decoding the token:', error);
         }

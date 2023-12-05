@@ -1,9 +1,13 @@
 import { Box, Grid, Typography } from "@mui/material";
 import MovingIcon from '@mui/icons-material/Moving';
 import TrendingDownIcon from '@mui/icons-material/TrendingDown';
-import { LineChart, Line, XAxis, YAxis, CartesianGrid, Tooltip, Legend, BarChart, Bar } from 'recharts';
+import { LineChart, Line, XAxis, YAxis, CartesianGrid, Tooltip, Legend, } from 'recharts';
 import axios from "axios";
 import { useEffect, useState } from "react";
+import { LocalizationProvider } from '@mui/x-date-pickers/LocalizationProvider';
+import { AdapterDayjs } from '@mui/x-date-pickers/AdapterDayjs';
+import { DateCalendar } from '@mui/x-date-pickers/DateCalendar';
+import './DateCalendar.css';
 
 
 function Dashboard() {
@@ -137,29 +141,27 @@ function Dashboard() {
           </Grid>
         </Grid>
       </Box>
-      <Box sx={{ marginTop: "40px", marginLeft: "15%" }}>
-        <LineChart width={900} height={400} data={formattedData}>
-          <CartesianGrid strokeDasharray="3 3" />
-          <XAxis dataKey="name" />
-          <YAxis />
-          <Tooltip />
-          <Legend />
-          <Line type="monotone" dataKey="Tổng_Tiền" stroke="#78068B" />
-          <Line type="monotone" dataKey="Thanh_Toán" stroke="#08950D" />
-          <Line type="monotone" dataKey="Tiền_Lời" stroke="#E80F0F" />
-        </LineChart>
+      <Box sx={{ marginTop: "40px", display: "flex" }}>
+        <Box sx={{backgroundColor:"#E8F4F5", marginLeft:"10px", borderRadius:"5px"}}>
+          <LineChart width={900} height={400} data={formattedData}>
+            <CartesianGrid strokeDasharray="3 3" />
+            <XAxis dataKey="name" />
+            <YAxis />
+            <Tooltip />
+            <Legend />
+            <Line type="monotone" dataKey="Tổng_Tiền" stroke="#78068B" />
+            <Line type="monotone" dataKey="Thanh_Toán" stroke="#08950D" />
+            <Line type="monotone" dataKey="Tiền_Lời" stroke="#E80F0F" />
+          </LineChart>
+        </Box>
+        <Box sx={{backgroundColor:"#E8F4F5", marginLeft:"10px", borderRadius:"5px"}}>
+          <LocalizationProvider dateAdapter={AdapterDayjs}>
+            <DateCalendar />
+          </LocalizationProvider>
+        </Box>
       </Box>
-      <Box sx={{ marginTop: "40px", marginLeft: "3%", marginBottom: "60px" }}>
-        <BarChart width={1200} height={500} data={formattedData}>
-          <CartesianGrid strokeDasharray="3 3" />
-          <XAxis dataKey="name" />
-          <YAxis />
-          <Tooltip />
-          <Legend />
-          <Bar dataKey="Tổng_Tiền" fill="#78068B" />
-          <Bar dataKey="Thanh_Toán" fill="#08950D" />
-          <Bar dataKey="Tiền_Lời" fill="#E80F0F" />
-        </BarChart>
+      <Box>
+        
       </Box>
     </Box>
   );
