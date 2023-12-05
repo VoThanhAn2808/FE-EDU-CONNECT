@@ -8,6 +8,9 @@ import { LocalizationProvider } from '@mui/x-date-pickers/LocalizationProvider';
 import { AdapterDayjs } from '@mui/x-date-pickers/AdapterDayjs';
 import { DateCalendar } from '@mui/x-date-pickers/DateCalendar';
 import './DateCalendar.css';
+import ApexChart from "./ApexChart";
+import PieChartMui from "./PieChart";
+import RadarChartMui from "./RadarChart";
 
 
 function Dashboard() {
@@ -142,7 +145,7 @@ function Dashboard() {
         </Grid>
       </Box>
       <Box sx={{ marginTop: "40px", display: "flex" }}>
-        <Box sx={{backgroundColor:"#E8F4F5", marginLeft:"10px", borderRadius:"5px"}}>
+        <Box sx={{ backgroundColor: "#E8F4F5", marginLeft: "10px", borderRadius: "5px" }}>
           <LineChart width={900} height={400} data={formattedData}>
             <CartesianGrid strokeDasharray="3 3" />
             <XAxis dataKey="name" />
@@ -154,14 +157,18 @@ function Dashboard() {
             <Line type="monotone" dataKey="Tiền_Lời" stroke="#E80F0F" />
           </LineChart>
         </Box>
-        <Box sx={{backgroundColor:"#E8F4F5", marginLeft:"10px", borderRadius:"5px"}}>
+        <Box sx={{ backgroundColor: "#E8F4F5", marginLeft: "10px", borderRadius: "5px" }}>
           <LocalizationProvider dateAdapter={AdapterDayjs}>
             <DateCalendar />
           </LocalizationProvider>
         </Box>
       </Box>
-      <Box>
-        
+      <Box sx={{ display: "flex", width:"100%"}}>
+        <ApexChart />
+        <Box sx={{width:"100%"}}>
+          <PieChartMui />
+          <RadarChartMui />
+        </Box>
       </Box>
     </Box>
   );
