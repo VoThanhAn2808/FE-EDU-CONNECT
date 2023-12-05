@@ -589,14 +589,16 @@ function Header() {
                     <MuiAlert
                         severity='error'
                         sx={{
-                            width: '100%',
+                            width: '400px',
                             fontSize: '15px',
                             color: 'red',
                             position: 'fixed',
-                            bottom: 0,
                             display: 'flex',
                             alignItems: 'center',
                             justifyContent: 'center',
+                            top: '90px',
+                            right: "20px",
+                            backgroundColor: "#FAFF06"
                         }}
                     >
                         Đây là tài khoản mới! Vui lòng cập nhập thông tin cá nhân{' '}
