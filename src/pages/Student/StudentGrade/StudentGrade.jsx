@@ -14,7 +14,6 @@ function StudentGrade() {
             .get(`http://localhost:8081/course/tutorexercise?bookid=${bookid}`)
             .then((response) => {
                 setTutor(response.data);
-                console.log(response.data);
             })
             .catch((error) => {
                 console.error(error);
@@ -25,7 +24,6 @@ function StudentGrade() {
             .get(`http://localhost:8081/exersice/scoreexercise?bookid=${bookid}`)
             .then((response) => {
                 setHome(response.data);
-                console.log(response.data);
             })
             .catch((error) => {
                 console.error(error);
@@ -36,7 +34,6 @@ function StudentGrade() {
             .get(`http://localhost:8081/exersice/scoreclassroom/${bookid}`)
             .then((response) => {
                 setClassroom(response.data);
-                console.log(response.data);
             })
             .catch((error) => {
                 console.error(error);

@@ -3,11 +3,12 @@ import React, { useEffect, useState } from 'react';
 import LOGIN from '../../../assests/login.png';
 import LOGO from '../../../assests/lglogin.jpg';
 import Button from '@mui/joy/Button';
-import { Visibility, VisibilityOff } from '@mui/icons-material';
+import { Input, Visibility, VisibilityOff } from '@mui/icons-material';
 import { styled } from '@mui/material/styles';
 import { Link } from 'react-router-dom';
 import axios from 'axios';
 import MuiAlert from '@mui/material/Alert';
+import CloseIcon from '@mui/icons-material/Close';
 
 function SignupPage() {
   const [showPassword, setShowPassword] = useState(false);
@@ -50,8 +51,9 @@ function SignupPage() {
   };
 
   const validatePhone = () => {
-    if (!phone) {
-      setPhoneError('Vui lòng nhập số điện thoại.');
+    const cleanPhoneNumber = phone.replace(/\D/g, ''); // Loại bỏ tất cả các ký tự không phải số
+    if (!cleanPhoneNumber || cleanPhoneNumber.length !== 10) {
+      setPhoneError('Vui lòng nhập đủ 10 số');
     } else {
       setPhoneError('');
     }
@@ -113,7 +115,7 @@ function SignupPage() {
       showSnackbar('Vui lòng chọn lớp để đăng kí.');
       return;
     }
-     if (nameError || phoneError || emailError || passwordError || classError) {
+     if (nameError || phoneError || emailError || passwordError) {
       showSnackbar('Vui lòng điền đúng thông tin.');
        return;
      }
@@ -133,10 +135,7 @@ function SignupPage() {
           'Content-Type': 'multipart/form-data',
         },
       });
-
-      // Chuyển hướng sau khi đăng ký thành công
       window.location.href = '/login';
-      console.log(response.data);
     } catch (error) {
       console.error(error);
       console.log(error.response.data);
@@ -161,6 +160,11 @@ function SignupPage() {
     setSelectedClass(event.target.value);
   };
 
+  const handlePhoneChange = (event) => {
+    event.preventDefault();
+    const newPhone = event.target.value;
+    setPhone(newPhone);
+  };
   const handleUploadFile = (event) => {
     const selectedFile = event.target.files[0];
     setFiles(selectedFile);
@@ -285,7 +289,8 @@ function SignupPage() {
                     id='Number'
                     value={phone}
                     label='Number'
-                    onChange={(e) => setPhone(e.target.value)}
+                    onKeyUp={validatePhone}
+                    onChange={handlePhoneChange}
                     onBlur={validatePhone}
                   />
                   {phoneError && (
@@ -326,6 +331,13 @@ function SignupPage() {
                   flexDirection: 'column',
                 }}
               >
+                {!(isStudent !== isTeacher) ? (
+                  <FormHelperText sx={{ fontSize: '12px', fontWeight: '700' }} error>
+                    Bắt buộc
+                  </FormHelperText>
+                ) : (
+                  ''
+                )}
                 <FormControl sx={{ width: '50ch' }} variant='outlined' size='large'>
                   <InputLabel htmlFor='Age' style={{ fontSize: '15px' }}>
                     Bạn là :
@@ -383,6 +395,18 @@ function SignupPage() {
                     Upload file CV
                     <VisuallyHiddenInput type='file' onChange={handleUploadFile} />
                   </Button>
+                  <Box sx={{ display: 'flex', gap: '10px', padding: '10px' }}>
+                    <Typography variant='h5' color='initial'>
+                      {files?.name}
+                    </Typography>
+                    {files && (
+                      <Button sx={{
+                        backgroundColor: 'gray',
+                      }} onClick={()=> {setFiles(null)}}>
+                        <CloseIcon />
+                      </Button>
+                    )}
+                  </Box>
                   {files === null && (
                     <FormHelperText sx={{ fontSize: '12px', fontWeight: '700' }} error>
                       Bắt buộc
@@ -449,6 +473,14 @@ function SignupPage() {
                     />
                   </FormControl>
                 </Box>
+                {password.length < 8 && password.length >= 1 && (
+                  <FormHelperText
+                    sx={{ fontSize: '12px', fontWeight: '700', textAlign: 'center' }}
+                    error
+                  >
+                    Bạn cần nhập mật khẩu với 8 kí tự
+                  </FormHelperText>
+                )}
                 {confirmPassword && confirmPassword !== password && (
                   <FormHelperText
                     sx={{ fontSize: '12px', fontWeight: '700', textAlign: 'center' }}
@@ -471,7 +503,11 @@ function SignupPage() {
                   onClose={handleSnackbarClose}
                   anchorOrigin={{ vertical: 'top', horizontal: 'right' }}
                 >
-                  <MuiAlert onClose={handleSnackbarClose} severity='error' sx={{ width: '100%', fontSize: '15px' }}>
+                  <MuiAlert
+                    onClose={handleSnackbarClose}
+                    severity='error'
+                    sx={{ width: '100%', fontSize: '15px' }}
+                  >
                     {snackbarMessage}
                   </MuiAlert>
                 </Snackbar>

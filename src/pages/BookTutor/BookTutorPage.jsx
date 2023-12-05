@@ -23,7 +23,6 @@ function BookTutorPage() {
             .get(`http://localhost:8081/educonnect/tutor/booktutor?tutorid=${tutorid}&classcourseid=${classcourseid}`)
             .then((response) => {
                 setData(response.data);
-                console.log(response.data);
             })
             .catch((error) => {
                 console.error(error);
@@ -35,8 +34,7 @@ function BookTutorPage() {
         axios
             .get(`http://localhost:8081/tutorByCourse/find4TutorByCourse?CourseId=${classcourseid}`)
             .then((response) => {
-                setPage(response.data); // Sửa từ response.top thành response.data
-                console.log(response.data);
+                setPage(response.data); 
             })
             .catch((error) => {
                 console.error(error);
@@ -49,8 +47,7 @@ function BookTutorPage() {
         axios
             .get(`http://localhost:8081/course/findCourseByTutor?tutorid=${tutorid}`)
             .then((response) => {
-                setCourse(response.data); // Sửa từ response.top thành response.data
-                console.log(response.data);
+                setCourse(response.data); 
             })
             .catch((error) => {
                 console.error(error);
@@ -62,7 +59,7 @@ function BookTutorPage() {
                 <Grid container spacing={1}>
                     <Grid item xs={5} >
                         <Box className="tutor-infor">
-                            <img src={'http://localhost:8081/edu/file/files/' + data.img} alt={data.fullname} className="tutor-img" />
+                            <img src={`http://localhost:8081/edu/file/fileuser/${data.img}/${data.tutorId}`} alt={data.fullname} className="tutor-img" />
                         </Box>
                     </Grid>
                     <Grid item xs={7}>
@@ -90,7 +87,7 @@ function BookTutorPage() {
                             Giá
                         </Typography>
                         <Typography className="price-number">
-                            {data.price}Đ
+                            {data.price ? data.price.toLocaleString('vi-VN') + 'VNĐ' : ''}
                         </Typography>
                         <Typography className="rank">
                             Rank
@@ -108,17 +105,17 @@ function BookTutorPage() {
                             }}
                         />
                         <Box className="button">
-                            <Link to='/homestudent'>
+                            <Link to='/login'>
                                 <Button
                                     variant="contained" className="register" type="submit">
                                     Đăng ký ngay
                                 </Button>
                             </Link>
-                            <Button href={`/viewinfomationpage/${data.tutorId}`}
+                            <Button href={`/viewinfomationpages/${data.tutorId}`}
                                 variant="contained" className="infor">
                                 Thông Tin
                             </Button>
-                            <Link to='/homestudent'>
+                            <Link to='/login'>
                                 <Button
                                     variant="contained" className="try">
                                     Đăng ký học thử
@@ -185,7 +182,7 @@ function BookTutorPage() {
                                 <Typography sx={{ fontSize: '12px', textAlign: 'center', marginTop: '5px' }}>
                                     Gia sư dạy {item.coursename} {item.classentity}
                                 </Typography>
-                                <img src={`http://localhost:8081/edu/file/files/${item.img}`}
+                                <img src={`http://localhost:8081/edu/file/fileuser/${item.img}/${item.tutorid}`}
                                     style={{ width: '130px', height: '180px' }}
                                     alt="subject" className="imgtutor" />
                                 <Rating
@@ -202,7 +199,7 @@ function BookTutorPage() {
                                 <Typography sx={{ fontSize: '15px', textAlign: 'center', }}>
                                     {item.fullname}
                                 </Typography>
-                                <Button
+                                <Button href={`/viewinfomationpages/${item.tutorid}`}
                                     variant="contained" className="button-register">
                                     Xem thông tin
                                 </Button>

@@ -8,15 +8,22 @@ import dayjs from 'dayjs';
 import { MenuItem } from '@mui/material';
 import axios from 'axios';
 
-function ProfileInfo({ wards, userData, city, handleInputChange, isEditing }) {
-
+function ProfileInfo({
+  wards,
+  userData,
+  city,
+  handleInputChange,
+  isEditing,
+  isPhoneNumberValid,
+  isBirthdateValid,
+}) {
   const [data, setData] = useState([]);
+
   useEffect(() => {
     axios
       .get(`http://localhost:8081/student/class`)
       .then((response) => {
         setData(response.data);
-        console.log(response.data);
       })
       .catch((error) => {
         console.error(error);
@@ -40,7 +47,7 @@ function ProfileInfo({ wards, userData, city, handleInputChange, isEditing }) {
         fullWidth
         value={userData.email}
         onChange={(e) => handleInputChange('email', e.target.value)}
-        disabled={!isEditing}
+        disabled={true}
         InputLabelProps={{
           shrink: userData.email ? true : undefined,
         }}
@@ -55,7 +62,7 @@ function ProfileInfo({ wards, userData, city, handleInputChange, isEditing }) {
         <TextField
           select
           label='Lớp'
-          value={userData.classId} // Thêm thuộc tính value
+          value={userData.classId}
           onChange={(e) => handleInputChange('classId', e.target.value)}
           disabled={!isEditing}
           sx={{
@@ -71,10 +78,7 @@ function ProfileInfo({ wards, userData, city, handleInputChange, isEditing }) {
           }}
         >
           {data.map((item) => (
-            <MenuItem
-              value={item.classid}
-              key={item.classid}
-            >
+            <MenuItem value={item.classid} key={item.classid}>
               {item.className}
             </MenuItem>
           ))}
@@ -118,7 +122,9 @@ function ProfileInfo({ wards, userData, city, handleInputChange, isEditing }) {
             const filteredWards = code ? wards.filter((item) => item.province_code === code) : [];
 
             return filteredWards.map((item, index) => (
-              <MenuItem key={index} value={item.name}>{item.name}</MenuItem>
+              <MenuItem key={index} value={item.name}>
+                {item.name}
+              </MenuItem>
             ));
           })}
         </TextField>
@@ -131,7 +137,9 @@ function ProfileInfo({ wards, userData, city, handleInputChange, isEditing }) {
           disabled={!isEditing}
         >
           {city.map((item, index) => (
-            <MenuItem key={index} value={item.name}>{item.name}</MenuItem>
+            <MenuItem key={index} value={item.name}>
+              {item.name}
+            </MenuItem>
           ))}
         </TextField>
       </Box>
@@ -152,8 +160,18 @@ function ProfileInfo({ wards, userData, city, handleInputChange, isEditing }) {
             }}
             sx={{ width: '50%' }}
             disabled={!isEditing}
+            error={!isBirthdateValid(userData.birthdate)}
+            renderInput={(startProps, endProps) => (
+              <>
+                <TextField {...startProps} />
+                <Box sx={{ mx: 1 }}>đến</Box>
+                <TextField {...endProps} />
+              </>
+            )}
           />
         </LocalizationProvider>
+        
+
         <TextField
           label='Số Điện Thoại'
           value={userData.phone}
@@ -165,6 +183,8 @@ function ProfileInfo({ wards, userData, city, handleInputChange, isEditing }) {
           InputLabelProps={{
             shrink: userData.phone ? true : undefined,
           }}
+          error={!isPhoneNumberValid(userData.phone)}
+          helperText={!isPhoneNumberValid(userData.phone) && 'Vui lòng nhập 10 số'}
         />
       </Box>
     </>

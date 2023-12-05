@@ -138,7 +138,7 @@ function Sidebar() {
           {book > 0 && (
             <span
               style={{
-                marginLeft: '40px',
+                marginLeft: '20px',
                 backgroundColor: 'red',
                 color: 'white',
                 width: '20px',

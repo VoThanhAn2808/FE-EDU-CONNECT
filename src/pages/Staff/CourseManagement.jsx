@@ -41,7 +41,6 @@ function CourseManagement() {
                 .get(`http://localhost:8081/staffsconnect/learntime?bookid=${bookid}`)
                 .then((response) => {
                     setTime(response.data);
-                    console.log(response.data);
                 })
                 .catch((error) => {
                     console.error(error);
@@ -50,7 +49,6 @@ function CourseManagement() {
                 .get(`http://localhost:8081/staffsconnect/detailmanagestudent?bookid=${bookid}`)
                 .then((response) => {
                     setDetail(response.data);
-                    console.log(response.data);
                 })
                 .catch((error) => {
                     console.error(error);
@@ -68,7 +66,6 @@ function CourseManagement() {
             .get(`http://localhost:8081/staffsconnect/managestudent?page=${pageNumber}`)
             .then((response) => {
                 setData(response.data);
-                console.log(response.data);
             })
             .catch((error) => {
                 console.error(error);
@@ -80,7 +77,6 @@ function CourseManagement() {
             .get(`http://localhost:8081/staffsconnect/totalpageStudent`)
             .then((response) => {
                 setPages(response.data);
-                console.log(response.data);
             })
             .catch((error) => {
                 console.error(error);
@@ -107,7 +103,6 @@ function CourseManagement() {
             );
             alert(response.data);
             window.location.reload();
-            console.log(response.data);
         } catch (error) {
             console.error(error);
             console.log(error.response.data);
@@ -223,7 +218,7 @@ function CourseManagement() {
                         justifyContent: 'center',
                     }}
                 >
-                    <Box sx={{ backgroundColor: "#D9D9D9", width: "300px", height: "200px", borderRadius: "10px", border: '2px solid #000000', p: 2, }}>
+                    <Box sx={{ backgroundColor: "#D9D9D9", width: "300px", height: "260px", borderRadius: "10px", border: '2px solid #000000', p: 2, }}>
                         <Typography sx={{ fontSize: "17px", marginTop: "10px" , textAlign : 'center'}}>Học sinh: {detail.studentName}</Typography>
                         <Typography sx={{ fontSize: "17px", textAlign : 'center' }}>Gia sư: {detail.tutorName}</Typography>
                         <Typography sx={{ fontSize: "17px", textAlign : 'center' }}>Ngày đăng ký: {detail.dateregister}</Typography>

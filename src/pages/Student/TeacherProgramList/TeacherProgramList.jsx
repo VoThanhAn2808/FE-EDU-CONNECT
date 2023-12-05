@@ -25,7 +25,6 @@ function TeacherProgramList() {
             .get(`http://localhost:8081/course/tutorexercise?bookid=${bookid}`)
             .then((response) => {
                 setData(response.data);
-                console.log(response.data);
             })
             .catch((error) => {
                 console.error(error);
@@ -37,7 +36,6 @@ function TeacherProgramList() {
             .get(`http://localhost:8081/exersice/findexersice?bookid=${bookid}`)
             .then((response) => {
                 setExercise(response.data);
-                console.log(response.data);
             })
             .catch((error) => {
                 console.error(error);
@@ -48,7 +46,6 @@ function TeacherProgramList() {
             .get(`http://localhost:8081/exersice/fileexercise?bookid=${bookid}`)
             .then((response) => {
                 setFiles(response.data);
-                console.log(response.data);
             })
             .catch((error) => {
                 console.error(error);
@@ -59,7 +56,6 @@ function TeacherProgramList() {
             .get(`http://localhost:8081/exersice/videoexercise?bookid=${bookid}`)
             .then((response) => {
                 setVideo(response.data);
-                console.log(response.data);
             })
             .catch((error) => {
                 console.error(error);
@@ -70,7 +66,6 @@ function TeacherProgramList() {
             .get(`http://localhost:8081/exersice/classroomexercise?bookid=${bookid}`)
             .then((response) => {
                 setClasss(response.data);
-                console.log(response.data);
             })
             .catch((error) => {
                 console.error(error);
@@ -81,7 +76,6 @@ function TeacherProgramList() {
             .get(`http://localhost:8081/exersice/homeworkexercise?bookid=${bookid}`)
             .then((response) => {
                 setHome(response.data);
-                console.log(response.data);
             })
             .catch((error) => {
                 console.error(error);
@@ -92,7 +86,7 @@ function TeacherProgramList() {
         event.stopPropagation();
 
         try {
-            const response = await axios.put(
+            await axios.put(
                 `http://localhost:8081/exersice/fileexercise/file/${fileid}`,
                 {},
                 {
@@ -102,7 +96,6 @@ function TeacherProgramList() {
                 }
             );
 
-            console.log(response.data);
             window.open(file, '_blank');
         } catch (error) {
             console.error(error);
@@ -114,7 +107,7 @@ function TeacherProgramList() {
         event.stopPropagation();
 
         try {
-            const response = await axios.put(
+            await axios.put(
                 `http://localhost:8081/exersice/videoexercise/video/${fileid}`,
                 {},
                 {
@@ -123,8 +116,6 @@ function TeacherProgramList() {
                     },
                 }
             );
-
-            console.log(response.data);
             window.open(file, '_blank');
         } catch (error) {
             console.error(error);
@@ -153,7 +144,7 @@ function TeacherProgramList() {
                                     <Box key={keyf}>
                                         {files.status === 0 ? (
                                             <>
-                                                <Links href={'http://localhost:8081/edu/file/files/'+files.files} target="_blank" sx={{ textDecoration: 'none', color: 'black' }} onClick={(event) => handleLinkClick(files.fileid, event, files.files)}>
+                                                <Links href={`http://localhost:8081/edu/file/fileuser/${files.files}/${files.fileid}`} target="_blank" sx={{ textDecoration: 'none', color: 'black' }} onClick={(event) => handleLinkClick(files.fileid, event, files.files)}>
                                                     <Box sx={{ display: "flex", alignItems: "center" }}>
                                                         <InsertDriveFileIcon sx={{ fontSize: "25px", marginLeft: "4%" }} />
                                                         <Typography sx={{ fontSize: "25px", marginLeft: "1%" }}> {files.namefile}</Typography>
@@ -163,7 +154,7 @@ function TeacherProgramList() {
                                             </>
                                         ) : (
                                             <>
-                                                <Links href={`http://localhost:8081/edu/file/files/`+files.files} target="_blank" sx={{ textDecoration: 'none', color: 'black' }}>
+                                                <Links href={`http://localhost:8081/edu/file/fileuser/${files.files}/${files.fileid}`} target="_blank" sx={{ textDecoration: 'none', color: 'black' }}>
                                                     <Box sx={{ display: "flex", alignItems: "center" }}>
                                                         <InsertDriveFileIcon sx={{ fontSize: "25px", marginLeft: "4%" }} />
                                                         <Typography sx={{ fontSize: "25px", marginLeft: "1%" }}> {files.namefile}</Typography>

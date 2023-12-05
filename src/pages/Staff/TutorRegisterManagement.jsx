@@ -60,7 +60,6 @@ function TutorRegisterManagement() {
             );
             alert(response.data);
             window.location.reload();
-            console.log(response.data);
         } catch (error) {
             console.error(error);
             console.log(error.response.data);
@@ -89,7 +88,6 @@ function TutorRegisterManagement() {
             );
             alert(response.data);
             window.location.reload();
-            console.log(response.data);
         } catch (error) {
             console.error(error);
             console.log(error.response.data);
@@ -105,7 +103,6 @@ function TutorRegisterManagement() {
                 `http://localhost:8081/staffsconnect/deletetutorregister/${tutorid}`);
             alert(response.data);
             window.location.reload();
-            console.log(response.data);
         } catch (error) {
             console.error(error);
             console.log(error.response.data);
@@ -118,7 +115,6 @@ function TutorRegisterManagement() {
             .get(`http://localhost:8081/staffsconnect/listwaitforconfirm?page=${page}`)
             .then((response) => {
                 setData(response.data);
-                console.log(response.data);
             })
             .catch((error) => {
                 console.error(error);
@@ -127,7 +123,6 @@ function TutorRegisterManagement() {
             .get(`http://localhost:8081/staffsconnect/pageforwaittutor`)
             .then((response) => {
                 settotal(response.data);
-                console.log(response.data);
             })
             .catch((error) => {
                 console.error(error);
@@ -208,7 +203,7 @@ function TutorRegisterManagement() {
                                                 <TableCell sx={{ fontSize: "15px", fontFamily: "cursive", textAlign: "center" }}>{item.tutorid}</TableCell>
                                                 <TableCell sx={{ fontSize: "15px", fontFamily: "cursive", textAlign: "center" }}>{item.fullName}</TableCell>
                                                 <TableCell sx={{ fontSize: "15px", fontFamily: "cursive", textAlign: "center" }}>{item.cv ? (
-                                                    <Link style={{ textDecoration: "none" }} href={`http://localhost:8081/edu/file/files/` + item.cv} target="_blank" rel="noopener noreferrer">
+                                                    <Link style={{ textDecoration: "none" }} href={`http://localhost:8081/edu/file/fileuser/${item.cv}/${item.tutorid}`} target="_blank" rel="noopener noreferrer">
                                                         Tải File
                                                     </Link>
                                                 ) : (

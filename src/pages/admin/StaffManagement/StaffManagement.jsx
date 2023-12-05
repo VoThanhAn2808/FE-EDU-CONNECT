@@ -90,12 +90,10 @@ function StaffManagement() {
                 .get(`http://localhost:8081/staffsconnect/ViewInfoStaff?staffId=${staffs}`)
                 .then((response) => {
                     setStaff(response.data);
-                    console.log(response.data);
                 })
                 .catch((error) => {
                     console.error(error);
                 });
-            console.log("ds", staffs);
             setOpen(true)
         } catch (error) {
             console.error(error);
@@ -111,12 +109,10 @@ function StaffManagement() {
                 .get(`http://localhost:8081/staffsconnect/ViewInfoStaff?staffId=${staffs}`)
                 .then((response) => {
                     setStaff(response.data);
-                    console.log(response.data);
                 })
                 .catch((error) => {
                     console.error(error);
                 });
-            console.log("ds", anchorEl);
             setOpen1(true)
         } catch (error) {
             console.error(error);
@@ -130,7 +126,6 @@ function StaffManagement() {
             .get(`http://localhost:8081/admin/staff?page=${pageNumber}`)
             .then((response) => {
                 setData(response.data);
-                console.log(response.data);
             })
             .catch((error) => {
                 console.error(error);
@@ -151,7 +146,6 @@ function StaffManagement() {
             .get(`http://localhost:8081/admin/totalpage`)
             .then((response) => {
                 setPage(response.data);
-                console.log(response.data);
             })
             .catch((error) => {
                 console.error(error);
@@ -181,7 +175,7 @@ function StaffManagement() {
         event.preventDefault();
         event.stopPropagation();
         try {
-            const response = await axios.put(
+            await axios.put(
                 `http://localhost:8081/admin/staff/updatesalary`,
                 {
                     staffid: staffid,
@@ -193,8 +187,7 @@ function StaffManagement() {
                     },
                 }
             );
-            window.location.href = "/staffmanagement"
-            console.log(response.data);
+            window.location.href = "/staffmanagement";
         } catch (error) {
             console.error(error);
             console.log(error.response.data);
@@ -205,7 +198,7 @@ function StaffManagement() {
         event.preventDefault();
         event.stopPropagation();
         try {
-            const response = await axios.delete(
+            await axios.delete(
                 `http://localhost:8081/admin/staff/deletestaff/${staffid}`,
                 {
                     headers: {
@@ -213,8 +206,7 @@ function StaffManagement() {
                     },
                 }
             );
-            window.location.href = "/staffmanagement"
-            console.log(response.data);
+            window.location.href = "/staffmanagement";
         } catch (error) {
             console.error(error);
             console.log(error.response.data);

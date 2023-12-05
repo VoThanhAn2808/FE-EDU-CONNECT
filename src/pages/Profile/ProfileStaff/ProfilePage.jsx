@@ -5,6 +5,7 @@ import UserProfileInfo from '../../../components/Layout/components/ProfileInfo/S
 import { Box, Paper, ThemeProvider, createTheme } from '@mui/material';
 import { jwtDecode } from 'jwt-decode';
 import axios from 'axios';
+import dayjs from 'dayjs';
 
 const theme = createTheme({
   typography: {
@@ -21,6 +22,18 @@ function ProfileStaff() {
   const [city, setCity] = useState([]);
   const [wards, setWards] = useState([]);
   const [uploadedFile, setUploadedFile] = useState(null);
+  const [validationError, setValidationError] = useState(null);
+
+  
+  const isPhoneNumberValid = (phoneNumber) => {
+    const phoneNumberRegex = /^\d{10}$/;
+    return phoneNumberRegex.test(phoneNumber);
+  };
+
+  const isBirthdateValid = (birthdate) => {
+    const currentDate = dayjs();
+    return dayjs(birthdate).isBefore(currentDate);
+  };
 
   const fetchUser = useCallback(async () => {
     try {
@@ -43,7 +56,6 @@ function ProfileStaff() {
       .get(`https://provinces.open-api.vn/api/p/`)
       .then((response) => {
         setCity(response.data);
-        console.log(response.data);
       })
       .catch((error) => {
         console.error(error);
@@ -52,7 +64,6 @@ function ProfileStaff() {
       .get(`https://provinces.open-api.vn/api/d/`)
       .then((response) => {
         setWards(response.data);
-        console.log(response.data);
       })
       .catch((error) => {
         console.error(error);
@@ -66,12 +77,12 @@ function ProfileStaff() {
       const formData = new FormData();
       formData.append('fullname', userData.fullName);
       formData.append('staffid', decodedToken.id);
-      formData.append('file', userData.avt);
+      formData.append('file', userData.avt );
       formData.append('birthdate', userData.birthdate);
       formData.append('city', userData.city);
       formData.append('wards', userData.wards);
 
-      const response = await axios.put(
+      await axios.put(
         'http://localhost:8081/staffsconnect/UpdateStaff',
         formData,
         {
@@ -80,8 +91,7 @@ function ProfileStaff() {
           },
         }
       );
-
-      console.log(response.data);
+      window.location.reload();
     } catch (error) {
       console.error(error);
     }
@@ -90,11 +100,17 @@ function ProfileStaff() {
   const handleInputChange = (field, value) => {
     setUserData({
       ...userData,
-      [field]: value,
+      [field]: value ,
     });
+     setValidationError(null);
+
   };
 
   const handleSave = () => {
+    if (!validateInputs()) {
+      return;
+    }
+
     setUserData({
       ...userData,
       avt: uploadedFile,
@@ -102,6 +118,32 @@ function ProfileStaff() {
     updateInfo();
     setUploadedFile(userData.avt);
     setIsEditing(false);
+    setValidationError(null);
+
+  };
+  const validateInputs = () => {
+    if (
+      userData.fullname === '' ||
+      userData.gender === '' ||
+      userData.birthdate === '' ||
+      userData.phone === '' ||
+      userData.city === '' ||
+      userData.wards === '' 
+    ) {
+      setValidationError('Vui lòng nhập đầy đủ dữ liệu của bạn');
+      return false;
+    }
+    if (isBirthdateValid(userData.birthdate) !== true) {
+      setValidationError('Ngày tháng năm sinh không được lớn hơn ngày hiện tại');
+      return false;
+    }
+    if (isPhoneNumberValid(userData.phone) !== true) {
+      setValidationError('Số Điện Thoại Phải là 10 Số');
+      return false;
+    }
+
+    setValidationError(null);
+    return true;
   };
 
   const handleFileChange = (selectedFile) => {
@@ -124,6 +166,9 @@ function ProfileStaff() {
           role={'nhân viên'}
           uploadedFile={uploadedFile}
         />
+        {validationError && (
+          <div style={{ color: 'red', marginBottom: '10px' }}>{validationError}</div>
+        )}
         <Paper
           style={{
             marginBottom: '30px',
@@ -142,6 +187,8 @@ function ProfileStaff() {
             userData={userData}
             handleInputChange={handleInputChange}
             isEditing={isEditing}
+            isBirthdateValid={isBirthdateValid}
+            isPhoneNumberValid={isPhoneNumberValid}
           />
           {isEditing ? (
             <Button variant='contained' onClick={handleSave}>

@@ -15,7 +15,6 @@ function ThankYou() {
         axios.get("http://localhost:8081/student/viewstudent?email=" + decodedToken.id)
             .then((response) => {
                 setStudent(response.data);
-                console.log(response.data);
             })
             .catch((error) => {
                 console.error(error);
@@ -32,12 +31,11 @@ function ThankYou() {
         };
 
         try {
-            const response = await axios.get(
+            await axios.get(
                 `http://localhost:8081/book/paydone?studentid=${student.studentid}`,
                 config
             );
             window.location.href = '/homestudent';
-            console.log(response.data);
         } catch (error) {
             console.error(error);
             console.log(error.response.data);
