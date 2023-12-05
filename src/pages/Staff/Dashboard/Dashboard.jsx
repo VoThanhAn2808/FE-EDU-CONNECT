@@ -23,7 +23,6 @@ function Dashboard() {
       .get(`http://localhost:8081/staffsconnect/staffstatisticsyear`)
       .then((response) => {
         setData(response.data);
-        console.log("ds", response.data);
       })
       .catch((error) => {
         console.error(error);
@@ -32,7 +31,6 @@ function Dashboard() {
       .get(`http://localhost:8081/staffsconnect/staffstatisticscurrentmonth?staffId=2`)
       .then((response) => {
         setMonth(response.data);
-        console.log("trc", response.data);
       })
       .catch((error) => {
         console.error(error);
@@ -41,7 +39,6 @@ function Dashboard() {
       .get(`http://localhost:8081/staffsconnect/staffstatisticspreviousmonth?staffId=2`)
       .then((response) => {
         setLmonth(response.data);
-        console.log("sau", response.data);
       })
       .catch((error) => {
         console.error(error);

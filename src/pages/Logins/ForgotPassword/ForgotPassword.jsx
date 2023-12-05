@@ -33,13 +33,9 @@ const ForgotPassword = () => {
           email: email,
         }, configs);
         window.location.href = "/login"
-        console.log(fb.data);
       } else if (response.data === true) {
         window.location.href = "/forgotpass"
       }
-      console.log(response.data);
-
-      // Điều hướng đến trang chính hoặc trang khác tùy theo logic của ứng dụng
     } catch (error) {
       console.error(error);
     }

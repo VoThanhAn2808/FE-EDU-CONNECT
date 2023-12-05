@@ -30,7 +30,6 @@ function CalendarTutorSelect() {
             .then((response) => {
                 if (response && response.data) {
                     setData(response.data);
-                    console.log(response.data);
                 }
             })
             .catch((error) => {
@@ -42,7 +41,6 @@ function CalendarTutorSelect() {
             .then((response) => {
                 if (response && response.data) {
                     setDaysOfWeek(response.data);
-                    console.log(response.data);
                 }
             })
             .catch((error) => {
@@ -70,7 +68,6 @@ function CalendarTutorSelect() {
         event.preventDefault();
 
         if (selectedCells.length === 0) {
-            console.log("No cells selected.");
             return;
         }
 
@@ -91,13 +88,11 @@ function CalendarTutorSelect() {
                 };
                 console.log("ds" + postData);
 
-                const booktimeResponse = await axios.post(
+                await axios.post(
                     "http://localhost:8081/educonnect/choicetime",
                     postData,
                     config
                 );
-
-                console.log("Đặt lịch thành công:", booktimeResponse.data);
             }
 
             // Use React Router for navigation

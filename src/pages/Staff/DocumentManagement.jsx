@@ -25,7 +25,6 @@ function DocumentManagement() {
             .get(`http://localhost:8081/staffsconnect/listtutorregistersforlessons?page=${pageNumber}&staffid=${decodedToken.id}`)
             .then((response) => {
                 setData(response.data);
-                console.log(response.data);
             })
             .catch((error) => {
                 console.error(error);
@@ -38,7 +37,6 @@ function DocumentManagement() {
             .get(`http://localhost:8081/staffsconnect/totalpageTutor?staffid=${decodedToken.id}`)
             .then((response) => {
                 setPages(response.data);
-                console.log(response.data);
             })
             .catch((error) => {
                 console.error(error);
@@ -63,7 +61,6 @@ function DocumentManagement() {
             );
             alert(response.data);
             window.location.reload();
-            console.log(response.data);
         } catch (error) {
             console.error(error);
             console.log(error.response.data);
@@ -147,7 +144,7 @@ function DocumentManagement() {
                                                 <TableCell sx={{ fontSize: "15px", fontFamily: "cursive", textAlign: "center" }}>{item.nameFile}</TableCell>
                                                 <TableCell sx={{ fontSize: "15px", fontFamily: "cursive", textAlign: "center" }}>{item.coursename}</TableCell>
                                                 <TableCell sx={{ fontSize: "15px", fontFamily: "cursive", textAlign: "center" }}>
-                                                    <Link style={{ textDecoration: "none" }} href={'http://localhost:8081/edu/file/files/' + item.files} target="_blank">
+                                                    <Link style={{ textDecoration: "none" }} href={`http://localhost:8081/edu/file/fileuser/${item.files}/${item.tutorid}`} target="_blank">
                                                         Tải File
                                                     </Link>
                                                 </TableCell>

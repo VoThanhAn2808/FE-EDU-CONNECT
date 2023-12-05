@@ -44,7 +44,6 @@ function DiscountManagement() {
         axios.post('http://localhost:8081/discount/listdiscount', dataToSend)
             .then((response) => {
                 setDicount(response.data);
-                console.log(response.data);
             })
             .catch((error) => {
                 console.error(error);

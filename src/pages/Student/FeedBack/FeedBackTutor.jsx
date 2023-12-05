@@ -15,7 +15,6 @@ function FeedbackTutor() {
             .get("http://localhost:8081/student/feedbacktutor/" + student.id)
             .then((response) => {
                 setFeedback(response.data);
-                console.log(response.data);
             })
             .catch((error) => {
                 console.error(error);
@@ -33,7 +32,7 @@ function FeedbackTutor() {
         };
 
         try {
-            const response = await axios.put(
+            await axios.put(
                 "http://localhost:8081/student/feedback/update",
                 {
                     feedbackid: detail.feedbackid,
@@ -44,7 +43,6 @@ function FeedbackTutor() {
             );
             alert("Cập nhật thành công");
             window.location.reload();
-            console.log(response.data);
         } catch (error) {
             alert("Cập nhật không thành công");
             console.error(error);

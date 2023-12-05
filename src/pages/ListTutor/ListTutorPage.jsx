@@ -18,7 +18,6 @@ function ListTutor() {
             .get(`http://localhost:8081/tutorByCourse/findTutorByCourse?courseid=${id}&page=${pageNumber}`)
             .then((response) => {
                 setData(response.data);
-                console.log(response.data);
             })
             .catch((error) => {
                 console.error(error);
@@ -39,7 +38,6 @@ function ListTutor() {
             .get(`http://localhost:8081/educonnect/ListAllDecsTutor?courseid=${id}&page=${pageNumber}`)
             .then((response) => {
                 setTop(response.data);
-                console.log(response.data);
             })
             .catch((error) => {
                 console.error(error);
@@ -60,7 +58,6 @@ function ListTutor() {
             .get(`http://localhost:8081/tutorByCourse/pagetutor/${id}`)
             .then((response) => {
                 setPage(response.data);
-                console.log(response.data);
             })
             .catch((error) => {
                 console.error(error);
@@ -74,7 +71,6 @@ function ListTutor() {
             .get("http://localhost:8081/educonnect/countpage?classcourseid=" + id)
             .then((response) => {
                 setCpage(response.data);
-                console.log(response.data);
             })
             .catch((error) => {
                 console.error(error);
@@ -90,7 +86,6 @@ function ListTutor() {
             .get(`http://localhost:8081/tutorByCourse/search?classcoursid=${id}&name=${searchName}`)
             .then((response) => {
                 setData(response.data);
-                console.log(response.data);
             })
             .catch((error) => {
                 console.error(error);
@@ -141,7 +136,7 @@ function ListTutor() {
                             <Box className='container'>
                                 <Typography sx={{ fontSize: '15px', fontFamily: 'cursive' }}>Gia sư dạy</Typography>
                                 <Typography sx={{ fontFamily: 'cursive', fontSize: '12px' }}>{item.coursename} {item.classentity}</Typography>
-                                <img src={`http://localhost:8081/edu/file/files/` + item.img} alt={item.fullname} style={{ width: '50%', height: '100%' }} />
+                                <img src={`http://localhost:8081/edu/file/fileuser/${item.img}/${item.tutorid}`} style={{ width: '50%', height: '100%' }} />
                                 <Typography className="nameTutor">{item.fullname}</Typography>
                                 <Rating
                                     name="five-star-rating"
@@ -192,7 +187,7 @@ function ListTutor() {
                                 <Box className='containers'>
                                     <Typography sx={{ fontSize: '15px', fontFamily: 'cursive', marginTop: '10px' }}>Gia sư dạy</Typography>
                                     <Typography sx={{ fontFamily: 'cursive', fontSize: '12px' }}>{items.coursename} {items.classentity}</Typography>
-                                    <img src={`http://localhost:8081/edu/file/files/${items.img}`} alt={items.fullname} style={{ width: '50%', height: '100%' }} />
+                                    <img src={`http://localhost:8081/edu/file/fileuser/${items.img}/${items.tutorid}`} style={{ width: '50%', height: '100%' }} />
                                     <Typography className="nameTutor">{items.fullname}</Typography>
                                     <Rating
                                         name="five-star-rating"

@@ -2,6 +2,7 @@ import React, { useCallback, useEffect, useState } from "react";
 import { Box, Link, Paper, Table, TableBody, TableCell, TableContainer, TableHead, TableRow, TextField, Typography } from "@mui/material";
 import axios from "axios";
 import { jwtDecode } from "jwt-decode";
+import { getYear, getISOWeek } from 'date-fns';
 
 
 
@@ -34,7 +35,6 @@ function CalendarStudent() {
             .get(`http://localhost:8081/book/lesson`)
             .then((response) => {
                 setDaysOfWeek(response.data);
-                console.log(response.data);
             })
             .catch((error) => {
                 console.error(error);
@@ -46,7 +46,6 @@ function CalendarStudent() {
             .get(`http://localhost:8081/book/timeline`)
             .then((response) => {
                 setData(response.data);
-                console.log(response.data);
             })
             .catch((error) => {
                 console.error(error);
@@ -99,6 +98,14 @@ function CalendarStudent() {
         return Math.ceil((pastDaysOfYear + firstDayOfYear.getDay() + 1) / 7);
     };
 
+    const getCurrentWeek = () => {
+        const currentDate = new Date();
+        const currentWeek = getISOWeek(currentDate);
+        const currentYear = getYear(currentDate);
+        const formattedWeek = `${currentYear}-W${currentWeek}`;
+        return formattedWeek;
+    };
+
 
     return (
         <Box sx={{ marginBottom: "50px" }}>
@@ -111,12 +118,14 @@ function CalendarStudent() {
                     <Table>
                         <TableHead>
                             <TableRow>
-                                <TableCell sx={{ border: '1px solid #000000', padding: '20px 45px', backgroundColor: '#71C763' }}><TextField
-                                    type="week"
-                                    value={selectedWeek}
-                                    onChange={handleWeekChange}
-                                    sx={{ width: '100%' }}
-                                /></TableCell>
+                                <TableCell sx={{ border: '1px solid #000000', padding: '20px 45px', backgroundColor: '#71C763' }}>
+                                    <TextField
+                                        type="week"
+                                        value={selectedWeek || getCurrentWeek()}
+                                        onChange={handleWeekChange}
+                                        sx={{ width: '100%' }}
+                                    />
+                                </TableCell>
                                 {daysOfWeek.map((day, index) => (
                                     <TableCell key={index} sx={{ border: '1px solid #000000', padding: '20px 40px', fontSize: '15px', fontFamily: 'cursive', backgroundColor: '#71C763' }}>{day.lessonline}</TableCell>
                                 ))}
@@ -158,7 +167,7 @@ function CalendarStudent() {
                 display: "flex",
                 flexDirection: "row",
                 marginTop: "30px",
-                marginLeft : "10px"
+                marginLeft: "10px"
             }}>
                 <Typography sx={{ fontSize: '20px', fontWeight: "700", color: "red" }}>Notes:</Typography>
                 <Typography sx={{ fontSize: '20px', marginLeft: "7px", color: "#5E5D5D" }}> Bạn theo dõi lịch để tham gia đầy đủ các tiết học tránh thiệt thòi cho bạn. </Typography>

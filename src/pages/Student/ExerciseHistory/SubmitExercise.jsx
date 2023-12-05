@@ -6,6 +6,7 @@ import { useParams } from "react-router-dom";
 import Iframe from "react-iframe";
 import styled from "@emotion/styled";
 import CloudDownloadIcon from '@mui/icons-material/CloudDownload';
+import { jwtDecode } from "jwt-decode";
 
 function SubmitExercise() {
 
@@ -22,13 +23,14 @@ function SubmitExercise() {
     const day = today.getDate().toString().padStart(2, '0');
 
     const formattedDate = `${year}-${month}-${day}`;
+    const decodedToken = jwtDecode(localStorage.getItem('token'));
+    const userId = decodedToken.id;
 
     useEffect(() => {
         axios
             .get(`http://localhost:8081/exersice/homework/detailhomework?homeworkid=${bookid}`)
             .then((response) => {
                 setData(response.data);
-                console.log(response.data);
             })
             .catch((error) => {
                 console.error(error);
@@ -45,9 +47,10 @@ function SubmitExercise() {
         try {
             const formData = new FormData();
             formData.append('homeworkid', bookid);
+            formData.append('studentid', userId);
             formData.append('file', files);
 
-            const response = await axios.post(
+            await axios.post(
                 "http://localhost:8081/exersice/addsubmithomework",
                 formData,
                 {
@@ -58,7 +61,6 @@ function SubmitExercise() {
             );
 
             window.location.href = '/submitExercise/' + bookid;
-            console.log(response.data);
         } catch (error) {
             console.error(error);
             console.log(error.response.data);
@@ -69,9 +71,10 @@ function SubmitExercise() {
         try {
             const formData = new FormData();
             formData.append('homeworkid', bookid);
+            formData.append('studentid', userId);
             formData.append('file', files);
 
-            const response = await axios.put(
+            await axios.put(
                 "http://localhost:8081/exersice/updatesubmit",
                 formData,
                 {
@@ -82,7 +85,6 @@ function SubmitExercise() {
             );
 
             window.location.href = '/submitExercise/' + bookid;
-            console.log(response.data);
         } catch (error) {
             console.error(error);
             console.log(error.response.data);
@@ -195,7 +197,8 @@ function SubmitExercise() {
                         </Box>
 
                         <Box style={{ float: 'left', marginTop: '10px' }}>
-                            <Link href={'http://localhost:8081/edu/file/files/' + data.filesHomework} target="_blank">
+                            <Link href={`http://localhost:8081/edu/file/fileuser/${data.filesHomework}/${data.tutorid}`} target="_blank">
+                            
                                 <Button
                                     variant="contained"
                                     color="primary"
@@ -243,7 +246,8 @@ function SubmitExercise() {
                                                                 <Typography sx={{ fontSize: "15px", marginLeft: '2%' }}>{files.name}</Typography>
                                                             </Box>
                                                         ) : (
-                                                            <Link href={"http://localhost:8081/edu/file/files/" + data.fileSubmid} target="_blank" style={{ textDecoration: 'none', color: 'black' }}>
+                                                            
+                                                            <Link href={`http://localhost:8081/edu/file/fileuser/${data.fileSubmid}/${userId}`} target="_blank" style={{ textDecoration: 'none', color: 'black' }}>
                                                                 <Typography sx={{ fontSize: '15px' }}>{data.fileSubmid}</Typography>
                                                             </Link>
                                                         )}

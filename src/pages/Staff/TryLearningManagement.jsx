@@ -44,7 +44,6 @@ function TryLearningManagement() {
             .get(`http://localhost:8081/staffsconnect/studentTrylearning/${pageNumber}`)
             .then((response) => {
                 setData(response.data);
-                console.log(response.data);
             })
             .catch((error) => {
                 console.error(error);
@@ -56,7 +55,6 @@ function TryLearningManagement() {
             .get(`http://localhost:8081/staffsconnect/counttrylearnpage`)
             .then((response) => {
                 setPages(response.data);
-                console.log(response.data);
             })
             .catch((error) => {
                 console.error(error);
@@ -95,7 +93,6 @@ function TryLearningManagement() {
             );
             alert(response.data);
             window.location.reload();
-            console.log(response.data);
         } catch (error) {
             console.error(error);
             console.log(error.response.data);
