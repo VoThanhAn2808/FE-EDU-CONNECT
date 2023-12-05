@@ -7,7 +7,7 @@ import { DatePicker, LocalizationProvider } from "@mui/x-date-pickers";
 import { AdapterDayjs } from "@mui/x-date-pickers/AdapterDayjs";
 import styled from "@emotion/styled";
 import dayjs from "dayjs";
-import { format } from "date-fns";
+import { format, getISOWeek, getYear } from "date-fns";
 
 function CalendarTutor() {
 
@@ -30,7 +30,6 @@ function CalendarTutor() {
                 .get(`http://localhost:8081/schedule/detailschedule?tutorid=${userId}&date=${date}&timeid=${timeid}`)
                 .then((response) => {
                     setSchedule(response.data);
-                    console.log(response.data);
                 })
                 .catch((error) => {
                     console.error(error);
@@ -76,7 +75,6 @@ function CalendarTutor() {
             .get(`http://localhost:8081/book/lesson`)
             .then((response) => {
                 setDaysOfWeek(response.data);
-                console.log(response.data);
             })
             .catch((error) => {
                 console.error(error);
@@ -88,7 +86,6 @@ function CalendarTutor() {
             .get(`http://localhost:8081/book/timeline`)
             .then((response) => {
                 setData(response.data);
-                console.log(response.data);
             })
             .catch((error) => {
                 console.error(error);
@@ -106,7 +103,6 @@ function CalendarTutor() {
                 `http://localhost:8081/schedule/studentscheduletutor?tutorid=${userId}&week=${week}&year=${year}`
             );
             setScheduleData(studentResponse.data);
-            console.log(studentResponse.data);
         } catch (error) {
             console.error(error);
         }
@@ -159,7 +155,7 @@ function CalendarTutor() {
 
         try {
             const formattedDate = format(new Date(date), 'yyyy-MM-dd');
-            const response = await axios.post(
+            await axios.post(
                 "http://localhost:8081/schedule/changecalender",
                 {
                     bookid: schedule.bookid,
@@ -173,11 +169,8 @@ function CalendarTutor() {
                 },
                 config
             );
-            console.log('date:', date);
-            console.log('times:', times);
 
             window.location.href = '/calendartutor';
-            console.log(response.data);
         } catch (error) {
             console.error(error);
             console.log(error.response.data);
@@ -203,6 +196,14 @@ function CalendarTutor() {
         height: '45px',
     });
 
+    const getCurrentWeek = () => {
+        const currentDate = new Date();
+        const currentWeek = getISOWeek(currentDate);
+        const currentYear = getYear(currentDate);
+        const formattedWeek = `${currentYear}-W${currentWeek}`;
+        return formattedWeek;
+    };
+
     return (
         <Box sx={{
             marginBottom: "50px"
@@ -219,7 +220,7 @@ function CalendarTutor() {
                                 <TableCell sx={{ padding: '20px 45px', backgroundColor: '#71C763' }}>\
                                     <TextField
                                         type="week"
-                                        value={selectedWeek}
+                                        value={selectedWeek || getCurrentWeek()}
                                         onChange={handleWeekChange}
                                         sx={{ width: '100%' }}
                                     /></TableCell>

@@ -40,7 +40,6 @@ function SimulationManagement() {
                 .get(`http://localhost:8081/demo/detaildemo?demoid=${demoid}`)
                 .then((response) => {
                     setDetail(response.data);
-                    console.log('demo', response.data);
                 })
                 .catch((error) => {
                     console.error(error);
@@ -74,7 +73,6 @@ function SimulationManagement() {
             );
             alert(response.data);
             window.location.reload();
-            console.log(response.data);
         } catch (error) {
             console.error(error);
             console.log(error.response.data);
@@ -102,7 +100,6 @@ function SimulationManagement() {
             );
             alert(response.data);
             window.location.reload();
-            console.log(response.data);
         } catch (error) {
             console.error(error);
             console.log(error.response.data);
@@ -113,7 +110,6 @@ function SimulationManagement() {
             .get(`http://localhost:8081/demo/listdemo?classid=${classid}&courseName=${courseName}`)
             .then((response) => {
                 setDemo(response.data);
-                console.log(response.data);
             })
             .catch((error) => {
                 console.error(error);
@@ -122,7 +118,6 @@ function SimulationManagement() {
             .get(`http://localhost:8081/demo/listclass`)
             .then((response) => {
                 setClassEntity(response.data);
-                console.log(response.data);
             })
             .catch((error) => {
                 console.error(error);
@@ -131,7 +126,6 @@ function SimulationManagement() {
             .get(`http://localhost:8081/demo/listcourse`)
             .then((response) => {
                 setCourse(response.data);
-                console.log(response.data);
             })
             .catch((error) => {
                 console.error(error);
@@ -140,7 +134,6 @@ function SimulationManagement() {
             .get(`http://localhost:8081/student/class`)
             .then((response) => {
                 setData(response.data);
-                console.log(response.data);
             })
             .catch((error) => {
                 console.error(error);
@@ -149,7 +142,6 @@ function SimulationManagement() {
             .get(`http://localhost:8081/course/listcourse`)
             .then((response) => {
                 setSubject(response.data);
-                console.log(response.data);
             })
             .catch((error) => {
                 console.error(error);

@@ -25,7 +25,6 @@ function BookTutorSTPage() {
             .get(`http://localhost:8081/educonnect/tutor/booktutor?tutorid=${tutorid}&classcourseid=${classcourseid}`)
             .then((response) => {
                 setData(response.data);
-                console.log(response.data);
             })
             .catch((error) => {
                 console.error(error);
@@ -37,8 +36,7 @@ function BookTutorSTPage() {
         axios
             .get(`http://localhost:8081/tutorByCourse/find4TutorByCourse?CourseId=${classcourseid}`)
             .then((response) => {
-                setPage(response.data); // Sửa từ response.top thành response.data
-                console.log(response.data);
+                setPage(response.data); 
             })
             .catch((error) => {
                 console.error(error);
@@ -51,8 +49,7 @@ function BookTutorSTPage() {
         axios
             .get(`http://localhost:8081/course/findCourseByTutor?tutorid=${tutorid}`)
             .then((response) => {
-                setCourse(response.data); // Sửa từ response.top thành response.data
-                console.log(response.data);
+                setCourse(response.data); 
             })
             .catch((error) => {
                 console.error(error);
@@ -66,7 +63,6 @@ function BookTutorSTPage() {
         axios.get("http://localhost:8081/student/viewstudent?email=" + decodedToken.id)
             .then((response) => {
                 setStudent(response.data);
-                console.log(response.data);
             })
             .catch((error) => {
                 console.error(error);
@@ -84,7 +80,7 @@ function BookTutorSTPage() {
         };
 
         try {
-            const response = await axios.post(
+            await axios.post(
                 "http://localhost:8081/book/bookcourse",
                 {
                     studentId: studentid,
@@ -94,7 +90,6 @@ function BookTutorSTPage() {
                 config
             );
             window.location.href = '/booktime/' + tutorid;
-            console.log(response.data);
         } catch (error) {
             console.error(error);
             console.log(error.response.data);
@@ -110,7 +105,7 @@ function BookTutorSTPage() {
         };
 
         try {
-            const response = await axios.post(
+            await axios.post(
                 "http://localhost:8081/trylearn/booktrylearn",
                 {
                     studentid: studentid,
@@ -120,7 +115,6 @@ function BookTutorSTPage() {
                 config
             );
             window.location.href = '/homestudent';
-            console.log(response.data);
         } catch (error) {
             console.error(error);
             console.log(error.response.data);
@@ -132,7 +126,7 @@ function BookTutorSTPage() {
                 <Grid container spacing={1}>
                     <Grid item xs={5} >
                         <Box className="tutor-infor">
-                            <img src={`http://localhost:8081/edu/file/files/` + data.img} alt={data.fullname} className="tutor-img" />
+                            <img src={`http://localhost:8081/edu/file/fileuser/${data.img}/${data.tutorId}`} alt={data.fullname} className="tutor-img" />
                         </Box>
                     </Grid>
                     <Grid item xs={7}>
@@ -160,7 +154,7 @@ function BookTutorSTPage() {
                             Giá
                         </Typography>
                         <Typography className="price-number">
-                            {data.price}Đ
+                            {data.price ? data.price.toLocaleString('vi-VN') + 'VNĐ' : ''}
                         </Typography>
                         <Typography className="rank">
                             Rank
@@ -256,7 +250,7 @@ function BookTutorSTPage() {
                                 <Typography sx={{ fontSize: '12px', textAlign: 'center',fontFamily : 'cursive', marginTop: '5px' }}>
                                     Gia sư dạy {item.coursename} {item.classentity}
                                 </Typography>
-                                <img src={`http://localhost:8081/edu/file/files/` + item.img}
+                                <img src={`http://localhost:8081/edu/file/fileuser/${item.img}/${item.tutorid}`}
                                     style={{ width: '120px', height: '170px' }}
                                     alt="subject" className="imgtutor" />
                                 <Rating

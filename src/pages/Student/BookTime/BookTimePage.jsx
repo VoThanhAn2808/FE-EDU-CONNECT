@@ -16,7 +16,6 @@ function BookTime() {
             .get(`http://localhost:8081/book/timeline`)
             .then((response) => {
                 setData(response.data);
-                console.log(response.data);
             })
             .catch((error) => {
                 console.error(error);
@@ -30,7 +29,6 @@ function BookTime() {
             .get(`http://localhost:8081/book/lesson`)
             .then((response) => {
                 setDaysOfWeek(response.data);
-                console.log(response.data);
             })
             .catch((error) => {
                 console.error(error);
@@ -47,7 +45,6 @@ function BookTime() {
             .get(`http://localhost:8081/book/timeandlesson?tutorid=${tutorId}&studentid=${decodedTokenRef.current.id}`)
             .then((response) => {
                 setScheduleData(response.data);
-                console.log(response.data);
             })
             .catch((error) => {
                 console.error(error);
@@ -62,7 +59,6 @@ function BookTime() {
         axios.get("http://localhost:8081/student/viewstudent?email=" + decodedToken.id)
             .then((response) => {
                 setStudent(response.data);
-                console.log(response.data);
             })
             .catch((error) => {
                 console.error(error);
@@ -79,12 +75,11 @@ function BookTime() {
         };
 
         try {
-            const response = await axios.delete(
+            await axios.delete(
                 `http://localhost:8081/book/cancelbook?studentid=${student.studentid}`,
                 config
             );
             window.location.href = '/homestudent';
-            console.log(response.data);
         } catch (error) {
             console.error(error);
             console.log(error.response.data);
@@ -126,17 +121,14 @@ function BookTime() {
                     lessonid: checkbox.lessonid,
                 };
 
-                const booktimeResponse = await axios.post(
+                await axios.post(
                     'http://localhost:8081/book/timebook',
                     postData,
                     configs
                 );
-
-                console.log('Đặt lịch thành công:', booktimeResponse.data);
             }
 
             window.location.href = paymentResponse.data.url;
-            console.log('Thanh toán thành công:', paymentResponse.data);
         } catch (error) {
             console.error(error);
             console.log(error.response.data);

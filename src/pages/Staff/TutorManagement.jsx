@@ -37,7 +37,6 @@ function TutorManagement() {
             .get(`http://localhost:8081/staffsconnect/tutor/${decodedToken.id}/${pageNumber}`)
             .then((response) => {
                 setData(response.data);
-                console.log(response.data);
             })
             .catch((error) => {
                 console.error(error);
@@ -56,7 +55,6 @@ function TutorManagement() {
             .get(`http://localhost:8081/staffsconnect/totaltutor?staffid=${decodedToken.id}`)
             .then((response) => {
                 settotal(response.data);
-                console.log(response.data);
             })
             .catch((error) => {
                 console.error(error);
@@ -66,7 +64,6 @@ function TutorManagement() {
                 .get(`http://localhost:8081/staffsconnect/tutor/viewprofile/${tutor}`)
                 .then((response) => {
                     setData1(response.data);
-                    console.log(response.data);
                 })
                 .catch((error) => {
                     console.error(error);
@@ -75,7 +72,6 @@ function TutorManagement() {
                 .get(`http://localhost:8081/staffsconnect/tutor/viewprofile/classcourse/${tutor}`)
                 .then((response) => {
                     setData2(response.data);
-                    console.log(response.data);
                 })
                 .catch((error) => {
                     console.error(error);
@@ -84,7 +80,6 @@ function TutorManagement() {
                 .get(`http://localhost:8081/staffsconnect/tutor/viewprofile/timeline/${tutor}`)
                 .then((response) => {
                     setData3(response.data);
-                    console.log(response.data);
                 })
                 .catch((error) => {
                     console.error(error);
@@ -93,7 +88,6 @@ function TutorManagement() {
                 .get(`http://localhost:8081/educonnect/historypay?tutorid=${tutor}`)
                 .then((response) => {
                     setHistory(response.data);
-                    console.log(response.data);
                 })
                 .catch((error) => {
                     console.error(error);
@@ -118,7 +112,6 @@ function TutorManagement() {
             );
             alert(response.data);
             window.location.reload();
-            console.log(response);
         } catch (error) {
             console.error(error);
             console.log(error.response.data);
@@ -147,7 +140,6 @@ function TutorManagement() {
                 alert("faill");
             }
             window.location.reload();
-            console.log(response.data);
         } catch (error) {
             console.error(error);
             console.log(error.response.data);
@@ -165,7 +157,6 @@ function TutorManagement() {
             } else {
                 alert("faill");
             }
-            console.log(response.data);
         } catch (error) {
             console.error(error);
             console.log(error.response.data);
@@ -182,7 +173,6 @@ function TutorManagement() {
             .get("http://localhost:8081/student/class")
             .then((response) => {
                 setClassEntity(response.data);
-                console.log(response.data);
             })
             .catch((error) => {
                 console.error(error);
@@ -195,7 +185,6 @@ function TutorManagement() {
                 .get(`http://localhost:8081/course/findCourseByClass?classcourseid=${classcourse}`)
                 .then((response) => {
                     setCourseC(response.data);
-                    console.log(response.data);
                 })
                 .catch((error) => {
                     console.error(error);

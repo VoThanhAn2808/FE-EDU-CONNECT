@@ -13,8 +13,6 @@ import IMAGE27 from "../../../assests/image 27.jpg"
 import IMAGE28 from "../../../assests/image 28.jpg"
 import IMAGE31 from "../../../assests/image 31.jpg"
 import IMAGE32 from "../../../assests/image 32.jpg"
-// import Rating from '@mui/material/Rating';
-// import StarIcon from '@mui/icons-material/Star';
 import HOTNEW from "../../../assests/hotnew.jpg"
 import FooterHome from './Footerhome/FooterHome';
 import { Box, Button, Grid, Typography } from '@mui/material';
@@ -37,7 +35,6 @@ function Home() {
             .get("http://localhost:8081/educonnect/tutor/top3")
             .then((response) => {
                 setData(response.data);
-                console.log(response.data);
             })
             .catch((error) => {
                 console.error(error);
@@ -114,7 +111,7 @@ function Home() {
                                     {item.fullname}
                                 </Typography>
 
-                                <Link to={`/viewinfomationpage/${item.tutorid}`} style={{ color: 'black' }}>
+                                <Link to={`/viewinfomationpages/${item.tutorid}`} style={{ color: 'black' }}>
                                     <Button
                                     variant="contained" 
                                     color="success"
@@ -137,7 +134,7 @@ function Home() {
                                         Thông tin
                                     </Button>
                                 </Link>
-                                <img src={`http://localhost:8081/edu/file/files/` + item.img} alt="giasu" className='giasu' />
+                                <img src={`http://localhost:8081/edu/file/fileuser/${item.img}/${item.tutorid}`} alt="giasu" className='giasu' style={{height : '310px'}} />
                             </Box>
                         </Grid>
                     ))}

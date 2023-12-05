@@ -7,8 +7,6 @@ import ANN from "../../../assests/image 1.jpg"
 import HOTNEW from "../../../assests/hotnew.jpg"
 import CalendarTodayIcon from '@mui/icons-material/CalendarToday';
 import axios from "axios";
-// import Rating from '@mui/material/Rating';
-// import StarIcon from '@mui/icons-material/Star';
 import PersonIcon from "@mui/icons-material/Person";
 import { Link } from "react-router-dom";
 import { jwtDecode } from 'jwt-decode';
@@ -65,7 +63,6 @@ function Home() {
             .get("http://localhost:8081/educonnect/tutor/top3")
             .then((response) => {
                 setData(response.data);
-                console.log(response.data);
             })
             .catch((error) => {
                 console.error(error);
@@ -214,7 +211,7 @@ function Home() {
                                     Thông tin
                                 </Button>
                                 </Link>
-                                <img src={`http://localhost:8081/edu/file/files/` + item.img} alt="giasu" className='giasu' style={{height : '330px'}} />
+                                <img src={`http://localhost:8081/edu/file/fileuser/${item.img}/${item.tutorid}`} alt="giasu" className='giasu' style={{height : '330px'}} />
                             </Box>
                         </Grid>
                     ))}
