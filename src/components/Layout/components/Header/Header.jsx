@@ -253,7 +253,6 @@ function Header() {
                         });
                 }
             }
-        }
         } catch (error) {
             console.error('Error decoding the token:', error);
         }
