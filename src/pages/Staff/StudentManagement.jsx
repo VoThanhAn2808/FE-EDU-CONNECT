@@ -32,7 +32,6 @@ function StudentManagement() {
             const response = await axios.get(`http://localhost:8081/staffsconnect/student/block/${student}`);
             alert(response.data);
             window.location.reload();
-            console.log(response.data);
         } catch (error) {
             console.error(error);
             console.log(error.response.data);
@@ -45,7 +44,6 @@ function StudentManagement() {
             .get(`http://localhost:8081/staffsconnect/student?page=${pageNumber}`)
             .then((response) => {
                 setData(response.data);
-                console.log(response.data);
             })
             .catch((error) => {
                 console.error(error);
@@ -61,7 +59,6 @@ function StudentManagement() {
             .get(`http://localhost:8081/staffsconnect/pagestudent`)
             .then((response) => {
                 setPstudent(response.data);
-                console.log(response.data);
             })
             .catch((error) => {
                 console.error(error);
@@ -77,7 +74,6 @@ function StudentManagement() {
                 .get(`http://localhost:8081/staffsconnect/student/viewprofile/${student}`)
                 .then((response) => {
                     setVstudent(response.data);
-                    console.log(response.data);
                 })
                 .catch((error) => {
                     console.error(error);

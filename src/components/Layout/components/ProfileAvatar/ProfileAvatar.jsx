@@ -3,10 +3,13 @@ import CloudUploadIcon from '@mui/icons-material/CloudUpload';
 import Avatar from '@mui/material/Avatar';
 import Box from '@mui/material/Box';
 import PersonIcon from '@mui/icons-material/Person';
+import { jwtDecode } from 'jwt-decode';
 
 function ProfileAvatar({ userData, onFileChange, isEditing, role, uploadedFile }) {
   const [profilePic, setProfilePic] = useState(null);
   const [isHovered, setIsHovered] = useState(false);
+  const decodedToken = jwtDecode(localStorage.getItem('token'));
+  const userId = decodedToken.id;
 
   const handleFileChange = (event) => {
     const file = event.target.files[0];
@@ -24,7 +27,7 @@ function ProfileAvatar({ userData, onFileChange, isEditing, role, uploadedFile }
   let avatarSrc;
 
   if (userData.img) {
-    avatarSrc = profilePic === null ? `http://localhost:8081/edu/file/files/${userData.img}` : profilePic;
+    avatarSrc = profilePic === null ? `http://localhost:8081/edu/file/fileuser/${userData.img}/${userId}` : profilePic;
   } else {
     avatarSrc = profilePic;
   }

@@ -11,7 +11,7 @@ import Tooltip from '@mui/material/Tooltip';
 import MenuItem from '@mui/material/MenuItem';
 import BackHandIcon from '@mui/icons-material/BackHand';
 import PhoneIcon from '@mui/icons-material/Phone';
-import { Link, useNavigate } from 'react-router-dom';
+import { Link, useLocation, useNavigate } from 'react-router-dom';
 import { useState } from 'react';
 import { useEffect } from 'react';
 import { jwtDecode } from 'jwt-decode';
@@ -21,7 +21,8 @@ import { Button, Modal, Table, TableBody, TableCell, TableContainer, TableHead, 
 import { styled, keyframes } from '@mui/system';
 import RemoveRedEyeIcon from '@mui/icons-material/RemoveRedEye';
 import VisibilityOffIcon from '@mui/icons-material/VisibilityOff';
-import LOGO from "../../../../assests/logo.png"
+import LOGO from "../../../../assests/logo.png";
+import MuiAlert from '@mui/material/Alert';
 
 
 function Header() {
@@ -97,7 +98,8 @@ function Header() {
 
     const token = localStorage.getItem('token');
     const decodedTokenRef = useRef(null);
-
+    const location = useLocation();
+    const [checkProfile, setCheckProfile] = useState(true);
     const [data, setData] = useState([]);
     const [check, setCheck] = useState('');
     const [open, setOpen] = useState(false);
@@ -140,14 +142,14 @@ function Header() {
     const handleMoneyChange = (e) => {
         const value = e.target.value;
         setMoney(value);
-        setValid(value >= 1000000); // Kiểm tra giá trị nhập có lớn hơn hoặc bằng 1.000.000 không
+        setValid(value >= 1000000);
     };
 
     const handleClickPay = async (event, tutorid) => {
         event.preventDefault();
         event.stopPropagation();
         try {
-            const response = await axios.post(
+            await axios.post(
                 `http://localhost:8081/educonnect/paymenttutor`,
                 {
                     tutorid: tutorid,
@@ -171,64 +173,85 @@ function Header() {
     const [show, setShow] = useState([]);
     const [history, setHistory] = useState([]);
 
+    const checkUserProfile = async (role) => {
+        try {
+            if (role === 1) {
+                const check = await axios.get(
+                    `http://localhost:8081/student/checkstudent?studentid=${decodedTokenRef.current.id}`,
+                );
+                setCheckProfile(check.data);
+            }
+            if (role === 2) {
+                const check = await axios.get(
+                    `http://localhost:8081/educonnect/checktutor?tutorid=${decodedTokenRef.current.id}`,
+                );
+                setCheckProfile(check.data);
+            }
+        } catch (error) {
+            console.error(error);
+        }
+    };
+
     useEffect(() => {
         try {
             if (token !== null) {
                 decodedTokenRef.current = jwtDecode(token);
                 const role = decodedTokenRef.current.role;
                 setCheck(role);
-            if (role === 1) {
-                axios
-                    .get(`http://localhost:8081/student/viewstudent?email=${decodedTokenRef.current.id}`)
-                    .then((response) => {
-                        setData(response.data);
-                    })
-                    .catch((error) => {
-                        console.error(error);
-                    });
-            } else if (role === 2) {
-                axios
-                    .get(`http://localhost:8081/educonnect/viewTutor?tutorId=${decodedTokenRef.current.id}`)
-                    .then((response) => {
-                        setData(response.data);
-                    })
-                    .catch((error) => {
-                        console.error(error);
-                    });
-                axios
-                    .get(`http://localhost:8081/educonnect/showbank?tutorid=${decodedTokenRef.current.id}`)
-                    .then((response) => {
-                        setShow(response.data);
-                    })
-                    .catch((error) => {
-                        console.error(error);
-                    });
-                axios
-                    .get(`http://localhost:8081/educonnect/historypay?tutorid=${decodedTokenRef.current.id}`)
-                    .then((response) => {
-                        setHistory(response.data);
-                    })
-                    .catch((error) => {
-                        console.error(error);
-                    });
-                axios
-                    .get('https://api.vietqr.io/v2/banks')
-                    .then((response) => {
-                        setBanks(response.data.data);
-                        console.log('ds', response.data.data);
-                    })
-                    .catch((error) => {
-                        console.error(error);
-                    });
-            } else if (role === 3) {
-                axios
-                    .get(`http://localhost:8081/staffsconnect/ViewInfoStaff?staffId=${decodedTokenRef.current.id}`)
-                    .then((response) => {
-                        setData(response.data);
-                    })
-                    .catch((error) => {
-                        console.error(error);
-                    });
+                checkUserProfile(role);
+                if (role === 1) {
+                    axios
+                        .get(`http://localhost:8081/student/viewstudent?email=${decodedTokenRef.current.id}`)
+                        .then((response) => {
+                            setData(response.data);
+                        })
+                        .catch((error) => {
+                            console.error(error);
+                        });
+                } else if (role === 2) {
+                    axios
+                        .get(`http://localhost:8081/educonnect/viewTutor?tutorId=${decodedTokenRef.current.id}`)
+                        .then((response) => {
+                            setData(response.data);
+                        })
+                        .catch((error) => {
+                            console.error(error);
+                        });
+                    axios
+                        .get(`http://localhost:8081/educonnect/showbank?tutorid=${decodedTokenRef.current.id}`)
+                        .then((response) => {
+                            setShow(response.data);
+                        })
+                        .catch((error) => {
+                            console.error(error);
+                        });
+                    axios
+                        .get(`http://localhost:8081/educonnect/historypay?tutorid=${decodedTokenRef.current.id}`)
+                        .then((response) => {
+                            setHistory(response.data);
+                        })
+                        .catch((error) => {
+                            console.error(error);
+                        });
+                    axios
+                        .get('https://api.vietqr.io/v2/banks')
+                        .then((response) => {
+                            setBanks(response.data.data);
+                            console.log('ds', response.data.data);
+                        })
+                        .catch((error) => {
+                            console.error(error);
+                        });
+                } else if (role === 3) {
+                    axios
+                        .get(`http://localhost:8081/staffsconnect/ViewInfoStaff?staffId=${decodedTokenRef.current.id}`)
+                        .then((response) => {
+                            setData(response.data);
+                        })
+                        .catch((error) => {
+                            console.error(error);
+                        });
+                }
             }
         } catch (error) {
             console.error('Error decoding the token:', error);
@@ -247,6 +270,11 @@ function Header() {
             navigate('/profile-staff');
         }
     };
+    const profileLink =
+        check === 1 ? '/profile-student' : check === 2 ? '/profile-teacher' : check === 2 ? '/profile-staff' : null;
+    if (token != null) {
+        decodedTokenRef.current = jwtDecode(token);
+    }
     const MenuItemWithRole = () => {
         return check === 2 ? (
             <>
@@ -341,10 +369,10 @@ function Header() {
                                         onClick={handleOpenUserMenu}
                                     >
                                         <IconButton>
-                                            {data.img ? (
+                                            {data.img && decodedTokenRef.current ? (
                                                 <Avatar
                                                     alt={data.fullname}
-                                                    src={`http://localhost:8081/edu/file/files/${data.img}`}
+                                                    src={`http://localhost:8081/edu/file/fileuser/${data.img}/${decodedTokenRef.current.id}`}
                                                     sx={{
                                                         height: "55px",
                                                         width: "55px",
@@ -554,6 +582,31 @@ function Header() {
                     </TableContainer>
                 </Box>
             </Modal>
+            {location.pathname !== '/profile-student' &&
+                location.pathname !== '/profile-teacher' &&
+                location.pathname !== '/profile-staff' &&
+                !checkProfile && (
+                    <MuiAlert
+                        severity='error'
+                        sx={{
+                            width: '400px',
+                            fontSize: '15px',
+                            color: 'red',
+                            position: 'fixed',
+                            display: 'flex',
+                            alignItems: 'center',
+                            justifyContent: 'center',
+                            top: '90px',
+                            right: "20px",
+                            backgroundColor: "#FAFF06"
+                        }}
+                    >
+                        Đây là tài khoản mới! Vui lòng cập nhập thông tin cá nhân{' '}
+                        <Link to={profileLink} style={{ color: 'red', textDecoration: 'underline' }}>
+                            tại đây
+                        </Link>
+                    </MuiAlert>
+                )}
         </AppBar>
     );
 }

@@ -16,7 +16,6 @@ function SubjectPage() {
             .get("http://localhost:8081/course/findCourseByClass?classcourseid=" + id)
             .then((response) => {
                 setData(response.data);
-                console.log(response.data);
             })
             .catch((error) => {
                 console.error(error);

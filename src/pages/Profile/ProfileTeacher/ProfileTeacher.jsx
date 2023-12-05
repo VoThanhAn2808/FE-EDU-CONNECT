@@ -5,6 +5,7 @@ import UserProfileInfo from '../../../components/Layout/components/ProfileInfo/T
 import { Box, Paper, ThemeProvider, createTheme } from '@mui/material';
 import axios from 'axios';
 import { jwtDecode } from 'jwt-decode';
+import dayjs from 'dayjs';
 
 const theme = createTheme({
   typography: {
@@ -21,6 +22,17 @@ const ProfileTeacher = () => {
   const [uploadedFile, setUploadedFile] = useState(null);
   const [city, setCity] = useState([]);
   const [wards, setWards] = useState([]);
+  const [validationError, setValidationError] = useState(null);
+
+  const isPhoneNumberValid = (phoneNumber) => {
+    const phoneNumberRegex = /^\d{10}$/;
+    return phoneNumberRegex.test(phoneNumber);
+  };
+
+  const isBirthdateValid = (birthdate) => {
+    const currentDate = dayjs();
+    return dayjs(birthdate).isBefore(currentDate);
+  };
 
   const fetchUser = useCallback(async () => {
     try {
@@ -31,7 +43,7 @@ const ProfileTeacher = () => {
             'Content-Type': 'application/json',
           },
         },
-      );
+      );      
       setUserData({ ...response.data, email: decodedToken.sub });
     } catch (error) {
       console.error(error);
@@ -66,13 +78,13 @@ const ProfileTeacher = () => {
       formData.append('city', userData.city);
       formData.append('wards', userData.wards);
       formData.append('file', uploadedFile);
-      const response = await axios.put('http://localhost:8081/educonnect/UpdateTutor', formData,
+      await axios.put('http://localhost:8081/educonnect/UpdateTutor', formData,
         {
           headers: {
             'Content-Type': 'multipart/form-data',
           },
         });
-      console.log(response.data);
+        window.location.reload();
     } catch (error) {
       console.error(error);
     }
@@ -84,7 +96,6 @@ const ProfileTeacher = () => {
       .get(`https://provinces.open-api.vn/api/p/`)
       .then((response) => {
         setCity(response.data);
-        console.log(response.data);
       })
       .catch((error) => {
         console.error(error);
@@ -93,7 +104,6 @@ const ProfileTeacher = () => {
       .get(`https://provinces.open-api.vn/api/d/`)
       .then((response) => {
         setWards(response.data);
-        console.log(response.data);
       })
       .catch((error) => {
         console.error(error);
@@ -109,18 +119,49 @@ const ProfileTeacher = () => {
   };
 
   const handleSave = () => {
+    if (!validateInputs()) {
+      return;
+    }
+
     setUserData({
       ...userData,
       avt: uploadedFile,
     });
     updateInfo();
     setIsEditing(false);
+    setValidationError(null);
+
   };
-  // console.log('hehehehehe', userData);
+  const validateInputs = () => {
+    if (
+      userData.fullname === '' ||
+      userData.gender === '' ||
+      userData.birthdate === '' ||
+      userData.phone === '' ||
+      userData.city === '' ||
+      userData.wards === '' ||
+      userData.classId === ''
+    ) {
+      setValidationError('Vui lòng nhập đầy đủ dữ liệu của bạn');
+      return false;
+    }
+    if (isBirthdateValid(userData.birthdate) !== true) {
+      setValidationError('Ngày tháng năm sinh không được lớn hơn ngày hiện tại');
+      return false;
+    }
+    if (isPhoneNumberValid(userData.phone) !== true) {
+      setValidationError('Số Điện Thoại Phải là 10 Số');
+      return false;
+    }
+
+    setValidationError(null);
+    return true;
+  };
 
   const handleFileChange = (selectedFile) => {
     setUploadedFile(selectedFile);
   };
+  
 
   return (
     <Box
@@ -138,6 +179,9 @@ const ProfileTeacher = () => {
           role={'giáo viên'}
           uploadedFile={uploadedFile}
         />
+        {validationError && (
+          <div style={{ color: 'red', marginBottom: '10px' }}>{validationError}</div>
+        )}
         <Paper
           style={{
             marginBottom: '30px',
@@ -156,6 +200,8 @@ const ProfileTeacher = () => {
             userData={userData}
             handleInputChange={handleInputChange}
             isEditing={isEditing}
+            isBirthdateValid={isBirthdateValid}
+            isPhoneNumberValid={isPhoneNumberValid}
           />
           {isEditing ? (
             <Button variant='contained' onClick={handleSave}>

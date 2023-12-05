@@ -17,7 +17,6 @@ function Feedback() {
             .get("http://localhost:8081/student/feedback/" + student.id)
             .then((response) => {
                 setFeedback(response.data);
-                console.log(response.data);
             })
             .catch((error) => {
                 console.error(error);
@@ -35,7 +34,7 @@ function Feedback() {
         };
       
         try {
-          const response = await axios.post(
+          await axios.post(
             "http://localhost:8081/student/addfeedback",
             {
               feedbackid: feedbackid,
@@ -46,7 +45,6 @@ function Feedback() {
           );
       
           window.location.href = "/feedback";
-          console.log(response.data);
         } catch (error) {
           console.error(error);
           console.log(error.response.data);

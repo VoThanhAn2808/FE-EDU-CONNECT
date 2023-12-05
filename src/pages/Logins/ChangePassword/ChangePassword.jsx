@@ -51,7 +51,6 @@ function ChangePassword() {
     } catch (error) {
       if (error.response.data === false) {
         setPasswordError(true);
-        console.log(error.response.data);
       }
     }
   };

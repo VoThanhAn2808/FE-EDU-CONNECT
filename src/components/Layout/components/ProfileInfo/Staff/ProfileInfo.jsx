@@ -1,15 +1,22 @@
-import React from 'react';
+import React, { useState } from 'react';
 import TextField from '@mui/material/TextField';
 import Box from '@mui/material/Box';
 import { LocalizationProvider } from '@mui/x-date-pickers';
 import { AdapterDayjs } from '@mui/x-date-pickers/AdapterDayjs';
 import { DatePicker } from '@mui/x-date-pickers/DatePicker';
-import Typography from '@mui/material/Typography';
 import dayjs from 'dayjs';
 import { MenuItem } from '@mui/material';
 
-function ProfileInfo({ wards, userData, city, handleInputChange, isEditing }) {
-  // const [code, setCode] = useState('');
+function ProfileInfo({
+  wards,
+  userData,
+  city,
+  handleInputChange,
+  isEditing,
+  isPhoneNumberValid,
+  isBirthdateValid,
+}) {
+
   return (
     <>
       <TextField
@@ -74,7 +81,9 @@ function ProfileInfo({ wards, userData, city, handleInputChange, isEditing }) {
             const filteredWards = code ? wards.filter((item) => item.province_code === code) : [];
 
             return filteredWards.map((item, index) => (
-              <MenuItem key={index} value={item.name}>{item.name}</MenuItem>
+              <MenuItem key={index} value={item.name}>
+                {item.name}
+              </MenuItem>
             ));
           })}
         </TextField>
@@ -87,7 +96,9 @@ function ProfileInfo({ wards, userData, city, handleInputChange, isEditing }) {
           disabled={!isEditing}
         >
           {city.map((item, index) => (
-            <MenuItem key={index} value={item.name}>{item.name}</MenuItem>
+            <MenuItem key={index} value={item.name}>
+              {item.name}
+            </MenuItem>
           ))}
         </TextField>
       </Box>
@@ -100,20 +111,22 @@ function ProfileInfo({ wards, userData, city, handleInputChange, isEditing }) {
       >
         <LocalizationProvider dateAdapter={AdapterDayjs}>
           <DatePicker
-            label='Ngày Sinh'
-            defaultValue={dayjs(userData.birthdate)}
-            onChange={(date) => handleInputChange('dateOfBirth', date)}
-            inputFormat='DD/MM/YYYY'
-            renderInput={(params) => (
-              <Box sx={{ display: 'flex', flexDirection: 'column' }}>
-                <Typography variant='caption'>Date of Birth</Typography>
-                <TextField {...params} fullWidth />
-              </Box>
-            )}
-            sx={{
-              width: '50%',
+            label='Ngày sinh'
+            value={userData.birthdate ? dayjs(userData.birthdate) : null}
+            onChange={(date) => handleInputChange('birthdate', date)}
+            InputLabelProps={{
+              shrink: userData.birthdate ? true : undefined,
             }}
+            sx={{ width: '50%' }}
             disabled={!isEditing}
+            error={!isBirthdateValid(userData.birthdate)}
+            renderInput={(startProps, endProps) => (
+              <>
+                <TextField {...startProps} />
+                <Box sx={{ mx: 1 }}>đến</Box>
+                <TextField {...endProps} />
+              </>
+            )}
           />
         </LocalizationProvider>
         <TextField

@@ -16,7 +16,6 @@ function ManagerPayment() {
             .get(`http://localhost:8081/staffsconnect/payfortutor?staffid=${decodedToken.id}&page=${pageNumber}`)
             .then((response) => {
                 setDicount(response.data);
-                console.log(response.data);
             })
             .catch((error) => {
                 console.error(error);
@@ -35,7 +34,6 @@ function ManagerPayment() {
         axios.get(`http://localhost:8081/staffsconnect/totalpay?staffid=${decodedToken.id}`)
             .then((response) => {
                 setPage(response.data);
-                console.log(response.data);
             })
             .catch((error) => {
                 console.error(error);
@@ -46,11 +44,10 @@ function ManagerPayment() {
         event.preventDefault();
         event.stopPropagation();
         try {
-            const response = await axios.put(
+            await axios.put(
                 `http://localhost:8081/staffsconnect/accept/${tutorid}`
             );
-            window.location.href = "/managerpayment"
-            console.log(response.data);
+            window.location.href = "/managerpayment";
         } catch (error) {
             console.error(error);
             console.log(error.response.data);

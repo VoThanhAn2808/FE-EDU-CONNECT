@@ -60,7 +60,6 @@ const ProfileStudents = () => {
       .get(`https://provinces.open-api.vn/api/p/`)
       .then((response) => {
         setCity(response.data);
-        console.log(response.data);
       })
       .catch((error) => {
         console.error(error);
@@ -69,7 +68,6 @@ const ProfileStudents = () => {
       .get(`https://provinces.open-api.vn/api/d/`)
       .then((response) => {
         setWards(response.data);
-        console.log(response.data);
       })
       .catch((error) => {
         console.error(error);
@@ -94,7 +92,7 @@ const ProfileStudents = () => {
       formData.append('wards', userData.wards);
       formData.append('classentity', userData.classId);
 
-      const response = await axios.put(
+      await axios.put(
         'http://localhost:8081/student/updatestudent',
         formData,
         {
@@ -104,7 +102,6 @@ const ProfileStudents = () => {
         }
       );
       window.location.href = "/homestudent";
-      console.log(response.data);
     } catch (error) {
       console.error(error);
     }
