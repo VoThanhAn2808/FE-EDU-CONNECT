@@ -9,13 +9,12 @@ import Container from '@mui/material/Container';
 import Avatar from '@mui/material/Avatar';
 import Tooltip from '@mui/material/Tooltip';
 import MenuItem from '@mui/material/MenuItem';
-import { Link, useNavigate } from 'react-router-dom';
+import { useNavigate } from 'react-router-dom';
 import { useState } from 'react';
 import { useEffect } from 'react';
 import { jwtDecode } from 'jwt-decode';
-import axios from 'axios';
+// import axios from 'axios';
 import { useRef } from 'react';
-import { Button } from '@mui/material';
 
 
 function Header() {
@@ -42,38 +41,15 @@ function Header() {
     const token = localStorage.getItem('token');
     const decodedTokenRef = useRef(null);
 
-    const [data, setData] = useState([]);
+    const [data] = useState([]);
 
     useEffect(() => {
         try {
-          decodedTokenRef.current = jwtDecode(token);
-          const role = decodedTokenRef.current.role;
-      
-          if (role === 1) {
-            axios
-              .get(`http://localhost:8081/student/viewstudent?email=${decodedTokenRef.current.id}`)
-              .then((response) => {
-                setData(response.data);
-                console.log(response.data);
-              })
-              .catch((error) => {
-                console.error(error);
-              });
-          } else if (role === 2) {
-            axios
-              .get(`http://localhost:8081/educonnect/viewTutor?tutorId=${decodedTokenRef.current.id}`)
-              .then((response) => {
-                setData(response.data);
-                console.log(response.data);
-              })
-              .catch((error) => {
-                console.error(error);
-              });
-          }
+            decodedTokenRef.current = jwtDecode(token);
         } catch (error) {
-          console.error('Error decoding the token:', error);
+            console.error('Error decoding the token:', error);
         }
-      }, [token]);
+    }, [token]);
 
     return (
         <AppBar position='fixed' sx={{ width: '100%', background: "#D1BD7F", zIndex: "5", boxShadow: 'none', height: '70px' }}>
@@ -101,47 +77,37 @@ function Header() {
                         alignItems: 'center',
                         gap: '19px',
                     }}>
-                        {
-                            decodedTokenRef.current ? (
-                                <Tooltip
-                                    title={<span style={{ fontSize: '10px' }}>Settings</span>}
-                                >
-                                    <Box
+                        <Tooltip
+                            title={<span style={{ fontSize: '10px' }}>Settings</span>}
+                        >
+                            <Box
+                                sx={{
+                                    display: 'flex',
+                                    alignItems: 'center',
+                                    gap: '1px',
+                                }}
+                                onClick={handleOpenUserMenu}
+                            >
+                                <IconButton>
+                                    <Avatar
+                                        alt={data.fullname}
+                                        src={data.img} // m set cứng cái ảnh đây luôn
                                         sx={{
-                                            display: 'flex',
-                                            alignItems: 'center',
-                                            gap: '1px',
+                                            height: "55px",
+                                            width: "55px",
                                         }}
-                                        onClick={handleOpenUserMenu}
-                                    >
-                                        <IconButton>
-                                            <Avatar
-                                                alt={data.fullname}
-                                                src={data.img}
-                                                sx={{
-                                                    height: "55px",
-                                                    width: "55px",
-                                                }}
-                                            />
-                                        </IconButton>
-                                        <Typography
-                                            sx={{
-                                                fontSize: '15px',
-                                                fontWeight: 'bold',
-                                            }}
-                                        >
-                                            {data.fullname}
-                                        </Typography>
-                                    </Box>
-                                </Tooltip>
-                            ) : (
-                                <Box>
-                                    <Link to="/login"><Button variant="contained" color="success" sx={{ backgroundColor: "#C6D331", color: "white", fontSize: "13px", fontWeight: "600", marginRight: "5px" }}>Đăng nhập</Button></Link>
-                                    <Link to="/signup"><Button variant="contained" color='error' sx={{ backgroundColor: "#C6D331", color: "white", fontSize: "13px", fontWeight: "600" }}>Đăng ký</Button></Link>
-                                </Box>
-                            )
-                        }
-
+                                    />
+                                </IconButton>
+                                <Typography
+                                    sx={{
+                                        fontSize: '15px',
+                                        fontWeight: 'bold',
+                                    }}
+                                >
+                                    Admin
+                                </Typography>
+                            </Box>
+                        </Tooltip>
 
                         <Menu
                             anchorEl={anchorElUser}
