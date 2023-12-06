@@ -92,6 +92,7 @@ const privateRoute = [
   { path: '/exerciselist', component: ExerciseListPage, layout: LayoutTutor, allowedRoles: ["tutor"] },
   { path: '/exercisedetail/:exerciseid', component: ExerciseDetailPage, layout: LayoutTutor, allowedRoles: ["tutor"] },
   { path: '/profile-teacher', component: ProfileTeacher, layout: LayoutTutor, allowedRoles: ["tutor"] },
+  { path: '/viewinfomationpagett/:tutorid', component: ViewInfomationPage, layout: LayoutTutor, allowedRoles: ["tutor"] },
   { path: '/homeworktutor', component: HomeWorkTutor, layout: LayoutTutor, allowedRoles: ["tutor"] },
   { path: '/managerstudent', component: ManagerStudent, layout: LayoutTutor, allowedRoles: ["tutor"] },
   { path: '/profiletutor', component: ProfileTutor, layout: LoginLayout, allowedRoles: ["tutor"] },
