@@ -36,7 +36,7 @@ function SubjectPage() {
                                 <Typography className="inforsubject">
                                     <PersonIcon className="total" />
                                     {item.count_student}</Typography>
-                                <Link to='/feedbacktutor'>
+                                <Link to={`/viewinfomationpagett/${item.classcourseid}`}>
                                     <Button variant="contained" color="primary" 
                                         sx={{
                                             height: '20px',
