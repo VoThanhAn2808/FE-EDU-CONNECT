@@ -38,7 +38,7 @@ function ManagerStudent() {
             .catch((error) => {
                 console.log(error);
             })
-    }, [page, status, courseId]);
+    }, [page, status, courseId, decodedToken.id]);
     useEffect(() => {
         axios.get(`http://localhost:8081/educonnect/countstudent?tutorid=${decodedToken.id}&status=${status}&courseid=${courseId}`)
             .then((response) => {
@@ -48,7 +48,7 @@ function ManagerStudent() {
             .catch((error) => {
                 console.log(error);
             })
-    }, [status]);
+    }, [status, courseId, decodedToken.id]);
 
 
     const handleOpenUserMenu = (event, studentId) => {
@@ -81,7 +81,9 @@ function ManagerStudent() {
                 console.log(error);
             });
     };
-
+    const handlePageChange = (pageNumber) => {
+        setPage(pageNumber);
+    };
 
     const fillDetailStudent = responseDataDetail.map((item) => ({
         lesson: item.lesson,
@@ -110,15 +112,14 @@ function ManagerStudent() {
                 <Typography sx={{ fontSize: "25px", marginLeft: "2%", fontFamily: "cursive" }}>Tab chính/Môn/Học Sinh</Typography>
             </Box>
             <Box sx={{ width: '98%', height: '100%', marginBottom: '50px', marginTop: "10px", borderRadius: "5px", marginLeft: "1%", marginRight: "1%", backgroundColor: "#E2D6D6" }}>
-                <Box sx={{ marginLeft: '40%', paddingTop: '20px', display: 'flex', marginRight: '12px', }}>
-
-                    <Button variant="contained" style={{ fontSize: '12px', fontFamily: 'cursive', flex: '1', marginRight: '10px', }} onClick={() => { setStatus(1) }}>
+                <Box sx={{ marginLeft: '55%', paddingTop: '20px', display: 'flex', marginRight: '12px', }}>
+                    <Button variant="contained" color="warning" style={{ fontSize: '12px', fontFamily: 'cursive', marginRight: '10px', }} onChange={() => { setStatus(1) }}>
                         Học sinh đang đợi học
                     </Button>
-                    <Button variant="contained" style={{ fontSize: '12px', fontFamily: 'cursive', flex: '1', marginRight: '10px', }} onClick={() => { setStatus(2) }}>
+                    <Button variant="contained" color="error" style={{ fontSize: '12px', fontFamily: 'cursive', marginRight: '10px', }} onClick={() => { setStatus(2) }}>
                         Học sinh còn học
                     </Button>
-                    <Button variant="contained" sx={{ fontSize: '12px', fontFamily: 'cursive', flex: '1', }} onClick={() => { setStatus(3) }}>
+                    <Button variant="contained" color="success" sx={{ fontSize: '12px', fontFamily: 'cursive', }} onClick={() => { setStatus(3) }}>
                         Học sinh đã hoàn thành
                     </Button>
                 </Box>
@@ -131,6 +132,7 @@ function ManagerStudent() {
                                     <TableCell sx={{ fontSize: '15px', fontFamily: 'cursive', backgroundColor: '#F9F3F3', }}>Tên học sinh</TableCell>
                                     <TableCell sx={{ fontSize: '15px', fontFamily: 'cursive', backgroundColor: '#F9F3F3', }}>Ngày bắt đầu học</TableCell>
                                     <TableCell sx={{ fontSize: '15px', fontFamily: 'cursive', backgroundColor: '#F9F3F3', }}>Trạng thái</TableCell>
+                                    <TableCell sx={{ fontSize: '15px', fontFamily: 'cursive', backgroundColor: '#F9F3F3', }}>Ảnh</TableCell>
                                     <TableCell sx={{ backgroundColor: '#F9F3F3', width: '20px' }}>
                                         <RefreshIcon style={{ color: 'primary', fontSize: '25px', }} onClick={() => { setStatus(0) }} />
                                     </TableCell>
@@ -143,7 +145,7 @@ function ManagerStudent() {
                                         <TableCell sx={{ width: '30%', height: '50px', fontSize: '15px', fontFamily: 'cursive' }}>{item.fullname}</TableCell>
                                         <TableCell sx={{ width: '20%', height: '50px', fontSize: '15px', fontFamily: 'cursive' }}>{item.startdate}</TableCell>
                                         <TableCell sx={{ width: '20%', height: '50px', fontSize: '15px', fontFamily: 'cursive' }}>{checkStatus((new Date(item.startdate)).getTime(), (new Date(item.enddate)).getTime())}</TableCell>
-                                        <TableCell sx={{ width: '20%', height: '50px', fontSize: '15px', fontFamily: 'cursive' }}><img src={'http://localhost:8081/edu/file/fileImg/' + item.studentid + '/' + item.img} alt={`Discount Image for ${item.title}`} style={{ maxWidth: '100%', maxHeight: '100%', }} /></TableCell>
+                                        <TableCell sx={{ width: '20%', height: '50px', fontSize: '15px', fontFamily: 'cursive' }}><img src={`http://localhost:8081/edu/file/fileuser/${item.img}/${item.studentid}`} alt={`Discount Image for ${item.title}`} style={{ width: '60px', height: '60px', }} /></TableCell>
                                         <TableCell sx={{ height: '50px', textAlign: 'center' }}>
                                             <MoreHorizIcon onClick={(event) => handleOpenUserMenu(event, item.studentid)} sx={{ fontSize: '30px' }} />
                                         </TableCell>
@@ -185,7 +187,7 @@ function ManagerStudent() {
                             <Box sx={{ marginTop: '-100px' }}>
                                 {responseDataDetail.length > 0 ?
                                     (<>
-                                        <Avatar src={'http://localhost:8081/edu/file/fileImg/' + responseDataDetail[0].studentid + '/' + responseDataDetail[0].img} sx={{ width: '90px', height: '90px', marginLeft: '90px', marginBottom: '20px' }} />
+                                        <Avatar src={`http://localhost:8081/edu/file/fileuser/${responseDataDetail[0].img}/${responseDataDetail[0].studentid}`} sx={{ width: '90px', height: '90px', marginLeft: '90px', marginBottom: '20px' }} />
                                         <Typography sx={{ fontSize: '15px', fontFamily: 'cursive', marginLeft: '12%' }}>Học sinh: {responseDataDetail[0].fullname}</Typography>
                                         <Typography sx={{ fontSize: '15px', fontFamily: 'cursive', marginLeft: '12%' }}>Ngày Sinh: {responseDataDetail[0].birthdate}</Typography>
                                         <Typography sx={{ fontSize: '15px', fontFamily: 'cursive', marginLeft: '12%' }}>SĐT: {responseDataDetail[0].phone}</Typography>
@@ -200,7 +202,7 @@ function ManagerStudent() {
                         </Box>
                     </Modal>
                     <Box sx={{ marginBottom: '50px', display: 'flex', justifyContent: 'center', marginTop: '20px' }}>
-                        <Pagination count={pageCount} sx={{ '& .MuiPaginationItem-root': { fontSize: '15px', minWidth: '50px' } }} />
+                        <Pagination count={pageCount} page={page} onChange={handlePageChange} sx={{ '& .MuiPaginationItem-root': { fontSize: '15px', minWidth: '50px' } }} />
                     </Box>
                 </Box>
             </Box>
