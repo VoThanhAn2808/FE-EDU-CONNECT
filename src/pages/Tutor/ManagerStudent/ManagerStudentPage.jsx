@@ -1,9 +1,7 @@
 import { Avatar, Box, Button, Menu, MenuItem, Modal, Pagination, Paper, Table, TableBody, TableCell, TableContainer, TableHead, TableRow, Typography } from "@mui/material";
-import IconButton from '@material-ui/core/IconButton';
 import React, { useEffect, useState } from "react";
 import MoreHorizIcon from '@mui/icons-material/MoreHoriz';
 import RefreshIcon from '@material-ui/icons/Refresh';
-import avt from './../../../assests/giasu.jpg'
 import { Link, useParams } from "react-router-dom";
 import axios from "axios";
 import { jwtDecode } from 'jwt-decode';
@@ -115,9 +113,7 @@ function ManagerStudent() {
             </Box>
             <Box sx={{ width: '98%', height: '100%', marginBottom: '50px', marginTop: "10px", borderRadius: "5px", marginLeft: "1%", marginRight: "1%", backgroundColor: "#E2D6D6" }}>
                 <Box sx={{ marginLeft: '40%', paddingTop: '20px', display: 'flex', marginRight: '12px', }}>
-                    <IconButton variant="contained" style={{ color: 'primary', }} onClick={() => { setStatus(0) }}>
-                        <RefreshIcon style={{ color: 'primary', fontSize: '25px', }} />
-                    </IconButton >
+
                     <Button variant="contained" style={{ fontSize: '12px', fontFamily: 'cursive', flex: '1', marginRight: '10px', }} onClick={() => { setStatus(1) }}>
                         Học sinh đang đợi học
                     </Button>
@@ -137,7 +133,9 @@ function ManagerStudent() {
                                     <TableCell sx={{ fontSize: '15px', fontFamily: 'cursive', backgroundColor: '#F9F3F3', }}>Tên học sinh</TableCell>
                                     <TableCell sx={{ fontSize: '15px', fontFamily: 'cursive', backgroundColor: '#F9F3F3', }}>Ngày bắt đầu học</TableCell>
                                     <TableCell sx={{ fontSize: '15px', fontFamily: 'cursive', backgroundColor: '#F9F3F3', }}>Trạng thái</TableCell>
-                                    <TableCell sx={{ backgroundColor: '#F9F3F3', width: '20px' }}></TableCell>
+                                    <TableCell sx={{ backgroundColor: '#F9F3F3', width: '20px' }}>
+                                        <RefreshIcon style={{ color: 'primary', fontSize: '25px', }} onClick={() => { setStatus(0) }} />
+                                    </TableCell>
                                 </TableRow>
                             </TableHead>
                             <TableBody>
