@@ -1,7 +1,15 @@
 import { Box, Grid, Typography } from "@mui/material";
 import MovingIcon from '@mui/icons-material/Moving';
 import TrendingDownIcon from '@mui/icons-material/TrendingDown';
-import { LineChart, Line, XAxis, YAxis, CartesianGrid, Tooltip, Legend, BarChart, Bar } from 'recharts';
+import { LineChart, Line, XAxis, YAxis, CartesianGrid, Tooltip, Legend} from 'recharts';
+import { LocalizationProvider } from '@mui/x-date-pickers/LocalizationProvider';
+import { AdapterDayjs } from '@mui/x-date-pickers/AdapterDayjs';
+import { DateCalendar } from '@mui/x-date-pickers/DateCalendar';
+import './DateCalendar.css';
+import ApexChart from "./ApexChart";
+import PieChartMui from "./PieChart";
+import RadarChartMui from "./RadarChart";
+
 
 
 function Admin() {
@@ -69,31 +77,32 @@ function Admin() {
           </Grid>
         </Grid>
       </Box>
-      <Box sx={{marginTop:"40px", marginLeft:"15%"}}>
-        <LineChart width={900} height={400} data={data}>
-          <CartesianGrid strokeDasharray="3 3" />
-          <XAxis dataKey="name" />
-          <YAxis />
-          <Tooltip />
-          <Legend />
-          <Line type="monotone" dataKey="nhân_viên" stroke="#C7A805" />
-          <Line type="monotone" dataKey="học_sinh" stroke="#78068B" />
-          <Line type="monotone" dataKey="gia_sư" stroke="#08950D" />
-          <Line type="monotone" dataKey="tiền" stroke="#E80F0F" />
-        </LineChart>
+      <Box sx={{ marginTop: "40px", display: "flex" }}>
+        <Box sx={{ backgroundColor: "#E8F4F5", marginLeft: "10px", borderRadius: "5px" }}>
+          <LineChart width={900} height={400} data={data}>
+            <CartesianGrid strokeDasharray="3 3" />
+            <XAxis dataKey="name" />
+            <YAxis />
+            <Tooltip />
+            <Legend />
+            <Line type="monotone" dataKey="nhân_viên" stroke="#C7A805" />
+            <Line type="monotone" dataKey="học_sinh" stroke="#78068B" />
+            <Line type="monotone" dataKey="gia_sư" stroke="#08950D" />
+            <Line type="monotone" dataKey="tiền" stroke="#E80F0F" />
+          </LineChart>
+        </Box>
+        <Box sx={{ backgroundColor: "#E8F4F5", marginLeft: "10px", borderRadius: "5px" }}>
+            <LocalizationProvider dateAdapter={AdapterDayjs}>
+              <DateCalendar />
+            </LocalizationProvider>
+          </Box>
       </Box>
-      <Box sx={{marginTop:"40px", marginLeft:"3%"}}>
-      <BarChart width={1200} height={500} data={data}>
-      <CartesianGrid strokeDasharray="3 3" />
-      <XAxis dataKey="name" />
-      <YAxis />
-      <Tooltip />
-      <Legend />
-      <Bar dataKey="nhân_viên" fill="#C7A805" />
-      <Bar dataKey="học_sinh" fill="#78068B" />
-      <Bar dataKey="gia_sư" fill="#08950D" />
-      <Bar dataKey="tiền" fill="#E80F0F" />
-    </BarChart>
+      <Box sx={{ display: "flex", width:"100%"}}>
+        <ApexChart />
+        <Box sx={{width:"100%"}}>
+          <PieChartMui />
+          <RadarChartMui />
+        </Box>
       </Box>
     </Box>
   );
