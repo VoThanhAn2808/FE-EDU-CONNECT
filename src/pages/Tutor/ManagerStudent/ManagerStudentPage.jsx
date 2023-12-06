@@ -23,12 +23,10 @@ function ManagerStudent() {
     console.log('Course ID from URL:', courseId);
 
     useEffect(() => {
-        // Update the current date every second
         const intervalId = setInterval(() => {
             setCurrentDate(new Date());
         }, 1000);
 
-        // Clear the interval on component unmount
         return () => clearInterval(intervalId);
     }, []);
 
