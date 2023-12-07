@@ -32,7 +32,6 @@ function UpdateCalender() {
             .then((response) => {
                 if (response && response.data) {
                     setData(response.data);
-                    console.log(response.data);
                 }
             })
             .catch((error) => {
@@ -42,7 +41,6 @@ function UpdateCalender() {
             .then((response) => {
                 if (response && response.data) {
                     setDaysOfWeek(response.data);
-                    console.log(response.data);
                 }
             })
             .catch((error) => {
@@ -52,7 +50,6 @@ function UpdateCalender() {
             .then((response) => {
                 if (response && response.data) {
                     setTime(response.data);
-                    console.log(response.data);
                 }
             })
             .catch((error) => {
@@ -105,7 +102,6 @@ function UpdateCalender() {
                     config
                 );
                 window.location.href = '/updatecalender';
-                console.log(response.data);
             }
         } catch (error) {
             console.error(error);
@@ -136,15 +132,12 @@ function UpdateCalender() {
                     lessonid: lessonId,
                     timeid: timeId,
                 };
-                console.log("ds" + postData);
 
                 const booktimeResponse = await axios.post(
                     "http://localhost:8081/educonnect/choicetime",
                     postData,
                     config
                 );
-
-                console.log("Đặt lịch thành công:", booktimeResponse.data);
             }
 
             window.location.href = '/updatecalender';

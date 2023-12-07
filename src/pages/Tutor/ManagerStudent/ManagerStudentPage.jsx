@@ -20,8 +20,6 @@ function ManagerStudent() {
     const [responseDataDetail, setResponseDataDetail] = useState([]);
     const { courseId } = useParams();
 
-    console.log('Course ID from URL:', courseId);
-
     useEffect(() => {
         const intervalId = setInterval(() => {
             setCurrentDate(new Date());
@@ -43,7 +41,6 @@ function ManagerStudent() {
         axios.get(`http://localhost:8081/educonnect/countstudent?tutorid=${decodedToken.id}&status=${status}&courseid=${courseId}`)
             .then((response) => {
                 setPageCount(response.data);
-                console.log('Count page: ' + response.data);
             })
             .catch((error) => {
                 console.log(error);
@@ -53,8 +50,7 @@ function ManagerStudent() {
 
     const handleOpenUserMenu = (event, studentId) => {
         setAnchorElUser(event.currentTarget);
-        setStudentId(studentId); // Use the state callback
-        console.log('Student ID:', studentId);
+        setStudentId(studentId); 
     };
 
     const handleCloseUserMenu = () => {
