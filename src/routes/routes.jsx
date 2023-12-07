@@ -54,6 +54,7 @@ import PageNotFound from '../pages/PageNotFound';
 import DiscountManagement from '../pages/Staff/DiscountManagement';
 import ManagerPayment from '../pages/Staff/ManagerPayment';
 import FeedbackTutors from '../pages/Student/FeedBack/FeedBackTutor';
+import Feedbackofcourse from '../pages/Tutor/ViewInfomationPage/Feedbackofcourse';
 
 const publicRoute = [
   { path: '/', component: Home, layout: DefaultLayout, allowedRoles: ["default"] },
@@ -92,9 +93,9 @@ const privateRoute = [
   { path: '/exerciselist', component: ExerciseListPage, layout: LayoutTutor, allowedRoles: ["tutor"] },
   { path: '/exercisedetail/:exerciseid', component: ExerciseDetailPage, layout: LayoutTutor, allowedRoles: ["tutor"] },
   { path: '/profile-teacher', component: ProfileTeacher, layout: LayoutTutor, allowedRoles: ["tutor"] },
-  { path: '/viewinfomationpagett/:tutorid', component: ViewInfomationPage, layout: LayoutTutor, allowedRoles: ["tutor"] },
+  { path: '/viewinfomationpagett/:classcourseid', component: Feedbackofcourse, layout: LayoutTutor, allowedRoles: ["tutor"] },
   { path: '/homeworktutor', component: HomeWorkTutor, layout: LayoutTutor, allowedRoles: ["tutor"] },
-  { path: '/managerstudent', component: ManagerStudent, layout: LayoutTutor, allowedRoles: ["tutor"] },
+  { path: '/managerstudent/:courseId', component: ManagerStudent, layout: LayoutTutor, allowedRoles: ["tutor"] },
   { path: '/profiletutor', component: ProfileTutor, layout: LoginLayout, allowedRoles: ["tutor"] },
   { path: '/updatecalender', component: UpdateCalender, layout: LayoutTutor, allowedRoles: ["tutor"] },
   { path: '/tutormanagement', component: TutorManagement, layout: LayoutStaff, allowedRoles: ["staff"] },
@@ -108,8 +109,8 @@ const privateRoute = [
   { path: '/admin', component: Admin, layout: LayoutAdmin, allowedRoles: ["admin"] },
   { path: '/staffManagement', component: StaffManagement, layout: LayoutAdmin, allowedRoles: ["admin"] },
   { path: '/discountManagement', component: DiscountManagement, layout: LayoutStaff, allowedRoles: ["staff"] },
-  { path: '/simulationmanagement', component: SimulationManagement, layout: LayoutStaff, allowedRoles: ["staff"]},
-  { path: '/managerpayment', component: ManagerPayment, layout: LayoutStaff, allowedRoles: ["staff"]},
+  { path: '/simulationmanagement', component: SimulationManagement, layout: LayoutStaff, allowedRoles: ["staff"] },
+  { path: '/managerpayment', component: ManagerPayment, layout: LayoutStaff, allowedRoles: ["staff"] },
   { path: '/simulationmanagement', component: SimulationManagement, layout: LayoutStaff, allowedRoles: ["staff"] },
 ];
 

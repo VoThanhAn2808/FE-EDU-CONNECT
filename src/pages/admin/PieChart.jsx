@@ -1,13 +1,21 @@
 import { Box, Typography } from '@mui/material';
-import React from 'react';
+import axios from 'axios';
+import React, { useEffect, useState } from 'react';
 import { PieChart, Pie, ResponsiveContainer, Tooltip } from 'recharts';
 
 function PieChartMui() {
-  const data = [
-    { name: 'Học sinh', value: 44, fill: '#0088FE' },
-    { name: 'Nhân Viên', value: 55, fill: '#FF0000' },
-    { name: 'Gia sư', value: 30, fill: 'green' },
-  ];
+  const [data, setData] = useState([]);
+
+  useEffect(() => {
+    axios
+        .get(`http://localhost:8081/admin/piechart`)
+        .then((response) => {
+          setData(response.data);
+        })
+        .catch((error) => {
+            console.error(error);
+        });
+}, []);
 
   return (
     <Box sx={{ width: '100%', height: 300 }}>
