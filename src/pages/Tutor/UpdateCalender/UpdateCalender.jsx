@@ -97,7 +97,7 @@ function UpdateCalender() {
         try {
             for (const cellIndex of selectedCells) {
                 const [timeId, lessonId] = cellIndex.split('-');
-                const response = await axios.delete(
+                await axios.delete(
                     `http://localhost:8081/schedule/deletecalender/${timeId}/${lessonId}/${tutor.id}`,
                     config
                 );
@@ -133,7 +133,7 @@ function UpdateCalender() {
                     timeid: timeId,
                 };
 
-                const booktimeResponse = await axios.post(
+                await axios.post(
                     "http://localhost:8081/educonnect/choicetime",
                     postData,
                     config

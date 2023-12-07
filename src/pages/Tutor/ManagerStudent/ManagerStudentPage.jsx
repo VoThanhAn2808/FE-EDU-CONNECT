@@ -18,6 +18,8 @@ function ManagerStudent() {
     const [pageCount, setPageCount] = useState();
     const [currentDate, setCurrentDate] = useState(new Date());
     const [responseDataDetail, setResponseDataDetail] = useState([]);
+    const [tutor, setTutor] = useState('');
+    const [book, setBook] = useState('');
     const { courseId } = useParams();
 
     useEffect(() => {
@@ -36,8 +38,6 @@ function ManagerStudent() {
             .catch((error) => {
                 console.log(error);
             })
-    }, [page, status, courseId, decodedToken.id]);
-    useEffect(() => {
         axios.get(`http://localhost:8081/educonnect/countstudent?tutorid=${decodedToken.id}&status=${status}&courseid=${courseId}`)
             .then((response) => {
                 setPageCount(response.data);
@@ -45,12 +45,20 @@ function ManagerStudent() {
             .catch((error) => {
                 console.log(error);
             })
-    }, [status, courseId, decodedToken.id]);
+        axios.get(`http://localhost:8081/educonnect/viewtutorcourse?classcourseid=${courseId}&tutorid=${decodedToken.id}`)
+            .then((response) => {
+                setTutor(response.data);
+            })
+            .catch((error) => {
+                console.log(error);
+            })
+    }, [page, status, courseId, decodedToken.id]);
 
 
-    const handleOpenUserMenu = (event, studentId) => {
+    const handleOpenUserMenu = (event, studentId, bookid) => {
         setAnchorElUser(event.currentTarget);
-        setStudentId(studentId); 
+        setStudentId(studentId);
+        setBook(bookid);
     };
 
     const handleCloseUserMenu = () => {
@@ -104,7 +112,7 @@ function ManagerStudent() {
     return (
         <Box>
             <Box sx={{ width: '98%', height: "130px", marginTop: "20px", borderRadius: "5px", marginLeft: "1%", marginRight: "1%", backgroundColor: "#E2D6D6" }}>
-                <Typography sx={{ fontSize: "40px", marginLeft: "2%", fontFamily: "cursive", paddingBottom: "20px" }}>Toán đại 10 - Nguyễn Văn A</Typography>
+                <Typography sx={{ fontSize: "40px", marginLeft: "2%", fontFamily: "cursive", paddingBottom: "20px" }}>{tutor.coursename} {tutor.classname} - {tutor.nametutor}</Typography>
                 <Typography sx={{ fontSize: "25px", marginLeft: "2%", fontFamily: "cursive" }}>Tab chính/Môn/Học Sinh</Typography>
             </Box>
             <Box sx={{ width: '98%', height: '100%', marginBottom: '50px', marginTop: "10px", borderRadius: "5px", marginLeft: "1%", marginRight: "1%", backgroundColor: "#E2D6D6" }}>
@@ -143,7 +151,7 @@ function ManagerStudent() {
                                         <TableCell sx={{ width: '20%', height: '50px', fontSize: '15px', fontFamily: 'cursive' }}>{checkStatus((new Date(item.startdate)).getTime(), (new Date(item.enddate)).getTime())}</TableCell>
                                         <TableCell sx={{ width: '20%', height: '50px', fontSize: '15px', fontFamily: 'cursive' }}><img src={`http://localhost:8081/edu/file/fileuser/${item.img}/${item.studentid}`} alt={`Discount Image for ${item.title}`} style={{ width: '60px', height: '60px', }} /></TableCell>
                                         <TableCell sx={{ height: '50px', textAlign: 'center' }}>
-                                            <MoreHorizIcon onClick={(event) => handleOpenUserMenu(event, item.studentid)} sx={{ fontSize: '30px' }} />
+                                            <MoreHorizIcon onClick={(event) => handleOpenUserMenu(event, item.studentid, item.bookid)} sx={{ fontSize: '30px' }} />
                                         </TableCell>
                                     </TableRow>
                                 )) :
@@ -169,7 +177,7 @@ function ManagerStudent() {
                         onClose={handleCloseUserMenu}
                     >
                         <MenuItem onClick={handleOpen}>Xem thông tin</MenuItem>
-                        <Link to='/exerciselist' style={{ textDecoration: 'none', color: 'black' }}>
+                        <Link to={`/exerciselist/${book}`} style={{ textDecoration: 'none', color: 'black' }}>
                             <MenuItem onClick={handleCloseUserMenu}>Bài tập</MenuItem>
                         </Link>
                     </Menu>

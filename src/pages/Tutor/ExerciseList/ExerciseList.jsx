@@ -26,6 +26,7 @@ function ExerciseTable(props) {
     .catch((error) => {
         console.error("Error fetching timeline:", error);
     });
+    alert("Xóa bài tập thành công")
   }
   return (
     <TableContainer component={Paper} sx={{}}>
