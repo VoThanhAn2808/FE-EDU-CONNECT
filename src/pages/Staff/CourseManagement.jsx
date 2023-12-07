@@ -196,7 +196,7 @@ function CourseManagement() {
                                                     ) : (
                                                         <AddLinkIcon sx={{ fontSize: "25px" }} onClick={() => handleOpen(item.tutorName, item.studentName, item.bookid)} />
                                                     )}
-                                                    <RemoveRedEyeIcon sx={{ fontSize: "25px" }} onClick={() => handleOpenV(item.bookid)} />
+                                                    <RemoveRedEyeIcon sx={{ fontSize: "25px", marginLeft : '10px' }} onClick={() => handleOpenV(item.bookid)} />
                                                 </TableCell>
                                             </TableRow>
                                         );

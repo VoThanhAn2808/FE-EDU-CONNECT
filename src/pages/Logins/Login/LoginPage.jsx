@@ -70,7 +70,9 @@ function LoginPage() {
           window.location.href = "/hometutor";
         }
       } else if (decodedToken.role === 3) {
-        window.location.href = "/tutormanagement"
+        window.location.href = "/dashboard"
+      }else if(decodedToken.role === 4) {
+        window.location.href = "/admin"
       }
       validateEmail();
       validatePassword();
