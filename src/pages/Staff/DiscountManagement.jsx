@@ -39,6 +39,7 @@ function DiscountManagement() {
         pageNo: '',
         // Add other key-value pairs as needed
     });
+    const [checkAllList, setCheckAllList] = useState(false);
 
     useEffect(() => {
         axios.post('http://localhost:8081/discount/listdiscount', dataToSend)
@@ -52,29 +53,59 @@ function DiscountManagement() {
 
 
     const handleItemCheckboxChange = (event, itemId) => {
-        const checked = event.target.checked;
-        if (checked) {
-            // If checked, add itemId to selectedItems and update listDelete
+        if (checkAllList) {
+            // If checkAllList is true, select/deselect the checkbox for the specific item
             setSelectedItems((prevSelectedItems) => {
-                const updatedSelectedItems = [...prevSelectedItems, itemId];
-                setListDelete(updatedSelectedItems);
-                return updatedSelectedItems;
+                if (prevSelectedItems.includes(itemId)) {
+                    // If item is already in selectedItems, remove it
+                    return prevSelectedItems.filter((selectedItem) => selectedItem !== itemId);
+                } else {
+                    // If item is not in selectedItems, add it
+                    return [...prevSelectedItems, itemId];
+                }
             });
         } else {
-            // If unchecked, remove itemId from selectedItems and update listDelete
+            // If checkAllList is false, toggle the checkbox for the specific item
             setSelectedItems((prevSelectedItems) => {
-                const updatedSelectedItems = prevSelectedItems.filter((id) => id !== itemId);
-                setListDelete(updatedSelectedItems);
-                return updatedSelectedItems;
+                console.log("prevSelectedItems", prevSelectedItems);
+                if (prevSelectedItems.includes(itemId)) {
+                    // If item is already in selectedItems, remove it
+                    return prevSelectedItems.filter((selectedItem) => selectedItem !== itemId);
+                } else {
+                    // If item is not in selectedItems, add it
+                    const updatedSelectedItems = [...prevSelectedItems, itemId]; 
+                    setListDelete(updatedSelectedItems);
+                }
             });
         }
-        console.log(selectedItems);
+        // if (checked) {
+        //     // If checked, add itemId to selectedItems and update listDelete
+        //     setSelectedItems((prevSelectedItems) => {
+        //         const updatedSelectedItems = [...prevSelectedItems, itemId];
+        //         setListDelete(updatedSelectedItems);
+        //         return updatedSelectedItems;
+        //     });
+        // } else {
+        //     // If unchecked, remove itemId from selectedItems and update listDelete
+        //     setSelectedItems((prevSelectedItems) => {
+        //         const updatedSelectedItems = prevSelectedItems.filter((id) => id !== itemId);
+        //         setListDelete(updatedSelectedItems);
+        //         return updatedSelectedItems;
+        //     });
+        // }
+        // console.log(selectedItems);
     };
     const onSelectAllClick = (event) => {
         // setSelectAll(event.target.checked);
-        const selected = event.target.checked ? (Array.isArray(dataDicount.listDiscount) ? (dataDicount.listDiscount).map((item) => item.discountid) : []) : [];
-        setSelectedItems(selected);
-        setListDelete(selected);
+        console.log("checked: ", event.target.checked);
+        if (event.target.checked == true) {
+            setCheckAllList(true);
+        } else {
+            setCheckAllList(false);
+        }
+        // const selected = event.target.checked ? (Array.isArray(dataDicount.listDiscount) ? (dataDicount.listDiscount).map((item) => item.discountid) : []) : [];
+        // setSelectedItems(selected);
+        // setListDelete(selected);
 
     };
     const handleKeyPress = (event) => {
@@ -201,23 +232,23 @@ function DiscountManagement() {
                                         <TableRow key={item.discountid}>
                                             <TableCell>
                                                 <Checkbox
-                                                    checked={selectedItems.includes(item.discountid)}
+                                                    checked={checkAllList || selectedItems.includes(item.discountid)}
                                                     onChange={(event) => handleItemCheckboxChange(event, item.discountid)}
                                                     color="primary"
                                                 />
                                             </TableCell>
                                             <TableCell onClick={() => handleCellClick(item.discountid)} style={{ fontSize: "10px", fontFamily: "cursive", textAlign: "center" }}>{item.discount}</TableCell>
                                             <TableCell onClick={() => handleCellClick(item.discountid)} style={{ fontSize: "10px", fontFamily: "cursive", textAlign: "center" }}>{item.desciption}</TableCell>
-                                            <TableCell onClick={() => handleCellClick(item.discountid)} style={{ fontSize: "10px", fontFamily: "cursive", textAlign: "center", width: '18px' }}><img src={'http://localhost:8081/edu/file/fileImg/' + item.img} alt={`Discount Image for ${item.title}`} style={{ maxWidth: '100%', maxHeight: '100%', }} /></TableCell>
+                                            <TableCell onClick={() => handleCellClick(item.discountid)} style={{ fontSize: "10px", fontFamily: "cursive", textAlign: "center", width: '18px' }}><img src={'http://localhost:8081/edu/file/files/' + item.img} alt={`Discount Image for ${item.title}`} style={{ maxWidth: '100%', maxHeight: '100%', }} /></TableCell>
 
                                             <TableCell onClick={() => handleCellClick(item.discountid)} style={{ fontSize: "10px", fontFamily: "cursive", textAlign: "center" }}>{item.startDate}</TableCell>
                                             <TableCell onClick={() => handleCellClick(item.discountid)} style={{ fontSize: "10px", fontFamily: "cursive", textAlign: "center" }}>{item.endDate}</TableCell>
                                             <TableCell onClick={() => handleCellClick(item.discountid)} style={{ fontSize: "10px", fontFamily: "cursive", textAlign: "center" }}>{item.title}</TableCell>
-                                            <TableCell style={{ fontSize: "10px", fontFamily: "cursive"}}>
-                                                <Button variant="contained" type="danger" style={{ marginRight: '10px', fontSize: "10px", fontFamily: "cursive", marginBottom : '10px'}} onClick={() => onDeleteRow(item.discountid)}>
+                                            <TableCell style={{ fontSize: "10px", fontFamily: "cursive" }}>
+                                                <Button variant="contained" type="danger" style={{ marginRight: '10px', fontSize: "10px", fontFamily: "cursive", marginBottom: '10px' }} onClick={() => onDeleteRow(item.discountid)}>
                                                     Xoá
                                                 </Button>
-                                                <RemoveRedEyeIcon sx={{fontSize : '22px', marginLeft : '10px'}} onClick={() => handleCoursellClick(item.discountid, item.title)}/>
+                                                <RemoveRedEyeIcon sx={{ fontSize: '22px', marginLeft: '10px' }} onClick={() => handleCoursellClick(item.discountid, item.title)} />
                                             </TableCell>
                                         </TableRow>
                                     ))

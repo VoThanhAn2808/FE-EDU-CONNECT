@@ -45,6 +45,8 @@ export default function UpdateModal(props) {
     }));
   }, [selectDiscountId]);
 
+
+
   useEffect(() => {
     axios.post('http://localhost:8081/discount/detailDiscount', dataToSend)
       .then((response) => {
@@ -59,7 +61,7 @@ export default function UpdateModal(props) {
   useEffect(() => {
     const filename = dataDetailDiscount.img;
     console.log("filename" + filename);
-    axios.get(`http://localhost:8081/edu/file/fileImg/${filename}`, {
+    axios.get(`http://localhost:8081/edu/file/files/${filename}`, {
       responseType: 'blob',  // Important: Set the response type to 'blob'
     })
       .then((response) => {
@@ -69,6 +71,7 @@ export default function UpdateModal(props) {
         console.error(error);
       });
   }, [dataDetailDiscount]);
+
 
   const handleImageChange = (e) => {
     const selectedImage = e.target.files[0];
@@ -105,34 +108,39 @@ export default function UpdateModal(props) {
     const formatendDate = format(new Date(checkenddate), 'yyyy-MM-dd');
     const myObject = {
       discountid: dataDetailDiscount.discountid,
-      discount : dataDetailDiscount.discount,
+      discount: dataDetailDiscount.discount,
       img: image.name,
-      startDate : formatstartDate,
-      endDate : formatendDate,
-      title : dataDetailDiscount.title,
+      startDate: formatstartDate,
+      endDate: formatendDate,
+      title: dataDetailDiscount.title,
       desciption: dataDetailDiscount.description,
       staffid: decodedToken.id,
     };
     try {
       //Upload image
-      const responseUploadImage = await axios.post('http://localhost:8081/edu/file/uploadImage', formData, {
+      const responseUploadImage = await axios.post('http://localhost:8081/edu/file/upload/discount', formData, {
         headers: {
           'Content-Type': 'multipart/form-data',
         },
       });
-      console.log('Image Upload Response:', responseUploadImage);
-      if (responseUploadImage.status === 200) {
-        const response = await axios.put('http://localhost:8081/discount/updateDiscount', myObject);
-        alert(response.data.message);
+      if (responseUploadImage.data.message == -1) {
+        alert("Tệp tin bị trùng vui lòng chọn tệp hình ảnh khác!");
+      } else if (responseUploadImage.data.message == 0) {
+        alert("Hệ thống lỗi.Liên hệ với admin để giải quyết!");
+      }
+      else if (responseUploadImage.status === 200) {
+        const response = await axios.put(`http://localhost:8081/staffsconnect/discount/updateDiscount/${decodedToken.id}`, myObject);
+        console.log("Update " + response.data);
+        if (response.data == 1) {
+          alert("Cập nhập thành công");
+        }
         handleClose();
         window.location.reload();
-      } else {
-        // Handle image upload failure
-        console.error('Image upload failed');
       }
       // onSubmit(myObject);
     } catch (error) {
-      console.error('An error occurred during the API call', error);
+      alert("Hệ thống lỗi.Liên hệ với admin để giải quyết!");
+      await axios.delete(`http://localhost:8081/edu/file/deleteFile/discount/${image.name}`);
     }
   };
   const handleStartDateChange = (e) => {
@@ -165,6 +173,7 @@ export default function UpdateModal(props) {
               </Grid>
               <Grid item xs={12}>
                 <TextField
+                  id="discount"
                   fullWidth
                   label='Giảm Giá'
                   variant='outlined'
@@ -172,10 +181,14 @@ export default function UpdateModal(props) {
                   value={dataDetailDiscount.discount}
                   onChange={(e) => setDataDetailDiscount({ ...dataDetailDiscount, discount: e.target.value })}
                   required
+                  InputLabelProps={{
+                    shrink: String(dataDetailDiscount.discount).trim() !== "" // Shrink khi giá trị không rỗng
+                  }}
                 />
               </Grid>
               <Grid item xs={12}>
                 <TextField
+                  id="title"
                   fullWidth
                   label='Tiêu Đề'
                   variant='outlined'
@@ -183,6 +196,9 @@ export default function UpdateModal(props) {
                   value={dataDetailDiscount.title}
                   onChange={(e) => setDataDetailDiscount({ ...dataDetailDiscount, title: e.target.value })}
                   required
+                  InputLabelProps={{
+                    shrink: String(dataDetailDiscount.title).trim() !== "" // Shrink khi giá trị không rỗng
+                  }}
                 />
               </Grid>
               <Grid item xs={12}>
@@ -201,6 +217,7 @@ export default function UpdateModal(props) {
               <Grid item xs={6}>
                 <LocalizationProvider dateAdapter={AdapterDayjs}>
                   <DatePicker
+                    id="startDate"
                     label='Ngày Bắt Đầu'
                     fullWidth
                     value={dayjs(dataDetailDiscount.startDate)}
@@ -211,6 +228,7 @@ export default function UpdateModal(props) {
               <Grid item xs={6}>
                 <LocalizationProvider dateAdapter={AdapterDayjs} style={{ width: '100%' }}>
                   <DatePicker
+                    id="endDate"
                     label='Ngày Kết Thúc'
                     fullWidth
                     value={dayjs(dataDetailDiscount.endDate)}
@@ -220,6 +238,7 @@ export default function UpdateModal(props) {
               </Grid>
               <Grid item xs={12}>
                 <TextField
+                  id="description"
                   fullWidth
                   label='Mô Tả'
                   variant='outlined'
@@ -229,6 +248,9 @@ export default function UpdateModal(props) {
                   value={dataDetailDiscount.desciption}
                   onChange={(e) => setDataDetailDiscount({ ...dataDetailDiscount, desciption: e.target.value })}
                   required
+                  InputLabelProps={{
+                    shrink: String(dataDetailDiscount.desciption).trim() !== "" // Shrink khi giá trị không rỗng
+                  }}
                 />
               </Grid>
               <Grid item xs={12}>
