@@ -1,18 +1,22 @@
-import React from 'react';
+import React, { useEffect, useState } from 'react';
 import { Box } from '@mui/system';
 import { Typography } from '@mui/material';
 import { RadarChart, PolarGrid, PolarAngleAxis, Radar, ResponsiveContainer, Tooltip } from 'recharts';
+import axios from 'axios';
 
 function RadarChartMui() {
-  const data = [
-    { name: 'Thành An', value: 80 },
-    { name: 'Thái Hoà', value: 50 },
-    { name: 'Đức Nghĩa', value: 150 },
-    { name: 'Công Hậu', value: 40 },
-    { name: 'Đức Toàn', value: 100 },
-    { name: 'Trọng Hiếu', value: 20 },
-  ];
+  const [data, setData] = useState([]);
 
+  useEffect(() => {
+    axios
+      .get(`http://localhost:8081/admin/radarchart`)
+      .then((response) => {
+        setData(response.data);
+      })
+      .catch((error) => {
+        console.error(error);
+      });
+  }, []);
   return (
     <Box sx={{marginTop:"20px"}}>
       <Typography variant="h6" align="center" gutterBottom>
