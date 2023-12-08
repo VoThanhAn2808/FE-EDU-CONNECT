@@ -1,28 +1,32 @@
-import {
-  TextField,
-  Button,
-  Select,
-  MenuItem,
-  FormControl,
-  InputLabel,
-  Grid,
-  Box,
-  Typography,
-} from '@mui/material';
-
+import { TextField, Button, Select, MenuItem, FormControl, InputLabel, Grid, Box, Typography, } from '@mui/material';
 import { useParams } from 'react-router';
 import Modal from '@mui/material/Modal';
 import axios from 'axios';
 import * as React from 'react';
 import { useState, useEffect } from 'react';
 import HomeworkTable from './HomeworkTable';
+import { jwtDecode } from 'jwt-decode';
+import FileTable from './FileTable';
+import VideoTable from './VideoTable';
+import CloudUploadIcon from '@mui/icons-material/CloudUpload';
+import styled from '@emotion/styled';
+import ProgesstestTable from './Progesstest';
 function ExerciseDetailPage() {
   const [open, setOpen] = useState(false);
+  const [open1, setOpen1] = useState(false);
+  const [open2, setOpen2] = useState(false);
+  const [open3, setOpen3] = useState(false);
+  const token = localStorage.getItem("token");
+  const tutor = jwtDecode(token);
 
   const [homework, setHomework] = useState([]);
   const [files, setFiles] = useState([]);
+  const [file, setFile] = useState('');
   const [videos, setVideos] = useState([]);
+  const [progess, setProgess] = useState([]);
   const [demo, setDemo] = useState([]);
+  const [name, setName] = useState('');
+  const [link, setLink] = useState('');
   const [generalData, setGeneralData] = useState({});
   const params = useParams();
   const fetchHomework = () => {
@@ -37,9 +41,48 @@ function ExerciseDetailPage() {
         console.error('Error fetching timeline:', error);
       });
   };
+
+  const fetchFile = () => {
+    axios
+      .get(`http://localhost:8081/exersice/getfileexercise?bookid=${params.exerciseid}`)
+      .then((response) => {
+        if (response && response.data) {
+          setFiles(response.data);
+        }
+      })
+      .catch((error) => {
+        console.error('Error fetching timeline:', error);
+      });
+  };
+
+  const fetchVideo = () => {
+    axios
+      .get(`http://localhost:8081/exersice/getvideoexercise?bookid=${params.exerciseid}`)
+      .then((response) => {
+        if (response && response.data) {
+          setVideos(response.data);
+        }
+      })
+      .catch((error) => {
+        console.error('Error fetching timeline:', error);
+      });
+  };
+  const fetchProgess = () => {
+    axios
+      .get(`http://localhost:8081/exersice/getclassroomexercise?bookid=${params.exerciseid}`)
+      .then((response) => {
+        if (response && response.data) {
+          setProgess(response.data);
+        }
+      })
+      .catch((error) => {
+        console.error('Error fetching timeline:', error);
+      });
+  };
+
   const fetchDemo = () => {
     axios
-      .get(`http://localhost:8081/demo/listAllDemo`)
+      .get(`http://localhost:8081/demo/listAllDemo/${params.exerciseid}`)
       .then((response) => {
         if (response && response.data) {
           setDemo(response.data);
@@ -62,6 +105,18 @@ function ExerciseDetailPage() {
       });
   };
 
+  const VisuallyHiddenInput = styled('input')({
+    clip: 'rect(0 0 0 0)',
+    clipPath: 'inset(50%)',
+    height: 1,
+    overflow: 'hidden',
+    position: 'absolute',
+    bottom: 0,
+    left: 0,
+    whiteSpace: 'nowrap',
+    width: 1,
+  });
+
   useEffect(() => {
     setFormData({
       title: '',
@@ -78,11 +133,14 @@ function ExerciseDetailPage() {
       endDate: '',
     });
   }, [open]);
-  
+
   useEffect(() => {
     fetchData();
     fetchHomework();
     fetchDemo();
+    fetchFile();
+    fetchVideo();
+    fetchProgess();
   }, []);
 
   const [formData, setFormData] = useState({
@@ -107,7 +165,6 @@ function ExerciseDetailPage() {
       ...prevData,
       [name]: name === 'file' ? files[0] : value,
     }));
-    // Xóa thông báo lỗi khi người dùng bắt đầu nhập lại dữ liệu
     if (name !== 'file')
       setErrors((prevErrors) => ({
         ...prevErrors,
@@ -115,10 +172,13 @@ function ExerciseDetailPage() {
       }));
   };
 
+  const handleUploadFile = (event) => {
+    const selectedFile = event.target.files[0];
+    setFile(selectedFile);
+  };
+
   const handleSubmit = async (e) => {
     e.preventDefault();
-
-    // Kiểm tra xem các trường có giá trị null không
     let hasError = false;
     const newErrors = {};
 
@@ -135,17 +195,116 @@ function ExerciseDetailPage() {
       return;
     }
     try {
-      await axios.post(
-        'http://localhost:8081/exersice/addhomework2',
-          // (!!formData.file ? '?file=' + formData.file : ''),
-        { exerciseid: params.exerciseid, ...formData },
+      const formDatas = new FormData();
+      formDatas.append("file", formData.file);
+      formDatas.append("exerciseid", params.exerciseid);
+      formDatas.append("demoid", formData.demoid);
+      formDatas.append("title", formData.title);
+      formDatas.append("startDate", formData.startDate);
+      formDatas.append("endDate", formData.endDate);
+      formDatas.append("tutorid", tutor.id);
+      const response = await axios.post(
+        "http://localhost:8081/exersice/addhomework",
+        formDatas,
+        {
+          headers: {
+            "Content-Type": "multipart/form-data",
+          },
+        }
       );
+      alert(response.data.message)
+      window.location.reload();
     } catch (error) {
       console.log(error);
     }
     setOpen(false);
     fetchData();
-    // Handle form submission logic here
+  };
+  const handleSubmitVideo = async (event) => {
+    event.preventDefault();
+    try {
+
+      const response = await axios.post(
+        "http://localhost:8081/exersice/addvideo",
+        {
+          exerciseid: params.exerciseid,
+          namevideo: name,
+          video: link,
+        },
+        {
+          headers: {
+            "Content-Type": "application/json",
+          },
+        }
+      );
+      alert(response.data.message)
+      window.location.reload();
+    } catch (error) {
+      console.error(error);
+      console.log(error.response.data);
+    }
+  };
+  const handleSubmitProgess = async (event) => {
+    event.preventDefault();
+    try {
+
+      const response = await axios.post(
+        "http://localhost:8081/exersice/addclassroom",
+        {
+          exerciseid: params.exerciseid,
+          nameclassroom: name,
+          link: link,
+        },
+        {
+          headers: {
+            "Content-Type": "application/json",
+          },
+        }
+      );
+      alert(response.data.message)
+      window.location.reload();
+    } catch (error) {
+      console.error(error);
+      console.log(error.response.data);
+    }
+  };
+  const handleSubmitFile = async (event) => {
+    event.preventDefault();
+    try {
+
+      const response = await axios.post(
+        "http://localhost:8081/exersice/addfile",
+        {
+          exerciseid: params.exerciseid,
+          tutorid: tutor.id,
+          nameFile: name,
+          file: file,
+        },
+        {
+          headers: {
+            "Content-Type": "multipart/form-data",
+          },
+        }
+      );
+      alert(response.data.message)
+      window.location.reload();
+    } catch (error) {
+      console.error(error);
+      console.log(error.response.data);
+    }
+  };
+  const style = {
+    position: 'absolute',
+    top: '50%',
+    left: '50%',
+    transform: 'translate(-50%, -50%)',
+    width: 400,
+    height: 350,
+    bgcolor: 'background.paper',
+    border: '2px solid #000',
+    boxShadow: 'rgba(0, 0, 0, 0.24) 0px 3px 8px',
+    paddingTop: '20px',
+    borderRadius: '10px'
   };
   return (
     <Box
@@ -276,8 +435,6 @@ function ExerciseDetailPage() {
                       <Select
                         name='demoid'
                         value={formData.demoid}
-                        error={!!errors.demoid}
-                        helperText={errors.demoid}
                         onChange={handleChange}
                       >
                         {demo.map((item) => (
@@ -287,7 +444,7 @@ function ExerciseDetailPage() {
                             style={{ fontSize: '14px' }}
                           >
                             <img
-                              src={item.img}
+                              src={`http://localhost:8081/edu/file/files/${item.img}`}
                               alt='demo'
                               style={{
                                 width: 100,
@@ -354,7 +511,7 @@ function ExerciseDetailPage() {
             </Box>
           </Modal>
         </Box>
-        <HomeworkTable data={homework} fetchData={fetchHomework} />
+        <HomeworkTable data={homework} exercise={params.exerciseid} fetchData={fetchHomework} />
       </Box>
       <Box sx={{ padding: '10px', border: '1px solid gray' }}>
         <Box sx={{ padding: '10px', display: 'flex', alignItems: 'center' }}>
@@ -367,11 +524,58 @@ function ExerciseDetailPage() {
           >
             Videos
           </Typography>
-          <Button type='button' variant='contained' color='success' sx={{ marginRight: '10px' }}>
+          <Button
+            type='button'
+            variant='contained'
+            color='success'
+            sx={{ marginRight: '10px' }}
+            onClick={() => setOpen1(true)}
+          >
             Thêm Videos
           </Button>
+          <Modal
+            open={open1}
+            aria-labelledby="modal-modal-title"
+            aria-describedby="modal-modal-description"
+          >
+            <Box sx={style}>
+              <Box sx={{ marginTop: '40px' }}>
+                <Typography sx={{ textAlign: 'center', fontSize: '15px', fontFamily: 'cursive' }}>Thêm Videos</Typography>
+                <TextField
+                  sx={{ marginTop: '20px', marginLeft: '26%' }}
+                  label='Tên Video'
+                  value={name}
+                  onChange={(e) => setName(e.target.value)}
+                  InputProps={{
+                    style: {
+                      fontSize: '14px',
+                      height: '45px'
+                    },
+                  }}
+
+                />
+                <TextField
+                  sx={{ marginTop: '20px', marginLeft: '26%' }}
+                  label='Link Video'
+                  value={link}
+                  onChange={(e) => setLink(e.target.value)}
+                  InputProps={{
+                    style: {
+                      fontSize: '14px',
+                      height: '45px'
+                    },
+                  }}
+                />
+
+                <Box sx={{ marginTop: "30px", marginLeft: "34%", display: 'flex' }}>
+                  <Button type="submit" sx={{ backgroundColor: "green", color: "black", fontSize: "12px", fontWeight: "600" }} onClick={handleSubmitVideo}>Lưu</Button>
+                  <Button sx={{ backgroundColor: "red", color: "black", fontSize: "12px", fontWeight: "600", marginLeft: '10px' }} onClick={() => setOpen1(false)} >Huỷ</Button>
+                </Box>
+              </Box>
+            </Box>
+          </Modal>
         </Box>
-        <HomeworkTable data={files} fetchData={fetchData} />
+        <VideoTable data={videos} fetchData={fetchData} />
       </Box>
       <Box sx={{ padding: '10px', border: '1px solid gray' }}>
         <Box sx={{ padding: '10px', display: 'flex', alignItems: 'center' }}>
@@ -384,11 +588,119 @@ function ExerciseDetailPage() {
           >
             Files
           </Typography>
-          <Button type='button' variant='contained' color='success' sx={{ marginRight: '10px' }}>
+          <Button
+            type='button'
+            variant='contained'
+            color='success'
+            sx={{ marginRight: '10px' }}
+            onClick={() => setOpen2(true)}
+          >
             Thêm Files
           </Button>
+          <Modal
+            open={open2}
+            aria-labelledby="modal-modal-title"
+            aria-describedby="modal-modal-description"
+          >
+            <Box sx={style}>
+              <Box sx={{ marginTop: '40px' }}>
+                <Typography sx={{ textAlign: 'center', fontSize: '15px', fontFamily: 'cursive' }}>Thêm File</Typography>
+                <TextField
+                  sx={{ marginTop: '20px', marginLeft: '20px', width: '90%' }}
+                  label='Tên file'
+                  value={name}
+                  onChange={(e) => setName(e.target.value)}
+                  InputProps={{
+                    style: {
+                      fontSize: '14px',
+                      height: '45px'
+                    },
+                  }}
+
+                />
+                <Button
+                  variant="contained"
+                  color="primary"
+                  component="label" sx={{ marginLeft: '150px', marginTop: '10px' }}
+                  startIcon={<CloudUploadIcon />}
+                >
+                  Chọn File
+                  <VisuallyHiddenInput type="file" onChange={handleUploadFile} />
+                </Button>
+
+                <Box sx={{ marginTop: "30px", marginLeft: "34%", display: 'flex' }}>
+                  <Button type="submit" sx={{ backgroundColor: "green", color: "black", fontSize: "12px", fontWeight: "600" }} onClick={handleSubmitFile}>Lưu</Button>
+                  <Button sx={{ backgroundColor: "red", color: "black", fontSize: "12px", fontWeight: "600", marginLeft: '10px' }} onClick={() => setOpen2(false)} >Huỷ</Button>
+                </Box>
+              </Box>
+            </Box>
+          </Modal>
         </Box>
-        <HomeworkTable data={videos} fetchData={fetchData} />
+        <FileTable data={files} fetchData={fetchData} />
+      </Box>
+      <Box sx={{ padding: '10px', border: '1px solid gray' }}>
+        <Box sx={{ padding: '10px', display: 'flex', alignItems: 'center' }}>
+          <Typography
+            sx={{
+              fontSize: '20px',
+              marginRight: '20px',
+              fontFamily: 'cursive',
+            }}
+          >
+            Kiểm Tra trắc nghiệm
+          </Typography>
+          <Button
+            type='button'
+            variant='contained'
+            color='success'
+            sx={{ marginRight: '10px' }}
+            onClick={() => setOpen3(true)}
+          >
+            Thêm bài kiểm tra
+          </Button>
+          <Modal
+            open={open3}
+            aria-labelledby="modal-modal-title"
+            aria-describedby="modal-modal-description"
+          >
+            <Box sx={style}>
+              <Box sx={{ marginTop: '40px' }}>
+                <Typography sx={{ textAlign: 'center', fontSize: '15px', fontFamily: 'cursive' }}>Thêm bài kiểm tra</Typography>
+                <TextField
+                  sx={{ marginTop: '20px', marginLeft: '26%' }}
+                  label='Bài Trắc nghiệm'
+                  value={name}
+                  onChange={(e) => setName(e.target.value)}
+                  InputProps={{
+                    style: {
+                      fontSize: '14px',
+                      height: '45px'
+                    },
+                  }}
+
+                />
+                <TextField
+                  sx={{ marginTop: '20px', marginLeft: '26%' }}
+                  label='Link bài kiểm tra'
+                  value={link}
+                  onChange={(e) => setLink(e.target.value)}
+                  InputProps={{
+                    style: {
+                      fontSize: '14px',
+                      height: '45px'
+                    },
+                  }}
+                />
+
+                <Box sx={{ marginTop: "30px", marginLeft: "34%", display: 'flex' }}>
+                  <Button type="submit" sx={{ backgroundColor: "green", color: "black", fontSize: "12px", fontWeight: "600" }} onClick={handleSubmitProgess}>Lưu</Button>
+                  <Button sx={{ backgroundColor: "red", color: "black", fontSize: "12px", fontWeight: "600", marginLeft: '10px' }} onClick={() => setOpen3(false)} >Huỷ</Button>
+                </Box>
+              </Box>
+            </Box>
+          </Modal>
+        </Box>
+        <ProgesstestTable data={progess} fetchData={fetchData} />
       </Box>
     </Box>
   );
