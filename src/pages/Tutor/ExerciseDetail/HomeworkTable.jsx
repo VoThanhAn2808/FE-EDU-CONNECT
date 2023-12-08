@@ -15,7 +15,7 @@ import { jwtDecode } from 'jwt-decode';
 import RemoveRedEyeIcon from '@mui/icons-material/RemoveRedEye';
 import Iframe from 'react-iframe';
 
-function HomeworkTable(props) {
+function HomeworkTable(props, exercise) {
   const token = localStorage.getItem("token");
   const tutor = jwtDecode(token);
   const [res, setRes] = useState(props.data)
@@ -69,7 +69,7 @@ function HomeworkTable(props) {
         });
     }
     axios
-      .get(`http://localhost:8081/demo/listAllDemo`)
+      .get(`http://localhost:8081/demo/listAllDemo/${exercise}`)
       .then((response) => {
         if (response && response.data) {
           setDemo1(response.data);
@@ -79,7 +79,7 @@ function HomeworkTable(props) {
       .catch((error) => {
         console.error('Error fetching timeline:', error);
       });
-  }, [demo]);
+  }, [demo, exercise]);
   const handleUpdateSubmit = async (event) => {
     event.preventDefault();
     try {

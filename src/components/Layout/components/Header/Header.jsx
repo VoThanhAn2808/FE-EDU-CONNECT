@@ -142,7 +142,7 @@ function Header() {
     const handleMoneyChange = (e) => {
         const value = e.target.value;
         setMoney(value);
-        setValid(value >= 1000000);
+        setValid(value >= 100000);
     };
 
     const handleClickPay = async (event, tutorid) => {
@@ -466,7 +466,7 @@ function Header() {
                             label='Nhập số tiền cần rút'
                             type='number'
                             inputProps={{
-                                min: 1000000,
+                                min: 100000,
                                 max: data.salary,
                                 style: {
                                     fontSize: '14px'
@@ -479,7 +479,7 @@ function Header() {
                                 },
                             }}
                             error={!valid} // Đánh dấu trường nhập là lỗi nếu giá trị không hợp lệ
-                            helperText={!valid ? <span style={{ fontSize: '12px' }}>Tối thiểu là 1.000.000 VND</span> : ''}
+                            helperText={!valid ? <span style={{ fontSize: '12px' }}>Tối thiểu là 100.000 VND</span> : ''}
                             sx={{ marginLeft: '25%', width: '200px', marginTop: '20px' }}
                         />
                         <TextField

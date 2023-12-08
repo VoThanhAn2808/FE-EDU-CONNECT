@@ -82,7 +82,7 @@ function ExerciseDetailPage() {
 
   const fetchDemo = () => {
     axios
-      .get(`http://localhost:8081/demo/listAllDemo`)
+      .get(`http://localhost:8081/demo/listAllDemo/${params.exerciseid}`)
       .then((response) => {
         if (response && response.data) {
           setDemo(response.data);
@@ -435,8 +435,6 @@ function ExerciseDetailPage() {
                       <Select
                         name='demoid'
                         value={formData.demoid}
-                        error={!!errors.demoid}
-                        helperText={errors.demoid}
                         onChange={handleChange}
                       >
                         {demo.map((item) => (
@@ -513,7 +511,7 @@ function ExerciseDetailPage() {
             </Box>
           </Modal>
         </Box>
-        <HomeworkTable data={homework} fetchData={fetchHomework} />
+        <HomeworkTable data={homework} exercise={params.exerciseid} fetchData={fetchHomework} />
       </Box>
       <Box sx={{ padding: '10px', border: '1px solid gray' }}>
         <Box sx={{ padding: '10px', display: 'flex', alignItems: 'center' }}>
