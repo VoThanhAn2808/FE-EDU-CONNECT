@@ -15,6 +15,8 @@ import { useEffect } from 'react';
 import { jwtDecode } from 'jwt-decode';
 // import axios from 'axios';
 import { useRef } from 'react';
+import LOGO from "../../../../assests/logo.png";
+
 
 
 function Header() {
@@ -55,21 +57,22 @@ function Header() {
         <AppBar position='fixed' sx={{ width: '100%', background: "#D1BD7F", zIndex: "5", boxShadow: 'none', height: '70px' }}>
             <Container maxWidth="">
                 <Toolbar disableGutters sx={{ justifyContent: "space-between" }}>
-                    <Typography
+                <Typography
                         variant="h2"
                         noWrap
                         component="a"
                         href=""
                         sx={{
-                            // mr: 2,
-                            // display: { xs: 'none', md: 'flex' },
                             fontWeight: 800,
-                            // letterSpacing: '.3rem',
                             color: 'inherit',
                             textDecoration: 'none',
+                            display: 'flex',
+                            alignItems: 'center',
                         }}
+                        onClick={() => { navigate('/') }}
                     >
-                        EDU-CONNECT
+                        <img src={LOGO} alt="logo" style={{ height: "70px" }} />
+                        <span style={{ marginLeft: '10px' }}>EDU-CONNECT</span>
                     </Typography>
 
                     <Box sx={{
