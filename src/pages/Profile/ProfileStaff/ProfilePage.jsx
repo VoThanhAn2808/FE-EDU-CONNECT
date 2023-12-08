@@ -70,7 +70,6 @@ function ProfileStaff() {
       });
     fetchUser();
   }, [fetchUser]);
-  console.log(userData);
 
   const updateInfo = async () => {
     try {

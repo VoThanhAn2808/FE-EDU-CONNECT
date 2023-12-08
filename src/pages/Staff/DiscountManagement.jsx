@@ -1,7 +1,6 @@
 import { Box, Button, Checkbox, Pagination, Table, TableBody, TableCell, TableContainer, TableHead, TableRow, TextField, Typography } from "@mui/material";
 import { makeStyles } from '@mui/styles';
 import axios from "axios";
-// import { jwtDecode } from "jwt-decode";
 import DiscountForCourse from "../../components/Staff/DiscountManagement/Discountforcourse";
 import React, { useEffect, useState } from "react";
 import CreateModal from "../../components/Staff/DiscountManagement/CreateModal";
@@ -22,7 +21,6 @@ const useStyles = makeStyles(() => ({
 
 function DiscountManagement() {
     const [dataDicount, setDicount] = useState([]);
-    // const [selectAll, setSelectAll] = useState(true);
     const [selectDiscountId, setSelectDiscoutId] = useState('');
     const [listDelete, setListDelete] = useState([]);
     const [selectedItems, setSelectedItems] = useState([]);
@@ -37,7 +35,6 @@ function DiscountManagement() {
     const [dataToSend, setDataToSend] = useState({
         title: '',
         pageNo: '',
-        // Add other key-value pairs as needed
     });
 
     useEffect(() => {
@@ -48,7 +45,7 @@ function DiscountManagement() {
             .catch((error) => {
                 console.error(error);
             });
-    }, [dataToSend]); //Thêm dependencies trống để chỉ gọi useEffect một lần sau componentDidMount
+    }, [dataToSend]);
 
 
     const handleItemCheckboxChange = (event, itemId) => {
@@ -68,7 +65,6 @@ function DiscountManagement() {
                 return updatedSelectedItems;
             });
         }
-        console.log(selectedItems);
     };
     const onSelectAllClick = (event) => {
         // setSelectAll(event.target.checked);
@@ -181,7 +177,6 @@ function DiscountManagement() {
                                 <TableRow>
                                     <TableCell>
                                         <Checkbox
-                                            // checked={selectAll}
                                             onChange={onSelectAllClick}
                                             color="primary"
                                         />
@@ -208,7 +203,9 @@ function DiscountManagement() {
                                             </TableCell>
                                             <TableCell onClick={() => handleCellClick(item.discountid)} style={{ fontSize: "10px", fontFamily: "cursive", textAlign: "center" }}>{item.discount}</TableCell>
                                             <TableCell onClick={() => handleCellClick(item.discountid)} style={{ fontSize: "10px", fontFamily: "cursive", textAlign: "center" }}>{item.desciption}</TableCell>
-                                            <TableCell onClick={() => handleCellClick(item.discountid)} style={{ fontSize: "10px", fontFamily: "cursive", textAlign: "center", width: '18px' }}><img src={'http://localhost:8081/edu/file/fileImg/' + item.img} alt={`Discount Image for ${item.title}`} style={{ maxWidth: '100%', maxHeight: '100%', }} /></TableCell>
+                                            <TableCell onClick={() => handleCellClick(item.discountid)} style={{ fontSize: "10px", fontFamily: "cursive", textAlign: "center", width: '18px' }}>
+                                                <img src={'http://localhost:8081/edu/file/fileImg/' + item.img} alt="edu" style={{ maxWidth: '100%', maxHeight: '100%' }} />
+                                                </TableCell>
 
                                             <TableCell onClick={() => handleCellClick(item.discountid)} style={{ fontSize: "10px", fontFamily: "cursive", textAlign: "center" }}>{item.startDate}</TableCell>
                                             <TableCell onClick={() => handleCellClick(item.discountid)} style={{ fontSize: "10px", fontFamily: "cursive", textAlign: "center" }}>{item.endDate}</TableCell>

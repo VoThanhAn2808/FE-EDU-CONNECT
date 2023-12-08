@@ -36,21 +36,18 @@ function ManagerStudent() {
                 setListStudentfinished(response.data);
             })
             .catch((error) => {
-                console.log(error);
             })
         axios.get(`http://localhost:8081/educonnect/countstudent?tutorid=${decodedToken.id}&status=${status}&courseid=${courseId}`)
             .then((response) => {
                 setPageCount(response.data);
             })
             .catch((error) => {
-                console.log(error);
             })
         axios.get(`http://localhost:8081/educonnect/viewtutorcourse?classcourseid=${courseId}&tutorid=${decodedToken.id}`)
             .then((response) => {
                 setTutor(response.data);
             })
             .catch((error) => {
-                console.log(error);
             })
     }, [page, status, courseId, decodedToken.id]);
 
@@ -79,10 +76,8 @@ function ManagerStudent() {
             .then((response) => {
                 setResponseDataDetail(response.data)
                 setOpen(true);
-                console.log(response.data);
             })
             .catch((error) => {
-                console.log(error);
             });
     };
     const handlePageChange = (pageNumber) => {
@@ -149,7 +144,9 @@ function ManagerStudent() {
                                         <TableCell sx={{ width: '30%', height: '50px', fontSize: '15px', fontFamily: 'cursive' }}>{item.fullname}</TableCell>
                                         <TableCell sx={{ width: '20%', height: '50px', fontSize: '15px', fontFamily: 'cursive' }}>{item.startdate}</TableCell>
                                         <TableCell sx={{ width: '20%', height: '50px', fontSize: '15px', fontFamily: 'cursive' }}>{checkStatus((new Date(item.startdate)).getTime(), (new Date(item.enddate)).getTime())}</TableCell>
-                                        <TableCell sx={{ width: '20%', height: '50px', fontSize: '15px', fontFamily: 'cursive' }}><img src={`http://localhost:8081/edu/file/fileuser/${item.img}/${item.studentid}`} alt={`Discount Image for ${item.title}`} style={{ width: '60px', height: '60px', }} /></TableCell>
+                                        <TableCell sx={{ width: '20%', height: '50px', fontSize: '15px', fontFamily: 'cursive' }}>
+                                            <img src={`http://localhost:8081/edu/file/fileuser/${item.img}/${item.studentid}`} alt="edu" style={{ width: '60px', height: '60px', }} />
+                                            </TableCell>
                                         <TableCell sx={{ height: '50px', textAlign: 'center' }}>
                                             <MoreHorizIcon onClick={(event) => handleOpenUserMenu(event, item.studentid, item.bookid)} sx={{ fontSize: '30px' }} />
                                         </TableCell>

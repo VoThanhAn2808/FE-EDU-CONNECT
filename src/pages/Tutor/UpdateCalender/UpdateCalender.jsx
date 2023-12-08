@@ -105,7 +105,6 @@ function UpdateCalender() {
             }
         } catch (error) {
             console.error(error);
-            console.log(error.response.data);
         }
     };
 
@@ -113,7 +112,6 @@ function UpdateCalender() {
         event.preventDefault();
 
         if (selectedCells.length === 0) {
-            console.log("No cells selected.");
             return;
         }
 
@@ -126,7 +124,6 @@ function UpdateCalender() {
         try {
             for (const cellIndex of selectedCells) {
                 const [timeId, lessonId] = cellIndex.split('-');
-                console.log(timeId);
                 const postData = {
                     tutorid: tutor.id,
                     lessonid: lessonId,
@@ -143,7 +140,6 @@ function UpdateCalender() {
             window.location.href = '/updatecalender';
         } catch (error) {
             console.error("Error choosing time:", error);
-            console.log(error.response?.data);
         }
     };
 

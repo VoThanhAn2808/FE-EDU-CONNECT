@@ -55,7 +55,6 @@ function CourseManagement() {
                 });
         } catch (error) {
             console.error(error);
-            console.log(error.response.data);
         }
         setOpenUd(true);
     }
@@ -105,7 +104,6 @@ function CourseManagement() {
             window.location.reload();
         } catch (error) {
             console.error(error);
-            console.log(error.response.data);
         }
     };
 

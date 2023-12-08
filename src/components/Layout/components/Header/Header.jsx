@@ -237,7 +237,6 @@ function Header() {
                         .get('https://api.vietqr.io/v2/banks')
                         .then((response) => {
                             setBanks(response.data.data);
-                            console.log('ds', response.data.data);
                         })
                         .catch((error) => {
                             console.error(error);
@@ -274,24 +273,6 @@ function Header() {
         check === 1 ? '/profile-student' : check === 2 ? '/profile-teacher' : check === 2 ? '/profile-staff' : null;
     if (token != null) {
         decodedTokenRef.current = jwtDecode(token);
-    }
-    const MenuItemWithRole = () => {
-        return check === 2 ? (
-            <>
-                <MenuItem key="withdraw" onClick={handleOpen}>
-                    <Typography variant="body1" sx={{ fontSize: "15px" }}>Rút tiền</Typography>
-                </MenuItem>
-                <MenuItem key="withdraw" onClick={handleOpen1}>
-                    <Typography variant="body1" sx={{ fontSize: "15px" }}>Lịch sử rút tiền</Typography>
-                </MenuItem>
-            </>
-        ) : check === 1 ? (
-            <MenuItem key="withdraw" onClick={handleFeedback}>
-                <Typography variant="body1" sx={{ fontSize: "15px" }}>Đánh giá gia sư</Typography>
-            </MenuItem>
-        ) : (
-            null
-        )
     }
     return (
         <AppBar position='fixed' sx={{
@@ -412,7 +393,6 @@ function Header() {
                                 vertical: 'bottom',
                                 horizontal: 'center',
                             }}
-                            // keepMounted
                             transformOrigin={{
                                 vertical: 'top',
                                 horizontal: 'center',
@@ -478,12 +458,12 @@ function Header() {
                                     color: 'rgba(0, 0, 0, 0.54)',
                                 },
                             }}
-                            error={!valid} // Đánh dấu trường nhập là lỗi nếu giá trị không hợp lệ
+                            error={!valid}
                             helperText={!valid ? <span style={{ fontSize: '12px' }}>Tối thiểu là 100.000 VND</span> : ''}
                             sx={{ marginLeft: '25%', width: '200px', marginTop: '20px' }}
                         />
                         <TextField
-                            value={show.banknumber || ''} // Initialize with an empty string if show.banknumber is null
+                            value={show.banknumber || ''}
                             onChange={(e) => {
                                 setShow({ ...show, banknumber: e.target.value });
                             }}
@@ -504,7 +484,7 @@ function Header() {
                         />
                         <TextField
                             select
-                            value={show.bank || ''} // Initialize with an empty string if show.bank is null
+                            value={show.bank || ''}
                             onChange={(e) => {
                                 setShow({ ...show, bank: e.target.value });
                             }}

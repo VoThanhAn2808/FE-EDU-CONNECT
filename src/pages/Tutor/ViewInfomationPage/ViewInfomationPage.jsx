@@ -17,7 +17,6 @@ function ViewInfomationPage() {
       .get(`http://localhost:8081/educonnect/studentviewdetailtutor?tutorid=${tutorid}`)
       .then((response) => {
         setTutor(response.data);
-        console.log(response.data);
       })
       .catch((error) => {
         console.error(error);
@@ -29,7 +28,6 @@ function ViewInfomationPage() {
       .get(`http://localhost:8081/student/feedbackbooking/${tutorid}`)
       .then((response) => {
         setData(response.data);
-        console.log(response.data);
       })
       .catch((error) => {
         console.error(error);
@@ -42,7 +40,6 @@ function ViewInfomationPage() {
       .get(`http://localhost:8081/educonnect/tutor/listcourse?tutorid=${tutorid}`)
       .then((response) => {
         setCourse(response.data);
-        console.log(response.data);
       })
       .catch((error) => {
         console.error(error);

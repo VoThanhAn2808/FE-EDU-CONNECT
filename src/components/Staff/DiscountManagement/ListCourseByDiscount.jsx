@@ -24,7 +24,7 @@ export default function ListCourseByDiscout(props) {
 
     const handleClose = () => setOpen(false);
 
-    const [dataToSend, setDataToSend] = useState({
+    const [ setDataToSend] = useState({
         discountId: selectDiscountId
     });
 
@@ -33,19 +33,17 @@ export default function ListCourseByDiscout(props) {
             ...prevData,
             discountId: selectDiscountId
         }));
-    }, [selectDiscountId]);
+    },);
 
     useEffect(() => {
         axios
             .get(`http://localhost:8081/discount/listcoursebydiscourseid?discountid=${selectDiscountId}`)
             .then((response) => {
                 setCourse(response.data);
-                console.log(response.data);
             })
             .catch((error) => {
                 console.error(error);
             });
-            console.log(dataToSend);
     }, [selectDiscountId]);
 
     return (

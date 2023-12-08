@@ -28,8 +28,6 @@ export default function UpdateModal(props) {
   const decodedToken = jwtDecode(localStorage.getItem('token'));
   const [dataDetailDiscount, setDataDetailDiscount] = useState({});
   const { isShowModal, setOpenUpdate, selectDiscountId } = props;
-  // const [discount, setDiscount] = useState('');
-  // const [description, setDescription] = useState('');
   const [image, setImage] = useState(null);
   const [startDate, setStartDate] = useState(null);
   const [endDate, setEndDate] = useState(null);
@@ -49,7 +47,6 @@ export default function UpdateModal(props) {
     axios.post('http://localhost:8081/discount/detailDiscount', dataToSend)
       .then((response) => {
         setDataDetailDiscount(response.data);
-        console.log(response.data);
       })
       .catch((error) => {
         console.error(error);
@@ -58,12 +55,10 @@ export default function UpdateModal(props) {
 
   useEffect(() => {
     const filename = dataDetailDiscount.img;
-    console.log("filename" + filename);
     axios.get(`http://localhost:8081/edu/file/fileImg/${filename}`, {
       responseType: 'blob',  // Important: Set the response type to 'blob'
     })
       .then((response) => {
-        console.log(response.data);
       })
       .catch((error) => {
         console.error(error);
@@ -83,10 +78,6 @@ export default function UpdateModal(props) {
         e.target.value = null;
         return;
       }
-
-      // Continue processing the selected image
-      const fileName = selectedImage.name;
-      console.log('Selected File Name:', fileName);
 
       // Set the file to state if needed
       setImage(selectedImage);
@@ -120,7 +111,6 @@ export default function UpdateModal(props) {
           'Content-Type': 'multipart/form-data',
         },
       });
-      console.log('Image Upload Response:', responseUploadImage);
       if (responseUploadImage.status === 200) {
         const response = await axios.put('http://localhost:8081/discount/updateDiscount', myObject);
         alert(response.data.message);
@@ -141,9 +131,6 @@ export default function UpdateModal(props) {
   const handleEndDateChange = (e) => {
     setEndDate(e);
   };
-  // const onChangeCallback = ({ target }) => {
-  //   // a callback function when user select a date
-  // };
 
   return (
 

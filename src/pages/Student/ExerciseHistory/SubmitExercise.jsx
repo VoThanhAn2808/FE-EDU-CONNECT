@@ -63,7 +63,6 @@ function SubmitExercise() {
             window.location.href = '/submitExercise/' + bookid;
         } catch (error) {
             console.error(error);
-            console.log(error.response.data);
         }
     };
     const handleUpdateSubmit = async (event) => {
@@ -87,7 +86,6 @@ function SubmitExercise() {
             window.location.href = '/submitExercise/' + bookid;
         } catch (error) {
             console.error(error);
-            console.log(error.response.data);
         }
     };
 

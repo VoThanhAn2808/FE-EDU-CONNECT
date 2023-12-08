@@ -10,7 +10,6 @@ import axios from 'axios';
 import * as React from 'react';
 import { useState, useEffect } from 'react';
 import { Box, Button, Link, Modal, TextField, Typography } from '@mui/material';
-import { jwtDecode } from 'jwt-decode';
 import PersonalVideoIcon from '@mui/icons-material/PersonalVideo';
 
 function VideoTable(props) {
@@ -46,7 +45,6 @@ function VideoTable(props) {
             window.location.reload();
         } catch (error) {
             console.error(error);
-            console.log(error.response.data);
         }
     };
     const handleSubmit = async (event) => {
@@ -73,7 +71,6 @@ function VideoTable(props) {
             window.location.reload();
         } catch (error) {
             console.error(error);
-            console.log(error.response.data);
         }
     };
     const style = {
@@ -111,7 +108,7 @@ function VideoTable(props) {
                                     <PersonalVideoIcon sx={{ fontSize: "25px", marginLeft: "4%" }} />
                                 </Link>
                             </TableCell>
-                            <TableCell style={{ fontSize: "14px" }}>{row.status == 2 ? 'Chưa xem' : 'Đã xem'}</TableCell>
+                            <TableCell style={{ fontSize: "14px" }}>{row.status === 2 ? 'Chưa xem' : 'Đã xem'}</TableCell>
                             <TableCell style={{ fontSize: "14px" }}>
                             <Button variant="contained" color="success" sx={{ marginRight: "10px" }} onClick={() => handleOpen3(row.videoid, row.namevideo, row.video)}>
                                     Sửa
