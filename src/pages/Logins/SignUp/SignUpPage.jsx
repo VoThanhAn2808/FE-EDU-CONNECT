@@ -130,11 +130,16 @@ function SignupPage() {
       formData.append('classentity', selectedClass ? selectedClass : 1);
       formData.append('file', files);
 
-      const response = await axios.post('http://localhost:8081/edu/register', formData, {
+      await axios.post('http://localhost:8081/edu/register', formData, {
         headers: {
           'Content-Type': 'multipart/form-data',
         },
       });
+      if(age === 1){
+        alert("Chúc mừng bạn đã là một thành viên của EDU-CONNECT")
+      }else{
+        alert("Chúc mừng bạn đã đăng ký thành công vui lòng bạn đợi Email phản hồi từ chúng tôi")
+      }
       window.location.href = '/login';
     } catch (error) {
       console.error(error);
