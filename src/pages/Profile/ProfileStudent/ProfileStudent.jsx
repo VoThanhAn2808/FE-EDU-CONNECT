@@ -87,7 +87,6 @@ const ProfileStudent = () => {
       });
     fetchUser();
   }, [fetchUser]);
-  // console.log(userData);
 
   const updateInfo = async () => {
     try {

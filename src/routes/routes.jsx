@@ -90,7 +90,7 @@ const privateRoute = [
   { path: '/homeworktutorlist', component: HomeWorkTutorList, layout: LayoutTutor, allowedRoles: ["tutor"] },
   { path: '/calendartutorselect', component: CalendarTutorSelect, layout: LoginLayout, allowedRoles: ["tutor"] },
   { path: '/feedbacktutor', component: FeedbackTutor, layout: LayoutTutor, allowedRoles: ["tutor"] },
-  { path: '/exerciselist', component: ExerciseListPage, layout: LayoutTutor, allowedRoles: ["tutor"] },
+  { path: '/exerciselist/:bookid', component: ExerciseListPage, layout: LayoutTutor, allowedRoles: ["tutor"] },
   { path: '/exercisedetail/:exerciseid', component: ExerciseDetailPage, layout: LayoutTutor, allowedRoles: ["tutor"] },
   { path: '/profile-teacher', component: ProfileTeacher, layout: LayoutTutor, allowedRoles: ["tutor"] },
   { path: '/viewinfomationpagett/:classcourseid', component: Feedbackofcourse, layout: LayoutTutor, allowedRoles: ["tutor"] },

@@ -7,6 +7,7 @@ import { DatePicker, LocalizationProvider } from "@mui/x-date-pickers";
 import { AdapterDayjs } from "@mui/x-date-pickers/AdapterDayjs";
 import { format } from "date-fns";
 import dayjs from "dayjs";
+import "./TryLearningManagement.css"
 
 function TryLearningManagement() {
     const [open, setOpen] = React.useState(false);
@@ -107,7 +108,6 @@ function TryLearningManagement() {
             window.location.reload();
         } catch (error) {
             console.error(error);
-            console.log(error.response.data);
         }
     };
     return (
@@ -221,7 +221,7 @@ function TryLearningManagement() {
                                 justifyContent: 'center',
                             }}
                         >
-                            <Box sx={{ backgroundColor: "#D9D9D9", width: "350px", height: "410px", borderRadius: "10px", border: '2px solid #000000', p: 2, maxHeight: 'calc(100vh - 200px)', overflowY: 'auto',}}>
+                            <Box sx={{ backgroundColor: "#D9D9D9", width: "350px", height: "460px", borderRadius: "10px", border: '2px solid #000000', p: 2, maxHeight: 'calc(100vh - 200px)', overflowY: 'auto',}}>
                                 <Typography sx={{ fontSize: "20px", fontWeight: "600", textAlign: "center" }}>Duyệt học sinh</Typography>
                                 <TextField
                                     fullWidth
@@ -230,6 +230,7 @@ function TryLearningManagement() {
                                     variant='outlined'
                                     InputLabelProps={{
                                         shrink: vstudent.email ? true : undefined,
+                                        style: { fontSize: '15px' },
                                     }}
                                     disabled={true}
                                     InputProps={{
@@ -245,6 +246,7 @@ function TryLearningManagement() {
                                     variant='outlined'
                                     InputLabelProps={{
                                         shrink: vTutor.email ? true : undefined,
+                                        style: { fontSize: '15px' },
                                     }}
                                     disabled={true}
                                     InputProps={{
@@ -264,13 +266,15 @@ function TryLearningManagement() {
                                     }}
                                     InputProps={{
                                         style: { fontSize: '14px' },
+                                        multiline: true,
+                                        rows: 3,
                                     }}
                                     required
                                     sx={{ marginTop: "20px" }}
                                 />
                                 <TextField
                                     select
-                                    label='Action'
+                                    label='Hành động'
                                     value={status}
                                     onChange={(e) => setStatus(e.target.value)}
                                     InputLabelProps={{
@@ -294,7 +298,11 @@ function TryLearningManagement() {
                                             label='Chọn ngày học'
                                             fullWidth
                                             sx={{
-                                                width: '100%', marginTop: "20px"
+                                                width: '100%',
+                                                marginTop: "20px",
+                                                "& .MuiInputLabel-root": {
+                                                    fontSize: "15px"
+                                                  }
                                             }}
                                             renderInput={(params) => (
                                                 <TextField

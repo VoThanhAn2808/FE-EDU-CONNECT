@@ -56,12 +56,12 @@ function LoginPage() {
       const decodedToken = jwtDecode(token);
 
       if (decodedToken.role === 1) {
-          const fb = await axios.get("http://localhost:8081/student/feedback/" + decodedToken.id, config);
-          if (Array.isArray(fb.data) && fb.data.length > 0) {
-            window.location.href = "/feedback";
-          } else {
-            window.location.href = "/homestudent";
-          }
+        const fb = await axios.get("http://localhost:8081/student/feedback/" + decodedToken.id, config);
+        if (Array.isArray(fb.data) && fb.data.length > 0) {
+          window.location.href = "/feedback";
+        } else {
+          window.location.href = "/homestudent";
+        }
       } else if (decodedToken.role === 2) {
         const check = await axios.get(`http://localhost:8081/educonnect/checktutor?tutorid=${decodedToken.id}`)
         if (check.data === false) {
@@ -71,7 +71,7 @@ function LoginPage() {
         }
       } else if (decodedToken.role === 3) {
         window.location.href = "/dashboard"
-      }else if(decodedToken.role === 4) {
+      } else if (decodedToken.role === 4) {
         window.location.href = "/admin"
       }
       validateEmail();
@@ -193,6 +193,7 @@ function LoginPage() {
                 label="Password"
                 onChange={(e) => setPassword(e.target.value)}
                 onBlur={validatePassword}
+                autoComplete="current-password" // Add the autocomplete attribute
               />
               {passwordError && <FormHelperText sx={{ fontSize: '12px', fontWeight: '700' }} error>{passwordError}</FormHelperText>}
             </FormControl>

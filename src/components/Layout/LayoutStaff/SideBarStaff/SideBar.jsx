@@ -32,7 +32,6 @@ function Sidebar() {
     axios.get(`http://localhost:8081/staffsconnect/totalpayment?staffid=${decodedToken.id}`)
       .then((response) => {
         setData(response.data);
-        console.log(response.data);
       })
       .catch((error) => {
         console.error(error);
@@ -40,7 +39,6 @@ function Sidebar() {
     axios.get(`http://localhost:8081/staffsconnect/countTutorRegistersForLessons?staffid=${decodedToken.id}`)
       .then((response) => {
         setFile(response.data);
-        console.log(response.data);
       })
       .catch((error) => {
         console.error(error);
@@ -48,7 +46,6 @@ function Sidebar() {
     axios.get(`http://localhost:8081/staffsconnect/counttrylearn`)
       .then((response) => {
         setTry(response.data);
-        console.log(response.data);
       })
       .catch((error) => {
         console.error(error);
@@ -56,7 +53,6 @@ function Sidebar() {
     axios.get(`http://localhost:8081/staffsconnect/totalPageStudentRegistration`)
       .then((response) => {
         setBook(response.data);
-        console.log(response.data);
       })
       .catch((error) => {
         console.error(error);
@@ -64,7 +60,6 @@ function Sidebar() {
     axios.get(`http://localhost:8081/staffsconnect/countWaitForConfirmTutor`)
       .then((response) => {
         setTutor(response.data);
-        console.log(response.data);
       })
       .catch((error) => {
         console.error(error);

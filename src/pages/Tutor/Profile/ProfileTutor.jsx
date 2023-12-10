@@ -66,7 +66,6 @@ const ProfileTutor = () => {
       .get(`https://provinces.open-api.vn/api/p/`)
       .then((response) => {
         setCity(response.data);
-        console.log(response.data);
       })
       .catch((error) => {
         console.error(error);
@@ -75,7 +74,6 @@ const ProfileTutor = () => {
       .get(`https://provinces.open-api.vn/api/d/`)
       .then((response) => {
         setWards(response.data);
-        console.log(response.data);
       })
       .catch((error) => {
         console.error(error);

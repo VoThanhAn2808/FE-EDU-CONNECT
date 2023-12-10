@@ -37,7 +37,6 @@ function CalendarTutor() {
             setOpen4(true)
         } catch (error) {
             console.error(error);
-            console.log(error.response.data);
         }
     };
 
@@ -173,7 +172,6 @@ function CalendarTutor() {
             window.location.href = '/calendartutor';
         } catch (error) {
             console.error(error);
-            console.log(error.response.data);
         }
     };
 

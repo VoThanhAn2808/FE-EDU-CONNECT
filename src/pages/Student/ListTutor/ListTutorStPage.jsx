@@ -98,7 +98,7 @@ function ListTutorST() {
         <Box sx={{
         }}>
             <Box sx={{
-                marginLeft: '80%',
+                marginLeft: '950px',
                 marginTop: '10px',
             }}>
                 <TextField

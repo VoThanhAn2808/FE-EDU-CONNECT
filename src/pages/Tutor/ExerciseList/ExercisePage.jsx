@@ -6,15 +6,18 @@ import axios from 'axios';
 import * as React from 'react';
 import { useState, useEffect } from 'react';
 import ExerciseList from "./ExerciseList"
+import { useParams } from 'react-router-dom';
 function ExerciseListPage() {
   const [open, setOpen] = useState(false);
   const [course, setCourse] = useState('');
+  const { bookid } = useParams();
   const onCreateExercise = async () => {
     if (course)
       await axios.post('http://localhost:8081/exersice/addexercise', {
-        bookid: '1',
+        bookid: bookid,
         title: course,
       });
+      alert("Tạo bài tập thành công");
       setOpen(false)
       fetchData()
     };
@@ -22,11 +25,10 @@ function ExerciseListPage() {
   const [data, setData] = useState([]);
     const fetchData = () => {
         axios
-        .get(`http://localhost:8081/exersice/findexersice?bookid=1`)
+        .get(`http://localhost:8081/exersice/findexersice?bookid=${bookid}`)
         .then((response) => {
             if (response && response.data) {
                 setData(response.data);
-                console.log(response.data);
             }
         })
         .catch((error) => {
@@ -36,7 +38,7 @@ function ExerciseListPage() {
 
     useEffect(() => {
         fetchData()
-  }, []);
+  },);
 
 
   const style = {

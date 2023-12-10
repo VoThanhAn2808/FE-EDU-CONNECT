@@ -40,12 +40,10 @@ export default function ListCourseByDiscout(props) {
             .get(`http://localhost:8081/discount/listcoursebydiscourseid?discountid=${selectDiscountId}`)
             .then((response) => {
                 setCourse(response.data);
-                console.log(response.data);
             })
             .catch((error) => {
                 console.error(error);
             });
-            console.log(dataToSend);
     }, [selectDiscountId]);
 
     return (
@@ -64,7 +62,7 @@ export default function ListCourseByDiscout(props) {
                             <Typography variant='h3' style={{ fontFamily: 'cursive' }}>
                                 Những khóa học được giảm giá
                             </Typography>
-                            <Typography variant='h4' style={{ fontFamily: 'cursive', marginTop : '10px', textAlign :'center' }}>
+                            <Typography variant='h4' style={{ fontFamily: 'cursive', marginTop: '10px', textAlign: 'center' }}>
                                 Tiêu đề : {title}
                             </Typography>
                         </Grid>

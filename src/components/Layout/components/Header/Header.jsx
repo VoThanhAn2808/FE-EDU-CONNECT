@@ -142,7 +142,7 @@ function Header() {
     const handleMoneyChange = (e) => {
         const value = e.target.value;
         setMoney(value);
-        setValid(value >= 1000000);
+        setValid(value >= 100000);
     };
 
     const handleClickPay = async (event, tutorid) => {
@@ -237,7 +237,6 @@ function Header() {
                         .get('https://api.vietqr.io/v2/banks')
                         .then((response) => {
                             setBanks(response.data.data);
-                            console.log('ds', response.data.data);
                         })
                         .catch((error) => {
                             console.error(error);
@@ -274,24 +273,6 @@ function Header() {
         check === 1 ? '/profile-student' : check === 2 ? '/profile-teacher' : check === 2 ? '/profile-staff' : null;
     if (token != null) {
         decodedTokenRef.current = jwtDecode(token);
-    }
-    const MenuItemWithRole = () => {
-        return check === 2 ? (
-            <>
-                <MenuItem key="withdraw" onClick={handleOpen}>
-                    <Typography variant="body1" sx={{ fontSize: "15px" }}>Rút tiền</Typography>
-                </MenuItem>
-                <MenuItem key="withdraw" onClick={handleOpen1}>
-                    <Typography variant="body1" sx={{ fontSize: "15px" }}>Lịch sử rút tiền</Typography>
-                </MenuItem>
-            </>
-        ) : check === 1 ? (
-            <MenuItem key="withdraw" onClick={handleFeedback}>
-                <Typography variant="body1" sx={{ fontSize: "15px" }}>Đánh giá gia sư</Typography>
-            </MenuItem>
-        ) : (
-            null
-        )
     }
     return (
         <AppBar position='fixed' sx={{
@@ -412,7 +393,6 @@ function Header() {
                                 vertical: 'bottom',
                                 horizontal: 'center',
                             }}
-                            // keepMounted
                             transformOrigin={{
                                 vertical: 'top',
                                 horizontal: 'center',
@@ -466,7 +446,7 @@ function Header() {
                             label='Nhập số tiền cần rút'
                             type='number'
                             inputProps={{
-                                min: 1000000,
+                                min: 100000,
                                 max: data.salary,
                                 style: {
                                     fontSize: '14px'
@@ -478,33 +458,13 @@ function Header() {
                                     color: 'rgba(0, 0, 0, 0.54)',
                                 },
                             }}
-                            error={!valid} // Đánh dấu trường nhập là lỗi nếu giá trị không hợp lệ
-                            helperText={!valid ? <span style={{ fontSize: '12px' }}>Tối thiểu là 1.000.000 VND</span> : ''}
+                            error={!valid}
+                            helperText={!valid ? <span style={{ fontSize: '12px' }}>Tối thiểu là 100.000 VND</span> : ''}
                             sx={{ marginLeft: '25%', width: '200px', marginTop: '20px' }}
                         />
                         <TextField
-                            value={show.banknumber || ''} // Initialize with an empty string if show.banknumber is null
-                            onChange={(e) => {
-                                setShow({ ...show, banknumber: e.target.value });
-                            }}
-                            sx={{ marginTop: '20px', marginLeft: '26%' }}
-                            label='Số tài khoản'
-                            InputLabelProps={{
-                                style: {
-                                    fontSize: '12px',
-                                    color: 'rgba(0, 0, 0, 0.54)',
-                                },
-                            }}
-                            InputProps={{
-                                style: {
-                                    fontSize: '14px',
-                                    height: '45px'
-                                },
-                            }}
-                        />
-                        <TextField
                             select
-                            value={show.bank || ''} // Initialize with an empty string if show.bank is null
+                            value={show.bank || ''}
                             onChange={(e) => {
                                 setShow({ ...show, bank: e.target.value });
                             }}
@@ -529,6 +489,27 @@ function Header() {
                                 </MenuItem>
                             ))}
                         </TextField>
+                        
+                        <TextField
+                            value={show.banknumber || ''}
+                            onChange={(e) => {
+                                setShow({ ...show, banknumber: e.target.value });
+                            }}
+                            sx={{ marginTop: '20px', marginLeft: '26%' }}
+                            label='Số tài khoản'
+                            InputLabelProps={{
+                                style: {
+                                    fontSize: '12px',
+                                    color: 'rgba(0, 0, 0, 0.54)',
+                                },
+                            }}
+                            InputProps={{
+                                style: {
+                                    fontSize: '14px',
+                                    height: '45px'
+                                },
+                            }}
+                        />
 
 
                         <Box sx={{ marginTop: "30px", marginLeft: "34%", display: 'flex' }}>

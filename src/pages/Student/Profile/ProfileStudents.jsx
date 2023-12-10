@@ -74,13 +74,11 @@ const ProfileStudents = () => {
       });
     fetchUser();
   }, [fetchUser]);
-  console.log(userData);
 
   const updateInfo = async () => {
     try {
       const dateString = userData.birthdate;
       const formattedDate = format(new Date(dateString), 'yyyy/MM/dd');
-      console.log("ds" + formattedDate);
       const formData = new FormData();
       formData.append('fullname', userData.fullname);
       formData.append('studentid', decodedToken.id);
