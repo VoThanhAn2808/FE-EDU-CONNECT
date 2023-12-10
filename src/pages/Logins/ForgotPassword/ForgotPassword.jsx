@@ -29,7 +29,7 @@ const ForgotPassword = () => {
         config
       );
       if (response.data === true) {
-        const fb = await axios.post("http://localhost:8081/edu/forgotpassword", {
+        await axios.post("http://localhost:8081/edu/forgotpassword", {
           email: email,
         }, configs);
         window.location.href = "/login"

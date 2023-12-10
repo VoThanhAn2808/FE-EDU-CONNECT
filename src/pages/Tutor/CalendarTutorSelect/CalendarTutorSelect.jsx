@@ -80,13 +80,11 @@ function CalendarTutorSelect() {
         try {
             for (const cellIndex of selectedCells) {
                 const [timeId, lessonId] = cellIndex.split('-');
-                console.log(timeId);
                 const postData = {
                     tutorid: tutor.id,
                     lessonid: lessonId,
                     timeid: timeId,
                 };
-                console.log("ds" + postData);
 
                 await axios.post(
                     "http://localhost:8081/educonnect/choicetime",
@@ -99,7 +97,6 @@ function CalendarTutorSelect() {
             navigate("/hometutor");
         } catch (error) {
             console.error("Error choosing time:", error);
-            console.log(error.response?.data);
         }
     };
 

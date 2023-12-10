@@ -54,6 +54,7 @@ import PageNotFound from '../pages/PageNotFound';
 import DiscountManagement from '../pages/Staff/DiscountManagement';
 import ManagerPayment from '../pages/Staff/ManagerPayment';
 import FeedbackTutors from '../pages/Student/FeedBack/FeedBackTutor';
+import Feedbackofcourse from '../pages/Tutor/ViewInfomationPage/Feedbackofcourse';
 
 const publicRoute = [
   { path: '/', component: Home, layout: DefaultLayout, allowedRoles: ["default"] },
@@ -89,9 +90,10 @@ const privateRoute = [
   { path: '/homeworktutorlist', component: HomeWorkTutorList, layout: LayoutTutor, allowedRoles: ["tutor"] },
   { path: '/calendartutorselect', component: CalendarTutorSelect, layout: LoginLayout, allowedRoles: ["tutor"] },
   { path: '/feedbacktutor', component: FeedbackTutor, layout: LayoutTutor, allowedRoles: ["tutor"] },
-  { path: '/exerciselist', component: ExerciseListPage, layout: LayoutTutor, allowedRoles: ["tutor"] },
+  { path: '/exerciselist/:bookid', component: ExerciseListPage, layout: LayoutTutor, allowedRoles: ["tutor"] },
   { path: '/exercisedetail/:exerciseid', component: ExerciseDetailPage, layout: LayoutTutor, allowedRoles: ["tutor"] },
   { path: '/profile-teacher', component: ProfileTeacher, layout: LayoutTutor, allowedRoles: ["tutor"] },
+  { path: '/viewinfomationpagett/:classcourseid', component: Feedbackofcourse, layout: LayoutTutor, allowedRoles: ["tutor"] },
   { path: '/homeworktutor', component: HomeWorkTutor, layout: LayoutTutor, allowedRoles: ["tutor"] },
   { path: '/managerstudent/:courseId', component: ManagerStudent, layout: LayoutTutor, allowedRoles: ["tutor"] },
   { path: '/profiletutor', component: ProfileTutor, layout: LoginLayout, allowedRoles: ["tutor"] },

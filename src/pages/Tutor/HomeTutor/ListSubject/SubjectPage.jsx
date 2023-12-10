@@ -17,7 +17,6 @@ function SubjectPage() {
             .get(`http://localhost:8081/educonnect/tutor/course?tutorid=${userId}`)
             .then((response) => {
                 setData(response.data);
-                console.log(response.data);
             })
             .catch((error) => {
                 console.error(error);
@@ -36,7 +35,7 @@ function SubjectPage() {
                                 <Typography className="inforsubject">
                                     <PersonIcon className="total" />
                                     {item.count_student}</Typography>
-                                <Link to='/feedbacktutor'>
+                                <Link to={`/viewinfomationpagett/${item.classcourseid}`}>
                                     <Button variant="contained" color="primary" 
                                         sx={{
                                             height: '20px',

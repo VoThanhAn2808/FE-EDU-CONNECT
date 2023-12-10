@@ -4,7 +4,6 @@ import Button from '@mui/material/Button';
 import Typography from '@mui/material/Typography';
 import Modal from '@mui/material/Modal';
 import { Container, Grid, MenuItem, TextField } from '@mui/material';
-// import { jwtDecode } from "jwt-decode";
 import axios from "axios";
 
 const style = {
@@ -33,7 +32,6 @@ export default function DiscountForCourse(props) {
             .get(`http://localhost:8081/course/listcourse`)
             .then((response) => {
                 setData(response.data);
-                console.log(response.data);
             })
             .catch((error) => {
                 console.error(error);
@@ -45,7 +43,6 @@ export default function DiscountForCourse(props) {
             .get(`http://localhost:8081/discount/listdiscountforcourse`)
             .then((response) => {
                 setDis(response.data);
-                console.log(response.data);
             })
             .catch((error) => {
                 console.error(error);

@@ -32,7 +32,6 @@ function UpdateCalender() {
             .then((response) => {
                 if (response && response.data) {
                     setData(response.data);
-                    console.log(response.data);
                 }
             })
             .catch((error) => {
@@ -42,7 +41,6 @@ function UpdateCalender() {
             .then((response) => {
                 if (response && response.data) {
                     setDaysOfWeek(response.data);
-                    console.log(response.data);
                 }
             })
             .catch((error) => {
@@ -52,7 +50,6 @@ function UpdateCalender() {
             .then((response) => {
                 if (response && response.data) {
                     setTime(response.data);
-                    console.log(response.data);
                 }
             })
             .catch((error) => {
@@ -100,16 +97,14 @@ function UpdateCalender() {
         try {
             for (const cellIndex of selectedCells) {
                 const [timeId, lessonId] = cellIndex.split('-');
-                const response = await axios.delete(
+                await axios.delete(
                     `http://localhost:8081/schedule/deletecalender/${timeId}/${lessonId}/${tutor.id}`,
                     config
                 );
                 window.location.href = '/updatecalender';
-                console.log(response.data);
             }
         } catch (error) {
             console.error(error);
-            console.log(error.response.data);
         }
     };
 
@@ -117,7 +112,6 @@ function UpdateCalender() {
         event.preventDefault();
 
         if (selectedCells.length === 0) {
-            console.log("No cells selected.");
             return;
         }
 
@@ -130,27 +124,22 @@ function UpdateCalender() {
         try {
             for (const cellIndex of selectedCells) {
                 const [timeId, lessonId] = cellIndex.split('-');
-                console.log(timeId);
                 const postData = {
                     tutorid: tutor.id,
                     lessonid: lessonId,
                     timeid: timeId,
                 };
-                console.log("ds" + postData);
 
-                const booktimeResponse = await axios.post(
+                await axios.post(
                     "http://localhost:8081/educonnect/choicetime",
                     postData,
                     config
                 );
-
-                console.log("Đặt lịch thành công:", booktimeResponse.data);
             }
 
             window.location.href = '/updatecalender';
         } catch (error) {
             console.error("Error choosing time:", error);
-            console.log(error.response?.data);
         }
     };
 

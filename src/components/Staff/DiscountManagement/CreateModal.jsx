@@ -48,10 +48,6 @@ export default function CreateModal(props) {
         return;
       }
 
-      // Continue processing the selected image
-      const fileName = selectedImage.name;
-      console.log('Selected File Name:', fileName);
-
       // Set the file to state if needed
       setImage(selectedImage);
     }
@@ -80,7 +76,6 @@ export default function CreateModal(props) {
           'Content-Type': 'multipart/form-data',
         },
       });
-      console.log('Image Upload Response:', responseUploadImage);
       if (responseUploadImage.status === 200) {
         const response = await axios.post('http://localhost:8081/discount/adddiscount', myObject);
         alert(response.data.message);

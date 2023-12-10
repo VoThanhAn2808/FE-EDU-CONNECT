@@ -7,6 +7,7 @@ import { DatePicker, LocalizationProvider } from "@mui/x-date-pickers";
 import { AdapterDayjs } from "@mui/x-date-pickers/AdapterDayjs";
 import { format } from "date-fns";
 import dayjs from "dayjs";
+import "./TryLearningManagement.css"
 
 function TryLearningManagement() {
     const [open, setOpen] = React.useState(false);
@@ -14,11 +15,14 @@ function TryLearningManagement() {
     const [data, setData] = useState([]);
     const [searchName, setSearchName] = useState("");
     const [student, setStudent] = useState(null);
+    const [tutor, setTutor] = useState(null);
     const [text, setText] = useState('');
     const [status, setStatus] = useState(null);
     const [vstudent, setVstudent] = useState('');
-    const handleOpen = (studentid) => {
-        setStudent(studentid)
+    const [vTutor, setVtutor] = useState('');
+    const handleOpen = (studentid, tutorid) => {
+        setStudent(studentid);
+        setTutor(tutorid);
         setOpen(true);
     }
     const today = new Date();
@@ -29,7 +33,7 @@ function TryLearningManagement() {
     const datestring = `${year}-${month}-${day}`;
     const [date, setDate] = useState(datestring);
     const [page, setPage] = useState(1);
-    const [pages, setPages] = useState('');
+    const [pages, setPages] = useState(1);
 
     const handleSearch = (event) => {
         setSearchName(event.target.value);
@@ -59,7 +63,7 @@ function TryLearningManagement() {
             .catch((error) => {
                 console.error(error);
             });
-        if (student !== null) {
+        if (student !== null && tutor != null) {
             axios
                 .get(`http://localhost:8081/staffsconnect/student/viewprofile/${student}`)
                 .then((response) => {
@@ -68,9 +72,17 @@ function TryLearningManagement() {
                 .catch((error) => {
                     console.error(error);
                 });
+            axios
+                .get(`http://localhost:8081/staffsconnect/tutor/viewprofile/${tutor}`)
+                .then((response) => {
+                    setVtutor(response.data);
+                })
+                .catch((error) => {
+                    console.error(error);
+                });
         }
         fetchData(page);
-    }, [student, fetchData, page]);
+    }, [student, fetchData, page, tutor]);
     const handleClickChange = async (event) => {
         event.preventDefault();
         event.stopPropagation();
@@ -82,7 +94,8 @@ function TryLearningManagement() {
                     studentid: vstudent.studentid,
                     status: status,
                     date: formatDate,
-                    email: vstudent.email,
+                    emailstudent: vstudent.email,
+                    emailtutor: vTutor.email,
                     text: text,
                 },
                 {
@@ -95,7 +108,6 @@ function TryLearningManagement() {
             window.location.reload();
         } catch (error) {
             console.error(error);
-            console.log(error.response.data);
         }
     };
     return (
@@ -133,7 +145,7 @@ function TryLearningManagement() {
                     marginTop: '10px',
                 }}>
                     <TextField
-                    label="Tìm Kiếm"
+                        label="Tìm Kiếm"
                         sx={{
                             borderRadius: '11%',
                             width: '200px',
@@ -187,7 +199,7 @@ function TryLearningManagement() {
                                                     {item.status !== 2 ? (
                                                         null
                                                     ) : (
-                                                        <Button variant="contained" style={{ marginRight: '10px', fontSize: "10px", fontFamily: "cursive", }} onClick={() => handleOpen(item.studentid)} >
+                                                        <Button variant="contained" style={{ marginRight: '10px', fontSize: "10px", fontFamily: "cursive", }} onClick={() => handleOpen(item.studentid, item.tutorid)} >
                                                             Hành động
                                                         </Button>
                                                     )}
@@ -199,100 +211,124 @@ function TryLearningManagement() {
                                 })}
                             </TableBody>
                         </Table>
-                    </TableContainer>
-                </Box>
-                <Modal
-                    open={open}
-                    aria-labelledby="modal-modal-title"
-                    aria-describedby="modal-modal-description"
-                    sx={{
-                        display: 'flex',
-                        alignItems: 'center',
-                        justifyContent: 'center',
-                    }}
-                >
-                    <Box sx={{ backgroundColor: "#D9D9D9", width: "350px", height: "410px", borderRadius: "10px", border: '2px solid #000000', p: 2 }}>
-                        <Typography sx={{ fontSize: "20px", fontWeight: "600", textAlign: "center" }}>Duyệt học sinh</Typography>
-                        <TextField
-                            fullWidth
-                            label='Email'
-                            value={vstudent.email}
-                            variant='outlined'
-                            InputLabelProps={{
-                                shrink: vstudent.email ? true : undefined,
-                            }}
-                            disabled={true}
-                            InputProps={{
-                                style: { fontSize: '14px' },
-                            }}
-                            required
-                            sx={{ marginTop: "20px" }}
-                        />
-                        <TextField
-                            fullWidth
-                            value={text}
-                            onChange={(e) => setText(e.target.value)}
-                            label='Nội dung'
-                            variant='outlined'
-                            InputLabelProps={{
-                                style: { fontSize: '15px' },
-                            }}
-                            InputProps={{
-                                style: { fontSize: '14px' },
-                            }}
-                            required
-                            sx={{ marginTop: "20px" }}
-                        />
-                        <TextField
-                            select
-                            label='Action'
-                            value={status}
-                            onChange={(e) => setStatus(e.target.value)}
-                            InputLabelProps={{
-                                style: { fontSize: '15px' },
-                            }}
-                            InputProps={{
-                                style: { fontSize: '14px' },
-                            }}
+                        <Modal
+                            open={open}
+                            aria-labelledby="modal-modal-title"
+                            aria-describedby="modal-modal-description"
                             sx={{
-                                width: '100%', marginTop: "20px"
+                                display: 'flex',
+                                alignItems: 'center',
+                                justifyContent: 'center',
                             }}
                         >
-                            <MenuItem value={1}>Duyệt</MenuItem>
-                            <MenuItem value={0}>Không Duyệt</MenuItem>
-                        </TextField>
-                        {status !== 0 && status !== null && (
-                            <LocalizationProvider dateAdapter={AdapterDayjs}>
-                                <DatePicker
-                                    value={dayjs(date)}
-                                    onChange={(newValue) => setDate(newValue)}
-                                    label='Chọn ngày học'
+                            <Box sx={{ backgroundColor: "#D9D9D9", width: "350px", height: "460px", borderRadius: "10px", border: '2px solid #000000', p: 2, maxHeight: 'calc(100vh - 200px)', overflowY: 'auto',}}>
+                                <Typography sx={{ fontSize: "20px", fontWeight: "600", textAlign: "center" }}>Duyệt học sinh</Typography>
+                                <TextField
                                     fullWidth
+                                    label='Email Học sinh'
+                                    value={vstudent.email}
+                                    variant='outlined'
+                                    InputLabelProps={{
+                                        shrink: vstudent.email ? true : undefined,
+                                        style: { fontSize: '15px' },
+                                    }}
+                                    disabled={true}
+                                    InputProps={{
+                                        style: { fontSize: '14px' },
+                                    }}
+                                    required
+                                    sx={{ marginTop: "20px" }}
+                                />
+                                <TextField
+                                    fullWidth
+                                    label='Email gia sư'
+                                    value={vTutor.email}
+                                    variant='outlined'
+                                    InputLabelProps={{
+                                        shrink: vTutor.email ? true : undefined,
+                                        style: { fontSize: '15px' },
+                                    }}
+                                    disabled={true}
+                                    InputProps={{
+                                        style: { fontSize: '14px' },
+                                    }}
+                                    required
+                                    sx={{ marginTop: "20px" }}
+                                />
+                                <TextField
+                                    fullWidth
+                                    value={text}
+                                    onChange={(e) => setText(e.target.value)}
+                                    label='Nội dung'
+                                    variant='outlined'
+                                    InputLabelProps={{
+                                        style: { fontSize: '15px' },
+                                    }}
+                                    InputProps={{
+                                        style: { fontSize: '14px' },
+                                        multiline: true,
+                                        rows: 3,
+                                    }}
+                                    required
+                                    sx={{ marginTop: "20px" }}
+                                />
+                                <TextField
+                                    select
+                                    label='Hành động'
+                                    value={status}
+                                    onChange={(e) => setStatus(e.target.value)}
+                                    InputLabelProps={{
+                                        style: { fontSize: '15px' },
+                                    }}
+                                    InputProps={{
+                                        style: { fontSize: '14px' },
+                                    }}
                                     sx={{
                                         width: '100%', marginTop: "20px"
                                     }}
-                                    renderInput={(params) => (
-                                        <TextField
-                                            {...params}
-                                            value={date || ''}
+                                >
+                                    <MenuItem value={1}>Duyệt</MenuItem>
+                                    <MenuItem value={0}>Không Duyệt</MenuItem>
+                                </TextField>
+                                {status !== 0 && status !== null && (
+                                    <LocalizationProvider dateAdapter={AdapterDayjs}>
+                                        <DatePicker
+                                            value={dayjs(date)}
+                                            onChange={(newValue) => setDate(newValue)}
+                                            label='Chọn ngày học'
+                                            fullWidth
+                                            sx={{
+                                                width: '100%',
+                                                marginTop: "20px",
+                                                "& .MuiInputLabel-root": {
+                                                    fontSize: "15px"
+                                                  }
+                                            }}
+                                            renderInput={(params) => (
+                                                <TextField
+                                                    {...params}
+                                                    value={date || ''}
+                                                />
+                                            )}
                                         />
-                                    )}
-                                />
-                            </LocalizationProvider>
-                        )}
-                        <Box sx={{ marginTop: "30px", marginLeft: "45%" }}>
-                            <Button variant="outlined" startIcon={<DeleteIcon sx={{ color: "white" }} />} sx={{ backgroundColor: "red", color: "white" }} onClick={handleClose}>
-                                Hủy
-                            </Button>
-                            <Button variant="contained" endIcon={<SendIcon />} sx={{ backgroundColor: "green", marginLeft: '10px' }} onClick={handleClickChange}>
-                                Send
-                            </Button>
-                        </Box>
-                    </Box>
-                </Modal>
-                <Box sx={{ display: 'flex', justifyContent: 'center', marginTop: "15px" }}>
-                    <Pagination count={pages.length} page={page} onChange={handlePageChange} sx={{ '& .MuiPaginationItem-root': { fontSize: '15px', minWidth: '50px' } }} />
+                                    </LocalizationProvider>
+                                )}
+                                <Box sx={{ marginTop: "30px"}}>
+                                    <Button variant="outlined" startIcon={<DeleteIcon sx={{ color: "white" }} />} sx={{ backgroundColor: "red", color: "white" }} onClick={handleClose}>
+                                        Hủy
+                                    </Button>
+                                    <Button variant="contained" endIcon={<SendIcon />} sx={{ backgroundColor: "green", marginLeft: '10px' }} onClick={handleClickChange}>
+                                        Send
+                                    </Button>
+                                </Box>
+                            </Box>
+                        </Modal>
+                    </TableContainer>
                 </Box>
+                <Box sx={{ display: 'flex', justifyContent: 'center', marginTop: "15px" }}>
+                    <Pagination count={pages} page={page} onChange={handlePageChange} sx={{ '& .MuiPaginationItem-root': { fontSize: '15px', minWidth: '50px' } }} />
+                </Box>
+
             </Box>
         </Box>
     );

@@ -9,7 +9,7 @@ function RadarChartMui() {
 
   useEffect(() => {
     axios
-      .get(`http://localhost:8081/staffsconnect/radarchart`)
+      .get(`http://localhost:8081/admin/radarchart`)
       .then((response) => {
         setData(response.data);
       })
@@ -17,17 +17,16 @@ function RadarChartMui() {
         console.error(error);
       });
   }, []);
-
   return (
-    <Box sx={{ marginTop: "20px" }}>
+    <Box sx={{marginTop:"20px"}}>
       <Typography variant="h6" align="center" gutterBottom>
-        Những môn học nỗi trội
+        Những gia sư nỗi trội
       </Typography>
       <ResponsiveContainer width="100%" height={350}>
         <RadarChart data={data}>
           <PolarGrid />
           <PolarAngleAxis dataKey="name" />
-          <Radar name="Lượng học sinh học" dataKey="value" stroke="#8884d8" fill="#8884d8" fillOpacity={0.6} />
+          <Radar name="Lượng học sinh học" dataKey="value" stroke="#8884d8" fill="green" fillOpacity={0.6} />
           <Tooltip />
         </RadarChart>
       </ResponsiveContainer>

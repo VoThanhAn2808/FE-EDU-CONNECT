@@ -26,7 +26,6 @@ const Sidebar = () => {
       .get(`http://localhost:8081/educonnect/tutor/listcourse?tutorid=${userId}`)
       .then((response) => {
         setCourse(response.data);
-        console.log(response.data);
       })
       .catch((error) => {
         console.error(error);
@@ -83,7 +82,7 @@ const Sidebar = () => {
               <ListItemButton sx={{ pl: 3 }} key={index}>
                 <ListItemIcon></ListItemIcon>
                 <Typography sx={{ fontSize: '13px', marginRight: 'auto', fontWeight: 'bold' }}>
-                  <Link to={`/managerstudent/${item.courseid}`} style={{ color: "black", textDecoration: "none" }}>{item.courseName} {item.classname}</Link>
+                  <Link to={`/managerstudent/${item.classcourseid}`} style={{ color: "black", textDecoration: "none" }}>{item.courseName} {item.classname}</Link>
                 </Typography>
               </ListItemButton>
             ))}

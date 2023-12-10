@@ -72,7 +72,7 @@ function ResetPassword() {
         };
 
         try {
-            const response = await axios.put(
+            await axios.put(
                 "http://localhost:8081/edu/resetpassword",
                 {
                     token: token,
@@ -83,7 +83,6 @@ function ResetPassword() {
             window.location.href = '/login';
         } catch (error) {
             console.error(error);
-            console.log(error.response.data);
         }
     };
 

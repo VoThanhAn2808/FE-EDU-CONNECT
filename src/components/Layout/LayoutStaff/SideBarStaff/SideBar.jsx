@@ -32,7 +32,6 @@ function Sidebar() {
     axios.get(`http://localhost:8081/staffsconnect/totalpayment?staffid=${decodedToken.id}`)
       .then((response) => {
         setData(response.data);
-        console.log(response.data);
       })
       .catch((error) => {
         console.error(error);
@@ -40,7 +39,6 @@ function Sidebar() {
     axios.get(`http://localhost:8081/staffsconnect/countTutorRegistersForLessons?staffid=${decodedToken.id}`)
       .then((response) => {
         setFile(response.data);
-        console.log(response.data);
       })
       .catch((error) => {
         console.error(error);
@@ -48,7 +46,6 @@ function Sidebar() {
     axios.get(`http://localhost:8081/staffsconnect/counttrylearn`)
       .then((response) => {
         setTry(response.data);
-        console.log(response.data);
       })
       .catch((error) => {
         console.error(error);
@@ -56,7 +53,6 @@ function Sidebar() {
     axios.get(`http://localhost:8081/staffsconnect/totalPageStudentRegistration`)
       .then((response) => {
         setBook(response.data);
-        console.log(response.data);
       })
       .catch((error) => {
         console.error(error);
@@ -64,7 +60,6 @@ function Sidebar() {
     axios.get(`http://localhost:8081/staffsconnect/countWaitForConfirmTutor`)
       .then((response) => {
         setTutor(response.data);
-        console.log(response.data);
       })
       .catch((error) => {
         console.error(error);
@@ -138,7 +133,7 @@ function Sidebar() {
           {book > 0 && (
             <span
               style={{
-                marginLeft: '20px',
+                marginLeft: '10px',
                 backgroundColor: 'red',
                 color: 'white',
                 width: '20px',
@@ -162,14 +157,14 @@ function Sidebar() {
             {file > 0 && (
               <span
                 style={{
-                  marginLeft: '40px',
+                  marginLeft: '60px',
                   backgroundColor: 'red',
                   color: 'white',
                   width: '20px',
                   height: '20px',
                   borderRadius: '50%',
                   padding: '2px 6px',
-                  fontSize: '12px',
+                  fontSize: '15px',
                   textAlign: 'center'
                 }}
               >
@@ -213,7 +208,7 @@ function Sidebar() {
           <ListItemIcon>
             <DiscountIcon />
           </ListItemIcon>
-          <Typography sx={{ fontSize: '16px', marginRight: 'auto' }}><Link to='/discountmanagement' style={{ color: "black", textDecoration: "none" }}>Quản lý voucher</Link></Typography>
+          <Typography sx={{ fontSize: '16px', marginRight: 'auto' }}><Link to='/discountmanagement' style={{ color: "black", textDecoration: "none" }}>Chương trình giảm giá</Link></Typography>
         </ListItemButton>
         <ListItemButton
           sx={{

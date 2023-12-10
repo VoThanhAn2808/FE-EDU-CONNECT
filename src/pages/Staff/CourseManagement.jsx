@@ -55,7 +55,6 @@ function CourseManagement() {
                 });
         } catch (error) {
             console.error(error);
-            console.log(error.response.data);
         }
         setOpenUd(true);
     }
@@ -105,7 +104,6 @@ function CourseManagement() {
             window.location.reload();
         } catch (error) {
             console.error(error);
-            console.log(error.response.data);
         }
     };
 
@@ -196,7 +194,7 @@ function CourseManagement() {
                                                     ) : (
                                                         <AddLinkIcon sx={{ fontSize: "25px" }} onClick={() => handleOpen(item.tutorName, item.studentName, item.bookid)} />
                                                     )}
-                                                    <RemoveRedEyeIcon sx={{ fontSize: "25px" }} onClick={() => handleOpenV(item.bookid)} />
+                                                    <RemoveRedEyeIcon sx={{ fontSize: "25px", marginLeft : '10px' }} onClick={() => handleOpenV(item.bookid)} />
                                                 </TableCell>
                                             </TableRow>
                                         );

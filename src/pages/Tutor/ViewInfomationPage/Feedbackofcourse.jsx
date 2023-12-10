@@ -7,44 +7,41 @@ import { Pagination } from 'swiper/modules';
 import { useEffect, useState } from "react";
 import axios from "axios";
 import { useParams } from "react-router";
+import { jwtDecode } from "jwt-decode";
 
-function ViewInfomationPage() {
+function Feedbackofcourse() {
   const [tutor, setTutor] = useState([]);
-  const {tutorid} = useParams();
-
+  const {classcourseid} = useParams();
+  const decodedToken = jwtDecode(localStorage.getItem('token'));
+  const [course, setCourse] = useState([]);
+  const [data, setData] = useState([]);
   useEffect(() => {
     axios
-      .get(`http://localhost:8081/educonnect/studentviewdetailtutor?tutorid=${tutorid}`)
+      .get(`http://localhost:8081/educonnect/studentviewdetailtutor?tutorid=${decodedToken.id}`)
       .then((response) => {
         setTutor(response.data);
       })
       .catch((error) => {
         console.error(error);
       });
-  }, [tutorid]);
-  const [data, setData] = useState([]);
-  useEffect(() => {
-    axios
-      .get(`http://localhost:8081/student/feedbackbooking/${tutorid}`)
-      .then((response) => {
-        setData(response.data);
-      })
-      .catch((error) => {
-        console.error(error);
-      });
-  }, [tutorid]);
-
-  const [course, setCourse] = useState([]);
-  useEffect(() => {
-    axios
-      .get(`http://localhost:8081/educonnect/tutor/listcourse?tutorid=${tutorid}`)
+      axios
+      .get(`http://localhost:8081/educonnect/tutor/listcourse?tutorid=${decodedToken.id}`)
       .then((response) => {
         setCourse(response.data);
       })
       .catch((error) => {
         console.error(error);
       });
-  }, [tutorid]);
+      axios
+      .get(`http://localhost:8081/educonnect/feedbackofcourse/${decodedToken.id}/${classcourseid}`)
+      .then((response) => {
+        setData(response.data);
+      })
+      .catch((error) => {
+        console.error(error);
+      });
+  }, [decodedToken.id, classcourseid]);
+  
   return (
     <Box>
       <Box
@@ -194,4 +191,4 @@ function ViewInfomationPage() {
   );
 }
 
-export default ViewInfomationPage;
+export default Feedbackofcourse;

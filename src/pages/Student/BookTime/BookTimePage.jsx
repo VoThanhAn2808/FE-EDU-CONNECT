@@ -82,7 +82,6 @@ function BookTime() {
             window.location.href = '/homestudent';
         } catch (error) {
             console.error(error);
-            console.log(error.response.data);
         }
     };
 
@@ -131,7 +130,6 @@ function BookTime() {
             window.location.href = paymentResponse.data.url;
         } catch (error) {
             console.error(error);
-            console.log(error.response.data);
         }
     };
 

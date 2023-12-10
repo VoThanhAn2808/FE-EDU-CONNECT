@@ -4,7 +4,6 @@ import { BarChart, Bar, YAxis, XAxis, CartesianGrid, Tooltip, Legend } from 'rec
 import axios from 'axios';
 
 function ApexChart() {
-
   const [data, setData] = useState([]);
 
   useEffect(() => {
@@ -21,7 +20,7 @@ function ApexChart() {
   return (
     <Box id="chart" sx={{marginTop:"30px", marginLeft:"10px"}}>
       <Typography variant="h6" align="center" gutterBottom>
-        Lượng học sinh theo từng lớp
+        Lượng học sinh và gia sư theo từng lớp
       </Typography>
       <BarChart width={850} height={600} data={data} layout="vertical">
         <CartesianGrid strokeDasharray="3 3" />
@@ -29,8 +28,8 @@ function ApexChart() {
         <YAxis type="category" dataKey="name" />
         <Tooltip />
         <Legend />
-        <Bar dataKey="hoc_sinh" fill="#1B08F4" />
         <Bar dataKey="gia_su" fill="#F41B3F" />
+        <Bar dataKey="hoc_sinh" fill="#1B08F4" />
       </BarChart>
     </Box>
   );

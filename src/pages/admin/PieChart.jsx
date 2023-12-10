@@ -8,7 +8,7 @@ function PieChartMui() {
 
   useEffect(() => {
     axios
-        .get(`http://localhost:8081/staffsconnect/piechart`)
+        .get(`http://localhost:8081/admin/piechart`)
         .then((response) => {
           setData(response.data);
         })
@@ -20,7 +20,7 @@ function PieChartMui() {
   return (
     <Box sx={{ width: '100%', height: 300 }}>
         <Typography  align="center" gutterBottom>
-        Số lượng học sinh và gia sư
+        Số lượng học sinh, gia sư và nhân viên
       </Typography>
       <ResponsiveContainer>
         <PieChart>

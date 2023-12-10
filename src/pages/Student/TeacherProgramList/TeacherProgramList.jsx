@@ -99,7 +99,6 @@ function TeacherProgramList() {
             window.open(file, '_blank');
         } catch (error) {
             console.error(error);
-            console.log(error.response.data);
         }
     };
     const handleVideoClick = async (fileid, event, file) => {
@@ -119,7 +118,6 @@ function TeacherProgramList() {
             window.open(file, '_blank');
         } catch (error) {
             console.error(error);
-            console.log(error.response.data);
         }
     };
 
@@ -142,9 +140,9 @@ function TeacherProgramList() {
                             if (files.exerciseid === item.exerciseid) {
                                 return (
                                     <Box key={keyf}>
-                                        {files.status === 0 ? (
+                                        {files.status === 2 ? (
                                             <>
-                                                <Links href={`http://localhost:8081/edu/file/fileuser/${files.files}/${files.fileid}`} target="_blank" sx={{ textDecoration: 'none', color: 'black' }} onClick={(event) => handleLinkClick(files.fileid, event, files.files)}>
+                                                <Links href={`http://localhost:8081/edu/file/fileuser/${files.files}/${data.tutorid}`} target="_blank" sx={{ textDecoration: 'none', color: 'black' }} onClick={(event) => handleLinkClick(files.fileid, event, files.files)}>
                                                     <Box sx={{ display: "flex", alignItems: "center" }}>
                                                         <InsertDriveFileIcon sx={{ fontSize: "25px", marginLeft: "4%" }} />
                                                         <Typography sx={{ fontSize: "25px", marginLeft: "1%" }}> {files.namefile}</Typography>
@@ -154,7 +152,7 @@ function TeacherProgramList() {
                                             </>
                                         ) : (
                                             <>
-                                                <Links href={`http://localhost:8081/edu/file/fileuser/${files.files}/${files.fileid}`} target="_blank" sx={{ textDecoration: 'none', color: 'black' }}>
+                                                <Links href={`http://localhost:8081/edu/file/fileuser/${files.files}/${data.tutorid}`} target="_blank" sx={{ textDecoration: 'none', color: 'black' }}>
                                                     <Box sx={{ display: "flex", alignItems: "center" }}>
                                                         <InsertDriveFileIcon sx={{ fontSize: "25px", marginLeft: "4%" }} />
                                                         <Typography sx={{ fontSize: "25px", marginLeft: "1%" }}> {files.namefile}</Typography>
@@ -173,7 +171,7 @@ function TeacherProgramList() {
                             if (vd.exerciseid === item.exerciseid) {
                                 return (
                                     <Box key={kvd}>
-                                        {vd.status === 0 ? (
+                                        {vd.status === 2 ? (
                                             <>
                                                 <Links sx={{ textDecoration: 'none', color: 'black' }} href={vd.video} target="_blank" onClick={(event) => handleVideoClick(vd.videoid, event, vd.video)}>
                                                     <Box sx={{ display: "flex", alignItems: "center" }}>

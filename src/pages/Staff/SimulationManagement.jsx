@@ -46,7 +46,6 @@ function SimulationManagement() {
                 });
         } catch (error) {
             console.error(error);
-            console.log(error.response.data);
         }
         setOpenUd(true);
     }
@@ -75,7 +74,6 @@ function SimulationManagement() {
             window.location.reload();
         } catch (error) {
             console.error(error);
-            console.log(error.response.data);
         }
     };
     const handleSubmitUd = async (event) => {
@@ -102,7 +100,6 @@ function SimulationManagement() {
             window.location.reload();
         } catch (error) {
             console.error(error);
-            console.log(error.response.data);
         }
     };
     useEffect(() => {
@@ -284,7 +281,7 @@ function SimulationManagement() {
                                         <TableCell sx={{ fontSize: "15px", fontFamily: "cursive", textAlign: "center" }}>{item.coursename}</TableCell>
                                         <TableCell sx={{ fontSize: "15px", fontFamily: "cursive", textAlign: "center" }}>{item.demoname}</TableCell>
                                         <TableCell sx={{ fontSize: "15px", fontFamily: "cursive", textAlign: "center" }}>
-                                            <img src={`http://localhost:8081/edu/file/files/${item.img}`} style={{ width: '100px', height: '100px', borderRadius: '50%' }} />
+                                            <img src={`http://localhost:8081/edu/file/files/${item.img}`} alt="an" style={{ width: '100px', height: '100px', borderRadius: '50%' }} />
                                         </TableCell>
                                         <TableCell sx={{ fontSize: "15px", fontFamily: "cursive", textAlign: "center" }}>
                                             <RemoveRedEyeIcon sx={{ fontSize: '25px' }} onClick={() => handleOpens(item.linkdemo)} />

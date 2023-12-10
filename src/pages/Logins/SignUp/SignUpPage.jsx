@@ -3,7 +3,7 @@ import React, { useEffect, useState } from 'react';
 import LOGIN from '../../../assests/login.png';
 import LOGO from '../../../assests/lglogin.jpg';
 import Button from '@mui/joy/Button';
-import { Input, Visibility, VisibilityOff } from '@mui/icons-material';
+import { Visibility, VisibilityOff } from '@mui/icons-material';
 import { styled } from '@mui/material/styles';
 import { Link } from 'react-router-dom';
 import axios from 'axios';
@@ -25,7 +25,7 @@ function SignupPage() {
   const [nameError, setNameError] = useState('');
   const [phoneError, setPhoneError] = useState('');
   const [emailError, setEmailError] = useState('');
-  const [classError, setClassError] = useState('');
+  const [setClassError] = useState('');
   const [passwordError, setPasswordError] = useState('');
   const [confirmPassword, setConfirmPassword] = useState('');
   const [snackbarOpen, setSnackbarOpen] = useState(false);
@@ -35,7 +35,6 @@ function SignupPage() {
       .get(`http://localhost:8081/student/class`)
       .then((response) => {
         setData(response.data);
-        console.log(response.data);
       })
       .catch((error) => {
         console.error(error);
@@ -130,7 +129,7 @@ function SignupPage() {
       formData.append('classentity', selectedClass ? selectedClass : 1);
       formData.append('file', files);
 
-      const response = await axios.post('http://localhost:8081/edu/register', formData, {
+      await axios.post('http://localhost:8081/edu/register', formData, {
         headers: {
           'Content-Type': 'multipart/form-data',
         },
@@ -138,7 +137,6 @@ function SignupPage() {
       window.location.href = '/login';
     } catch (error) {
       console.error(error);
-      console.log(error.response.data);
     }
   };
 

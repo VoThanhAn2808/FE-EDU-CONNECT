@@ -47,7 +47,6 @@ function Feedback() {
           window.location.href = "/feedback";
         } catch (error) {
           console.error(error);
-          console.log(error.response.data);
         }
       };
 
