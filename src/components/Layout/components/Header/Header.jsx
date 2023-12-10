@@ -463,26 +463,6 @@ function Header() {
                             sx={{ marginLeft: '25%', width: '200px', marginTop: '20px' }}
                         />
                         <TextField
-                            value={show.banknumber || ''}
-                            onChange={(e) => {
-                                setShow({ ...show, banknumber: e.target.value });
-                            }}
-                            sx={{ marginTop: '20px', marginLeft: '26%' }}
-                            label='Số tài khoản'
-                            InputLabelProps={{
-                                style: {
-                                    fontSize: '12px',
-                                    color: 'rgba(0, 0, 0, 0.54)',
-                                },
-                            }}
-                            InputProps={{
-                                style: {
-                                    fontSize: '14px',
-                                    height: '45px'
-                                },
-                            }}
-                        />
-                        <TextField
                             select
                             value={show.bank || ''}
                             onChange={(e) => {
@@ -509,6 +489,27 @@ function Header() {
                                 </MenuItem>
                             ))}
                         </TextField>
+                        
+                        <TextField
+                            value={show.banknumber || ''}
+                            onChange={(e) => {
+                                setShow({ ...show, banknumber: e.target.value });
+                            }}
+                            sx={{ marginTop: '20px', marginLeft: '26%' }}
+                            label='Số tài khoản'
+                            InputLabelProps={{
+                                style: {
+                                    fontSize: '12px',
+                                    color: 'rgba(0, 0, 0, 0.54)',
+                                },
+                            }}
+                            InputProps={{
+                                style: {
+                                    fontSize: '14px',
+                                    height: '45px'
+                                },
+                            }}
+                        />
 
 
                         <Box sx={{ marginTop: "30px", marginLeft: "34%", display: 'flex' }}>
