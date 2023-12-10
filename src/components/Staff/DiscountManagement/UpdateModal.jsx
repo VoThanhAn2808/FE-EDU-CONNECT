@@ -11,6 +11,8 @@ import { jwtDecode } from "jwt-decode";
 import axios from "axios";
 import dayjs from 'dayjs';
 import { format } from "date-fns";
+import ClearIcon from '@mui/icons-material/Clear';
+import InputAdornment from '@mui/material/InputAdornment';
 
 const style = {
   position: 'absolute',
@@ -43,9 +45,12 @@ export default function UpdateModal(props) {
     }));
   }, [selectDiscountId]);
 
+
+
   useEffect(() => {
     axios.post('http://localhost:8081/discount/detailDiscount', dataToSend)
       .then((response) => {
+        console.log(response.data);
         setDataDetailDiscount(response.data);
       })
       .catch((error) => {
@@ -55,7 +60,8 @@ export default function UpdateModal(props) {
 
   useEffect(() => {
     const filename = dataDetailDiscount.img;
-    axios.get(`http://localhost:8081/edu/file/fileImg/${filename}`, {
+    console.log("filename" + filename);
+    axios.get(`http://localhost:8081/edu/file/files/${filename}`, {
       responseType: 'blob',  // Important: Set the response type to 'blob'
     })
       .then((response) => {
@@ -64,6 +70,7 @@ export default function UpdateModal(props) {
         console.error(error);
       });
   }, [dataDetailDiscount]);
+
 
   const handleImageChange = (e) => {
     const selectedImage = e.target.files[0];
@@ -86,50 +93,115 @@ export default function UpdateModal(props) {
   };
 
   const handleSubmit = async (event) => {
-    event.preventDefault();
-    // Clear the form fields after submission if needed
+
+    event.preventDefault(); // Clear the form fields after submission if needed
+    const btnFileElement = document.getElementById("grdImage");
+    const grdImageDisplayStyle = window.getComputedStyle(btnFileElement).display;
+
+
     const formData = new FormData();
-    formData.append('file', image)
-    const checkstartdate = startDate ? startDate : dataDetailDiscount.startDate
-    const formatstartDate = format(new Date(checkstartdate), 'yyyy-MM-dd');
-    const checkenddate = endDate ? endDate : dataDetailDiscount.endDate
-    const formatendDate = format(new Date(checkenddate), 'yyyy-MM-dd');
-    const myObject = {
-      discountid: dataDetailDiscount.discountid,
-      discount : dataDetailDiscount.discount,
-      img: image.name,
-      startDate : formatstartDate,
-      endDate : formatendDate,
-      title : dataDetailDiscount.title,
-      desciption: dataDetailDiscount.description,
-      staffid: decodedToken.id,
-    };
-    try {
-      //Upload image
-      const responseUploadImage = await axios.post('http://localhost:8081/edu/file/uploadImage', formData, {
-        headers: {
-          'Content-Type': 'multipart/form-data',
-        },
-      });
-      if (responseUploadImage.status === 200) {
-        const response = await axios.put('http://localhost:8081/discount/updateDiscount', myObject);
-        alert(response.data.message);
+    if (grdImageDisplayStyle == "none") { // input image hide
+      if (image == null) {
+        alert("Chọn file để lưu!");
+        return;
+      }
+      else {
+        formData.append('file', image)
+        const checkstartdate = startDate ? startDate : dataDetailDiscount.startDate
+        const formatstartDate = format(new Date(checkstartdate), 'yyyy-MM-dd');
+        const checkenddate = endDate ? endDate : dataDetailDiscount.endDate
+        const formatendDate = format(new Date(checkenddate), 'yyyy-MM-dd');
+        if (formatstartDate > formatendDate) {
+          alert("Chọn ngày kết thúc lớn hơn ngày bắt đầu!");
+          return;
+        }
+        const myObject = {
+          discountid: dataDetailDiscount.discountid,
+          discount: dataDetailDiscount.discount,
+          img: image.name,
+          startDate: formatstartDate,
+          endDate: formatendDate,
+          title: dataDetailDiscount.title,
+          desciption: dataDetailDiscount.description,
+          staffid: decodedToken.id,
+        };
+        try {
+          //Upload image
+          const responseUploadImage = await axios.post('http://localhost:8081/edu/file/upload/discount', formData, {
+            headers: {
+              'Content-Type': 'multipart/form-data',
+            },
+          });
+          if (responseUploadImage.data.message == -1) {
+            alert("Tệp tin bị trùng vui lòng chọn tệp hình ảnh khác!");
+          } else if (responseUploadImage.data.message == 0) {
+            alert("Hệ thống lỗi.Liên hệ với admin để giải quyết!");
+          }
+          else if (responseUploadImage.status === 200) {
+            const response = await axios.put(`http://localhost:8081/staffsconnect/discount/updateDiscount/${decodedToken.id}`, myObject);
+            console.log("Update " + response.data);
+            if (response.data == 1) {
+              alert("Cập nhập thành công");
+            }
+            handleClose();
+            window.location.reload();
+          }
+          // onSubmit(myObject);
+        } catch (error) {
+          alert("Hệ thống lỗi.Liên hệ với admin để được giải quyết!");
+          await axios.delete(`http://localhost:8081/edu/file/deleteFile/discount/${image.name}`);
+        }
+      }
+    } else {
+      const checkstartdate = startDate ? startDate : dataDetailDiscount.startDate
+      const formatstartDate = format(new Date(checkstartdate), 'yyyy-MM-dd');
+      const checkenddate = endDate ? endDate : dataDetailDiscount.endDate
+      const formatendDate = format(new Date(checkenddate), 'yyyy-MM-dd');
+      if (formatstartDate > formatendDate) {
+        alert("Chọn ngày kết thúc lớn hơn ngày bắt đầu!");
+        return;
+      }
+      const myObject = {
+        discountid: dataDetailDiscount.discountid,
+        discount: dataDetailDiscount.discount,
+        startDate: formatstartDate,
+        endDate: formatendDate,
+        title: dataDetailDiscount.title,
+        desciption: dataDetailDiscount.description,
+        staffid: decodedToken.id,
+      };
+      try {
+        const response = await axios.put(`http://localhost:8081/staffsconnect/discount/updateDiscount/${decodedToken.id}`, myObject);
+        console.log("Update " + response.data);
+        if (response.data == 1) {
+          alert("Cập nhập thành công");
+        }
         handleClose();
         window.location.reload();
-      } else {
-        // Handle image upload failure
-        console.error('Image upload failed');
       }
       // onSubmit(myObject);
-    } catch (error) {
-      console.error('An error occurred during the API call', error);
+      catch (error) {
+        alert("Hệ thống lỗi.Liên hệ với admin để  được giải quyết!");
+        await axios.delete(`http://localhost:8081/edu/file/deleteFile/discount/${image.name}`);
+      }
     }
   };
+
   const handleStartDateChange = (e) => {
     setStartDate(e);
   };
   const handleEndDateChange = (e) => {
     setEndDate(e);
+  };
+
+  const handleClearClick = () => {
+    const inputImage = document.getElementById("grdImage");
+    const buttonFile = document.getElementById("btnFile");
+    console.log(buttonFile);
+    console.log("inputImage", inputImage);
+    buttonFile.style.display = "block";
+    inputImage.style.display = "none";
+
   };
 
   return (
@@ -152,6 +224,7 @@ export default function UpdateModal(props) {
               </Grid>
               <Grid item xs={12}>
                 <TextField
+                  id="discount"
                   fullWidth
                   label='Giảm Giá'
                   variant='outlined'
@@ -159,10 +232,14 @@ export default function UpdateModal(props) {
                   value={dataDetailDiscount.discount}
                   onChange={(e) => setDataDetailDiscount({ ...dataDetailDiscount, discount: e.target.value })}
                   required
+                  InputLabelProps={{
+                    shrink: String(dataDetailDiscount.discount).trim() !== "" // Shrink khi giá trị không rỗng
+                  }}
                 />
               </Grid>
               <Grid item xs={12}>
                 <TextField
+                  id="title"
                   fullWidth
                   label='Tiêu Đề'
                   variant='outlined'
@@ -170,9 +247,39 @@ export default function UpdateModal(props) {
                   value={dataDetailDiscount.title}
                   onChange={(e) => setDataDetailDiscount({ ...dataDetailDiscount, title: e.target.value })}
                   required
+                  InputLabelProps={{
+                    shrink: String(dataDetailDiscount.title).trim() !== "" // Shrink khi giá trị không rỗng
+                  }}
                 />
               </Grid>
-              <Grid item xs={12}>
+              <Grid item xs={12} id="grdImage">
+                <TextField
+                  id="image"
+                  fullWidth
+                  label='Hình Ảnh'
+                  variant='outlined'
+                  sx={{ fontSize: '15px', fontFamily: 'cursive', textAlign: 'center' }}
+                  value={dataDetailDiscount.img}
+                  onChange={(e) => setDataDetailDiscount({ ...dataDetailDiscount, title: e.target.value })}
+                  required
+                  InputLabelProps={{
+                    shrink: String(dataDetailDiscount.img).trim() !== "" // Shrink khi giá trị không rỗng
+                  }}
+                  InputProps={{
+                    endAdornment: (
+                      <InputAdornment position="end">
+                        {dataDetailDiscount.img && (
+                          <ClearIcon
+                            style={{ cursor: 'pointer' }}
+                            onClick={handleClearClick}
+                          />
+                        )}
+                      </InputAdornment>
+                    ),
+                  }}
+                />
+              </Grid>
+              <Grid item xs={12} id="btnFile" style={{ display: "none" }}>
                 <TextField
                   accept="image/*"
                   fullWidth
@@ -188,6 +295,7 @@ export default function UpdateModal(props) {
               <Grid item xs={6}>
                 <LocalizationProvider dateAdapter={AdapterDayjs}>
                   <DatePicker
+                    id="startDate"
                     label='Ngày Bắt Đầu'
                     fullWidth
                     value={dayjs(dataDetailDiscount.startDate)}
@@ -198,6 +306,7 @@ export default function UpdateModal(props) {
               <Grid item xs={6}>
                 <LocalizationProvider dateAdapter={AdapterDayjs} style={{ width: '100%' }}>
                   <DatePicker
+                    id="endDate"
                     label='Ngày Kết Thúc'
                     fullWidth
                     value={dayjs(dataDetailDiscount.endDate)}
@@ -207,6 +316,7 @@ export default function UpdateModal(props) {
               </Grid>
               <Grid item xs={12}>
                 <TextField
+                  id="description"
                   fullWidth
                   label='Mô Tả'
                   variant='outlined'
@@ -216,6 +326,9 @@ export default function UpdateModal(props) {
                   value={dataDetailDiscount.desciption}
                   onChange={(e) => setDataDetailDiscount({ ...dataDetailDiscount, desciption: e.target.value })}
                   required
+                  InputLabelProps={{
+                    shrink: String(dataDetailDiscount.desciption).trim() !== "" // Shrink khi giá trị không rỗng
+                  }}
                 />
               </Grid>
               <Grid item xs={12}>

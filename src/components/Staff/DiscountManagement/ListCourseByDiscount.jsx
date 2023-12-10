@@ -24,7 +24,7 @@ export default function ListCourseByDiscout(props) {
 
     const handleClose = () => setOpen(false);
 
-    const [ setDataToSend] = useState({
+    const [dataToSend, setDataToSend] = useState({
         discountId: selectDiscountId
     });
 
@@ -33,7 +33,7 @@ export default function ListCourseByDiscout(props) {
             ...prevData,
             discountId: selectDiscountId
         }));
-    },);
+    }, [selectDiscountId]);
 
     useEffect(() => {
         axios
@@ -62,7 +62,7 @@ export default function ListCourseByDiscout(props) {
                             <Typography variant='h3' style={{ fontFamily: 'cursive' }}>
                                 Những khóa học được giảm giá
                             </Typography>
-                            <Typography variant='h4' style={{ fontFamily: 'cursive', marginTop : '10px', textAlign :'center' }}>
+                            <Typography variant='h4' style={{ fontFamily: 'cursive', marginTop: '10px', textAlign: 'center' }}>
                                 Tiêu đề : {title}
                             </Typography>
                         </Grid>
