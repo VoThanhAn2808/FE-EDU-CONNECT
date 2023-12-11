@@ -14,6 +14,7 @@ import InsertDriveFileIcon from '@mui/icons-material/InsertDriveFile';
 import { jwtDecode } from 'jwt-decode';
 import RemoveRedEyeIcon from '@mui/icons-material/RemoveRedEye';
 import Iframe from 'react-iframe';
+import VisibilityOffIcon from '@mui/icons-material/VisibilityOff';
 
 function HomeworkTable(props, exercise) {
   const token = localStorage.getItem("token");
@@ -139,9 +140,17 @@ function HomeworkTable(props, exercise) {
             <TableRow key={row.homeworkid} style={{ fontSize: "14px" }}>
               <TableCell style={{ fontSize: "14px" }}>{row.homeworkid}</TableCell>
               <TableCell style={{ fontSize: "14px" }}>{row.title}</TableCell>
-              <TableCell style={{ fontSize: "14px" }}>{row.demo}</TableCell>
+              {row.demo === null ? (
+                <TableCell style={{ fontSize: "14px" }}>None</TableCell>
+              ) : (
+                <TableCell style={{ fontSize: "14px" }}>{row.demo}</TableCell>
+              )}
               <TableCell style={{ fontSize: "14px" }}>
-                <RemoveRedEyeIcon sx={{ fontSize: "25px", marginLeft: '10px' }} onClick={() => handleOpen(row.linkDemo)} />
+                {row.demo === null ? (
+                  <VisibilityOffIcon sx={{ fontSize: "25px", marginLeft: '10px' }} />
+                ) : (
+                  <RemoveRedEyeIcon sx={{ fontSize: "25px", marginLeft: '10px' }} onClick={() => handleOpen(row.linkDemo)} />
+                )}
               </TableCell>
               <TableCell style={{ fontSize: "14px" }}>
                 <Link href={`http://localhost:8081/edu/file/fileuser/${row.files}/${tutor.id}`} target="_blank">

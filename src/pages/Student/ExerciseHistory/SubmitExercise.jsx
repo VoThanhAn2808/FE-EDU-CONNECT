@@ -179,11 +179,15 @@ function SubmitExercise() {
                             <Box id="" style={{ float: 'left' }}>
                                 <Typography variant="h4" >{`Bài Thực Hành   ${data.titleHomework}`}</Typography>
                             </Box>
-                            <Box id="" style={{ float: 'right' }}>
-                                <Button variant="contained" style={buttonStyle} onClick={handleOpen}>
-                                    Xem mô phỏng
-                                </Button>
-                            </Box>
+                            {data.filesDemo === null ? (
+                                null
+                            ) : (
+                                <Box id="" style={{ float: 'right' }}>
+                                    <Button variant="contained" style={buttonStyle} onClick={handleOpen}>
+                                        Xem mô phỏng
+                                    </Button>
+                                </Box>
+                            )}
                         </Box>
                         <Box id="" style={{ marginBottom: '10px' }}>
                             <Box>
@@ -198,7 +202,7 @@ function SubmitExercise() {
 
                         <Box style={{ float: 'left', marginTop: '10px' }}>
                             <Link href={`http://localhost:8081/edu/file/fileuser/${data.filesHomework}/${data.tutorid}`} target="_blank">
-                            
+
                                 <Button
                                     variant="contained"
                                     color="primary"
@@ -246,7 +250,7 @@ function SubmitExercise() {
                                                                 <Typography sx={{ fontSize: "15px", marginLeft: '2%' }}>{files.name}</Typography>
                                                             </Box>
                                                         ) : (
-                                                            
+
                                                             <Link href={`http://localhost:8081/edu/file/fileuser/${data.fileSubmid}/${userId}`} target="_blank" style={{ textDecoration: 'none', color: 'black' }}>
                                                                 <Typography sx={{ fontSize: '15px' }}>{data.fileSubmid}</Typography>
                                                             </Link>

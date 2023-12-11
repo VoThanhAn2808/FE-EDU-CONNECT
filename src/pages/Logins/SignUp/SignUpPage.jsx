@@ -142,6 +142,7 @@ function SignupPage() {
       }
       window.location.href = '/login';
     } catch (error) {
+      alert("Email đã tồn tại")
       console.error(error);
       console.log(error.response.data);
     }

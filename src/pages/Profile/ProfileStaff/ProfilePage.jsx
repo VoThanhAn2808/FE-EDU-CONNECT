@@ -148,7 +148,10 @@ function ProfileStaff() {
   };
 
   const handleFileChange = (selectedFile) => {
-    setUploadedFile(selectedFile);
+    setUserData({
+      ...userData,
+      avt: selectedFile,
+    });
   };
 
   return (

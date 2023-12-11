@@ -1,9 +1,10 @@
 import React, { useCallback, useEffect, useState }
     from "react";
-import { Box, Button, Modal, Pagination, Table, TableBody, TableCell, TableContainer, TableHead, TableRow, TextField, Typography } from "@mui/material";
+import { Box, Button, Menu, MenuItem, Modal, Pagination, Table, TableBody, TableCell, TableContainer, TableHead, TableRow, TextField, Typography } from "@mui/material";
 import axios from "axios";
-import RemoveRedEyeIcon from '@mui/icons-material/RemoveRedEye';
 import AddLinkIcon from '@mui/icons-material/AddLink';
+import MoreVertIcon from '@mui/icons-material/MoreVert';
+import { async } from "q";
 
 
 function CourseManagement() {
@@ -12,7 +13,24 @@ function CourseManagement() {
     const [page, setPage] = useState(1);
     const [pages, setPages] = useState('');
     const [detail, setDetail] = useState('');
+    const [status, setStatus] = useState('');
+    const [date, setDate] = useState('');
+    const [anchorEl, setAnchorEl] = useState(null);
     const [time, setTime] = useState([]);
+
+    const handleClicks = (event, tutorid, status, date, tutor, student) => {
+        setAnchorEl(event.currentTarget);
+        setBook(tutorid);
+        setStatus(status);
+        setDate(date);
+        setStudent(student);
+        setTutor(tutor);
+    };
+
+    const handleCloses = () => {
+        setAnchorEl(null);
+    };
+
     const handleSearch = (event) => {
         setSearchName(event.target.value);
     };
@@ -21,6 +39,7 @@ function CourseManagement() {
     };
 
     const [open, setOpen] = useState(false);
+    const [open1, setOpen1] = useState(false);
     const [tutor, setTutor] = useState('');
     const [student, setStudent] = useState('');
     const [book, setBook] = useState('');
@@ -28,17 +47,14 @@ function CourseManagement() {
     const [openUd, setOpenUd] = React.useState(false);
     const handleCloseUd = () => setOpenUd(false);
     const handleClose = () => setOpen(false);
-    const handleOpen = (tutor, student, bookid) => {
-        setStudent(student);
-        setTutor(tutor);
-        setBook(bookid);
+    const handleOpen = () => {
         setOpen(true);
     }
 
-    const handleOpenV = (bookid) => {
+    const handleOpenV = () => {
         try {
             axios
-                .get(`http://localhost:8081/staffsconnect/learntime?bookid=${bookid}`)
+                .get(`http://localhost:8081/staffsconnect/learntime?bookid=${book}`)
                 .then((response) => {
                     setTime(response.data);
                 })
@@ -46,7 +62,7 @@ function CourseManagement() {
                     console.error(error);
                 });
             axios
-                .get(`http://localhost:8081/staffsconnect/detailmanagestudent?bookid=${bookid}`)
+                .get(`http://localhost:8081/staffsconnect/detailmanagestudent?bookid=${book}`)
                 .then((response) => {
                     setDetail(response.data);
                 })
@@ -60,6 +76,31 @@ function CourseManagement() {
         setOpenUd(true);
     }
 
+    const handleAccept = async (event) => {
+        event.preventDefault();
+        event.stopPropagation();
+        try{
+            const response = await axios.get(`http://localhost:8081/book/acceptcardpay/${book}`)
+            alert(response.data)
+            window.location.reload();
+        }catch(error) {
+            console.error(error);
+        }
+        handleCloses();
+    }
+
+    const handleCancel = async (event) => {
+        event.preventDefault();
+        event.stopPropagation();
+        try{
+            const response = await axios.delete(`http://localhost:8081/book/cancelcardpay/${book}`)
+            alert(response.data)
+            window.location.reload();
+        }catch(error) {
+            console.error(error);
+        }
+        handleCloses();
+    }
 
     const fetchData = useCallback((pageNumber) => {
         axios
@@ -144,7 +185,7 @@ function CourseManagement() {
                     marginTop: '10px',
                 }}>
                     <TextField
-                    label="Tìm Kiếm"
+                        label="Tìm Kiếm"
                         sx={{
                             borderRadius: '11%',
                             width: '200px',
@@ -168,14 +209,15 @@ function CourseManagement() {
                         <Table>
                             <TableHead>
                                 <TableRow>
-                                    <TableCell sx={{ fontSize: "20px", fontFamily: "cursive", textAlign: "center" }}>STTĐK</TableCell>
-                                    <TableCell sx={{ fontSize: "20px", fontFamily: "cursive", textAlign: "center" }}>Tên học sinh</TableCell>
-                                    <TableCell sx={{ fontSize: "20px", fontFamily: "cursive", textAlign: "center" }}>Tên gia sư</TableCell>
-                                    <TableCell sx={{ fontSize: "20px", fontFamily: "cursive", textAlign: "center" }}>Môn học</TableCell>
-                                    <TableCell sx={{ fontSize: "20px", fontFamily: "cursive", textAlign: "center" }}>Ngày đăng ký</TableCell>
-                                    <TableCell sx={{ fontSize: "20px", fontFamily: "cursive", textAlign: "center" }}>Ngày kết thúc</TableCell>
-                                    <TableCell sx={{ fontSize: "20px", fontFamily: "cursive", textAlign: "center" }}>Trạng thái</TableCell>
-                                    <TableCell sx={{ fontSize: "20px", fontFamily: "cursive", textAlign: "center" }}></TableCell>
+                                    <TableCell sx={{ fontSize: "17px", fontFamily: "cursive", textAlign: "center" }}>STTĐK</TableCell>
+                                    <TableCell sx={{ fontSize: "17px", fontFamily: "cursive", textAlign: "center" }}>Tên học sinh</TableCell>
+                                    <TableCell sx={{ fontSize: "17px", fontFamily: "cursive", textAlign: "center" }}>Tên gia sư</TableCell>
+                                    <TableCell sx={{ fontSize: "17px", fontFamily: "cursive", textAlign: "center" }}>Môn học</TableCell>
+                                    <TableCell sx={{ fontSize: "17px", fontFamily: "cursive", textAlign: "center" }}>Ngày đăng ký</TableCell>
+                                    <TableCell sx={{ fontSize: "17px", fontFamily: "cursive", textAlign: "center" }}>Ngày kết thúc</TableCell>
+                                    <TableCell sx={{ fontSize: "17px", fontFamily: "cursive", textAlign: "center" }}>Loại thanh toán</TableCell>
+                                    <TableCell sx={{ fontSize: "17px", fontFamily: "cursive", textAlign: "center" }}>Trạng thái</TableCell>
+                                    <TableCell sx={{ fontSize: "17px", fontFamily: "cursive", textAlign: "center" }}></TableCell>
                                 </TableRow>
                             </TableHead>
                             <TableBody>
@@ -189,14 +231,18 @@ function CourseManagement() {
                                                 <TableCell sx={{ fontSize: "15px", fontFamily: "cursive", textAlign: "center" }}>{item.courseName}</TableCell>
                                                 <TableCell sx={{ fontSize: "15px", fontFamily: "cursive", textAlign: "center" }}>{item.dateregister}</TableCell>
                                                 <TableCell sx={{ fontSize: "15px", fontFamily: "cursive", textAlign: "center" }}>{item.endDate}</TableCell>
+                                                {item.status === '2' ? (
+                                                    <TableCell sx={{ fontSize: "15px", fontFamily: "cursive", textAlign: "center" }}>
+                                                        Chuyển khoản 
+                                                    </TableCell>
+                                                ) : (
+                                                    <TableCell sx={{ fontSize: "15px", fontFamily: "cursive", textAlign: "center" }}>
+                                                        VNPAY 
+                                                    </TableCell>
+                                                )}
                                                 <TableCell sx={{ fontSize: "15px", fontFamily: "cursive", textAlign: "center", color: item.trangThai === 'Đã hoàn thành' ? 'green' : 'red' }}>{item.trangThai}</TableCell>
                                                 <TableCell sx={{ fontSize: "15px", fontFamily: "cursive", textAlign: "center" }}>
-                                                    {item.linkmeet ? (
-                                                        null
-                                                    ) : (
-                                                        <AddLinkIcon sx={{ fontSize: "25px" }} onClick={() => handleOpen(item.tutorName, item.studentName, item.bookid)} />
-                                                    )}
-                                                    <RemoveRedEyeIcon sx={{ fontSize: "25px", marginLeft : '10px' }} onClick={() => handleOpenV(item.bookid)} />
+                                                    <MoreVertIcon sx={{ fontSize: "25px" }} onClick={(e) => handleClicks(e, item.bookid, item.status, item.datepay,item.tutorName, item.studentName)} />
                                                 </TableCell>
                                             </TableRow>
                                         );
@@ -205,6 +251,22 @@ function CourseManagement() {
                                 })}
                             </TableBody>
                         </Table>
+                        <Menu
+                            anchorEl={anchorEl}
+                            open={Boolean(anchorEl)}
+                            onClose={handleCloses}
+                        >
+                            <MenuItem onClick={handleOpenV}>Xem thông tin</MenuItem>
+                            <MenuItem onClick={handleOpen}>Cập nhật google meet</MenuItem>
+                            {status === '2' && date === null ? (
+                                <>
+                                    <MenuItem onClick={handleAccept}>Chấp nhận pay</MenuItem>
+                                    <MenuItem onClick={handleCancel}>Xóa</MenuItem>
+                                </>
+                            ) : (
+                                null
+                            )}
+                        </Menu>
                     </TableContainer>
                 </Box>
                 <Modal
@@ -218,14 +280,15 @@ function CourseManagement() {
                         justifyContent: 'center',
                     }}
                 >
-                    <Box sx={{ backgroundColor: "#D9D9D9", width: "300px", height: "260px", borderRadius: "10px", border: '2px solid #000000', p: 2, }}>
-                        <Typography sx={{ fontSize: "17px", marginTop: "10px" , textAlign : 'center'}}>Học sinh: {detail.studentName}</Typography>
-                        <Typography sx={{ fontSize: "17px", textAlign : 'center' }}>Gia sư: {detail.tutorName}</Typography>
-                        <Typography sx={{ fontSize: "17px", textAlign : 'center' }}>Ngày đăng ký: {detail.dateregister}</Typography>
-                        <Typography sx={{ fontSize: "17px", textAlign : 'center' }}>Ngày kết thúc: {detail.endDate}</Typography>
-                        <Typography sx={{ fontSize: "17px", textAlign : 'center' }}>Môn: {detail.courseName}</Typography>
-                        {time.map((item, index) =>(
-                            <Typography sx={{ fontSize: "17px", textAlign : 'center' }} key={index}>Giờ: {item.timeline} Buổi: {item.lesson}</Typography>
+                    <Box sx={{ backgroundColor: "#D9D9D9", width: "300px", height: "280px", borderRadius: "10px", border: '2px solid #000000', p: 2, }}>
+                        <Typography sx={{ fontSize: "17px", marginTop: "10px", textAlign: 'center' }}>Học sinh: {detail.studentName}</Typography>
+                        <Typography sx={{ fontSize: "17px", textAlign: 'center' }}>Gia sư: {detail.tutorName}</Typography>
+                        <Typography sx={{ fontSize: "17px", textAlign: 'center' }}>Gia sư: {detail.status === 1 ? "Chuyển khoản" : "VNPAY"}</Typography>
+                        <Typography sx={{ fontSize: "17px", textAlign: 'center' }}>Ngày đăng ký: {detail.dateregister}</Typography>
+                        <Typography sx={{ fontSize: "17px", textAlign: 'center' }}>Ngày kết thúc: {detail.endDate}</Typography>
+                        <Typography sx={{ fontSize: "17px", textAlign: 'center' }}>Môn: {detail.courseName}</Typography>
+                        {time.map((item, index) => (
+                            <Typography sx={{ fontSize: "17px", textAlign: 'center' }} key={index}>Giờ: {item.timeline} Buổi: {item.lesson}</Typography>
                         ))}
                     </Box>
                 </Modal>
