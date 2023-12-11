@@ -47,6 +47,7 @@ function ChangePassword() {
         newpass: newPass,
       });
       localStorage.removeItem('token');
+      alert("Thay đổi mật khẩu thành công")
       window.location.href = '/';
     } catch (error) {
       if (error.response.data === false) {
