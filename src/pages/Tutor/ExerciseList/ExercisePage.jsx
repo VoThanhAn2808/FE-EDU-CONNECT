@@ -29,7 +29,6 @@ function ExerciseListPage() {
         .then((response) => {
             if (response && response.data) {
                 setData(response.data);
-                console.log(response.data);
             }
         })
         .catch((error) => {
@@ -39,7 +38,7 @@ function ExerciseListPage() {
 
     useEffect(() => {
         fetchData()
-  }, []);
+  },);
 
 
   const style = {

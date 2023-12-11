@@ -128,11 +128,12 @@ function ChangePassword() {
               }}
             >
               <FormControl sx={{ mt: 1, width: '55ch', ml: -4 }} variant='outlined' size='large'>
-                <InputLabel htmlFor='password' style={{ fontSize: 18, marginLeft: '4%' }}>
+                <InputLabel htmlFor='password' style={{ fontSize: 18 }}>
                   Mật khẩu cũ
                 </InputLabel>
                 <OutlinedInput
                   id='password'
+                  label="Mật khẩu cũ"
                   type={showCurrentPassword ? 'text' : 'password'}
                   sx={{ fontSize: '18px' }}
                   onChange={handleOldPass}
@@ -156,11 +157,12 @@ function ChangePassword() {
               }}
             >
               <FormControl sx={{ mt: 1, width: '55ch', ml: -4 }} variant='outlined' size='large'>
-                <InputLabel htmlFor='password' style={{ fontSize: 18, marginLeft: '4%' }}>
+                <InputLabel htmlFor='password' style={{ fontSize: 18}}>
                   Mật khẩu mới
                 </InputLabel>
                 <OutlinedInput
                   id='password'
+                  label="Mật khẩu mới"
                   type={showNewPassword ? 'text' : 'password'}
                   sx={{ fontSize: '18px' }}
                   onChange={handleNewPass}
@@ -190,11 +192,13 @@ function ChangePassword() {
               }}
             >
               <FormControl sx={{ mt: 1, width: '55ch', ml: -4 }} variant='outlined' size='large'>
-                <InputLabel htmlFor='password' style={{ fontSize: 18, marginLeft: '4%' }}>
+                <InputLabel htmlFor='password' style={{ fontSize: 18}}>
                   Nhập lại mật khẩu
                 </InputLabel>
                 <OutlinedInput
                   id='password'
+                  label="Nhập lại mật khẩu
+                  "
                   type={showConfirmPassword ? 'text' : 'password'}
                   sx={{ fontSize: '18px' }}
                   onChange={handleConfirmPass}

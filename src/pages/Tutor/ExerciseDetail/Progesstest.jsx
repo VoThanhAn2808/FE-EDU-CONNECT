@@ -45,7 +45,6 @@ function ProgesstestTable(props) {
             window.location.reload();
         } catch (error) {
             console.error(error);
-            console.log(error.response.data);
         }
     };
     const handleSubmit = async (event) => {
@@ -72,7 +71,6 @@ function ProgesstestTable(props) {
             window.location.reload();
         } catch (error) {
             console.error(error);
-            console.log(error.response.data);
         }
     };
     const style = {

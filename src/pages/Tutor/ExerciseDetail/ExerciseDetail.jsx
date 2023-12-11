@@ -11,7 +11,6 @@ import VideoTable from './VideoTable';
 import CloudUploadIcon from '@mui/icons-material/CloudUpload';
 import styled from '@emotion/styled';
 import ProgesstestTable from './Progesstest';
-import none from './../../../assests/none.jpg';
 function ExerciseDetailPage() {
   const [open, setOpen] = useState(false);
   const [open1, setOpen1] = useState(false);
@@ -142,7 +141,7 @@ function ExerciseDetailPage() {
     fetchFile();
     fetchVideo();
     fetchProgess();
-  }, []);
+  },);
 
   const [formData, setFormData] = useState({
     title: '',
@@ -216,7 +215,6 @@ function ExerciseDetailPage() {
       alert(response.data.message)
       window.location.reload();
     } catch (error) {
-      console.log(error);
     }
     setOpen(false);
     fetchData();
@@ -242,7 +240,6 @@ function ExerciseDetailPage() {
       window.location.reload();
     } catch (error) {
       console.error(error);
-      console.log(error.response.data);
     }
   };
   const handleSubmitProgess = async (event) => {
@@ -266,7 +263,6 @@ function ExerciseDetailPage() {
       window.location.reload();
     } catch (error) {
       console.error(error);
-      console.log(error.response.data);
     }
   };
   const handleSubmitFile = async (event) => {
@@ -291,7 +287,6 @@ function ExerciseDetailPage() {
       window.location.reload();
     } catch (error) {
       console.error(error);
-      console.log(error.response.data);
     }
   };
   const style = {

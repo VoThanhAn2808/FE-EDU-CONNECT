@@ -61,7 +61,6 @@ function FeedbackTutor() {
                 });
         } catch (error) {
             console.error(error);
-            console.log(error.response.data);
         }
         setOpen(true);
     }

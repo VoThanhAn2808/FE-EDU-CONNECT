@@ -97,7 +97,6 @@ function StaffManagement() {
             setOpen(true)
         } catch (error) {
             console.error(error);
-            console.log(error.response.data);
         }
     };
     const handleOpen = async (event) => {
@@ -116,7 +115,6 @@ function StaffManagement() {
             setOpen1(true)
         } catch (error) {
             console.error(error);
-            console.log(error.response.data);
         }
     };
     const [data, setData] = useState([]);
@@ -190,7 +188,6 @@ function StaffManagement() {
             window.location.href = "/staffmanagement";
         } catch (error) {
             console.error(error);
-            console.log(error.response.data);
         }
     };
 
@@ -209,7 +206,6 @@ function StaffManagement() {
             window.location.href = "/staffmanagement";
         } catch (error) {
             console.error(error);
-            console.log(error.response.data);
         }
     };
 
@@ -260,7 +256,7 @@ function StaffManagement() {
             formData.append('salary', salary);
             formData.append('experience', experience);
 
-            const response = await axios.post(
+            await axios.post(
                 "http://localhost:8081/admin/addstaff",
                 formData,
                 {
@@ -271,10 +267,8 @@ function StaffManagement() {
             );
 
             window.location.href = "/staffmanagement";
-            console.log(response.data);
         } catch (error) {
             console.error(error);
-            console.log(error.response.data);
         }
     };
 

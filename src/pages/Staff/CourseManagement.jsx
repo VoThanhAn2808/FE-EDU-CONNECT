@@ -2,9 +2,7 @@ import React, { useCallback, useEffect, useState }
     from "react";
 import { Box, Button, Menu, MenuItem, Modal, Pagination, Table, TableBody, TableCell, TableContainer, TableHead, TableRow, TextField, Typography } from "@mui/material";
 import axios from "axios";
-import AddLinkIcon from '@mui/icons-material/AddLink';
 import MoreVertIcon from '@mui/icons-material/MoreVert';
-import { async } from "q";
 
 
 function CourseManagement() {
@@ -39,7 +37,6 @@ function CourseManagement() {
     };
 
     const [open, setOpen] = useState(false);
-    const [open1, setOpen1] = useState(false);
     const [tutor, setTutor] = useState('');
     const [student, setStudent] = useState('');
     const [book, setBook] = useState('');
@@ -71,7 +68,6 @@ function CourseManagement() {
                 });
         } catch (error) {
             console.error(error);
-            console.log(error.response.data);
         }
         setOpenUd(true);
     }
@@ -146,7 +142,6 @@ function CourseManagement() {
             window.location.reload();
         } catch (error) {
             console.error(error);
-            console.log(error.response.data);
         }
     };
 

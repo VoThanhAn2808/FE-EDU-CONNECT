@@ -33,13 +33,19 @@ function ProfileInfo({
   return (
     <>
       <TextField
-        label='Họ Và Tên'
+        label="Họ Và Tên"
         fullWidth
         value={userData.fullname}
         onChange={(e) => handleInputChange('fullname', e.target.value)}
         disabled={!isEditing}
         InputLabelProps={{
           shrink: userData.fullname ? true : undefined,
+        }}
+        onKeyPress={(e) => {
+          const charCode = e.which || e.keyCode;
+          if (charCode >= 48 && charCode <= 57) {
+            e.preventDefault();
+          }
         }}
       />
       <TextField
@@ -170,7 +176,7 @@ function ProfileInfo({
             )}
           />
         </LocalizationProvider>
-        
+
 
         <TextField
           label='Số Điện Thoại'

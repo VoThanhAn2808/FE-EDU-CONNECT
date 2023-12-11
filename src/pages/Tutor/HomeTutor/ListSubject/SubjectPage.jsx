@@ -17,7 +17,6 @@ function SubjectPage() {
             .get(`http://localhost:8081/educonnect/tutor/course?tutorid=${userId}`)
             .then((response) => {
                 setData(response.data);
-                console.log(response.data);
             })
             .catch((error) => {
                 console.error(error);

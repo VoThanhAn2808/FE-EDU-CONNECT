@@ -1,4 +1,4 @@
-import { Box, Button, Checkbox, Pagination, Table, TableBody, TableCell, TableContainer, TableHead, TableRow, TextField, Typography } from "@mui/material";
+import { Box, Button, Pagination, Table, TableBody, TableCell, TableContainer, TableHead, TableRow, TextField, Typography } from "@mui/material";
 import { makeStyles } from '@mui/styles';
 import axios from "axios";
 // import { jwtDecode } from "jwt-decode";
@@ -24,8 +24,6 @@ function DiscountManagement() {
     const [dataDicount, setDicount] = useState([]);
     // const [selectAll, setSelectAll] = useState(true);
     const [selectDiscountId, setSelectDiscoutId] = useState('');
-    const [listDelete, setListDelete] = useState([]);
-    const [selectedItems, setSelectedItems] = useState([]);
     const classes = useStyles();
     const [open, setOpen] = useState(false);
     const [openDiscount, setOpenDiscount] = useState(false);
@@ -50,33 +48,6 @@ function DiscountManagement() {
             });
     }, [dataToSend]); //Thêm dependencies trống để chỉ gọi useEffect một lần sau componentDidMount
 
-
-    const handleItemCheckboxChange = (event, itemId) => {
-        const checked = event.target.checked;
-        if (checked) {
-            // If checked, add itemId to selectedItems and update listDelete
-            setSelectedItems((prevSelectedItems) => {
-                const updatedSelectedItems = [...prevSelectedItems, itemId];
-                setListDelete(updatedSelectedItems);
-                return updatedSelectedItems;
-            });
-        } else {
-            // If unchecked, remove itemId from selectedItems and update listDelete
-            setSelectedItems((prevSelectedItems) => {
-                const updatedSelectedItems = prevSelectedItems.filter((id) => id !== itemId);
-                setListDelete(updatedSelectedItems);
-                return updatedSelectedItems;
-            });
-        }
-        console.log(selectedItems);
-    };
-    const onSelectAllClick = (event) => {
-        // setSelectAll(event.target.checked);
-        const selected = event.target.checked ? (Array.isArray(dataDicount.listDiscount) ? (dataDicount.listDiscount).map((item) => item.discountid) : []) : [];
-        setSelectedItems(selected);
-        setListDelete(selected);
-
-    };
     const handleKeyPress = (event) => {
         if (event.key === 'Enter') {
             // Handle Enter key press event
@@ -115,15 +86,23 @@ function DiscountManagement() {
 
     const onDeleteRow = async (id) => {
         try {
+            const listDelete = [id];
             const response = await axios.post('http://localhost:8081/discount/deleteDiscount', listDelete);
+            if (response.data.message === 'Success') {
+                alert("Xóa thành công");
+                axios.post('http://localhost:8081/discount/listdiscount', dataToSend)
+                    .then((response) => {
+                        setDicount(response.data);
+                    })
+                    .catch((error) => {
+                        console.error(error);
+                    });
+            }
 
-            alert(response.data.message);
-            setDicount((prevDataList) => prevDataList.filter((item) => item.discountid !== id));
         } catch (error) {
+            alert("Hệ thống xảy ra lỗi. Vui lòng liên hệ quản lý!");
             console.error('Error deleting row:', error);
         }
-
-
     };
     const handleChangePage = (e, newPage) => {
         setCurrentPage(newPage);
@@ -133,6 +112,7 @@ function DiscountManagement() {
 
         });
     }
+
 
     return (
         <Box style={{ width: '100%', padding: '20px' }}>
@@ -166,9 +146,6 @@ function DiscountManagement() {
                             <Button variant="contained" style={{ marginRight: '10px', fontSize: "10px", fontFamily: "cursive", }} onClick={setOpen}>
                                 Thêm
                             </Button>
-                            <Button variant="contained" style={{ marginRight: '10px', fontSize: "10px", fontFamily: "cursive", }} onClick={() => onDeleteRow()} >
-                                Xóa
-                            </Button>
                         </Box>
 
 
@@ -179,13 +156,7 @@ function DiscountManagement() {
                         <Table>
                             <TableHead>
                                 <TableRow>
-                                    <TableCell>
-                                        <Checkbox
-                                            // checked={selectAll}
-                                            onChange={onSelectAllClick}
-                                            color="primary"
-                                        />
-                                    </TableCell>
+
                                     <TableCell style={{ fontSize: "15px", fontFamily: "cursive", textAlign: "center" }}>Giảm Giá</TableCell>
                                     <TableCell style={{ fontSize: "15px", fontFamily: "cursive", textAlign: "center" }}>Mô Tả</TableCell>
                                     <TableCell style={{ fontSize: "15px", fontFamily: "cursive", textAlign: "center" }}>Hình Ảnh</TableCell>
@@ -199,25 +170,18 @@ function DiscountManagement() {
                                 {Array.isArray(dataDicount.listDiscount) ? (
                                     (dataDicount.listDiscount).map((item, index) => (
                                         <TableRow key={item.discountid}>
-                                            <TableCell>
-                                                <Checkbox
-                                                    checked={selectedItems.includes(item.discountid)}
-                                                    onChange={(event) => handleItemCheckboxChange(event, item.discountid)}
-                                                    color="primary"
-                                                />
-                                            </TableCell>
                                             <TableCell onClick={() => handleCellClick(item.discountid)} style={{ fontSize: "10px", fontFamily: "cursive", textAlign: "center" }}>{item.discount}</TableCell>
                                             <TableCell onClick={() => handleCellClick(item.discountid)} style={{ fontSize: "10px", fontFamily: "cursive", textAlign: "center" }}>{item.desciption}</TableCell>
-                                            <TableCell onClick={() => handleCellClick(item.discountid)} style={{ fontSize: "10px", fontFamily: "cursive", textAlign: "center", width: '18px' }}><img src={'http://localhost:8081/edu/file/fileImg/' + item.img} alt={`Discount Image for ${item.title}`} style={{ maxWidth: '100%', maxHeight: '100%', }} /></TableCell>
+                                            <TableCell onClick={() => handleCellClick(item.discountid)} style={{ fontSize: "10px", fontFamily: "cursive", textAlign: "center", width: '18px' }}><img src={'http://localhost:8081/edu/file/files/' + item.img} alt={`Discount Image for ${item.title}`} style={{ maxWidth: '100%', maxHeight: '100%', }} /></TableCell>
 
                                             <TableCell onClick={() => handleCellClick(item.discountid)} style={{ fontSize: "10px", fontFamily: "cursive", textAlign: "center" }}>{item.startDate}</TableCell>
                                             <TableCell onClick={() => handleCellClick(item.discountid)} style={{ fontSize: "10px", fontFamily: "cursive", textAlign: "center" }}>{item.endDate}</TableCell>
                                             <TableCell onClick={() => handleCellClick(item.discountid)} style={{ fontSize: "10px", fontFamily: "cursive", textAlign: "center" }}>{item.title}</TableCell>
-                                            <TableCell style={{ fontSize: "10px", fontFamily: "cursive"}}>
-                                                <Button variant="contained" type="danger" style={{ marginRight: '10px', fontSize: "10px", fontFamily: "cursive", marginBottom : '10px'}} onClick={() => onDeleteRow(item.discountid)}>
+                                            <TableCell style={{ fontSize: "10px", fontFamily: "cursive" }}>
+                                                <Button variant="contained" type="danger" style={{ marginRight: '10px', fontSize: "10px", fontFamily: "cursive", marginBottom: '10px' }} onClick={() => onDeleteRow(item.discountid)}>
                                                     Xoá
                                                 </Button>
-                                                <RemoveRedEyeIcon sx={{fontSize : '22px', marginLeft : '10px'}} onClick={() => handleCoursellClick(item.discountid, item.title)}/>
+                                                <RemoveRedEyeIcon sx={{ fontSize: '22px', marginLeft: '10px' }} onClick={() => handleCoursellClick(item.discountid, item.title)} />
                                             </TableCell>
                                         </TableRow>
                                     ))
@@ -234,8 +198,8 @@ function DiscountManagement() {
                     <Pagination count={dataDicount.pageCount} sx={{ '& .MuiPaginationItem-root': { fontSize: '15px', minWidth: '50px' } }} onChange={handleChangePage} page={currentPage} />
                 </Box>
             </Box>
-        </Box>
+        </Box >
     );
 }
 
-export default DiscountManagement;
+export default DiscountManagement; 

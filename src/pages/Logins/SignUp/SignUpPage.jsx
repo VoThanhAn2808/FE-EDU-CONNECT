@@ -3,7 +3,7 @@ import React, { useEffect, useState } from 'react';
 import LOGIN from '../../../assests/login.png';
 import LOGO from '../../../assests/lglogin.jpg';
 import Button from '@mui/joy/Button';
-import { Input, Visibility, VisibilityOff } from '@mui/icons-material';
+import { Visibility, VisibilityOff } from '@mui/icons-material';
 import { styled } from '@mui/material/styles';
 import { Link } from 'react-router-dom';
 import axios from 'axios';
@@ -25,7 +25,7 @@ function SignupPage() {
   const [nameError, setNameError] = useState('');
   const [phoneError, setPhoneError] = useState('');
   const [emailError, setEmailError] = useState('');
-  const [classError, setClassError] = useState('');
+  const [ClassError, setClassError] = useState('');
   const [passwordError, setPasswordError] = useState('');
   const [confirmPassword, setConfirmPassword] = useState('');
   const [snackbarOpen, setSnackbarOpen] = useState(false);
@@ -35,7 +35,6 @@ function SignupPage() {
       .get(`http://localhost:8081/student/class`)
       .then((response) => {
         setData(response.data);
-        console.log(response.data);
       })
       .catch((error) => {
         console.error(error);
@@ -144,7 +143,6 @@ function SignupPage() {
     } catch (error) {
       alert("Email đã tồn tại")
       console.error(error);
-      console.log(error.response.data);
     }
   };
 

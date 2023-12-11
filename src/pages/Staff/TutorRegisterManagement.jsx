@@ -62,7 +62,6 @@ function TutorRegisterManagement() {
             window.location.reload();
         } catch (error) {
             console.error(error);
-            console.log(error.response.data);
         }
         handleCloses();
     };
@@ -90,7 +89,6 @@ function TutorRegisterManagement() {
             window.location.reload();
         } catch (error) {
             console.error(error);
-            console.log(error.response.data);
         }
         handleCloses();
     };
@@ -105,7 +103,6 @@ function TutorRegisterManagement() {
             window.location.reload();
         } catch (error) {
             console.error(error);
-            console.log(error.response.data);
         }
         handleCloses();
     };

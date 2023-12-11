@@ -99,7 +99,6 @@ function TeacherProgramList() {
             window.open(file, '_blank');
         } catch (error) {
             console.error(error);
-            console.log(error.response.data);
         }
     };
     const handleVideoClick = async (fileid, event, file) => {
@@ -119,7 +118,6 @@ function TeacherProgramList() {
             window.open(file, '_blank');
         } catch (error) {
             console.error(error);
-            console.log(error.response.data);
         }
     };
 
