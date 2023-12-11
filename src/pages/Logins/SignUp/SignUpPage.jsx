@@ -134,6 +134,11 @@ function SignupPage() {
           'Content-Type': 'multipart/form-data',
         },
       });
+      if(age === 1){
+        alert("Chúc mừng bạn đã là một thành viên của EDU-CONNECT")
+      }else{
+        alert("Chúc mừng bạn đã đăng ký thành công vui lòng bạn đợi Email phản hồi từ chúng tôi")
+      }
       window.location.href = '/login';
     } catch (error) {
       console.error(error);

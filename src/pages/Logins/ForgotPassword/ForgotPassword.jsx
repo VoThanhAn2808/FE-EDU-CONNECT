@@ -32,8 +32,10 @@ const ForgotPassword = () => {
         await axios.post("http://localhost:8081/edu/forgotpassword", {
           email: email,
         }, configs);
+        alert("Vui lòng bạn kiểm tra email")
         window.location.href = "/login"
-      } else if (response.data === true) {
+      } else if (response.data !== true) {
+        alert("Email không chính xác")
         window.location.href = "/forgotpass"
       }
     } catch (error) {

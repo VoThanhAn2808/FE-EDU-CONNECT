@@ -116,7 +116,7 @@ function Admin() {
             <Box sx={{ marginTop: '20px', backgroundColor: 'gold', marginLeft: '10px', height: '80px', width: '300px', borderRadius: '5px' }}>
             <Typography variant="h5" sx={{ textAlign: 'center', paddingTop: '10px', fontFamily: 'cursive' }}>Lượng tiền </Typography>
               <Box sx={{ display: 'flex', paddingTop: '10px', justifyContent: 'center' }}>
-                <Typography variant="h4">
+              <Typography variant="h4">
                   {new Intl.NumberFormat('vi-VN', { style: 'currency', currency: 'VND' }).format(month.TotalRevenue)}
                 </Typography>
                 <Box

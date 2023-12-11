@@ -2,43 +2,26 @@ import { Button, Typography } from "@mui/material";
 import { Box } from "@mui/system";
 import React, { useEffect, useState } from "react";
 import thank from "../../../assests/Thankyou.jpg";
-import { jwtDecode } from "jwt-decode";
+import sad from "../../../assests/awm1610688013.jpg"
 import axios from "axios";
 
 function ThankYou() {
 
-    const decodedToken = jwtDecode(localStorage.getItem('token'));
-
-    const [student, setStudent] = useState([]);
+    const [pay, setPay] = useState('');
 
     useEffect(() => {
-        axios.get("http://localhost:8081/student/viewstudent?email=" + decodedToken.id)
-            .then((response) => {
-                setStudent(response.data);
-            })
-            .catch((error) => {
-                console.error(error);
-            });
-    }, [decodedToken.id]);
+        handlepayment();
+    }, [])
+
+    const handlepayment = async () => {
+        const url = window.location.search;
+        const response = await axios.get(`http://localhost:8081/book/vnpay-return${url}`)
+        setPay(response.data);
+    }
 
     const handleSubmit = async (event) => {
         event.preventDefault();
-
-        const config = {
-            headers: {
-                'Content-Type': 'application/json',
-            },
-        };
-
-        try {
-            await axios.get(
-                `http://localhost:8081/book/paydone?studentid=${student.studentid}`,
-                config
-            );
-            window.location.href = '/homestudent';
-        } catch (error) {
-            console.error(error);
-        }
+        window.location.href = '/homestudent';
     };
 
     return (
@@ -92,11 +75,23 @@ function ThankYou() {
                 width: '100%'
             }}>
                 <Box sx={{ marginLeft: '30%', paddingTop: '20px' }}>
-                    <img src={thank} alt="thank" style={{ width: '65%' }} />
-                    <Typography sx={{ fontSize: '20px', fontFamily: 'cursive', marginLeft: '10%' }}>Cảm ơn bạn đã tin cậy sử dụng dịch vụ của chúng tôi</Typography>
-                    <Typography sx={{ fontSize: '20px', fontFamily: 'cursive', marginLeft: '20%' }}>Chúc bạn một ngày tốt lành</Typography>
-                    
-                    <Button onClick={handleSubmit} sx={{ marginLeft: '22%', fontSize: '15px', fontFamily: 'cursive' }}>Quay về trang home</Button>
+                    {pay === 'OK' ? (
+                        <>
+                            <img src={thank} alt="thank" style={{ width: '65%' }} />
+                            <Typography sx={{ fontSize: '20px', fontFamily: 'cursive', marginLeft: '10%' }}>Cảm ơn bạn đã tin cậy sử dụng dịch vụ của chúng tôi</Typography>
+                            <Typography sx={{ fontSize: '20px', fontFamily: 'cursive', marginLeft: '20%' }}>Chúc bạn một ngày tốt lành</Typography>
+
+                            <Button onClick={handleSubmit} sx={{ marginLeft: '22%', fontSize: '15px', fontFamily: 'cursive' }}>Quay về trang home</Button>
+                        </>
+                    ) : (
+                        <>
+                            <img src={sad} alt="thank" style={{ width: '700px' }} />
+                            <Typography sx={{ fontSize: '20px', fontFamily: 'cursive', marginLeft: '10%' }}></Typography>
+                            <Typography sx={{ fontSize: '20px', fontFamily: 'cursive', marginLeft: '100px' }}>Giao dịch của bạn đã bị hủy xin vui lòng kiểm tra lại</Typography>
+
+                            <Button onClick={handleSubmit} sx={{ marginLeft: '22%', fontSize: '15px', fontFamily: 'cursive' }}>Quay về trang home</Button>
+                        </>
+                    )}
 
                 </Box>
             </Box>
