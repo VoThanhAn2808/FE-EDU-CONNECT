@@ -26,7 +26,6 @@ const Sidebar = () => {
             .get("http://localhost:8081/student/class")
             .then((response) => {
                 setData(response.data);
-                console.log(response.data);
             })
             .catch((error) => {
                 console.error(error);

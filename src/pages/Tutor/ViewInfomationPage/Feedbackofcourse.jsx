@@ -20,7 +20,6 @@ function Feedbackofcourse() {
       .get(`http://localhost:8081/educonnect/studentviewdetailtutor?tutorid=${decodedToken.id}`)
       .then((response) => {
         setTutor(response.data);
-        console.log(response.data);
       })
       .catch((error) => {
         console.error(error);
@@ -29,7 +28,6 @@ function Feedbackofcourse() {
       .get(`http://localhost:8081/educonnect/tutor/listcourse?tutorid=${decodedToken.id}`)
       .then((response) => {
         setCourse(response.data);
-        console.log(response.data);
       })
       .catch((error) => {
         console.error(error);
@@ -38,7 +36,6 @@ function Feedbackofcourse() {
       .get(`http://localhost:8081/educonnect/feedbackofcourse/${decodedToken.id}/${classcourseid}`)
       .then((response) => {
         setData(response.data);
-        console.log(response.data);
       })
       .catch((error) => {
         console.error(error);

@@ -63,7 +63,6 @@ function DocumentManagement() {
             window.location.reload();
         } catch (error) {
             console.error(error);
-            console.log(error.response.data);
         }
     };
     return (

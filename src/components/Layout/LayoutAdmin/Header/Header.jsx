@@ -13,7 +13,6 @@ import { useNavigate } from 'react-router-dom';
 import { useState } from 'react';
 import { useEffect } from 'react';
 import { jwtDecode } from 'jwt-decode';
-// import axios from 'axios';
 import { useRef } from 'react';
 import LOGO from "../../../../assests/logo.png";
 
@@ -94,7 +93,7 @@ function Header() {
                                 <IconButton>
                                     <Avatar
                                         alt={data.fullname}
-                                        src={data.img} // m set cứng cái ảnh đây luôn
+                                        src={data.img}
                                         sx={{
                                             height: "55px",
                                             width: "55px",
@@ -118,7 +117,6 @@ function Header() {
                                 vertical: 'bottom',
                                 horizontal: 'center',
                             }}
-                            // keepMounted
                             transformOrigin={{
                                 vertical: 'top',
                                 horizontal: 'center',

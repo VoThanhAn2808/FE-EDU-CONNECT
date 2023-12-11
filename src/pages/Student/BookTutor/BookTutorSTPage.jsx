@@ -92,7 +92,6 @@ function BookTutorSTPage() {
             window.location.href = '/booktime/' + tutorid;
         } catch (error) {
             console.error(error);
-            console.log(error.response.data);
         }
     };
     const handleSubmitTry = async (event) => {
@@ -117,7 +116,6 @@ function BookTutorSTPage() {
             window.location.href = '/homestudent';
         } catch (error) {
             console.error(error);
-            console.log(error.response.data);
         }
     };
     return (

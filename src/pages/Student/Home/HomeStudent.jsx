@@ -249,7 +249,10 @@ function Home() {
                             <Typography sx={{ marginBottom: 1, fontSize: "15px", marginLeft: "4%" }}>
                                 Số lượng học sinh trong <br /> năm 2023 tăng hơn ...
                             </Typography>
-                            <Button variant="contained" color="success" sx={{ fontSize: "10px", height: "20px", width: "90px", margin: "0 auto", borderRadius: "15px" }}>
+                            <Button variant="contained" color="success" sx={{ fontSize: "10px", height: "20px", width: "90px", margin: "0 auto", borderRadius: "15px" }}
+                            component="a"
+                            href="https://dnuni.fpt.edu.vn/tin-tuc/"
+                            target="_blank">
                                 Xem thêm
                             </Button>
                         </Box>
@@ -277,7 +280,10 @@ function Home() {
                             <Typography sx={{ marginBottom: 1, fontSize: "15px", marginLeft: "4%" }}>
                                 Số lượng học sinh trong <br /> năm 2023 tăng hơn ...
                             </Typography>
-                            <Button variant="contained" color="success" sx={{ fontSize: "10px", height: "20px", width: "90px", margin: "0 auto", borderRadius: "15px" }}>
+                            <Button variant="contained" color="success" sx={{ fontSize: "10px", height: "20px", width: "90px", margin: "0 auto", borderRadius: "15px" }}
+                            component="a"
+                            href="https://dnuni.fpt.edu.vn/tin-tuc/"
+                            target="_blank">
                                 Xem thêm
                             </Button>
                         </Box>
@@ -305,7 +311,10 @@ function Home() {
                             <Typography sx={{ marginBottom: 1, fontSize: "15px", marginLeft: "4%" }}>
                                 Số lượng học sinh trong <br /> năm 2023 tăng hơn ...
                             </Typography>
-                            <Button variant="contained" color="success" sx={{ fontSize: "10px", height: "20px", width: "90px", margin: "0 auto", borderRadius: "15px" }}>
+                            <Button variant="contained" color="success" sx={{ fontSize: "10px", height: "20px", width: "90px", margin: "0 auto", borderRadius: "15px" }}
+                            component="a"
+                            href="https://dnuni.fpt.edu.vn/tin-tuc/"
+                            target="_blank">
                                 Xem thêm
                             </Button>
                         </Box>

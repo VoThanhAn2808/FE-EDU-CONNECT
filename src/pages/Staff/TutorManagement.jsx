@@ -114,7 +114,6 @@ function TutorManagement() {
             window.location.reload();
         } catch (error) {
             console.error(error);
-            console.log(error.response.data);
         }
     };
 
@@ -142,7 +141,6 @@ function TutorManagement() {
             window.location.reload();
         } catch (error) {
             console.error(error);
-            console.log(error.response.data);
         }
     };
 
@@ -159,7 +157,6 @@ function TutorManagement() {
             }
         } catch (error) {
             console.error(error);
-            console.log(error.response.data);
         }
     };
 

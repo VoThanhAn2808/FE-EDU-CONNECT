@@ -50,7 +50,6 @@ function ManagerPayment() {
             window.location.href = "/managerpayment";
         } catch (error) {
             console.error(error);
-            console.log(error.response.data);
         }
     };
 

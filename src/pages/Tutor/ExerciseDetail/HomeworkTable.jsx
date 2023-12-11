@@ -52,7 +52,6 @@ function HomeworkTable(props, exercise) {
       window.location.reload();
     } catch (error) {
       console.error(error);
-      console.log(error.response.data);
     }
   };
 
@@ -62,7 +61,6 @@ function HomeworkTable(props, exercise) {
       axios.get("http://localhost:8081/exersice/homework/detailhomework?homeworkid=" + demo)
         .then((response) => {
           setFormData(response.data);
-          console.log(response.data);
         })
         .catch((error) => {
           console.error(error);
@@ -73,7 +71,6 @@ function HomeworkTable(props, exercise) {
       .then((response) => {
         if (response && response.data) {
           setDemo1(response.data);
-          console.log(response.data);
         }
       })
       .catch((error) => {

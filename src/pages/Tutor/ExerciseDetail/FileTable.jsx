@@ -50,7 +50,6 @@ function FileTable(props) {
             window.location.reload();
         } catch (error) {
             console.error(error);
-            console.log(error.response.data);
         }
     };
     const handleSubmitFile = async (event) => {
@@ -75,7 +74,6 @@ function FileTable(props) {
             window.location.reload();
         } catch (error) {
             console.error(error);
-            console.log(error.response.data);
         }
     };
 

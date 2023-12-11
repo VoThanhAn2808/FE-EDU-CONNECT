@@ -16,7 +16,6 @@ function Slide() {
         .get(`http://localhost:8081/discount/listdiscounts`)
         .then((response) => {
             setData(response.data);
-            console.log(response.data);
         })
         .catch((error) => {
             console.error(error);

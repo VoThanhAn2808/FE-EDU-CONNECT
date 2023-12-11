@@ -84,7 +84,6 @@ function ResetPassword() {
             window.location.href = '/login';
         } catch (error) {
             console.error(error);
-            console.log(error.response.data);
         }
     };
 
