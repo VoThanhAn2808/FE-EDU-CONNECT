@@ -110,6 +110,7 @@ const ProfileStudent = () => {
           },
         }
       );
+      alert("Cập nhật thành công")
       window.location.reload();
     } catch (error) {
       console.error(error);

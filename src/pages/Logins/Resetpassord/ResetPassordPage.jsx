@@ -80,6 +80,7 @@ function ResetPassword() {
                 },
                 config
             );
+            alert("Thay đổi mật khẩu thành công")
             window.location.href = '/login';
         } catch (error) {
             console.error(error);
