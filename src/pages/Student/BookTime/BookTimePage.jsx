@@ -1,4 +1,4 @@
-import { Button, Paper, Table, TableBody, TableCell, TableContainer, TableHead, TableRow, Typography } from "@mui/material";
+import { Button, Modal, Paper, Table, TableBody, TableCell, TableContainer, TableHead, TableRow, Typography } from "@mui/material";
 import { Snackbar, Alert } from '@mui/material';
 import { Box } from "@mui/system";
 import React, { useEffect, useRef, useState } from "react";
@@ -6,10 +6,56 @@ import { Checkbox } from '@mui/material';
 import axios from "axios";
 import { useParams } from "react-router-dom";
 import { jwtDecode } from "jwt-decode";
+import VNPAY from "../../../assests/vnpay.png"
+import BANK from "../../../assests/bank.png"
+import QR from "../../../assests/QR.jpg"
+import Uploadimage from "./UploadImage";
+
 
 function BookTime() {
     const [data, setData] = useState([]);
     const { tutorId } = useParams();
+    const [open, setOpen] = useState(false);
+    const handleOpen = () => {
+        if (selectedCheckboxes.length !== 3) {
+            setShowAlert(true);
+            return;
+        }
+        setOpen(true);
+    }
+    const handleClose = () => setOpen(false);
+    const [open1, setOpen1] = useState(false);
+    const handleOpen1 = () => setOpen1(true);
+    const handleClose1 = () => setOpen1(false);
+
+    const style = {
+        position: 'absolute',
+        top: '50%',
+        left: '50%',
+        transform: 'translate(-50%, -50%)',
+        width: 400,
+        height: 400,
+        bgcolor: 'background.paper',
+        border: '2px solid #000',
+        boxShadow: 'rgba(0, 0, 0, 0.24) 0px 3px 8px',
+        paddingTop: '20px',
+        borderRadius: '10px',
+        backgroundColor: "white"
+    };
+    const styles = {
+        position: 'absolute',
+        top: '50%',
+        left: '50%',
+        transform: 'translate(-50%, -50%)',
+        width: 400,
+        height: 630,
+        bgcolor: 'background.paper',
+        border: '2px solid #000',
+        boxShadow: 'rgba(0, 0, 0, 0.24) 0px 3px 8px',
+        paddingTop: '20px',
+        borderRadius: '10px',
+        backgroundColor: "white"
+    };
 
     useEffect(() => {
         axios
@@ -139,6 +185,8 @@ function BookTime() {
 
     const [selectedCheckboxes, setSelectedCheckboxes] = useState([]);
 
+    console.log("ds", selectedCheckboxes);
+
     const handleCheckboxChange = (item) => {
         if (selectedCheckboxes.includes(item)) {
             setSelectedCheckboxes(selectedCheckboxes.filter((checkbox) => checkbox !== item));
@@ -149,29 +197,34 @@ function BookTime() {
 
     return (
         <Box>
-            <Box sx={{ marginTop: '30px', marginLeft: '5%' }}>
-                <Typography variant="h2"
-                    noWrap
-                    component="a"
-                    sx={{
-                        fontWeight: 800,
-                        color: '#F9C01F',
-                        textDecoration: 'none',
-                        fontSize: '45px'
-                    }}>EDU-CONNECT
-                </Typography>
-            </Box>
-            <Box sx={{ display: 'flex', marginLeft: '480px', marginTop: '-40px' }}>
-                <Box sx={{ backgroundColor: '#AFB5AF', width: '30px', textAlign: 'center', borderRadius: '50%' }}>
-                    <Typography sx={{ fontSize: '20px', color: 'white', fontFamily: 'fantasy' }}>1</Typography>
+            <Box sx={{
+                display: 'flex',
+                alignItems: 'center',
+            }}>
+                <Box sx={{ marginTop: '30px', marginLeft: '5%' }}>
+                    <Typography variant="h2"
+                        noWrap
+                        component="a"
+                        sx={{
+                            fontWeight: 800,
+                            color: '#F9C01F',
+                            textDecoration: 'none',
+                            fontSize: '45px'
+                        }}>EDU-CONNECT
+                    </Typography>
                 </Box>
-                <span style={{ borderBottom: '5px solid #AFB5AF', width: '395px', display: 'inline-block', marginBottom: '13px' }} />
-                <Box sx={{ backgroundColor: '#388532', width: '30px', textAlign: 'center', borderRadius: '50%' }}>
-                    <Typography sx={{ fontSize: '20px', color: 'white', fontFamily: 'fantasy' }}>2</Typography>
-                </Box>
-                <span style={{ borderBottom: '5px solid #AFB5AF', width: '395px', display: 'inline-block', marginBottom: '13px' }} />
-                <Box sx={{ backgroundColor: '#AFB5AF', width: '30px', textAlign: 'center', borderRadius: '50%' }}>
-                    <Typography sx={{ fontSize: '20px', color: 'white', fontFamily: 'fantasy' }}>3</Typography>
+                <Box sx={{ display: 'flex', marginLeft: '40px' }}>
+                    <Box sx={{ backgroundColor: '#AFB5AF', width: '30px', textAlign: 'center', borderRadius: '50%' }}>
+                        <Typography sx={{ fontSize: '20px', color: 'white', fontFamily: 'fantasy' }}>1</Typography>
+                    </Box>
+                    <span style={{ borderBottom: '5px solid #AFB5AF', width: '395px', display: 'inline-block', marginBottom: '13px' }} />
+                    <Box sx={{ backgroundColor: '#388532', width: '30px', textAlign: 'center', borderRadius: '50%' }}>
+                        <Typography sx={{ fontSize: '20px', color: 'white', fontFamily: 'fantasy' }}>2</Typography>
+                    </Box>
+                    <span style={{ borderBottom: '5px solid #AFB5AF', width: '395px', display: 'inline-block', marginBottom: '13px' }} />
+                    <Box sx={{ backgroundColor: '#AFB5AF', width: '30px', textAlign: 'center', borderRadius: '50%' }}>
+                        <Typography sx={{ fontSize: '20px', color: 'white', fontFamily: 'fantasy' }}>3</Typography>
+                    </Box>
                 </Box>
             </Box>
             <Box sx={{ display: 'flex', marginLeft: '480px', left: 'auto', marginTop: '10px' }}>
@@ -192,7 +245,6 @@ function BookTime() {
                 backgroundColor: '#D9D9D9',
                 marginLeft: 'auto',
                 marginRight: 'auto',
-                marginBottom: '40px',
                 marginTop: '20px',
                 justifyContent: 'center'
             }}>
@@ -245,22 +297,77 @@ function BookTime() {
                         <Typography sx={{ fontSize: '20px', marginLeft: "7px", color: "#5E5D5D" }}> Lịch học này sẽ đi theo bạn đến hết kỳ học của bạn(1 tuần 3 ngày mỗi 1 slot). </Typography>
                     </Box>
                     <Box sx={{ marginLeft: 'auto', marginRight: '20%' }}>
-                        <Button onClick={handlePaymentAndBooktime} variant="contained" sx={{ height: '30px', backgroundColor: 'green', fontSize: '12px', marginRight: '20px' }}>
+                        <Button onClick={handleOpen} variant="contained" sx={{ height: '30px', backgroundColor: 'green', fontSize: '12px', marginRight: '20px' }}>
                             Thanh toán
                         </Button>
                         <Snackbar open={showAlert} autoHideDuration={3000} onClose={handleAlertClose}>
-                            <Alert onClose={handleAlertClose} autoHideDuration={1000} severity="warning" sx={{ backgroundColor: '#ffee58', fontSize:"15px" }}>
+                            <Alert onClose={handleAlertClose} autoHideDuration={1000} severity="warning" sx={{ backgroundColor: '#ffee58', fontSize: "15px" }}>
                                 Vui lòng chọn đủ 3 lịch học để tiến hành thanh toán.
                             </Alert>
                         </Snackbar>
                         <Button onClick={handleSubmit} variant="contained" sx={{ height: '30px', backgroundColor: 'red', fontSize: '12px' }}>
-                            Cancel
+                            Huỷ
                         </Button>
                     </Box>
                 </Box>
 
             </Box>
-
+            <Modal
+                open={open}
+                aria-labelledby="modal-modal-title"
+                aria-describedby="modal-modal-description"
+            >
+                <Box sx={style}>
+                    <Box sx={{ display: "flex", flexDirection: "column", alignItems: "center", justifyContent: "center" }}>
+                        <Typography sx={{ fontSize: "25px", fontWeight: "700" }}>Thông tin bạn đăng ký lịch học</Typography>
+                        <Typography sx={{ fontSize: "15px" }}>Thời gian khoá học kéo dài trong vòng 3 tháng</Typography>
+                        {selectedCheckboxes.map((item, index) => (
+                            <Box key={index} sx={{ display: "flex", marginTop: "10px" }}>
+                                <Typography sx={{ fontSize: "15px" }}>{item.lessonline}: </Typography>
+                                <Typography sx={{ fontSize: "15px", marginLeft: "5px" }}>{item.timeline} (1h45p)</Typography>
+                            </Box>
+                        ))}
+                    </Box>
+                    <Box sx={{ display: "flex", marginTop: "20px" }}>
+                        <Box sx={{ height: "100px", width: "200px", borderRadius: "10px" }} onClick={handlePaymentAndBooktime}>
+                            <img src={VNPAY} alt="logo" style={{ height: "80px", width: "170px" }} />
+                        </Box>
+                        <Box sx={{ height: "100px", width: "200px", borderRadius: "10px" }} onClick={handleOpen1}>
+                            <img src={BANK} alt="logo" style={{ height: "80px", width: "170px" }} />
+                        </Box>
+                    </Box>
+                    <Box sx={{ marginLeft: '70%', marginTop:"20px"}}>
+                        <Button onClick={handleClose} variant="contained" sx={{ height: '30px', backgroundColor: 'red', fontSize: '12px' }}>
+                            Huỷ
+                        </Button>
+                    </Box>
+                </Box>
+            </Modal>
+            <Modal
+                open={open1}
+                onClose={handleClose}
+                aria-labelledby="modal-modal-title"
+                aria-describedby="modal-modal-description"
+            >
+                <Box sx={styles}>
+                    <Box sx={{ display: "flex", flexDirection: "column", alignItems: "center", justifyContent: "center" }}>
+                        <Typography sx={{ fontSize: "25px", fontWeight: "700" }}>Chuyển khoản ngân hàng</Typography>
+                        <img src={QR} alt="logo" style={{ height: "200px", width: "200px" }} />
+                        <Typography sx={{ fontSize: "15px", fontWeight: "700", color: "red" }}>Nội dung: Họ và Tên + Lớp</Typography>
+                    </Box>
+                    <Box>
+                        <Uploadimage/>
+                    </Box>
+                    <Box sx={{ marginLeft: '40%', marginTop:"20px"}}>
+                        <Button onClick={handleOpen} variant="contained" sx={{ height: '30px', backgroundColor: 'green', fontSize: '12px', marginRight: '20px' }}>
+                            Thanh toán
+                        </Button>
+                        <Button onClick={handleClose1} variant="contained" sx={{ height: '30px', backgroundColor: 'red', fontSize: '12px' }}>
+                            Huỷ
+                        </Button>
+                    </Box>
+                </Box>
+            </Modal>
         </Box>);
 }
 
