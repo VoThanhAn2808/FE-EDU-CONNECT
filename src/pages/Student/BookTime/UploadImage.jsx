@@ -1,112 +1,131 @@
-import React, { useState } from 'react';
-import CloudUploadIcon from '@mui/icons-material/CloudUpload';
-import Avatar from '@mui/material/Avatar';
-import Box from '@mui/material/Box';
-import PersonIcon from '@mui/icons-material/Person';
-import { jwtDecode } from 'jwt-decode';
+// imports the React Javascript Library
+import React from "react";
+//Card
+import Card from "@material-ui/core/Card";
+import Button from "@material-ui/core/Button";
+import Grid from "@material-ui/core/Grid";
 
+//Tabs
+import { withStyles } from "@material-ui/core/styles";
 
-function Uploadimage(userData, onFileChange, isEditing, role, uploadedFile) {
-    const [profilePic, setProfilePic] = useState(null);
-  const [isHovered, setIsHovered] = useState(false);
-  const decodedToken = jwtDecode(localStorage.getItem('token'));
-  const userId = decodedToken.id;
-
-  const handleFileChange = (event) => {
-    const file = event.target.files[0];
-    const reader = new FileReader();
-
-    reader.onload = (e) => {
-      setProfilePic(e.target.result);
-    };
-    reader.readAsDataURL(file);
-    onFileChange(file);
-  };
-  const handleUploadClick = () => {
-    document.getElementById('file-upload').click();
-  };
-  let avatarSrc;
-
-  if (userData.img) {
-    avatarSrc = profilePic === null ? `http://localhost:8081/edu/file/fileuser/${userData.img}/${userId}` : profilePic;
-  } else {
-    avatarSrc = profilePic;
+const styles = theme => ({
+  root: {
+    width: 500,
+    display: "flex",
+    justifyContent: "center",
+    alignItems: "flex-end"
+  },
+  input: {
+    display: "none"
+  },
+  img: {
+    width: 200,
+    height: 256,
+    margin: "auto",
+    display: "block",
+    maxWidth: "100%",
+    maxHeight: "100%"
   }
-    return ( 
-        <Box
-        sx={{
-          position: 'relative',
-          height: '200px',
-          width: '200px',
-          margin: '50px auto',
-          overflow: 'hidden',
-          boxShadow: '1px 1px 15px -5px black',
-          transition: 'all .3s ease',
-          transform: isHovered && isEditing ? 'scale(1.05)' : 'scale(1)',
-          cursor: isEditing ? 'pointer' : 'default',
-        }}
-        onMouseEnter={() => { isEditing && setIsHovered(true); }}
-        onMouseLeave={() => { isEditing && setIsHovered(false); }}
-        onClick={() => { isEditing && handleUploadClick(); }}
-      >
-        <Avatar
-          className="profile-pic"
-          sx={{
-            height: '100%',
-            width: '100%',
-            transition: 'all .3s ease',
-            position: 'relative',
-            borderRadius: '50%',
-            filter: isHovered && isEditing ? 'brightness(80%)' : 'none',
-          }}
-          type='file'
-          onChange={handleFileChange}
-          src={avatarSrc}
-        >
-          {!profilePic && (
-            <PersonIcon
-              sx={{
-                position: 'absolute',
-                top: '50%',
-                left: '50%',
-                transform: 'translate(-50%, -50%)',
-                fontSize: '150px',
-                color: '#34495e',
-                opacity: isHovered && isEditing ? 0.5 : 1,
-              }}
-            />
-          )}
-        </Avatar>
-        <Box
-          sx={{
-            position: 'absolute',
-            top: 0,
-            left: 0,
-            height: '100%',
-            width: '100%',
-            display: 'flex',
-            alignItems: 'center',
-            justifyContent: 'center',
-            opacity: isHovered && isEditing ? 0.9 : 0,
-            transition: 'opacity .3s ease',
-          }}
-        >
-          <CloudUploadIcon
-            sx={{
-              fontSize: '234px',
-              color: '#34495e',
-            }}
+});
+
+class ImageUploadCard extends React.Component {
+  state = {
+    mainState: "initial", // initial
+    imageUploaded: 0,
+    selectedFile: "avatar.jpg"
+  };
+
+  handleUploadClick = event => {
+    console.log();
+    var file = event.target.files[0];
+    const reader = new FileReader();
+    var url = reader.readAsDataURL(file);
+
+    reader.onloadend = function(e) {
+      this.setState({
+        selectedFile: [reader.result]
+      });
+    }.bind(this);
+    console.log(url); // Would see a path?
+
+    this.setState({
+      mainState: "uploaded",
+      selectedFile: event.target.files[0],
+      imageUploaded: 1
+    });
+  };
+
+  renderInitialState() {
+    const { classes, theme } = this.props;
+    const { value } = this.state;
+
+    return (
+      <Grid container direction="column" alignItems="center">
+        <Grid item>
+          <img
+            width="100%"
+            className={classes.img}
+            src={this.state.selectedFile}
           />
-        </Box>
-        <input
-          id="file-upload"
-          type="file"
-          accept="image/*"
-          style={{ display: 'none' }}
-          onChange={handleFileChange}
-        />
-      </Box>
-     );
+        </Grid>
+        <label htmlFor="contained-button-file">
+          <Button variant="contained" component="span">
+            Ảnh chuyển khoản
+            <input
+              accept="image/*"
+              className={classes.input}
+              id="contained-button-file"
+              multiple
+              type="file"
+              onChange={this.handleUploadClick}
+            />
+          </Button>
+        </label>
+      </Grid>
+    );
+  }
+
+  renderUploadedState() {
+    const { classes, theme } = this.props;
+
+    return (
+      <Grid container direction="column" alignItems="center">
+        <Grid item>
+          <img
+            width="100%"
+            className={classes.img}
+            src={this.state.selectedFile}
+          />
+        </Grid>
+        <label htmlFor="contained-button-file">
+          <Button variant="contained" component="span">
+            Ảnh chuyển khoản
+            <input
+              accept="image/*"
+              className={classes.input}
+              id="contained-button-file"
+              multiple
+              type="file"
+              onChange={this.handleUploadClick}
+            />
+          </Button>
+        </label>
+      </Grid>
+    );
+  }
+
+  render() {
+    const { classes, theme } = this.props;
+
+    return (
+      <div className={classes.root}>
+        <Card className={this.props.cardName}>
+          {(this.state.mainState === "initial" && this.renderInitialState()) ||
+            (this.state.mainState === "uploaded" && this.renderUploadedState())}
+        </Card>
+      </div>
+    );
+  }
 }
 
-export default Uploadimage;
+export default withStyles(styles, { withTheme: true })(ImageUploadCard);

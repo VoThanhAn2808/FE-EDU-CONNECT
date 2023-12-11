@@ -11,6 +11,7 @@ import VideoTable from './VideoTable';
 import CloudUploadIcon from '@mui/icons-material/CloudUpload';
 import styled from '@emotion/styled';
 import ProgesstestTable from './Progesstest';
+import none from './../../../assests/none.jpg';
 function ExerciseDetailPage() {
   const [open, setOpen] = useState(false);
   const [open1, setOpen1] = useState(false);
