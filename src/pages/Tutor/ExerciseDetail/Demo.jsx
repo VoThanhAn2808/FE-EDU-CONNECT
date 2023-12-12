@@ -9,7 +9,7 @@ import Paper from '@mui/material/Paper';
 import axios from 'axios';
 import * as React from 'react';
 import { useState, useEffect } from 'react';
-import { Button, Box, Typography } from '@mui/material';
+import { Button, Box, Typography, Pagination } from '@mui/material';
 import { Link, useParams } from 'react-router-dom';
 import { jwtDecode } from 'jwt-decode';
 
@@ -18,7 +18,8 @@ function Demo() {
     const { classcourseid } = useParams();
     const [tutor, setTutor] = useState('');
     const decodedToken = jwtDecode(localStorage.getItem('token'));
-
+    const [pages, setPages] = useState(1);
+    const [page, setPage] = useState([]);
     useEffect(() => {
         axios.get(`http://localhost:8081/educonnect/viewtutorcourse?classcourseid=${classcourseid}&tutorid=${decodedToken.id}`)
             .then((response) => {
@@ -26,7 +27,7 @@ function Demo() {
             })
             .catch((error) => {
             })
-        axios.get(`http://localhost:8081/demo/listdemo?classcourseid=${classcourseid}`)
+        axios.get(`http://localhost:8081/demo/listdemobyclasscourse?classcourseid=${classcourseid}`)
             .then((response) => {
 
                 setDemoList(response.data);
@@ -34,8 +35,19 @@ function Demo() {
             .catch((error) => {
                 console.error(error);
             });
+        axios.get(`http://localhost:8081/demo/totalpagedemo?classcourseid=${classcourseid}`)
+            .then((response) => {
+
+                setPage(response.data);
+            })
+            .catch((error) => {
+                console.error(error);
+            });
     }, [demoList]);
 
+    const handlePageChange = (event, pageNumber) => {
+        setPages(pageNumber);
+    };
 
 
     return (
@@ -73,6 +85,11 @@ function Demo() {
                         </TableBody>
                     </Table>
                 </TableContainer>
+            </Box>
+            <Box sx={{ display: 'flex', justifyContent: 'center', marginTop: "15px" }}>
+                <Pagination count={page}
+                    page={pages}
+                    onChange={handlePageChange} sx={{ '& .MuiPaginationItem-root': { fontSize: '15px', minWidth: '50px' } }} />
             </Box>
         </Box>
     );
