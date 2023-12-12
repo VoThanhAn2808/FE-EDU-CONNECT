@@ -1,13 +1,28 @@
-import { Box, FormControl, FormHelperText, InputLabel, OutlinedInput, Typography } from '@mui/material';
+import { Box, FormControl, FormHelperText, InputLabel, OutlinedInput, Snackbar, Typography } from '@mui/material';
 import React, { useState } from 'react';
 import LOGIN from '../../../assests/login.png';
 import LOGO from '../../../assests/lglogin.jpg';
 import Button from '@mui/joy/Button';
 import axios from 'axios';
+import MuiAlert from '@mui/material/Alert';
+
 
 const ForgotPassword = () => {
 
   const [email, setEmail] = useState('');
+  const [snackbarOpen, setSnackbarOpen] = useState(false);
+  const [snackbarMessage, setSnackbarMessage] = useState('');
+  const [snackbarType, setSnackbarType] = useState('success');
+
+  const showSnackbar = (message, type) => {
+    setSnackbarMessage(message);
+    setSnackbarType(type);
+    setSnackbarOpen(true);
+  };
+
+  const handleSnackbarClose = () => {
+    setSnackbarOpen(false);
+  };
 
   const handleSubmit = async (event) => {
     event.preventDefault();
@@ -32,10 +47,10 @@ const ForgotPassword = () => {
         await axios.post("http://localhost:8081/edu/forgotpassword", {
           email: email,
         }, configs);
-        alert("Vui lòng bạn kiểm tra email")
+        showSnackbar("Vui lòng bạn kiểm tra email", 'success')
         window.location.href = "/login"
       } else if (response.data !== true) {
-        alert("Email không chính xác")
+        showSnackbar("Email không chính xác", 'error')
         window.location.href = "/forgotpass"
       }
     } catch (error) {
@@ -157,6 +172,20 @@ const ForgotPassword = () => {
               Lấy lại mật khẩu
             </Button>
           </Box>
+          <Snackbar
+        open={snackbarOpen}
+        autoHideDuration={3000}
+        onClose={handleSnackbarClose}
+        anchorOrigin={{ vertical: 'top', horizontal: 'right' }}
+      >
+        <MuiAlert
+          onClose={handleSnackbarClose}
+          severity={snackbarType}
+          sx={{ width: '100%', fontSize: '15px' }}
+        >
+          {snackbarMessage}
+        </MuiAlert>
+      </Snackbar>
         </form>
         <Typography
           sx={{

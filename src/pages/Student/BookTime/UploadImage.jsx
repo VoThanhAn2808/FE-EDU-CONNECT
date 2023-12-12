@@ -7,8 +7,9 @@ import Grid from "@material-ui/core/Grid";
 
 //Tabs
 import { withStyles } from "@material-ui/core/styles";
+import AVATAR from "./avatar.jpg"
 
-const styles = theme => ({
+const styles =  {
   root: {
     width: 500,
     display: "flex",
@@ -26,13 +27,13 @@ const styles = theme => ({
     maxWidth: "100%",
     maxHeight: "100%"
   }
-});
+};
 
 class ImageUploadCard extends React.Component {
   state = {
     mainState: "initial", // initial
     imageUploaded: 0,
-    selectedFile: "avatar.jpg"
+    selectedFile: {AVATAR}
   };
 
   handleUploadClick = event => {
@@ -56,18 +57,17 @@ class ImageUploadCard extends React.Component {
   };
 
   renderInitialState() {
-    const { classes, theme } = this.props;
-    const { value } = this.state;
+    const { classes} = this.props;
 
     return (
       <Grid container direction="column" alignItems="center">
-        <Grid item>
+        {/* <Grid item>
           <img
             width="100%"
             className={classes.img}
             src={this.state.selectedFile}
           />
-        </Grid>
+        </Grid> */}
         <label htmlFor="contained-button-file">
           <Button variant="contained" component="span">
             Ảnh chuyển khoản
@@ -86,7 +86,7 @@ class ImageUploadCard extends React.Component {
   }
 
   renderUploadedState() {
-    const { classes, theme } = this.props;
+    const { classes } = this.props;
 
     return (
       <Grid container direction="column" alignItems="center">
@@ -115,7 +115,7 @@ class ImageUploadCard extends React.Component {
   }
 
   render() {
-    const { classes, theme } = this.props;
+    const { classes } = this.props;
 
     return (
       <div className={classes.root}>
