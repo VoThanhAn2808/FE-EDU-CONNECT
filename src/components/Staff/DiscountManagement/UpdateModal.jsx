@@ -100,7 +100,7 @@ export default function UpdateModal(props) {
 
 
     const formData = new FormData();
-    if (grdImageDisplayStyle == "none") { // input image hide
+    if (grdImageDisplayStyle === "none") { // input image hide
       if (image == null) {
         alert("Chọn file để lưu!");
         return;
@@ -132,15 +132,15 @@ export default function UpdateModal(props) {
               'Content-Type': 'multipart/form-data',
             },
           });
-          if (responseUploadImage.data.message == -1) {
+          if (responseUploadImage.data.message === -1) {
             alert("Tệp tin bị trùng vui lòng chọn tệp hình ảnh khác!");
-          } else if (responseUploadImage.data.message == 0) {
+          } else if (responseUploadImage.data.message === 0) {
             alert("Hệ thống lỗi.Liên hệ với admin để giải quyết!");
           }
           else if (responseUploadImage.status === 200) {
             const response = await axios.put(`http://localhost:8081/staffsconnect/discount/updateDiscount/${decodedToken.id}`, myObject);
             console.log("Update " + response.data);
-            if (response.data == 1) {
+            if (response.data === 1) {
               alert("Cập nhập thành công");
             }
             handleClose();
@@ -173,7 +173,7 @@ export default function UpdateModal(props) {
       try {
         const response = await axios.put(`http://localhost:8081/staffsconnect/discount/updateDiscount/${decodedToken.id}`, myObject);
         console.log("Update " + response.data);
-        if (response.data == 1) {
+        if (response.data === 1) {
           alert("Cập nhập thành công");
         }
         handleClose();

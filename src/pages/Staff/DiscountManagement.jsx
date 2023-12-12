@@ -37,7 +37,6 @@ function DiscountManagement() {
         pageNo: '',
         // Add other key-value pairs as needed
     });
-    const [checkAllList, setCheckAllList] = useState(false);
 
     useEffect(() => {
         axios.post('http://localhost:8081/discount/listdiscount', dataToSend)
@@ -89,7 +88,7 @@ function DiscountManagement() {
         try {
             const listDelete = [id];
             const response = await axios.post('http://localhost:8081/discount/deleteDiscount', listDelete);
-            if (response.data.message == 'Success') {
+            if (response.data.message === 'Success') {
                 alert("Xóa thành công");
                 axios.post('http://localhost:8081/discount/listdiscount', dataToSend)
                     .then((response) => {

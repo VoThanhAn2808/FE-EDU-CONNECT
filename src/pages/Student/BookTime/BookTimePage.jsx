@@ -9,7 +9,7 @@ import { jwtDecode } from "jwt-decode";
 import VNPAY from "../../../assests/vnpay.png"
 import BANK from "../../../assests/bank.png"
 import QR from "../../../assests/QR.jpg"
-import Uploadimage from "./UploadImage";
+import UploadImage from "./UploadImage";
 
 
 function BookTime() {
@@ -354,9 +354,7 @@ function BookTime() {
                         <Typography sx={{ fontSize: "25px", fontWeight: "700" }}>Chuyển khoản ngân hàng</Typography>
                         <img src={QR} alt="logo" style={{ height: "200px", width: "200px" }} />
                         <Typography sx={{ fontSize: "15px", fontWeight: "700", color: "red" }}>Nội dung: Họ và Tên + Lớp</Typography>
-                    </Box>
-                    <Box>
-                        <Uploadimage/>
+                        <UploadImage />
                     </Box>
                     <Box sx={{ marginLeft: '40%', marginTop:"20px"}}>
                         <Button onClick={handleOpen} variant="contained" sx={{ height: '30px', backgroundColor: 'green', fontSize: '12px', marginRight: '20px' }}>

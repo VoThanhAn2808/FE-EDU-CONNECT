@@ -113,6 +113,7 @@ function BookTutorSTPage() {
                 },
                 config
             );
+            alert("Đăng ký thành công bạn vui lòng đợi email duyệt từ EDU-CONNECT")
             window.location.href = '/homestudent';
         } catch (error) {
             console.error(error);

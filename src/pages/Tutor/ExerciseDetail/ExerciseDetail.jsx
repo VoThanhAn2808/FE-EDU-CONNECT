@@ -11,7 +11,7 @@ import VideoTable from './VideoTable';
 import CloudUploadIcon from '@mui/icons-material/CloudUpload';
 import styled from '@emotion/styled';
 import ProgesstestTable from './Progesstest';
-
+import none from './../../../assests/none.jpg';
 function ExerciseDetailPage() {
   const [open, setOpen] = useState(false);
   const [open1, setOpen1] = useState(false);
@@ -434,23 +434,40 @@ function ExerciseDetailPage() {
                         value={formData.demoid}
                         onChange={handleChange}
                       >
+                        <MenuItem value={1} sx={{ fontSize: '15px' }}>
+                          <Box sx={{ display: 'flex' }}>
+                            <img
+                              src={none}
+                              alt='demo'
+                              style={{
+                                width: 70,
+                                height: 30,
+                                objectFit: 'contain',
+                                marginRight: '10px',
+                              }}
+                            />
+                            <Typography sx={{ fontSize: '15px', marginLeft: '20px' }}>None</Typography>
+                          </Box>
+                        </MenuItem>
                         {demo.map((item) => (
                           <MenuItem
                             value={item.demoid}
                             key={item.demoid}
                             style={{ fontSize: '14px' }}
                           >
-                            <img
-                              src={`http://localhost:8081/edu/file/files/${item.img}`}
-                              alt='demo'
-                              style={{
-                                width: 100,
-                                height: 40,
-                                objectFit: 'contain',
-                                marginRight: '10px',
-                              }}
-                            />
-                            {item.demoname}
+                            <Box sx={{ display: 'flex' }}>
+                              <img
+                                src={`http://localhost:8081/edu/file/files/${item.img}`}
+                                alt='demo'
+                                style={{
+                                  width: 70,
+                                  height: 30,
+                                  objectFit: 'contain',
+                                  marginRight: '10px',
+                                }}
+                              />
+                              <Typography sx={{ fontSize: '15px', marginLeft: '20px' }}>{item.demoname}</Typography>
+                            </Box>
                           </MenuItem>
                         ))}
                       </Select>
