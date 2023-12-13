@@ -103,10 +103,7 @@ const Sidebar = () => {
               <ListItemButton sx={{ pl: 3 }} key={index}>
                 <ListItemIcon></ListItemIcon>
                 <Typography sx={{ fontSize: '13px', marginRight: 'auto', fontWeight: 'bold' }}>
-                  <Link to={{
-                    pathname: '/managerstudent',
-                    state: { courseid: item.courseId } // Truyền courseid qua state
-                  }} style={{ color: "black", textDecoration: "none" }}>{item.courseName} {item.classname}</Link>
+                  <Link to={`/demo/${item.classcourseid}`} style={{ color: "black", textDecoration: "none" }}>{item.courseName} {item.classname}</Link>
                 </Typography>
               </ListItemButton>
             ))}
