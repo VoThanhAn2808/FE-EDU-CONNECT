@@ -9,30 +9,35 @@ import Paper from '@mui/material/Paper';
 import axios from 'axios';
 import * as React from 'react';
 import { useState, useEffect } from 'react';
-import { Button } from '@mui/material';
+import { Alert, Button, Snackbar } from '@mui/material';
 
 function ExerciseTable(props) {
-  const [res, setRes] = useState(props.data)
-  
+  const [res, setRes] = useState(props.data);
+  const [showSnackbar, setShowSnackbar] = useState(false);
+
+  const handleCloseSnackbar = () => {
+    setShowSnackbar(false);
+  };
+
   useEffect(() => {
     setRes(props.data)
   }, [props.data]);
   const deleteExecise = (id) => {
     axios
-    .delete(`http://localhost:8081/exersice/deleteexercise/${id}`)
-    .then(() => {
-      props.fetchData();
-    })
-    .catch((error) => {
+      .delete(`http://localhost:8081/exersice/deleteexercise/${id}`)
+      .then(() => {
+        props.fetchData();
+      })
+      .catch((error) => {
         console.error("Error fetching timeline:", error);
-    });
-    alert("Xóa bài tập thành công")
+      });
+    setShowSnackbar(true);
   }
   return (
     <TableContainer component={Paper} sx={{}}>
       <Table >
         <TableHead>
-          <TableRow style={{ backgroundColor: "#e2d6d6c9"}}>
+          <TableRow style={{ backgroundColor: "#e2d6d6c9" }}>
             <TableCell style={{ width: 50, fontSize: "14px" }}>ID</TableCell>
             <TableCell style={{ width: 200, fontSize: "14px" }}>Tên chương</TableCell>
             <TableCell style={{ width: 50, fontSize: "14px" }}>Action</TableCell>
@@ -40,16 +45,29 @@ function ExerciseTable(props) {
         </TableHead>
         <TableBody>
           {res.map((row) => (
-            <TableRow key={row.exerciseid} style={{fontSize: "14px"}}>
-              <TableCell style={{fontSize: "14px"}}>{row.exerciseid}</TableCell>
-              <TableCell style={{fontSize: "14px"}}>{row.title}</TableCell>
-              <TableCell style={{fontSize: "14px"}}>
-                <Button type='link' variant="contained" color="success" sx={{marginRight: "10px"}} href={`/exercisedetail/${row.exerciseid}`}>
-                Xem
-              </Button>
-              <Button variant="contained" color="error" onClick={() => deleteExecise(row.exerciseid)}>
-                Xoá
-              </Button>
+            <TableRow key={row.exerciseid} style={{ fontSize: "14px" }}>
+              <TableCell style={{ fontSize: "14px" }}>{row.exerciseid}</TableCell>
+              <TableCell style={{ fontSize: "14px" }}>{row.title}</TableCell>
+              <TableCell style={{ fontSize: "14px" }}>
+                <Button type='link' variant="contained" color="success" sx={{ marginRight: "10px" }} href={`/exercisedetail/${row.exerciseid}`}>
+                  Xem
+                </Button>
+                <Snackbar
+                  open={showSnackbar}
+                  autoHideDuration={3000}
+                  onClose={handleCloseSnackbar}
+                  anchorOrigin={{
+                    vertical: 'top',
+                    horizontal: 'center',
+                  }}
+                >
+                  <Alert severity="success" onClose={handleCloseSnackbar}>
+                    Xóa bài tập thành công!
+                  </Alert>
+                </Snackbar>
+                <Button variant="contained" color="error" onClick={() => deleteExecise(row.exerciseid)}>
+                  Xoá
+                </Button>
               </TableCell>
             </TableRow>
           ))}

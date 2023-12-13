@@ -297,15 +297,15 @@ function BookTime() {
                         <Typography sx={{ fontSize: '20px', marginLeft: "7px", color: "#5E5D5D" }}> Lịch học này sẽ đi theo bạn đến hết kỳ học của bạn(1 tuần 3 ngày mỗi 1 slot). </Typography>
                     </Box>
                     <Box sx={{ marginLeft: 'auto', marginRight: '20%' }}>
-                        <Button onClick={handleOpen} variant="contained" sx={{ height: '30px', backgroundColor: 'green', fontSize: '12px', marginRight: '20px' }}>
+                        <Button onClick={handleOpen} variant="contained" color="success" style={{ height: '30px', backgroundColor: 'green', fontSize: '12px', marginRight: '20px' }}>
                             Thanh toán
                         </Button>
-                        <Snackbar open={showAlert} autoHideDuration={3000} onClose={handleAlertClose}>
+                        <Snackbar open={showAlert} autoHideDuration={3000} onClose={handleAlertClose} sx={{marginBottom:"20%", marginLeft:"30%"}}>
                             <Alert onClose={handleAlertClose} autoHideDuration={1000} severity="warning" sx={{ backgroundColor: '#ffee58', fontSize: "15px" }}>
                                 Vui lòng chọn đủ 3 lịch học để tiến hành thanh toán.
                             </Alert>
                         </Snackbar>
-                        <Button onClick={handleSubmit} variant="contained" sx={{ height: '30px', backgroundColor: 'red', fontSize: '12px' }}>
+                        <Button onClick={handleSubmit} variant="contained" color="error" style={{ height: '30px', backgroundColor: 'red', fontSize: '12px' }}>
                             Huỷ
                         </Button>
                     </Box>
@@ -357,10 +357,10 @@ function BookTime() {
                         <UploadImage />
                     </Box>
                     <Box sx={{ marginLeft: '40%', marginTop:"20px"}}>
-                        <Button onClick={handleOpen} variant="contained" sx={{ height: '30px', backgroundColor: 'green', fontSize: '12px', marginRight: '20px' }}>
+                        <Button onClick={handleSubmit} variant="contained" style={{ height: '30px', backgroundColor: 'green', fontSize: '12px', marginRight: '20px' }}>
                             Thanh toán
                         </Button>
-                        <Button onClick={handleClose1} variant="contained" sx={{ height: '30px', backgroundColor: 'red', fontSize: '12px' }}>
+                        <Button onClick={handleClose1} variant="contained" style={{ height: '30px', backgroundColor: 'red', fontSize: '12px' }}>
                             Huỷ
                         </Button>
                     </Box>
