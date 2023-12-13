@@ -21,11 +21,11 @@ function ProfileInfo({
       <TextField
         label='Họ Và Tên'
         fullWidth
-        value={userData.fullName || ''}
+        value={userData.fullname || ''}
         onChange={(e) => handleInputChange('fullName', e.target.value)}
         disabled={!isEditing}
         InputLabelProps={{
-          shrink: userData.fullName ? true : undefined,
+          shrink: userData.fullname ? true : undefined,
         }}
       />
       <TextField
