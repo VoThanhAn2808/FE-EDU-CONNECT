@@ -106,9 +106,8 @@ function ManagerStudent() {
 
     return (
         <Box>
-            <Box sx={{ width: '98%', height: "130px", marginTop: "20px", borderRadius: "5px", marginLeft: "1%", marginRight: "1%", backgroundColor: "#E2D6D6" }}>
+            <Box sx={{ width: '98%', marginTop: "20px", borderRadius: "5px", marginLeft: "1%", marginRight: "1%", backgroundColor: "#E2D6D6" }}>
                 <Typography sx={{ fontSize: "40px", marginLeft: "2%", fontFamily: "cursive", paddingBottom: "20px" }}>{tutor.coursename} {tutor.classname} - {tutor.nametutor}</Typography>
-                <Typography sx={{ fontSize: "25px", marginLeft: "2%", fontFamily: "cursive" }}>Tab chính/Môn/Học Sinh</Typography>
             </Box>
             <Box sx={{ width: '98%', height: '100%', marginBottom: '50px', marginTop: "10px", borderRadius: "5px", marginLeft: "1%", marginRight: "1%", backgroundColor: "#E2D6D6" }}>
                 <Box sx={{ marginLeft: '55%', paddingTop: '20px', display: 'flex', marginRight: '12px', }}>
@@ -146,7 +145,7 @@ function ManagerStudent() {
                                         <TableCell sx={{ width: '20%', height: '50px', fontSize: '15px', fontFamily: 'cursive' }}>{checkStatus((new Date(item.startdate)).getTime(), (new Date(item.enddate)).getTime())}</TableCell>
                                         <TableCell sx={{ width: '20%', height: '50px', fontSize: '15px', fontFamily: 'cursive' }}>
                                             <img src={`http://localhost:8081/edu/file/fileuser/${item.img}/${item.studentid}`} alt="edu" style={{ width: '60px', height: '60px', }} />
-                                            </TableCell>
+                                        </TableCell>
                                         <TableCell sx={{ height: '50px', textAlign: 'center' }}>
                                             <MoreHorizIcon onClick={(event) => handleOpenUserMenu(event, item.studentid, item.bookid)} sx={{ fontSize: '30px' }} />
                                         </TableCell>

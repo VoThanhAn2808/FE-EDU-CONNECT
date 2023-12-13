@@ -6,6 +6,8 @@ import { Box, Paper, ThemeProvider, createTheme } from '@mui/material';
 import { jwtDecode } from 'jwt-decode';
 import axios from 'axios';
 import dayjs from 'dayjs';
+import Snackbar from '@mui/material/Snackbar';
+import Alert from '@mui/material/Alert';
 
 const theme = createTheme({
   typography: {
@@ -23,8 +25,8 @@ function ProfileStaff() {
   const [wards, setWards] = useState([]);
   const [uploadedFile, setUploadedFile] = useState(null);
   const [validationError, setValidationError] = useState(null);
+  const [showSnackbar, setShowSnackbar] = useState(false);
 
-  
   const isPhoneNumberValid = (phoneNumber) => {
     const phoneNumberRegex = /^\d{10}$/;
     return phoneNumberRegex.test(phoneNumber);
@@ -76,7 +78,7 @@ function ProfileStaff() {
       const formData = new FormData();
       formData.append('fullname', userData.fullName);
       formData.append('staffid', decodedToken.id);
-      formData.append('file', userData.avt );
+      formData.append('file', userData.avt);
       formData.append('birthdate', userData.birthdate);
       formData.append('city', userData.city);
       formData.append('wards', userData.wards);
@@ -90,19 +92,23 @@ function ProfileStaff() {
           },
         }
       );
-      alert("Cập nhật thành công")
+      setShowSnackbar(true);
       window.location.reload();
     } catch (error) {
       console.error(error);
     }
   };
 
+  const handleCloseSnackbar = () => {
+    setShowSnackbar(false);
+  };
+  
   const handleInputChange = (field, value) => {
     setUserData({
       ...userData,
-      [field]: value ,
+      [field]: value,
     });
-     setValidationError(null);
+    setValidationError(null);
 
   };
 
@@ -128,7 +134,7 @@ function ProfileStaff() {
       userData.birthdate === '' ||
       userData.phone === '' ||
       userData.city === '' ||
-      userData.wards === '' 
+      userData.wards === ''
     ) {
       setValidationError('Vui lòng nhập đầy đủ dữ liệu của bạn');
       return false;
@@ -193,6 +199,19 @@ function ProfileStaff() {
             isBirthdateValid={isBirthdateValid}
             isPhoneNumberValid={isPhoneNumberValid}
           />
+          <Snackbar
+        open={showSnackbar}
+        autoHideDuration={3000}
+        onClose={handleCloseSnackbar}
+        anchorOrigin={{
+          vertical: 'top',
+          horizontal: 'center',
+        }}
+      >
+        <Alert severity="success" onClose={handleCloseSnackbar}>
+          Cập nhật thành công!
+        </Alert>
+      </Snackbar>
           {isEditing ? (
             <Button variant='contained' onClick={handleSave}>
               Lưu

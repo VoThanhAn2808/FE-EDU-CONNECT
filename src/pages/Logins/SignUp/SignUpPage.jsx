@@ -16,7 +16,7 @@ function SignupPage() {
   const [isStudent, setIsStudent] = useState(false); // Biến trạng thái cho lựa chọn Học sinh/Giáo viên
   const [isTeacher, setIsTeacher] = useState(false);
   const [selectedClass, setSelectedClass] = useState(''); // Biến trạng thái cho lựa chọn lớp
-  const [files, setFiles] = useState(null); 
+  const [files, setFiles] = useState(null);
   const [email, setEmail] = useState('');
   const [password, setPassword] = useState('');
   const [name, setName] = useState('');
@@ -30,6 +30,8 @@ function SignupPage() {
   const [confirmPassword, setConfirmPassword] = useState('');
   const [snackbarOpen, setSnackbarOpen] = useState(false);
   const [snackbarMessage, setSnackbarMessage] = useState('');
+  const [snackbarType, setSnackbarType] = useState('success');
+
   useEffect(() => {
     axios
       .get(`http://localhost:8081/student/class`)
@@ -83,8 +85,9 @@ function SignupPage() {
     }
   };
 
-  const showSnackbar = (message) => {
+  const showSnackbar = (message, type) => {
     setSnackbarMessage(message);
+    setSnackbarType(type);
     setSnackbarOpen(true);
   };
 
@@ -94,31 +97,31 @@ function SignupPage() {
 
   const handleSubmit = async (event) => {
     event.preventDefault();
-     if (!name || !phone || !email || !password || !confirmPassword) {
-       showSnackbar('Vui lòng điền đầy đủ thông tin.');
-       return;
-     }
 
-     validateName();
-     validatePhone();
-     validateEmail();
-     validatePassword();
-     validateClass();
+    if (!name || !phone || !email || !password || !confirmPassword) {
+      showSnackbar('Vui lòng điền đầy đủ thông tin.', 'error');
+      return;
+    }
 
-    // Nếu có lỗi, không gọi API
+    validateName();
+    validatePhone();
+    validateEmail();
+    validatePassword();
+    validateClass();
+
     if (isTeacher && !files) {
-      showSnackbar('Vui lòng tải lên file CV.');
+      showSnackbar('Vui lòng tải lên file CV.', 'error');
       return;
     }
     if (isStudent && !selectedClass) {
-      showSnackbar('Vui lòng chọn lớp để đăng kí.');
+      showSnackbar('Vui lòng chọn lớp để đăng kí.', 'error');
       return;
     }
-     if (nameError || phoneError || emailError || passwordError) {
-      showSnackbar('Vui lòng điền đúng thông tin.');
-       return;
-     }
-     
+    if (nameError || phoneError || emailError || passwordError) {
+      showSnackbar('Vui lòng điền đúng thông tin.', 'error');
+      return;
+    }
+
     try {
       const formData = new FormData();
       formData.append('fullname', name);
@@ -134,14 +137,16 @@ function SignupPage() {
           'Content-Type': 'multipart/form-data',
         },
       });
-      if(age === 1){
-        alert("Chúc mừng bạn đã là một thành viên của EDU-CONNECT")
-      }else{
-        alert("Chúc mừng bạn đã đăng ký thành công vui lòng bạn đợi Email phản hồi từ chúng tôi")
+
+      if (age === 1) {
+        showSnackbar('Chúc mừng bạn đã là một thành viên của EDU-CONNECT', 'success');
+      } else {
+        showSnackbar('Chúc mừng bạn đã đăng ký thành công. Vui lòng đợi Email phản hồi từ chúng tôi', 'success');
       }
+
       window.location.href = '/login';
     } catch (error) {
-      alert("Email đã tồn tại")
+      showSnackbar('Email đã tồn tại', 'error');
       console.error(error);
     }
   };
@@ -406,7 +411,7 @@ function SignupPage() {
                     {files && (
                       <Button sx={{
                         backgroundColor: 'gray',
-                      }} onClick={()=> {setFiles(null)}}>
+                      }} onClick={() => { setFiles(null) }}>
                         <CloseIcon />
                       </Button>
                     )}
@@ -502,19 +507,19 @@ function SignupPage() {
                 }}
               >
                 <Snackbar
-                  open={snackbarOpen}
-                  autoHideDuration={3000}
-                  onClose={handleSnackbarClose}
-                  anchorOrigin={{ vertical: 'top', horizontal: 'right' }}
-                >
-                  <MuiAlert
-                    onClose={handleSnackbarClose}
-                    severity='error'
-                    sx={{ width: '100%', fontSize: '15px' }}
-                  >
-                    {snackbarMessage}
-                  </MuiAlert>
-                </Snackbar>
+        open={snackbarOpen}
+        autoHideDuration={3000}
+        onClose={handleSnackbarClose}
+        anchorOrigin={{ vertical: 'top', horizontal: 'right' }}
+      >
+        <MuiAlert
+          onClose={handleSnackbarClose}
+          severity={snackbarType}
+          sx={{ width: '100%', fontSize: '15px' }}
+        >
+          {snackbarMessage}
+        </MuiAlert>
+      </Snackbar>
                 <Button
                   sx={{
                     width: '250px',
