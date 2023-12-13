@@ -1,6 +1,6 @@
 import { Button } from '@mui/base';
 import CreateNewFolderIcon from '@mui/icons-material/CreateNewFolder';
-import { Box, TextField, Typography } from '@mui/material';
+import { Alert, Box, Snackbar, TextField, Typography } from '@mui/material';
 import Modal from '@mui/material/Modal';
 import axios from 'axios';
 import * as React from 'react';
@@ -11,13 +11,19 @@ function ExerciseListPage() {
   const [open, setOpen] = useState(false);
   const [course, setCourse] = useState('');
   const { bookid } = useParams();
+  const [showSnackbar, setShowSnackbar] = useState(false);
+
+  const handleCloseSnackbar = () => {
+    setShowSnackbar(false);
+  };
+
   const onCreateExercise = async () => {
     if (course)
       await axios.post('http://localhost:8081/exersice/addexercise', {
         bookid: bookid,
         title: course,
       });
-      alert("Tạo bài tập thành công");
+      setShowSnackbar(true);
       setOpen(false)
       fetchData()
     };
@@ -118,6 +124,19 @@ function ExerciseListPage() {
                     },
                 }}
                 />
+                <Snackbar
+        open={showSnackbar}
+        autoHideDuration={3000}
+        onClose={handleCloseSnackbar}
+        anchorOrigin={{
+          vertical: 'top',
+          horizontal: 'center',
+        }}
+      >
+        <Alert severity="success" onClose={handleCloseSnackbar}>
+          Tạo bài tập thành công!
+        </Alert>
+      </Snackbar>
                 <Button
                 variant='contained'
                 style={{ width: '70px', fontSize: '18px', marginTop: '30px', marginLeft: '20%' }}

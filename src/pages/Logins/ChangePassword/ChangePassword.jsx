@@ -152,7 +152,7 @@ function ChangePassword() {
                 />
               </FormControl>
               {passwordError && (
-                <Typography style={{ color: 'red', paddingTop : '10px' }}>Mật khẩu cũ không đúng. Vui lòng thử lại.</Typography>
+                <Typography style={{ color: 'red', paddingTop: '10px' }}>Mật khẩu cũ không đúng. Vui lòng thử lại.</Typography>
               )}
             </Box>
             <Box
@@ -162,7 +162,7 @@ function ChangePassword() {
               }}
             >
               <FormControl sx={{ mt: 1, width: '55ch', ml: -4 }} variant='outlined' size='large'>
-                <InputLabel htmlFor='password' style={{ fontSize: 18}}>
+                <InputLabel htmlFor='password' style={{ fontSize: 18 }}>
                   Mật khẩu mới
                 </InputLabel>
                 <OutlinedInput
@@ -197,7 +197,7 @@ function ChangePassword() {
               }}
             >
               <FormControl sx={{ mt: 1, width: '55ch', ml: -4 }} variant='outlined' size='large'>
-                <InputLabel htmlFor='password' style={{ fontSize: 18}}>
+                <InputLabel htmlFor='password' style={{ fontSize: 18 }}>
                   Nhập lại mật khẩu
                 </InputLabel>
                 <OutlinedInput
@@ -229,18 +229,18 @@ function ChangePassword() {
             </p>
           )}
           <Snackbar
-        open={showSnackbar}
-        autoHideDuration={3000}
-        onClose={handleCloseSnackbar}
-        anchorOrigin={{
-          vertical: 'top',
-          horizontal: 'center',
-        }}
-      >
-        <Alert severity="success" onClose={handleCloseSnackbar}>
-          Đổi mật khẩu thành công!
-        </Alert>
-      </Snackbar>
+            open={showSnackbar}
+            autoHideDuration={3000}
+            onClose={handleCloseSnackbar}
+            anchorOrigin={{
+              vertical: 'top',
+              horizontal: 'center',
+            }}
+          >
+            <Alert severity="success" onClose={handleCloseSnackbar}>
+              Đổi mật khẩu thành công!
+            </Alert>
+          </Snackbar>
           <Button
             sx={{
               width: '250px',
