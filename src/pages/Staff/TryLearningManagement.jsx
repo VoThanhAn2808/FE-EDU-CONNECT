@@ -358,7 +358,6 @@ function TryLearningManagement() {
                 <Box sx={{ display: 'flex', justifyContent: 'center', marginTop: "15px" }}>
                     <Pagination count={pages} page={page} onChange={handlePageChange} sx={{ '& .MuiPaginationItem-root': { fontSize: '15px', minWidth: '50px' } }} />
                 </Box>
-
             </Box>
         </Box>
     );

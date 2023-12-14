@@ -11,7 +11,7 @@ import { jwtDecode } from "jwt-decode";
 
 function Feedbackofcourse() {
   const [tutor, setTutor] = useState([]);
-  const {classcourseid} = useParams();
+  const { classcourseid } = useParams();
   const decodedToken = jwtDecode(localStorage.getItem('token'));
   const [course, setCourse] = useState([]);
   const [data, setData] = useState([]);
@@ -24,7 +24,7 @@ function Feedbackofcourse() {
       .catch((error) => {
         console.error(error);
       });
-      axios
+    axios
       .get(`http://localhost:8081/educonnect/tutor/listcourse?tutorid=${decodedToken.id}`)
       .then((response) => {
         setCourse(response.data);
@@ -32,7 +32,7 @@ function Feedbackofcourse() {
       .catch((error) => {
         console.error(error);
       });
-      axios
+    axios
       .get(`http://localhost:8081/educonnect/feedbackofcourse/${decodedToken.id}/${classcourseid}`)
       .then((response) => {
         setData(response.data);
@@ -41,7 +41,7 @@ function Feedbackofcourse() {
         console.error(error);
       });
   }, [decodedToken.id, classcourseid]);
-  
+
   return (
     <Box>
       <Box
@@ -63,7 +63,7 @@ function Feedbackofcourse() {
             emptyIcon={<StarIcon style={{ fontSize: '50px', color: '#e0e0e0' }} />}
             icon={<StarIcon style={{ fontSize: '50px', color: '#ffc107' }} />}
             sx={{
-              marginTop: '20px',marginLeft: '320px'
+              marginTop: '20px', marginLeft: '320px'
             }}
           />
         </Box>

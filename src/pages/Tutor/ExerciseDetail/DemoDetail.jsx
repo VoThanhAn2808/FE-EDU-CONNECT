@@ -1,22 +1,13 @@
-import Table from '@mui/material/Table';
-import TableBody from '@mui/material/TableBody';
-import TableCell from '@mui/material/TableCell';
-import TableContainer from '@mui/material/TableContainer';
-import TableHead from '@mui/material/TableHead';
-import TableRow from '@mui/material/TableRow';
-import Paper from '@mui/material/Paper';
 import axios from 'axios';
 import * as React from 'react';
 import { useState, useEffect } from 'react';
-import { Container, CircularProgress, Button, Box, Typography } from '@mui/material';
+import { Container, Box, Typography } from '@mui/material';
 import { useParams } from 'react-router-dom';
 import Iframe from "react-iframe";
 
 function DemoDetail(props) {
-    const [demoList, setDemoList] = useState([]);
     const { demoid } = useParams();
     const [pageContent, setPageContent] = useState('');
-    const [loading, setLoading] = useState(true);
     useEffect(() => {
         axios.get(`http://localhost:8081/demo/detaildemo?demoid=${demoid}`)
             .then((response) => {

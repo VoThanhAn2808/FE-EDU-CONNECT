@@ -8,17 +8,17 @@ function ApexChart() {
 
   useEffect(() => {
     axios
-        .get(`http://localhost:8081/staffsconnect/countstudentandtutor`)
-        .then((response) => {
-          setData(response.data);
-        })
-        .catch((error) => {
-            console.error(error);
-        });
-}, []);
+      .get(`http://localhost:8081/staffsconnect/countstudentandtutor`)
+      .then((response) => {
+        setData(response.data);
+      })
+      .catch((error) => {
+        console.error(error);
+      });
+  }, []);
 
   return (
-    <Box id="chart" sx={{marginTop:"30px", marginLeft:"10px"}}>
+    <Box id="chart" sx={{ marginTop: "30px", marginLeft: "10px" }}>
       <Typography variant="h6" align="center" gutterBottom>
         Lượng học sinh và gia sư theo từng lớp
       </Typography>

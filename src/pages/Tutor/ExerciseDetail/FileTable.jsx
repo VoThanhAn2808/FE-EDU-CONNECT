@@ -9,11 +9,13 @@ import Paper from '@mui/material/Paper';
 import axios from 'axios';
 import * as React from 'react';
 import { useState, useEffect } from 'react';
-import { Box, Button, Link, Modal, TextField, Typography } from '@mui/material';
+import { Box, Button, Link, Modal, Snackbar, TextField, Typography } from '@mui/material';
 import { jwtDecode } from 'jwt-decode';
 import InsertDriveFileIcon from '@mui/icons-material/InsertDriveFile';
 import styled from '@emotion/styled';
 import CloudUploadIcon from '@mui/icons-material/CloudUpload';
+import MuiAlert from '@mui/material/Alert';
+
 
 function FileTable(props) {
     const token = localStorage.getItem("token");
@@ -23,6 +25,19 @@ function FileTable(props) {
     const [fileid, setFileid] = useState('');
     const [nameFile, setNameFile] = useState('');
     const [open2, setOpen2] = useState(false);
+    const [snackbarOpen, setSnackbarOpen] = useState(false);
+    const [snackbarMessage, setSnackbarMessage] = useState('');
+    const [snackbarType, setSnackbarType] = useState('success');
+
+    const showSnackbar = (message, type) => {
+        setSnackbarMessage(message);
+        setSnackbarType(type);
+        setSnackbarOpen(true);
+    };
+
+    const handleSnackbarClose = () => {
+        setSnackbarOpen(false);
+    };
 
     const handleOpen2 = (fileid, nameFile, file) => {
         setFile(file);
@@ -46,7 +61,7 @@ function FileTable(props) {
                     },
                 }
             );
-            alert(response.data)
+            showSnackbar(response.data)
             window.location.reload();
         } catch (error) {
             console.error(error);
@@ -70,7 +85,7 @@ function FileTable(props) {
                     },
                 }
             );
-            alert(response.data.message)
+            showSnackbar(response.data.message)
             window.location.reload();
         } catch (error) {
             console.error(error);
@@ -172,6 +187,20 @@ function FileTable(props) {
 
                         <Box sx={{ marginTop: "30px", marginLeft: "34%", display: 'flex' }}>
                             <Button onClick={(e) => handleSubmitFile(e)} sx={{ backgroundColor: "green", color: "black", fontSize: "12px", fontWeight: "600" }}>Lưu</Button>
+                            <Snackbar
+                                open={snackbarOpen}
+                                autoHideDuration={3000}
+                                onClose={handleSnackbarClose}
+                                anchorOrigin={{ vertical: 'top', horizontal: 'right' }}
+                            >
+                                <MuiAlert
+                                    onClose={handleSnackbarClose}
+                                    severity={snackbarType}
+                                    sx={{ width: '100%', fontSize: '15px' }}
+                                >
+                                    {snackbarMessage}
+                                </MuiAlert>
+                            </Snackbar>
                             <Button sx={{ backgroundColor: "red", color: "black", fontSize: "12px", fontWeight: "600", marginLeft: '10px' }} onClick={() => setOpen2(false)} >Huỷ</Button>
                         </Box>
                     </Box>

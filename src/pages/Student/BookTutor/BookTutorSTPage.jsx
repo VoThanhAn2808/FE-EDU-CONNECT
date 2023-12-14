@@ -28,11 +28,11 @@ function BookTutorSTPage() {
         setSnackbarMessage(message);
         setSnackbarType(type);
         setSnackbarOpen(true);
-      };
-    
-      const handleSnackbarClose = () => {
+    };
+
+    const handleSnackbarClose = () => {
         setSnackbarOpen(false);
-      };
+    };
 
     useEffect(() => {
         axios
@@ -50,7 +50,7 @@ function BookTutorSTPage() {
         axios
             .get(`http://localhost:8081/tutorByCourse/find4TutorByCourse?CourseId=${classcourseid}`)
             .then((response) => {
-                setPage(response.data); 
+                setPage(response.data);
             })
             .catch((error) => {
                 console.error(error);
@@ -63,7 +63,7 @@ function BookTutorSTPage() {
         axios
             .get(`http://localhost:8081/course/findCourseByTutor?tutorid=${tutorid}`)
             .then((response) => {
-                setCourse(response.data); 
+                setCourse(response.data);
             })
             .catch((error) => {
                 console.error(error);
@@ -186,7 +186,7 @@ function BookTutorSTPage() {
                         />
                         <Box className="button" sx={{ display: 'flex' }}>
                             <Button
-                                variant="contained" className="register" type="submit" onClick={handleSubmit}>
+                                variant="contained" color="success" className="register" type="submit" onClick={handleSubmit}>
                                 Đăng ký ngay
                             </Button>
                             <Button href={`/viewinfomationpage/${data.tutorId}`}
@@ -195,7 +195,7 @@ function BookTutorSTPage() {
                             </Button>
                             {data.status === 0 ? (
                                 <Button
-                                    variant="contained" className="try" onClick={handleSubmitTry}>
+                                    variant="contained" color="warning" className="try" onClick={handleSubmitTry}>
                                     Đăng ký học thử
                                 </Button>
                             ) : (
@@ -260,7 +260,7 @@ function BookTutorSTPage() {
                     {page.map((item, index) => (
                         <Grid item xs={3} key={index}>
                             <Box className='top4couse'>
-                                <Typography sx={{ fontSize: '12px', textAlign: 'center',fontFamily : 'cursive', marginTop: '5px' }}>
+                                <Typography sx={{ fontSize: '12px', textAlign: 'center', fontFamily: 'cursive', marginTop: '5px' }}>
                                     Gia sư dạy {item.coursename} {item.classentity}
                                 </Typography>
                                 <img src={`http://localhost:8081/edu/file/fileuser/${item.img}/${item.tutorid}`}
@@ -277,7 +277,7 @@ function BookTutorSTPage() {
 
                                     }}
                                 />
-                                <Typography sx={{ fontSize: '15px', textAlign: 'center', fontFamily : 'cursive' }}>
+                                <Typography sx={{ fontSize: '15px', textAlign: 'center', fontFamily: 'cursive' }}>
                                     {item.fullname}
                                 </Typography>
                                 <Button
@@ -289,18 +289,18 @@ function BookTutorSTPage() {
                     ))}
                 </Grid>
                 <Snackbar
-                  open={snackbarOpen}
-                  autoHideDuration={3000}
-                  onClose={handleSnackbarClose}
-                  anchorOrigin={{ vertical: 'top', horizontal: 'right' }}
-                >
-                  <MuiAlert
+                    open={snackbarOpen}
+                    autoHideDuration={3000}
                     onClose={handleSnackbarClose}
-                    severity={snackbarType}
-                    sx={{ width: '100%', fontSize: '15px' }}
-                  >
-                    {snackbarMessage}
-                  </MuiAlert>
+                    anchorOrigin={{ vertical: 'top', horizontal: 'right' }}
+                >
+                    <MuiAlert
+                        onClose={handleSnackbarClose}
+                        severity={snackbarType}
+                        sx={{ width: '100%', fontSize: '15px' }}
+                    >
+                        {snackbarMessage}
+                    </MuiAlert>
                 </Snackbar>
             </Box>
         </Box>

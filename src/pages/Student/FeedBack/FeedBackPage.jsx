@@ -26,29 +26,29 @@ function Feedback() {
     const handleSubmitFB = async (event, feedbackid) => {
         event.preventDefault();
         event.stopPropagation();
-      
+
         const config = {
-          headers: {
-            "Content-Type": "application/json",
-          },
-        };
-      
-        try {
-          await axios.post(
-            "http://localhost:8081/student/addfeedback",
-            {
-              feedbackid: feedbackid,
-              notes: note,
-              ranks: ratingValue,
+            headers: {
+                "Content-Type": "application/json",
             },
-            config
-          );
-      
-          window.location.href = "/feedback";
+        };
+
+        try {
+            await axios.post(
+                "http://localhost:8081/student/addfeedback",
+                {
+                    feedbackid: feedbackid,
+                    notes: note,
+                    ranks: ratingValue,
+                },
+                config
+            );
+
+            window.location.href = "/feedback";
         } catch (error) {
-          console.error(error);
+            console.error(error);
         }
-      };
+    };
 
     const handleOpen = () => setOpen(true);
     const handleClose = () => setOpen(false);
@@ -70,7 +70,7 @@ function Feedback() {
 
     return (
         <Box sx={{ height: '100%' }}>
-            <Typography variant="h3" sx={{textAlign : 'center', marginTop : '40px', fontFamily : 'cursive'}}>Đánh giá gia sư</Typography>
+            <Typography variant="h3" sx={{ textAlign: 'center', marginTop: '40px', fontFamily: 'cursive' }}>Đánh giá gia sư</Typography>
             <Box sx={{ backgroundColor: 'gray', width: '980px', marginLeft: 'auto', borderRadius: '20%', marginRight: 'auto', marginTop: '50px' }}>
                 <TableContainer component={Paper} sx={{ width: '100%' }}>
                     <Table>

@@ -300,7 +300,7 @@ function BookTime() {
                         <Button onClick={handleOpen} variant="contained" color="success" style={{ height: '30px', backgroundColor: 'green', fontSize: '12px', marginRight: '20px' }}>
                             Thanh toán
                         </Button>
-                        <Snackbar open={showAlert} autoHideDuration={3000} onClose={handleAlertClose} sx={{marginBottom:"20%", marginLeft:"30%"}}>
+                        <Snackbar open={showAlert} autoHideDuration={3000} onClose={handleAlertClose} sx={{ marginBottom: "20%", marginLeft: "30%" }}>
                             <Alert onClose={handleAlertClose} autoHideDuration={1000} severity="warning" sx={{ backgroundColor: '#ffee58', fontSize: "15px" }}>
                                 Vui lòng chọn đủ 3 lịch học để tiến hành thanh toán.
                             </Alert>
@@ -336,7 +336,7 @@ function BookTime() {
                             <img src={BANK} alt="logo" style={{ height: "80px", width: "170px" }} />
                         </Box>
                     </Box>
-                    <Box sx={{ marginLeft: '70%', marginTop:"20px"}}>
+                    <Box sx={{ marginLeft: '70%', marginTop: "20px" }}>
                         <Button onClick={handleClose} variant="contained" sx={{ height: '30px', backgroundColor: 'red', fontSize: '12px' }}>
                             Huỷ
                         </Button>
@@ -356,7 +356,7 @@ function BookTime() {
                         <Typography style={{ fontSize: "18px", fontWeight: "700", color: "red" }}>Nội dung: Họ và Tên + Lớp</Typography>
                         <UploadImage />
                     </Box>
-                    <Box sx={{ marginLeft: '40%', marginTop:"20px"}}>
+                    <Box sx={{ marginLeft: '40%', marginTop: "20px" }}>
                         <Button onClick={handleSubmit} variant="contained" style={{ height: '30px', backgroundColor: 'green', fontSize: '12px', marginRight: '20px' }}>
                             Thanh toán
                         </Button>

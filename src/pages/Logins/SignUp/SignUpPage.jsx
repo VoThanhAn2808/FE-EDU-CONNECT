@@ -25,7 +25,7 @@ function SignupPage() {
   const [nameError, setNameError] = useState('');
   const [phoneError, setPhoneError] = useState('');
   const [emailError, setEmailError] = useState('');
-  const [ClassError, setClassError] = useState('');
+  const [setClassError] = useState('');
   const [passwordError, setPasswordError] = useState('');
   const [confirmPassword, setConfirmPassword] = useState('');
   const [snackbarOpen, setSnackbarOpen] = useState(false);

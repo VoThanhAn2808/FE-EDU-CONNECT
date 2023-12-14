@@ -19,11 +19,11 @@ function FeedbackTutor() {
         setSnackbarMessage(message);
         setSnackbarType(type);
         setSnackbarOpen(true);
-      };
-    
-      const handleSnackbarClose = () => {
+    };
+
+    const handleSnackbarClose = () => {
         setSnackbarOpen(false);
-      };
+    };
 
     useEffect(() => {
         axios
@@ -96,7 +96,7 @@ function FeedbackTutor() {
 
     return (
         <Box sx={{ height: '100%' }}>
-            <Typography variant="h3" sx={{textAlign : 'center', marginTop : '40px', fontFamily : 'cursive'}}>Đánh giá gia sư</Typography>
+            <Typography variant="h3" sx={{ textAlign: 'center', marginTop: '40px', fontFamily: 'cursive' }}>Đánh giá gia sư</Typography>
             <Box sx={{ backgroundColor: 'gray', width: '980px', marginLeft: 'auto', borderRadius: '20%', marginRight: 'auto', marginTop: '50px' }}>
                 <TableContainer component={Paper} sx={{ width: '100%' }}>
                     <Table>
@@ -169,18 +169,18 @@ function FeedbackTutor() {
                     </Box>
                 </Modal>
                 <Snackbar
-                  open={snackbarOpen}
-                  autoHideDuration={3000}
-                  onClose={handleSnackbarClose}
-                  anchorOrigin={{ vertical: 'top', horizontal: 'right' }}
-                >
-                  <MuiAlert
+                    open={snackbarOpen}
+                    autoHideDuration={3000}
                     onClose={handleSnackbarClose}
-                    severity={snackbarType}
-                    sx={{ width: '100%', fontSize: '15px' }}
-                  >
-                    {snackbarMessage}
-                  </MuiAlert>
+                    anchorOrigin={{ vertical: 'top', horizontal: 'right' }}
+                >
+                    <MuiAlert
+                        onClose={handleSnackbarClose}
+                        severity={snackbarType}
+                        sx={{ width: '100%', fontSize: '15px' }}
+                    >
+                        {snackbarMessage}
+                    </MuiAlert>
                 </Snackbar>
             </Box>
         </Box>

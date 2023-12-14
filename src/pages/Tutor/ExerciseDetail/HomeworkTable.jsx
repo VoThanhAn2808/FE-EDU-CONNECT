@@ -9,12 +9,14 @@ import Paper from '@mui/material/Paper';
 import axios from 'axios';
 import * as React from 'react';
 import { useState, useEffect } from 'react';
-import { Box, Button, FormControl, Grid, InputLabel, Link, MenuItem, Modal, Select, TextField, Typography } from '@mui/material';
+import { Box, Button, FormControl, Grid, InputLabel, Link, MenuItem, Modal, Select, Snackbar, TextField, Typography } from '@mui/material';
 import InsertDriveFileIcon from '@mui/icons-material/InsertDriveFile';
 import { jwtDecode } from 'jwt-decode';
 import RemoveRedEyeIcon from '@mui/icons-material/RemoveRedEye';
 import Iframe from 'react-iframe';
 import VisibilityOffIcon from '@mui/icons-material/VisibilityOff';
+import MuiAlert from '@mui/material/Alert';
+
 
 function HomeworkTable(props, exercise) {
   const token = localStorage.getItem("token");
@@ -24,6 +26,19 @@ function HomeworkTable(props, exercise) {
   const [demo, setDemo] = useState(null);
   const [demo1, setDemo1] = useState([]);
   const [open1, setOpen1] = useState(false);
+  const [snackbarOpen, setSnackbarOpen] = useState(false);
+  const [snackbarMessage, setSnackbarMessage] = useState('');
+  const [snackbarType, setSnackbarType] = useState('success');
+
+  const showSnackbar = (message, type) => {
+    setSnackbarMessage(message);
+    setSnackbarType(type);
+    setSnackbarOpen(true);
+  };
+
+  const handleSnackbarClose = () => {
+    setSnackbarOpen(false);
+  };
   const handleOpen1 = (homeworkid) => {
     setDemo(homeworkid);
     setOpen1(true);
@@ -49,7 +64,7 @@ function HomeworkTable(props, exercise) {
           },
         }
       );
-      alert(response.data)
+      showSnackbar(response.data)
       window.location.reload();
     } catch (error) {
       console.error(error);
@@ -99,7 +114,7 @@ function HomeworkTable(props, exercise) {
           },
         }
       );
-      alert(response.data.message)
+      showSnackbar(response.data.message)
       window.location.reload();
     } catch (error) {
       console.error(error);
@@ -324,6 +339,20 @@ function HomeworkTable(props, exercise) {
               <Button variant='contained' color='primary' size='large' onClick={(e) => handleUpdateSubmit(e)}>
                 Cập nhật
               </Button>
+              <Snackbar
+                open={snackbarOpen}
+                autoHideDuration={3000}
+                onClose={handleSnackbarClose}
+                anchorOrigin={{ vertical: 'top', horizontal: 'right' }}
+              >
+                <MuiAlert
+                  onClose={handleSnackbarClose}
+                  severity={snackbarType}
+                  sx={{ width: '100%', fontSize: '15px' }}
+                >
+                  {snackbarMessage}
+                </MuiAlert>
+              </Snackbar>
             </Grid>
           </Grid>
         </Box>

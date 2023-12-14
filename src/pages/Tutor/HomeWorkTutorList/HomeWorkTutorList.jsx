@@ -51,13 +51,13 @@ function HomeWorkTutorList() {
                     <Button
                         variant={exerciseType === "homework" ? "contained" : "outlined"}
                         onClick={handleHomeworkClick}
-                        >
+                    >
                         Homework
                     </Button>
                     <Button
                         variant={exerciseType === "classroom" ? "contained" : "outlined"}
                         onClick={handleClassroomClick}
-                        >
+                    >
                         Classroom
                     </Button>
                 </Box>

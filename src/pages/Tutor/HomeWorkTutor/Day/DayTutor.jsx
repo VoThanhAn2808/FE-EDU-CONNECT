@@ -12,14 +12,16 @@ export default function DatePickerValue() {
   return (
     <LocalizationProvider dateAdapter={AdapterDayjs}>
       <DemoContainer components={['DatePicker', 'DatePicker']}>
-        <Box sx={{'& .MuiInputBase-input': { fontSize: '16px'},
-         border:"1px solid #000000", borderRadius:"10px", backgroundColor:"white"}}>
-            <DatePicker
-              label=""
-              value={value}
-              onChange={(newValue) => setValue(newValue)}
-              format="DD/MM/YYYY"
-            />
+        <Box sx={{
+          '& .MuiInputBase-input': { fontSize: '16px' },
+          border: "1px solid #000000", borderRadius: "10px", backgroundColor: "white"
+        }}>
+          <DatePicker
+            label=""
+            value={value}
+            onChange={(newValue) => setValue(newValue)}
+            format="DD/MM/YYYY"
+          />
         </Box>
       </DemoContainer>
     </LocalizationProvider>

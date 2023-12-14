@@ -102,7 +102,7 @@ function ProfileStaff() {
   const handleCloseSnackbar = () => {
     setShowSnackbar(false);
   };
-  
+
   const handleInputChange = (field, value) => {
     setUserData({
       ...userData,
@@ -200,18 +200,18 @@ function ProfileStaff() {
             isPhoneNumberValid={isPhoneNumberValid}
           />
           <Snackbar
-        open={showSnackbar}
-        autoHideDuration={3000}
-        onClose={handleCloseSnackbar}
-        anchorOrigin={{
-          vertical: 'top',
-          horizontal: 'center',
-        }}
-      >
-        <Alert severity="success" onClose={handleCloseSnackbar}>
-          Cập nhật thành công!
-        </Alert>
-      </Snackbar>
+            open={showSnackbar}
+            autoHideDuration={3000}
+            onClose={handleCloseSnackbar}
+            anchorOrigin={{
+              vertical: 'top',
+              horizontal: 'center',
+            }}
+          >
+            <Alert severity="success" onClose={handleCloseSnackbar}>
+              Cập nhật thành công!
+            </Alert>
+          </Snackbar>
           {isEditing ? (
             <Button variant='contained' onClick={handleSave}>
               Lưu
