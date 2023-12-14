@@ -22,7 +22,7 @@ function ProfileInfo({
         label='Họ Và Tên'
         fullWidth
         value={userData.fullname || ''}
-        onChange={(e) => handleInputChange('fullName', e.target.value)}
+        onChange={(e) => handleInputChange('fullname', e.target.value)}
         disabled={!isEditing}
         InputLabelProps={{
           shrink: userData.fullname ? true : undefined,
