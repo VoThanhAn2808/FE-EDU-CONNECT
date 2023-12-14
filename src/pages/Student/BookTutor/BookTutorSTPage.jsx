@@ -1,6 +1,6 @@
 import React, { useEffect, useState } from "react";
 import './BookTutor.css';
-import { Box, Grid, Typography } from "@mui/material";
+import { Box, Grid, Snackbar, Typography } from "@mui/material";
 import PersonIcon from '@mui/icons-material/Person';
 import ShareIcon from '@mui/icons-material/Share';
 import MoreHorizIcon from '@mui/icons-material/MoreHoriz';
@@ -11,6 +11,8 @@ import { Link, useParams } from "react-router-dom";
 import axios from "axios";
 import { jwtDecode } from "jwt-decode";
 import DiscountIcon from '@mui/icons-material/Discount';
+import MuiAlert from '@mui/material/Alert';
+
 
 
 function BookTutorSTPage() {
@@ -19,6 +21,18 @@ function BookTutorSTPage() {
 
     const { tutorid } = useParams();
     const { classcourseid } = useParams();
+    const [snackbarOpen, setSnackbarOpen] = useState(false);
+    const [snackbarMessage, setSnackbarMessage] = useState('');
+    const [snackbarType, setSnackbarType] = useState('success');
+    const showSnackbar = (message, type) => {
+        setSnackbarMessage(message);
+        setSnackbarType(type);
+        setSnackbarOpen(true);
+    };
+
+    const handleSnackbarClose = () => {
+        setSnackbarOpen(false);
+    };
 
     useEffect(() => {
         axios
@@ -36,7 +50,7 @@ function BookTutorSTPage() {
         axios
             .get(`http://localhost:8081/tutorByCourse/find4TutorByCourse?CourseId=${classcourseid}`)
             .then((response) => {
-                setPage(response.data); 
+                setPage(response.data);
             })
             .catch((error) => {
                 console.error(error);
@@ -49,7 +63,7 @@ function BookTutorSTPage() {
         axios
             .get(`http://localhost:8081/course/findCourseByTutor?tutorid=${tutorid}`)
             .then((response) => {
-                setCourse(response.data); 
+                setCourse(response.data);
             })
             .catch((error) => {
                 console.error(error);
@@ -113,7 +127,7 @@ function BookTutorSTPage() {
                 },
                 config
             );
-            alert("Đăng ký thành công bạn vui lòng đợi email duyệt từ EDU-CONNECT")
+            showSnackbar("Đăng ký thành công bạn vui lòng đợi email duyệt từ EDU-CONNECT")
             window.location.href = '/homestudent';
         } catch (error) {
             console.error(error);
@@ -172,7 +186,7 @@ function BookTutorSTPage() {
                         />
                         <Box className="button" sx={{ display: 'flex' }}>
                             <Button
-                                variant="contained" className="register" type="submit" onClick={handleSubmit}>
+                                variant="contained" color="success" className="register" type="submit" onClick={handleSubmit}>
                                 Đăng ký ngay
                             </Button>
                             <Button href={`/viewinfomationpage/${data.tutorId}`}
@@ -181,7 +195,7 @@ function BookTutorSTPage() {
                             </Button>
                             {data.status === 0 ? (
                                 <Button
-                                    variant="contained" className="try" onClick={handleSubmitTry}>
+                                    variant="contained" color="warning" className="try" onClick={handleSubmitTry}>
                                     Đăng ký học thử
                                 </Button>
                             ) : (
@@ -246,7 +260,7 @@ function BookTutorSTPage() {
                     {page.map((item, index) => (
                         <Grid item xs={3} key={index}>
                             <Box className='top4couse'>
-                                <Typography sx={{ fontSize: '12px', textAlign: 'center',fontFamily : 'cursive', marginTop: '5px' }}>
+                                <Typography sx={{ fontSize: '12px', textAlign: 'center', fontFamily: 'cursive', marginTop: '5px' }}>
                                     Gia sư dạy {item.coursename} {item.classentity}
                                 </Typography>
                                 <img src={`http://localhost:8081/edu/file/fileuser/${item.img}/${item.tutorid}`}
@@ -263,7 +277,7 @@ function BookTutorSTPage() {
 
                                     }}
                                 />
-                                <Typography sx={{ fontSize: '15px', textAlign: 'center', fontFamily : 'cursive' }}>
+                                <Typography sx={{ fontSize: '15px', textAlign: 'center', fontFamily: 'cursive' }}>
                                     {item.fullname}
                                 </Typography>
                                 <Button
@@ -274,6 +288,20 @@ function BookTutorSTPage() {
                         </Grid>
                     ))}
                 </Grid>
+                <Snackbar
+                    open={snackbarOpen}
+                    autoHideDuration={3000}
+                    onClose={handleSnackbarClose}
+                    anchorOrigin={{ vertical: 'top', horizontal: 'right' }}
+                >
+                    <MuiAlert
+                        onClose={handleSnackbarClose}
+                        severity={snackbarType}
+                        sx={{ width: '100%', fontSize: '15px' }}
+                    >
+                        {snackbarMessage}
+                    </MuiAlert>
+                </Snackbar>
             </Box>
         </Box>
     );

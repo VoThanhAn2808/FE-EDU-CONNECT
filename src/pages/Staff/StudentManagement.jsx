@@ -1,7 +1,9 @@
 import React, { useCallback, useEffect, useState } from "react";
-import { Avatar, Box, Menu, MenuItem, Modal, Pagination, Table, TableBody, TableCell, TableContainer, TableHead, TableRow, TextField, Typography } from "@mui/material";
+import { Avatar, Box, Menu, MenuItem, Modal, Pagination, Snackbar, Table, TableBody, TableCell, TableContainer, TableHead, TableRow, TextField, Typography } from "@mui/material";
 import MoreVertIcon from '@mui/icons-material/MoreVert';
 import axios from "axios";
+import MuiAlert from '@mui/material/Alert';
+
 
 function StudentManagement() {
     const [data, setData] = useState([]);
@@ -12,6 +14,19 @@ function StudentManagement() {
     const [searchName, setSearchName] = useState("");
     const [student, setStudent] = useState(null);
     const [vstudent, setVstudent] = useState('');
+    const [snackbarOpen, setSnackbarOpen] = useState(false);
+    const [snackbarMessage, setSnackbarMessage] = useState('');
+    const [snackbarType, setSnackbarType] = useState('success');
+
+    const showSnackbar = (message, type) => {
+        setSnackbarMessage(message);
+        setSnackbarType(type);
+        setSnackbarOpen(true);
+    };
+
+    const handleSnackbarClose = () => {
+        setSnackbarOpen(false);
+    };
 
     const handleSearch = (event) => {
         setSearchName(event.target.value);
@@ -30,7 +45,7 @@ function StudentManagement() {
         event.stopPropagation();
         try {
             const response = await axios.get(`http://localhost:8081/staffsconnect/student/block/${student}`);
-            alert(response.data);
+            showSnackbar(response.data);
             window.location.reload();
         } catch (error) {
             console.error(error);
@@ -114,7 +129,7 @@ function StudentManagement() {
                     marginTop: '10px',
                 }}>
                     <TextField
-                    label="Tìm Kiếm"
+                        label="Tìm Kiếm"
                         sx={{
                             borderRadius: '11%',
                             width: '200px',
@@ -205,6 +220,20 @@ function StudentManagement() {
                 </Modal>
                 <Box sx={{ display: 'flex', justifyContent: 'center', marginTop: "15px" }}>
                     <Pagination count={pstudent.length} page={page} onChange={handlePageChange} sx={{ '& .MuiPaginationItem-root': { fontSize: '15px', minWidth: '50px' } }} />
+                    <Snackbar
+                        open={snackbarOpen}
+                        autoHideDuration={3000}
+                        onClose={handleSnackbarClose}
+                        anchorOrigin={{ vertical: 'top', horizontal: 'right' }}
+                    >
+                        <MuiAlert
+                            onClose={handleSnackbarClose}
+                            severity={snackbarType}
+                            sx={{ width: '100%', fontSize: '15px' }}
+                        >
+                            {snackbarMessage}
+                        </MuiAlert>
+                    </Snackbar>
                 </Box>
             </Box>
         </Box>

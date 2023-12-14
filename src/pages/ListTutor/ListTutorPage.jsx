@@ -93,8 +93,7 @@ function ListTutor() {
     };
 
     return (
-        <Box sx={{
-        }}>
+        <Box>
             <Box sx={{
                 marginLeft: '75%',
                 marginTop: '20px',

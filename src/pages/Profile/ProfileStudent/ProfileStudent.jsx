@@ -8,6 +8,8 @@ import axios from 'axios';
 import { jwtDecode } from 'jwt-decode';
 import { useEffect } from 'react';
 import dayjs from 'dayjs';
+import Snackbar from '@mui/material/Snackbar';
+import Alert from '@mui/material/Alert';
 
 const theme = createTheme({
   typography: {
@@ -24,7 +26,7 @@ const ProfileStudent = () => {
   const [city, setCity] = useState([]);
   const [wards, setWards] = useState([]);
   const [validationError, setValidationError] = useState(null);
-
+  const [showSnackbar, setShowSnackbar] = useState(false);
 
 
   const [userData, setUserData] = useState({
@@ -50,7 +52,7 @@ const ProfileStudent = () => {
     const currentDate = dayjs();
     return dayjs(birthdate).isBefore(currentDate);
   };
-  
+
 
   const fetchUser = useCallback(async () => {
     try {
@@ -110,11 +112,15 @@ const ProfileStudent = () => {
           },
         }
       );
-      alert("Cập nhật thành công")
+      setShowSnackbar(true);
       window.location.reload();
     } catch (error) {
       console.error(error);
     }
+  };
+
+  const handleCloseSnackbar = () => {
+    setShowSnackbar(false);
   };
 
   const handleInputChange = (field, value) => {
@@ -122,12 +128,12 @@ const ProfileStudent = () => {
       ...userData,
       [field]: value,
     });
-     setValidationError(null);
+    setValidationError(null);
   };
 
   const handleSave = () => {
     if (!validateInputs()) {
-      return; 
+      return;
     }
 
     setUserData({
@@ -142,7 +148,7 @@ const ProfileStudent = () => {
   };
 
   const validateInputs = () => {
-    
+
     if (
       userData.fullname === '' ||
       userData.gender === '' ||
@@ -150,22 +156,22 @@ const ProfileStudent = () => {
       userData.phone === '' ||
       userData.city === '' ||
       userData.wards === '' ||
-      userData.classId === '' 
+      userData.classId === ''
     ) {
       setValidationError('Vui lòng nhập đầy đủ dữ liệu của bạn');
-      return false; 
+      return false;
     }
     if (isBirthdateValid(userData.birthdate) !== true) {
       setValidationError('Ngày tháng năm sinh không được lớn hơn ngày hiện tại')
-      return false; 
+      return false;
     }
     if (isPhoneNumberValid(userData.phone) !== true) {
       setValidationError('Số Điện Thoại Phải là 10 Số');
-      return false; 
+      return false;
     }
 
-    setValidationError(null); 
-    return true; 
+    setValidationError(null);
+    return true;
   };
 
   const handleFileChange = (selectedFile) => {
@@ -215,6 +221,19 @@ const ProfileStudent = () => {
             isBirthdateValid={isBirthdateValid}
             isPhoneNumberValid={isPhoneNumberValid}
           />
+          <Snackbar
+            open={showSnackbar}
+            autoHideDuration={3000}
+            onClose={handleCloseSnackbar}
+            anchorOrigin={{
+              vertical: 'top',
+              horizontal: 'center',
+            }}
+          >
+            <Alert severity="success" onClose={handleCloseSnackbar}>
+              Cập nhật thành công!
+            </Alert>
+          </Snackbar>
           {isEditing ? (
             <Button variant='contained' onClick={handleSave}>
               Lưu

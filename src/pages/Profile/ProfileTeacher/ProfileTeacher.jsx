@@ -6,6 +6,8 @@ import { Box, Paper, ThemeProvider, createTheme } from '@mui/material';
 import axios from 'axios';
 import { jwtDecode } from 'jwt-decode';
 import dayjs from 'dayjs';
+import Snackbar from '@mui/material/Snackbar';
+import Alert from '@mui/material/Alert';
 
 const theme = createTheme({
   typography: {
@@ -23,6 +25,8 @@ const ProfileTeacher = () => {
   const [city, setCity] = useState([]);
   const [wards, setWards] = useState([]);
   const [validationError, setValidationError] = useState(null);
+  const [showSnackbar, setShowSnackbar] = useState(false);
+
 
   const isPhoneNumberValid = (phoneNumber) => {
     const phoneNumberRegex = /^\d{10}$/;
@@ -43,7 +47,7 @@ const ProfileTeacher = () => {
             'Content-Type': 'application/json',
           },
         },
-      );      
+      );
       setUserData({ ...response.data, email: decodedToken.sub });
     } catch (error) {
       console.error(error);
@@ -84,11 +88,15 @@ const ProfileTeacher = () => {
             'Content-Type': 'multipart/form-data',
           },
         });
-        alert("Cập nhật thành công")
-        window.location.reload();
+      setShowSnackbar(true);
+      window.location.reload();
     } catch (error) {
       console.error(error);
     }
+  };
+
+  const handleCloseSnackbar = () => {
+    setShowSnackbar(false);
   };
 
 
@@ -162,7 +170,7 @@ const ProfileTeacher = () => {
   const handleFileChange = (selectedFile) => {
     setUploadedFile(selectedFile);
   };
-  
+
 
   return (
     <Box
@@ -204,6 +212,19 @@ const ProfileTeacher = () => {
             isBirthdateValid={isBirthdateValid}
             isPhoneNumberValid={isPhoneNumberValid}
           />
+          <Snackbar
+            open={showSnackbar}
+            autoHideDuration={3000}
+            onClose={handleCloseSnackbar}
+            anchorOrigin={{
+              vertical: 'top',
+              horizontal: 'center',
+            }}
+          >
+            <Alert severity="success" onClose={handleCloseSnackbar}>
+              Cập nhật thành công!
+            </Alert>
+          </Snackbar>
           {isEditing ? (
             <Button variant='contained' onClick={handleSave}>
               Lưu

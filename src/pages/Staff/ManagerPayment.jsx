@@ -94,11 +94,11 @@ function ManagerPayment() {
                                             <TableCell style={{ fontSize: "12px", fontFamily: "cursive", textAlign: "center" }}>{item.bank}</TableCell>
                                             <TableCell style={{ fontSize: "12px", fontFamily: "cursive", textAlign: "center" }}>
                                                 {item.date ? (
-                                                    <Typography style={{ marginRight: '10px', fontSize: "12px", fontFamily: "cursive", color : 'green'}}>
+                                                    <Typography style={{ marginRight: '10px', fontSize: "12px", fontFamily: "cursive", color: 'green' }}>
                                                         Đã duyệt
                                                     </Typography>
                                                 ) : (
-                                                    <Button variant="contained" type="danger" style={{ backgroundColor : '#FDE9AF', color : 'black', marginRight: '10px', fontSize: "10px", fontFamily: "cursive", }} onClick={(event) => handleClickChange(item.tutorid, event)}>
+                                                    <Button variant="contained" type="danger" style={{ backgroundColor: '#FDE9AF', color: 'black', marginRight: '10px', fontSize: "10px", fontFamily: "cursive", }} onClick={(event) => handleClickChange(item.tutorid, event)}>
                                                         Duyệt
                                                     </Button>
                                                 )}

@@ -71,7 +71,7 @@ export default function CreateModal(props) {
     };
     try {
       //Upload image
-      const responseUploadImage = await axios.post('http://localhost:8081/edu/file/uploadImage', formData, {
+      const responseUploadImage = await axios.post('http://localhost:8081/edu/file/uploadImages', formData, {
         headers: {
           'Content-Type': 'multipart/form-data',
         },

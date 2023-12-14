@@ -1,8 +1,10 @@
 import React, { useCallback, useEffect, useState } from "react";
-import { Avatar, Box, Button, Menu, MenuItem, Modal, Pagination, Table, TableBody, TableCell, TableContainer, TableHead, TableRow, TextField, Typography } from "@mui/material";
+import { Avatar, Box, Button, Menu, MenuItem, Modal, Pagination, Snackbar, Table, TableBody, TableCell, TableContainer, TableHead, TableRow, TextField, Typography } from "@mui/material";
 import MoreVertIcon from '@mui/icons-material/MoreVert';
 import axios from "axios";
 import { jwtDecode } from "jwt-decode";
+import MuiAlert from '@mui/material/Alert';
+
 
 function TutorManagement() {
     const [open, setOpen] = React.useState(false);
@@ -14,8 +16,20 @@ function TutorManagement() {
     const [data3, setData3] = useState([]);
     const [anchorEl, setAnchorEl] = useState(null);
     const [searchName, setSearchName] = useState("");
-    const [tutor, setTutor] = useState(null);
+    const [tutor, setTutor] = useState(null)
+    const [snackbarOpen, setSnackbarOpen] = useState(false);
+    const [snackbarMessage, setSnackbarMessage] = useState('');
+    const [snackbarType, setSnackbarType] = useState('success');
 
+    const showSnackbar = (message, type) => {
+        setSnackbarMessage(message);
+        setSnackbarType(type);
+        setSnackbarOpen(true);
+    };
+
+    const handleSnackbarClose = () => {
+        setSnackbarOpen(false);
+    };
 
     const handleSearch = (event) => {
         setSearchName(event.target.value);
@@ -110,7 +124,7 @@ function TutorManagement() {
                     },
                 }
             );
-            alert(response.data);
+            showSnackbar(response.data);
             window.location.reload();
         } catch (error) {
             console.error(error);
@@ -265,7 +279,7 @@ function TutorManagement() {
                     marginTop: '10px',
                 }}>
                     <TextField
-                    label="Tìm Kiếm"
+                        label="Tìm Kiếm"
                         sx={{
                             borderRadius: '11%',
                             width: '200px',
@@ -541,6 +555,20 @@ function TutorManagement() {
                 </Modal>
                 <Box sx={{ display: 'flex', justifyContent: 'center', marginTop: "15px" }}>
                     <Pagination count={total.length} page={page} onChange={handlePageChange} sx={{ '& .MuiPaginationItem-root': { fontSize: '15px', minWidth: '50px' } }} />
+                    <Snackbar
+                        open={snackbarOpen}
+                        autoHideDuration={3000}
+                        onClose={handleSnackbarClose}
+                        anchorOrigin={{ vertical: 'top', horizontal: 'right' }}
+                    >
+                        <MuiAlert
+                            onClose={handleSnackbarClose}
+                            severity={snackbarType}
+                            sx={{ width: '100%', fontSize: '15px' }}
+                        >
+                            {snackbarMessage}
+                        </MuiAlert>
+                    </Snackbar>
                 </Box>
             </Box>
         </Box>

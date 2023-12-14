@@ -9,8 +9,10 @@ import Paper from '@mui/material/Paper';
 import axios from 'axios';
 import * as React from 'react';
 import { useState, useEffect } from 'react';
-import { Box, Button, Link, Modal, TextField, Typography } from '@mui/material';
+import { Box, Button, Link, Modal, Snackbar, TextField, Typography } from '@mui/material';
 import PersonalVideoIcon from '@mui/icons-material/PersonalVideo';
+import MuiAlert from '@mui/material/Alert';
+
 
 function VideoTable(props) {
     const [open3, setOpen3] = useState(false);
@@ -18,6 +20,19 @@ function VideoTable(props) {
     const [videoid, setVideoid] = useState('');
     const [namevideo, setNamevideo] = useState('');
     const [video, setVideo] = useState('');
+    const [snackbarOpen, setSnackbarOpen] = useState(false);
+    const [snackbarMessage, setSnackbarMessage] = useState('');
+    const [snackbarType, setSnackbarType] = useState('success');
+
+    const showSnackbar = (message, type) => {
+        setSnackbarMessage(message);
+        setSnackbarType(type);
+        setSnackbarOpen(true);
+    };
+
+    const handleSnackbarClose = () => {
+        setSnackbarOpen(false);
+    };
 
     const handleOpen3 = (videoid, namevideo, video) => {
         setVideoid(videoid);
@@ -41,7 +56,7 @@ function VideoTable(props) {
                     },
                 }
             );
-            alert(response.data)
+            showSnackbar(response.data)
             window.location.reload();
         } catch (error) {
             console.error(error);
@@ -67,7 +82,7 @@ function VideoTable(props) {
                 },
                 config
             );
-            alert(response.data.message)
+            showSnackbar(response.data.message)
             window.location.reload();
         } catch (error) {
             console.error(error);
@@ -110,7 +125,7 @@ function VideoTable(props) {
                             </TableCell>
                             <TableCell style={{ fontSize: "14px" }}>{row.status === 2 ? 'Chưa xem' : 'Đã xem'}</TableCell>
                             <TableCell style={{ fontSize: "14px" }}>
-                            <Button variant="contained" color="success" sx={{ marginRight: "10px" }} onClick={() => handleOpen3(row.videoid, row.namevideo, row.video)}>
+                                <Button variant="contained" color="success" sx={{ marginRight: "10px" }} onClick={() => handleOpen3(row.videoid, row.namevideo, row.video)}>
                                     Sửa
                                 </Button>
                                 <Button variant="contained" color="error" onClick={(e) => handleDelete(row.videoid, e)}>
@@ -157,6 +172,20 @@ function VideoTable(props) {
 
                         <Box sx={{ marginTop: "30px", marginLeft: "34%", display: 'flex' }}>
                             <Button onClick={(e) => handleSubmit(e)} sx={{ backgroundColor: "green", color: "black", fontSize: "12px", fontWeight: "600" }} >Lưu</Button>
+                            <Snackbar
+                                open={snackbarOpen}
+                                autoHideDuration={3000}
+                                onClose={handleSnackbarClose}
+                                anchorOrigin={{ vertical: 'top', horizontal: 'right' }}
+                            >
+                                <MuiAlert
+                                    onClose={handleSnackbarClose}
+                                    severity={snackbarType}
+                                    sx={{ width: '100%', fontSize: '15px' }}
+                                >
+                                    {snackbarMessage}
+                                </MuiAlert>
+                            </Snackbar>
                             <Button sx={{ backgroundColor: "red", color: "black", fontSize: "12px", fontWeight: "600", marginLeft: '10px' }} onClick={() => setOpen3(false)} >Huỷ</Button>
                         </Box>
                     </Box>

@@ -1,5 +1,5 @@
 import React, { useEffect, useState } from "react";
-import { Box, Button, MenuItem, Modal, Table, TableBody, TableCell, TableContainer, TableHead, TableRow, TextField, Typography } from "@mui/material";
+import { Box, Button, MenuItem, Modal, Snackbar, Table, TableBody, TableCell, TableContainer, TableHead, TableRow, TextField, Typography } from "@mui/material";
 import AddBoxIcon from '@mui/icons-material/AddBox';
 import CloudUploadIcon from '@mui/icons-material/CloudUpload';
 import { styled } from '@mui/material/styles';
@@ -7,6 +7,7 @@ import axios from "axios";
 import RemoveRedEyeIcon from '@mui/icons-material/RemoveRedEye';
 import Iframe from "react-iframe";
 import BuildCircleIcon from '@mui/icons-material/BuildCircle';
+import MuiAlert from '@mui/material/Alert';
 
 
 
@@ -28,6 +29,20 @@ function SimulationManagement() {
     const [file, setFile] = useState('');
     const [mp, setMp] = useState('');
     const [name, setName] = useState('');
+    const [snackbarOpen, setSnackbarOpen] = useState(false);
+    const [snackbarMessage, setSnackbarMessage] = useState('');
+    const [snackbarType, setSnackbarType] = useState('success');
+
+    const showSnackbar = (message, type) => {
+        setSnackbarMessage(message);
+        setSnackbarType(type);
+        setSnackbarOpen(true);
+    };
+
+    const handleSnackbarClose = () => {
+        setSnackbarOpen(false);
+    };
+
     const handleOpens = (link) => {
         setView(link)
         setOpens(true);
@@ -70,7 +85,7 @@ function SimulationManagement() {
                     },
                 }
             );
-            alert(response.data);
+            showSnackbar(response.data);
             window.location.reload();
         } catch (error) {
             console.error(error);
@@ -96,7 +111,7 @@ function SimulationManagement() {
                     },
                 }
             );
-            alert(response.data);
+            showSnackbar(response.data);
             window.location.reload();
         } catch (error) {
             console.error(error);
@@ -474,6 +489,20 @@ function SimulationManagement() {
                         <Box sx={{ marginTop: "20px", marginLeft: "63%" }}>
                             <Button sx={{ height: "30px", width: "20px", backgroundColor: "red", color: "white", marginRight: "5px" }} onClick={handleClose}>Huỷ</Button>
                             <Button sx={{ height: "30px", width: "20px", backgroundColor: "green", color: "white" }} onClick={handleSubmit}>Lưu</Button>
+                            <Snackbar
+                                open={snackbarOpen}
+                                autoHideDuration={3000}
+                                onClose={handleSnackbarClose}
+                                anchorOrigin={{ vertical: 'top', horizontal: 'right' }}
+                            >
+                                <MuiAlert
+                                    onClose={handleSnackbarClose}
+                                    severity={snackbarType}
+                                    sx={{ width: '100%', fontSize: '15px' }}
+                                >
+                                    {snackbarMessage}
+                                </MuiAlert>
+                            </Snackbar>
                         </Box>
                     </Box>
                 </Modal>

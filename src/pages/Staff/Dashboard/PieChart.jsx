@@ -8,18 +8,18 @@ function PieChartMui() {
 
   useEffect(() => {
     axios
-        .get(`http://localhost:8081/staffsconnect/piechart`)
-        .then((response) => {
-          setData(response.data);
-        })
-        .catch((error) => {
-            console.error(error);
-        });
-}, []);
+      .get(`http://localhost:8081/staffsconnect/piechart`)
+      .then((response) => {
+        setData(response.data);
+      })
+      .catch((error) => {
+        console.error(error);
+      });
+  }, []);
 
   return (
     <Box sx={{ width: '100%', height: 300 }}>
-        <Typography  align="center" gutterBottom>
+      <Typography align="center" gutterBottom>
         Số lượng học sinh và gia sư
       </Typography>
       <ResponsiveContainer>

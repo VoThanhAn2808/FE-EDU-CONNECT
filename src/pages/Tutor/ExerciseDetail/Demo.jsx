@@ -19,7 +19,7 @@ function Demo() {
     const [tutor, setTutor] = useState('');
     const decodedToken = jwtDecode(localStorage.getItem('token'));
     const [pages, setPages] = useState(1);
-    const [page, setPage] = useState([]);
+    const [page, setPage] = useState(1);
     useEffect(() => {
         axios.get(`http://localhost:8081/educonnect/viewtutorcourse?classcourseid=${classcourseid}&tutorid=${decodedToken.id}`)
             .then((response) => {
@@ -43,7 +43,7 @@ function Demo() {
             .catch((error) => {
                 console.error(error);
             });
-    }, [demoList]);
+    });
 
     const handlePageChange = (event, pageNumber) => {
         setPages(pageNumber);
@@ -69,11 +69,13 @@ function Demo() {
                         </TableHead>
                         <TableBody>
                             {demoList.map((row) => (
-                                <TableRow key={row.exerciseid} style={{ fontSize: "14px" }}>
+                                <TableRow key={row.demoid} style={{ fontSize: "14px" }}>
                                     <TableCell style={{ fontSize: "14px" }}>{row.classcourseid}</TableCell>
                                     <TableCell style={{ fontSize: "14px" }}>{row.coursename}-{row.classname}</TableCell>
                                     <TableCell style={{ fontSize: "14px" }}>{row.demoname}</TableCell>
-                                    <TableCell style={{ fontSize: "14px" }}>{row.linkdemo}</TableCell>
+                                    <TableCell style={{ fontSize: "14px" }}>
+                                        <img src={`http://localhost:8081/edu/file/files/${row.img}`} style={{width : '80px'}}/>
+                                    </TableCell>
                                     <TableCell style={{ fontSize: "14px" }}>
                                         <Button type='link' variant="contained" color="success" sx={{ marginRight: "10px" }} component={Link}
                                             to={{ pathname: `/demodetail/${row.demoid}`, state: { link: row.linkdemo } }}>
