@@ -107,17 +107,17 @@ function BookTutorPage() {
                         <Box className="button">
                             <Link to='/login'>
                                 <Button
-                                    variant="contained" className="register" type="submit">
+                                    variant="contained" color="success" className="register" type="submit">
                                     Đăng ký ngay
                                 </Button>
                             </Link>
                             <Button href={`/viewinfomationpages/${data.tutorId}`}
-                                variant="contained" className="infor">
+                                variant="contained" color="info" className="infor">
                                 Thông Tin
                             </Button>
                             <Link to='/login'>
                                 <Button
-                                    variant="contained" className="try">
+                                    variant="contained" color="warning" className="try">
                                     Đăng ký học thử
                                 </Button>
                             </Link>
