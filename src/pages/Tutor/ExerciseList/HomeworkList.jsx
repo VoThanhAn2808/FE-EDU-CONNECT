@@ -9,10 +9,14 @@ import { useParams } from "react-router-dom";
 import { jwtDecode } from 'jwt-decode';
 function HomeworkList() {
     const [dataHomework, setDataHomework] = useState([]);
+    const [editMode, setEditMode] = useState(false);
     const { classcourseid } = useParams();
     const decodedToken = jwtDecode(localStorage.getItem('token'));
     const [mark, setMark] = useState('');
     const [shouldDisable, setShouldDisable] = useState(false);
+    const [rowStates, setRowStates] = useState(
+        dataHomework.map((row) => ({ score: row.score, shouldDisable: false }))
+    );
 
     useEffect(() => {
         axios.get(`http://localhost:8081/exersice/homeworkviewbytutor?classcourseid=${classcourseid}&tutorid=${decodedToken.id}`)
@@ -44,15 +48,32 @@ function HomeworkList() {
         setMark(numericValue);
         // Handle the numeric input as needed
         console.log(numericValue);
-    }
-    const handleOpenConfirmation = () => {
+    };
+    const handleOpenConfirmation = (e) => {
         setShouldDisable(true);
         try {
-            const response = axios.post();
-        } catch (error) {
+            axios.put(`http://localhost:8081/exersice/updateScoresubmit?score=${mark}&submitid=${e}`)
+                .then((response) => {
+                    console.log(response.data);
+                    if (response.data === 1) {
+                        alert("Thành Công Lưu");
+                    }
+                })
+                .catch((error) => {
+                    console.error(error);
+                })
+                .finally(() => {
+                    setShouldDisable(false); // Enable the TextField after the request is complete
+                });
 
+        } catch (error) {
+            console.error(error);
+            setShouldDisable(false);
         }
-    }
+    };
+    const handleFixConfirmation = (e) => {
+        setEditMode(true);
+    };
 
 
     return (
@@ -69,7 +90,7 @@ function HomeworkList() {
                     </TableRow>
                 </TableHead>
                 <TableBody>
-                    {dataHomework.map((row) => (
+                    {dataHomework.map((row, index) => (
                         <TableRow key={row.homeworkid} style={{ fontSize: "14px" }}>
                             <TableCell style={{ fontSize: "14px" }}>{row.homeworkid}</TableCell>
                             <TableCell style={{ fontSize: "14px", textAlign: 'center' }}>{row.title}</TableCell>
@@ -79,8 +100,26 @@ function HomeworkList() {
                                 </Link>
                             </TableCell>
                             <TableCell style={{ display: 'flex', fontSize: "14px", textAlign: 'center' }}>
-                                <TextField
-                                    id="outlined-basic"
+                                {row.status === 'Y' ? (
+                                    <TextField
+                                        id="inputDisable"
+                                        variant="outlined"
+                                        fullWidth
+                                        margin="normal"
+                                        style={{
+                                            width: '50px',
+                                            ...(shouldDisable && { color: 'gray', backgroundColor: '#f2f2f2', }),
+
+                                        }}
+                                        inputProps={{
+                                            pattern: '[0-9]*', // Allow only numeric input
+                                            inputMode: 'numeric', // Set the input mode to numeric
+                                        }}
+                                        value={row.score}
+                                        disabled={editMode || row.status === 'Y'}
+                                    />
+                                ) : <TextField
+                                    id="inputNotDisable"
                                     variant="outlined"
                                     fullWidth
                                     margin="normal"
@@ -94,21 +133,19 @@ function HomeworkList() {
                                         pattern: '[0-9]*', // Allow only numeric input
                                         inputMode: 'numeric', // Set the input mode to numeric
                                     }}
-                                    value={row.score}
-                                    disabled={shouldDisable}
-                                />
-
+                                    disabled={!editMode || row.status === 'Y'}
+                                />}
                             </TableCell>
                             <TableCell style={{ fontSize: "14px", textAlign: 'center' }}>{row.submitdate}</TableCell>
                             <TableCell style={{ fontSize: "14px" }}>
                                 <Button variant="contained" color="success" sx={{ marginRight: "10px" }}
                                     // onClick={() => handleOpen3(row.classroomid, row.link, row.nameclassroom)}
-                                    onClick={() => setShouldDisable(false)}
+                                    onClick={() => handleFixConfirmation()}
                                 >
                                     Sửa
                                 </Button>
                                 <Button variant="contained" color="primary" sx={{ marginRight: "10px" }}
-                                    onClick={handleOpenConfirmation}
+                                    onClick={() => handleOpenConfirmation(row.homeworkid)}
                                 >
                                     Lưu
                                 </Button>
