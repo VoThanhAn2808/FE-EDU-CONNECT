@@ -18,7 +18,7 @@ function RadarChartMui() {
       });
   }, []);
   return (
-    <Box sx={{marginTop:"20px"}}>
+    <Box sx={{ marginTop: "20px" }}>
       <Typography variant="h6" align="center" gutterBottom>
         Những gia sư nỗi trội
       </Typography>

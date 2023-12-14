@@ -1,6 +1,6 @@
 import { Button } from '@mui/base';
 import CreateNewFolderIcon from '@mui/icons-material/CreateNewFolder';
-import { Box, TextField, Typography } from '@mui/material';
+import { Alert, Box, Snackbar, TextField, Typography } from '@mui/material';
 import Modal from '@mui/material/Modal';
 import axios from 'axios';
 import * as React from 'react';
@@ -11,33 +11,39 @@ function ExerciseListPage() {
   const [open, setOpen] = useState(false);
   const [course, setCourse] = useState('');
   const { bookid } = useParams();
+  const [showSnackbar, setShowSnackbar] = useState(false);
+
+  const handleCloseSnackbar = () => {
+    setShowSnackbar(false);
+  };
+
   const onCreateExercise = async () => {
     if (course)
       await axios.post('http://localhost:8081/exersice/addexercise', {
         bookid: bookid,
         title: course,
       });
-      alert("Tạo bài tập thành công");
-      setOpen(false)
-      fetchData()
-    };
-    
-  const [data, setData] = useState([]);
-    const fetchData = () => {
-        axios
-        .get(`http://localhost:8081/exersice/findexersice?bookid=${bookid}`)
-        .then((response) => {
-            if (response && response.data) {
-                setData(response.data);
-            }
-        })
-        .catch((error) => {
-            console.error("Error fetching timeline:", error);
-        });
-    }
+    setShowSnackbar(true);
+    setOpen(false)
+    fetchData()
+  };
 
-    useEffect(() => {
-        fetchData()
+  const [data, setData] = useState([]);
+  const fetchData = () => {
+    axios
+      .get(`http://localhost:8081/exersice/findexersice?bookid=${bookid}`)
+      .then((response) => {
+        if (response && response.data) {
+          setData(response.data);
+        }
+      })
+      .catch((error) => {
+        console.error("Error fetching timeline:", error);
+      });
+  }
+
+  useEffect(() => {
+    fetchData()
   },);
 
 
@@ -56,82 +62,95 @@ function ExerciseListPage() {
   return (
     <Box
       sx={{
-            height: '100%',
-            padding: "10px"
+        height: '100%',
+        padding: "10px"
       }}
     >
-        <Box
-            sx={{
-                borderRadius: '5px',
-                marginBottom: "10px",
-                backgroundColor: '#E2D6D6',
-            }}
-        >
+      <Box
+        sx={{
+          borderRadius: '5px',
+          marginBottom: "10px",
+          backgroundColor: '#E2D6D6',
+        }}
+      >
         <Box sx={{ display: 'flex' }}>
-            <Typography
+          <Typography
             sx={{
-                fontSize: '40px',
-                marginLeft: '2%',
-                fontFamily: 'cursive',
-                paddingBottom: '20px',
+              fontSize: '40px',
+              marginLeft: '2%',
+              fontFamily: 'cursive',
+              paddingBottom: '20px',
             }}
-            >
+          >
             Danh sách bài tập
-            </Typography>
-            <CreateNewFolderIcon
+          </Typography>
+          <CreateNewFolderIcon
             onClick={() => setOpen(true)}
             sx={{ fontSize: '30px', marginLeft: 'auto', marginRight: '30px', marginTop: '20px' }}
-            />
-            <Modal
+          />
+          <Modal
             open={open}
             onClose={() => setOpen(false)}
             aria-labelledby='modal-modal-title'
             aria-describedby='modal-modal-description'
-            >
+          >
             <Box sx={style}>
-                <Typography
+              <Typography
                 id='modal-modal-title'
                 component='h2'
                 sx={{ marginTop: '-80px', width: '250px', fontSize: '15px', fontFamily: 'cursive' }}
-                >
+              >
                 Thêm chương
-                </Typography>
-                <TextField
+              </Typography>
+              <TextField
                 label='Tên chương'
                 InputLabelProps={{
-                    style: {
+                  style: {
                     fontSize: '12px',
                     color: 'rgba(0, 0, 0, 0.54)',
-                    },
+                  },
                 }}
                 sx={{
-                    borderRadius: '11%',
-                    width: '200px',
-                    marginLeft: '-30px',
-                    marginTop: '40px',
+                  borderRadius: '11%',
+                  width: '200px',
+                  marginLeft: '-30px',
+                  marginTop: '40px',
                 }}
                 onChange={(e) => setCourse(e.target.value)}
                 InputProps={{
-                    style: {
+                  style: {
                     fontSize: '14px',
                     height: '45px',
-                    },
+                  },
                 }}
-                />
-                <Button
+              />
+              <Snackbar
+                open={showSnackbar}
+                autoHideDuration={3000}
+                onClose={handleCloseSnackbar}
+                anchorOrigin={{
+                  vertical: 'top',
+                  horizontal: 'center',
+                }}
+              >
+                <Alert severity="success" onClose={handleCloseSnackbar}>
+                  Tạo bài tập thành công!
+                </Alert>
+              </Snackbar>
+              <Button
                 variant='contained'
                 style={{ width: '70px', fontSize: '18px', marginTop: '30px', marginLeft: '20%' }}
                 onClick={() => onCreateExercise()}
-                >
+              >
                 Tạo
-                </Button>
+              </Button>
             </Box>
-            </Modal>
+          </Modal>
         </Box>
-        </Box>
-        <Box>
-              <ExerciseList data={data} fetchData={fetchData} />
-        </Box>
+      </Box>
+      <Box>
+        <ExerciseList data={data} fetchData={fetchData} />
+      </Box>
     </Box>
   );
 }

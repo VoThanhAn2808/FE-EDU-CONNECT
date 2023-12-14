@@ -1,5 +1,5 @@
 import React, { useCallback, useEffect, useState } from "react";
-import { Box, Button, MenuItem, Modal, Pagination, Table, TableBody, TableCell, TableContainer, TableHead, TableRow, TextField, Typography } from "@mui/material";
+import { Box, Button, MenuItem, Modal, Pagination, Snackbar, Table, TableBody, TableCell, TableContainer, TableHead, TableRow, TextField, Typography } from "@mui/material";
 import axios from "axios";
 import DeleteIcon from '@mui/icons-material/Delete';
 import SendIcon from '@mui/icons-material/Send';
@@ -7,7 +7,9 @@ import { DatePicker, LocalizationProvider } from "@mui/x-date-pickers";
 import { AdapterDayjs } from "@mui/x-date-pickers/AdapterDayjs";
 import { format } from "date-fns";
 import dayjs from "dayjs";
-import "./TryLearningManagement.css"
+import "./TryLearningManagement.css";
+import MuiAlert from '@mui/material/Alert';
+
 
 function TryLearningManagement() {
     const [open, setOpen] = React.useState(false);
@@ -20,6 +22,20 @@ function TryLearningManagement() {
     const [status, setStatus] = useState(null);
     const [vstudent, setVstudent] = useState('');
     const [vTutor, setVtutor] = useState('');
+    const [snackbarOpen, setSnackbarOpen] = useState(false);
+    const [snackbarMessage, setSnackbarMessage] = useState('');
+    const [snackbarType, setSnackbarType] = useState('success');
+
+    const showSnackbar = (message, type) => {
+        setSnackbarMessage(message);
+        setSnackbarType(type);
+        setSnackbarOpen(true);
+    };
+
+    const handleSnackbarClose = () => {
+        setSnackbarOpen(false);
+    };
+
     const handleOpen = (studentid, tutorid) => {
         setStudent(studentid);
         setTutor(tutorid);
@@ -104,7 +120,7 @@ function TryLearningManagement() {
                     },
                 }
             );
-            alert(response.data);
+            showSnackbar(response.data);
             window.location.reload();
         } catch (error) {
             console.error(error);
@@ -221,7 +237,7 @@ function TryLearningManagement() {
                                 justifyContent: 'center',
                             }}
                         >
-                            <Box sx={{ backgroundColor: "#D9D9D9", width: "350px", height: "460px", borderRadius: "10px", border: '2px solid #000000', p: 2, maxHeight: 'calc(100vh - 200px)', overflowY: 'auto',}}>
+                            <Box sx={{ backgroundColor: "#D9D9D9", width: "350px", height: "460px", borderRadius: "10px", border: '2px solid #000000', p: 2, maxHeight: 'calc(100vh - 200px)', overflowY: 'auto', }}>
                                 <Typography sx={{ fontSize: "20px", fontWeight: "600", textAlign: "center" }}>Duyệt học sinh</Typography>
                                 <TextField
                                     fullWidth
@@ -302,7 +318,7 @@ function TryLearningManagement() {
                                                 marginTop: "20px",
                                                 "& .MuiInputLabel-root": {
                                                     fontSize: "15px"
-                                                  }
+                                                }
                                             }}
                                             renderInput={(params) => (
                                                 <TextField
@@ -313,10 +329,24 @@ function TryLearningManagement() {
                                         />
                                     </LocalizationProvider>
                                 )}
-                                <Box sx={{ marginTop: "30px"}}>
+                                <Box sx={{ marginTop: "30px" }}>
                                     <Button variant="outlined" startIcon={<DeleteIcon sx={{ color: "white" }} />} sx={{ backgroundColor: "red", color: "white" }} onClick={handleClose}>
                                         Hủy
                                     </Button>
+                                    <Snackbar
+                                        open={snackbarOpen}
+                                        autoHideDuration={3000}
+                                        onClose={handleSnackbarClose}
+                                        anchorOrigin={{ vertical: 'top', horizontal: 'right' }}
+                                    >
+                                        <MuiAlert
+                                            onClose={handleSnackbarClose}
+                                            severity={snackbarType}
+                                            sx={{ width: '100%', fontSize: '15px' }}
+                                        >
+                                            {snackbarMessage}
+                                        </MuiAlert>
+                                    </Snackbar>
                                     <Button variant="contained" endIcon={<SendIcon />} sx={{ backgroundColor: "green", marginLeft: '10px' }} onClick={handleClickChange}>
                                         Send
                                     </Button>
@@ -328,7 +358,6 @@ function TryLearningManagement() {
                 <Box sx={{ display: 'flex', justifyContent: 'center', marginTop: "15px" }}>
                     <Pagination count={pages} page={page} onChange={handlePageChange} sx={{ '& .MuiPaginationItem-root': { fontSize: '15px', minWidth: '50px' } }} />
                 </Box>
-
             </Box>
         </Box>
     );

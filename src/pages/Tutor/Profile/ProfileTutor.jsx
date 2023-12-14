@@ -96,13 +96,12 @@ const ProfileTutor = () => {
       formData.append('city', userData.city);
       formData.append('wards', userData.wards);
       formData.append('file', uploadedFile);
-      const response = await axios.put('http://localhost:8081/educonnect/UpdateTutor', formData,
+      await axios.put('http://localhost:8081/educonnect/UpdateTutor', formData,
         {
           headers: {
             'Content-Type': 'multipart/form-data',
           },
         });
-      console.log(response.data);
       window.location.href = "/calendartutorselect"
     } catch (error) {
       console.error(error);

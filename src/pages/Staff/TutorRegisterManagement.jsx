@@ -1,10 +1,12 @@
 import React, { useEffect, useState } from "react";
-import { Box, Button, Link, Modal, Pagination, Table, TableBody, TableCell, TableContainer, TableHead, TableRow, TextField, Typography } from "@mui/material";
+import { Box, Button, Link, Modal, Pagination, Snackbar, Table, TableBody, TableCell, TableContainer, TableHead, TableRow, TextField, Typography } from "@mui/material";
 import axios from "axios";
 import InterpreterModeIcon from '@mui/icons-material/InterpreterMode';
 import CheckCircleIcon from '@mui/icons-material/CheckCircle';
 import RemoveCircleOutlineIcon from '@mui/icons-material/RemoveCircleOutline';
 import { jwtDecode } from "jwt-decode";
+import MuiAlert from '@mui/material/Alert';
+
 
 
 function TutorRegisterManagement() {
@@ -22,6 +24,20 @@ function TutorRegisterManagement() {
     const [page, setPage] = useState(1);
     const [total, settotal] = useState([]);
     const handleCloses1 = () => setOpen1(false);
+    const [snackbarOpen, setSnackbarOpen] = useState(false);
+    const [snackbarMessage, setSnackbarMessage] = useState('');
+    const [snackbarType, setSnackbarType] = useState('success');
+
+    const showSnackbar = (message, type) => {
+        setSnackbarMessage(message);
+        setSnackbarType(type);
+        setSnackbarOpen(true);
+    };
+
+    const handleSnackbarClose = () => {
+        setSnackbarOpen(false);
+    };
+
     const handleOpen1 = (email, tutor) => {
         setEmail(email);
         setTutor(tutor);
@@ -50,7 +66,7 @@ function TutorRegisterManagement() {
                     staffid: decodedToken.id,
                     message: message,
                     email: email,
-                    experience : experience,
+                    experience: experience,
                 },
                 {
                     headers: {
@@ -58,7 +74,7 @@ function TutorRegisterManagement() {
                     },
                 }
             );
-            alert(response.data);
+            showSnackbar(response.data);
             window.location.reload();
         } catch (error) {
             console.error(error);
@@ -85,7 +101,7 @@ function TutorRegisterManagement() {
                     },
                 }
             );
-            alert(response.data);
+            showSnackbar(response.data);
             window.location.reload();
         } catch (error) {
             console.error(error);
@@ -99,7 +115,7 @@ function TutorRegisterManagement() {
         try {
             const response = await axios.delete(
                 `http://localhost:8081/staffsconnect/deletetutorregister/${tutorid}`);
-            alert(response.data);
+            showSnackbar(response.data);
             window.location.reload();
         } catch (error) {
             console.error(error);
@@ -161,7 +177,7 @@ function TutorRegisterManagement() {
                     marginTop: '10px',
                 }}>
                     <TextField
-                    label="Tìm Kiếm"
+                        label="Tìm Kiếm"
                         sx={{
                             borderRadius: '11%',
                             width: '200px',
@@ -392,6 +408,20 @@ function TutorRegisterManagement() {
                         >
                             Hủy
                         </Button>
+                        <Snackbar
+                            open={snackbarOpen}
+                            autoHideDuration={3000}
+                            onClose={handleSnackbarClose}
+                            anchorOrigin={{ vertical: 'top', horizontal: 'right' }}
+                        >
+                            <MuiAlert
+                                onClose={handleSnackbarClose}
+                                severity={snackbarType}
+                                sx={{ width: '100%', fontSize: '15px' }}
+                            >
+                                {snackbarMessage}
+                            </MuiAlert>
+                        </Snackbar>
                         <Button
                             variant="contained"
                             sx={{ backgroundColor: "green", marginLeft: '10px' }}

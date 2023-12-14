@@ -1,4 +1,4 @@
-.body{
+.body {
     position: relative;
     height: 100%;
     width: 100%;
@@ -11,13 +11,13 @@
     margin-bottom: 5px;
 }
 
-.tutor-infor{
+.tutor-infor {
     position: relative;
     height: 50%;
     padding-bottom: 70%;
 }
 
-.tutor-img{
+.tutor-img {
     position: absolute;
     top: 10%;
     height: 85%;
@@ -25,16 +25,16 @@
     left: 25%;
 }
 
-.infortutor{
+.infortutor {
     display: flex;
     margin-top: 8%;
 }
 
-.infortutor .Nametutor{
+.infortutor .Nametutor {
     font-size: 20px;
 }
 
-.infortutor .people{
+.infortutor .people {
     position: absolute;
     right: 10%;
     font-size: 15px;
@@ -42,7 +42,7 @@
     align-items: center;
 }
 
-.infortutor .people .number{
+.infortutor .people .number {
     height: 25px;
     width: 25px;
     margin-right: 4px;
@@ -53,22 +53,23 @@
     width: 21px;
     margin-left: 20px;
 }
-.infortutor .people .more{
+
+.infortutor .people .more {
     height: 21px;
     width: 21px;
     margin-left: 20px;
 }
 
-.body-tutor .name{
+.body-tutor .name {
     font-size: 32px;
     margin-left: 5%;
 }
 
-.body-tutor .subject{
+.body-tutor .subject {
     font-size: 20px;
 }
 
-.body-tutor .course{
+.body-tutor .course {
     font-size: 20px;
     margin-left: 5%;
 }
@@ -77,19 +78,20 @@
     font-size: 20px;
 }
 
-.body-tutor .price-number{
+.body-tutor .price-number {
     font-size: 20px;
     margin-left: 5%;
 }
 
-.body-tutor .rank{
+.body-tutor .rank {
     font-size: 20px;
 }
 
-.button{
+.button {
     margin-top: 40px;
     margin-left: 5%;
 }
+
 .button .register {
     width: 156px;
     left: 10%;
@@ -98,7 +100,8 @@
     transform: translate(-50%, -50%);
     background-color: green;
 }
-.button .infor{
+
+.button .infor {
     width: 156px;
     left: 20%;
     height: 39px;
@@ -107,7 +110,7 @@
     background-color: #AFB5AF;
 }
 
-.button .try{
+.button .try {
     width: 156px;
     left: 30%;
     height: 39px;
@@ -116,24 +119,25 @@
     background-color: #B5BC60;
 }
 
-.bodysubject{
+.bodysubject {
     margin-bottom: 5%;
 }
 
-.bodysubject .relsubject{
+.bodysubject .relsubject {
     font-size: 20px;
     font-family: cursive;
     text-align: center;
     margin-bottom: 40px;
 }
 
-.bodysubject .relsubject .line{
+.bodysubject .relsubject .line {
     display: inline-block;
     border-bottom: 1px solid #000000;
     width: 30%;
     margin-bottom: 5px;
 }
-.bodysubject .top4couse{
+
+.bodysubject .top4couse {
     display: flex;
     align-items: center;
     justify-content: center;
@@ -146,7 +150,7 @@
     margin: auto;
 }
 
-.bodysubject .top4couse .courseimg{
+.bodysubject .top4couse .courseimg {
     max-width: 80%;
     max-height: 100%;
     display: block;
@@ -154,19 +158,20 @@
     margin-top: 5px;
 }
 
-.bodysubject .top4couse .namebook{
+.bodysubject .top4couse .namebook {
     text-align: center;
     font-size: 15px;
     font-weight: 500;
     font-family: cursive;
 }
 
-.bodysubject .top4couse .numberpeople{
+.bodysubject .top4couse .numberpeople {
     font-size: 12px;
     display: flex;
     align-items: center;
 }
-.bodysubject .top4couse .total{
+
+.bodysubject .top4couse .total {
     height: 19px;
     width: 19px;
 }

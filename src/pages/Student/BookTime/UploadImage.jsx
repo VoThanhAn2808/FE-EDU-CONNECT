@@ -1,73 +1,54 @@
-// imports the React Javascript Library
-import React from "react";
-//Card
-import Card from "@material-ui/core/Card";
-import Button from "@material-ui/core/Button";
-import Grid from "@material-ui/core/Grid";
+import React, { useState } from 'react';
+import { Card, Button, Grid, withStyles } from '@material-ui/core';
+import { Box } from '@mui/material';
 
-//Tabs
-import { withStyles } from "@material-ui/core/styles";
-import AVATAR from "./avatar.jpg"
-
-const styles =  {
+const styles = {
   root: {
     width: 500,
-    display: "flex",
-    justifyContent: "center",
-    alignItems: "flex-end"
+    display: 'flex',
+    justifyContent: 'center',
+    alignItems: 'flex-end',
   },
   input: {
-    display: "none"
+    display: 'none',
   },
   img: {
     width: 200,
     height: 256,
-    margin: "auto",
-    display: "block",
-    maxWidth: "100%",
-    maxHeight: "100%"
-  }
+    margin: 'auto',
+    display: 'block',
+    maxWidth: '100%',
+    maxHeight: '100%',
+  },
 };
 
-class ImageUploadCard extends React.Component {
-  state = {
-    mainState: "initial", // initial
-    imageUploaded: 0,
-    selectedFile: {AVATAR}
-  };
+const ImageUploadCard = ({ classes, onUploadSuccess, onUploadFail }) => {
+  const [mainState, setMainState] = useState('initial');
+  const [selectedFile, setSelectedFile] = useState(null);
+  const [uploadSuccess, setUploadSuccess] = useState(false);
 
-  handleUploadClick = event => {
-    console.log();
-    var file = event.target.files[0];
+  const handleUploadClick = (event) => {
+    const file = event.target.files[0];
     const reader = new FileReader();
-    var url = reader.readAsDataURL(file);
 
-    reader.onloadend = function(e) {
-      this.setState({
-        selectedFile: [reader.result]
-      });
-    }.bind(this);
-    console.log(url); // Would see a path?
+    reader.onloadend = function (e) {
+      setSelectedFile(reader.result);
+    };
 
-    this.setState({
-      mainState: "uploaded",
-      selectedFile: event.target.files[0],
-      imageUploaded: 1
-    });
+    reader.readAsDataURL(file);
+
+    setMainState('uploaded');
+    setSelectedFile(event.target.files[0]);
+    setUploadSuccess(true);
+
+    if (onUploadSuccess) {
+      onUploadSuccess(selectedFile);
+    }
   };
 
-  renderInitialState() {
-    const { classes} = this.props;
-
+  const renderInitialState = () => {
     return (
       <Grid container direction="column" alignItems="center">
-        {/* <Grid item>
-          <img
-            width="100%"
-            className={classes.img}
-            src={this.state.selectedFile}
-          />
-        </Grid> */}
         <label htmlFor="contained-button-file">
           <Button variant="contained" component="span">
             Ảnh chuyển khoản
@@ -77,26 +58,26 @@ class ImageUploadCard extends React.Component {
               id="contained-button-file"
               multiple
               type="file"
-              onChange={this.handleUploadClick}
+              onChange={handleUploadClick}
             />
           </Button>
         </label>
       </Grid>
     );
-  }
+  };
 
-  renderUploadedState() {
-    const { classes } = this.props;
-
+  const renderUploadedState = () => {
     return (
       <Grid container direction="column" alignItems="center">
         <Grid item>
           <img
             width="100%"
             className={classes.img}
-            src={this.state.selectedFile}
+            src={selectedFile}
+            alt="Uploaded"
           />
         </Grid>
+        {uploadSuccess}
         <label htmlFor="contained-button-file">
           <Button variant="contained" component="span">
             Ảnh chuyển khoản
@@ -106,26 +87,22 @@ class ImageUploadCard extends React.Component {
               id="contained-button-file"
               multiple
               type="file"
-              onChange={this.handleUploadClick}
+              onChange={handleUploadClick}
             />
           </Button>
         </label>
       </Grid>
     );
-  }
+  };
 
-  render() {
-    const { classes } = this.props;
+  return (
+    <Box className={classes.root}>
+      <Card>
+        {mainState === 'initial' && renderInitialState()}
+        {mainState === 'uploaded' && renderUploadedState()}
+      </Card>
+    </Box>
+  );
+};
 
-    return (
-      <div className={classes.root}>
-        <Card className={this.props.cardName}>
-          {(this.state.mainState === "initial" && this.renderInitialState()) ||
-            (this.state.mainState === "uploaded" && this.renderUploadedState())}
-        </Card>
-      </div>
-    );
-  }
-}
-
-export default withStyles(styles, { withTheme: true })(ImageUploadCard);
+export default withStyles(styles)(ImageUploadCard);

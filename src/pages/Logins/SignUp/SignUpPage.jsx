@@ -25,7 +25,7 @@ function SignupPage() {
   const [nameError, setNameError] = useState('');
   const [phoneError, setPhoneError] = useState('');
   const [emailError, setEmailError] = useState('');
-  const [ClassError, setClassError] = useState('');
+  const [setClassError] = useState('');
   const [passwordError, setPasswordError] = useState('');
   const [confirmPassword, setConfirmPassword] = useState('');
   const [snackbarOpen, setSnackbarOpen] = useState(false);
@@ -507,19 +507,19 @@ function SignupPage() {
                 }}
               >
                 <Snackbar
-        open={snackbarOpen}
-        autoHideDuration={3000}
-        onClose={handleSnackbarClose}
-        anchorOrigin={{ vertical: 'top', horizontal: 'right' }}
-      >
-        <MuiAlert
-          onClose={handleSnackbarClose}
-          severity={snackbarType}
-          sx={{ width: '100%', fontSize: '15px' }}
-        >
-          {snackbarMessage}
-        </MuiAlert>
-      </Snackbar>
+                  open={snackbarOpen}
+                  autoHideDuration={3000}
+                  onClose={handleSnackbarClose}
+                  anchorOrigin={{ vertical: 'top', horizontal: 'right' }}
+                >
+                  <MuiAlert
+                    onClose={handleSnackbarClose}
+                    severity={snackbarType}
+                    sx={{ width: '100%', fontSize: '15px' }}
+                  >
+                    {snackbarMessage}
+                  </MuiAlert>
+                </Snackbar>
                 <Button
                   sx={{
                     width: '250px',
