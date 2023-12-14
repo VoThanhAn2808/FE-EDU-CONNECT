@@ -1,8 +1,9 @@
 import { Textarea } from "@mui/joy";
-import { Box, Button, Modal, Paper, Rating, Table, TableBody, TableCell, TableContainer, TableHead, TableRow, Typography } from "@mui/material";
+import { Box, Button, Modal, Paper, Rating, Snackbar, Table, TableBody, TableCell, TableContainer, TableHead, TableRow, Typography } from "@mui/material";
 import axios from "axios";
 import { jwtDecode } from "jwt-decode";
 import React, { useEffect, useState } from "react";
+import MuiAlert from '@mui/material/Alert';
 
 
 function FeedbackTutor() {
@@ -10,6 +11,20 @@ function FeedbackTutor() {
     const [feedbacks, setFeedback] = useState([]);
     const [detail, setDetail] = useState([]);
     const student = jwtDecode(localStorage.getItem('token'));
+    const [snackbarOpen, setSnackbarOpen] = useState(false);
+    const [snackbarMessage, setSnackbarMessage] = useState('');
+    const [snackbarType, setSnackbarType] = useState('success');
+
+    const showSnackbar = (message, type) => {
+        setSnackbarMessage(message);
+        setSnackbarType(type);
+        setSnackbarOpen(true);
+      };
+    
+      const handleSnackbarClose = () => {
+        setSnackbarOpen(false);
+      };
+
     useEffect(() => {
         axios
             .get("http://localhost:8081/student/feedbacktutor/" + student.id)
@@ -41,10 +56,10 @@ function FeedbackTutor() {
                 },
                 config
             );
-            alert("Cập nhật thành công");
+            showSnackbar("Cập nhật thành công", 'success');
             window.location.reload();
         } catch (error) {
-            alert("Cập nhật không thành công");
+            showSnackbar("Cập nhật không thành công", 'error');
             console.error(error);
         }
     };
@@ -153,6 +168,20 @@ function FeedbackTutor() {
                         <Button variant="contained" style={{ width: '70px', fontSize: '18px', marginTop: '30px', marginLeft: '20%' }} onClick={(event) => handleSubmitFB(event)}>Lưu</Button>
                     </Box>
                 </Modal>
+                <Snackbar
+                  open={snackbarOpen}
+                  autoHideDuration={3000}
+                  onClose={handleSnackbarClose}
+                  anchorOrigin={{ vertical: 'top', horizontal: 'right' }}
+                >
+                  <MuiAlert
+                    onClose={handleSnackbarClose}
+                    severity={snackbarType}
+                    sx={{ width: '100%', fontSize: '15px' }}
+                  >
+                    {snackbarMessage}
+                  </MuiAlert>
+                </Snackbar>
             </Box>
         </Box>
     );
