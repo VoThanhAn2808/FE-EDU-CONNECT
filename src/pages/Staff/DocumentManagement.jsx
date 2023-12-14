@@ -1,9 +1,10 @@
 import React, { useCallback, useEffect, useState } from "react";
-import { Box, Link, Pagination, Table, TableBody, TableCell, TableContainer, TableHead, TableRow, TextField, Typography } from "@mui/material";
+import { Box, Link, Pagination, Snackbar, Table, TableBody, TableCell, TableContainer, TableHead, TableRow, TextField, Typography } from "@mui/material";
 import axios from "axios";
 import { jwtDecode } from "jwt-decode";
 import CheckIcon from '@mui/icons-material/Check';
 import RemoveDoneIcon from '@mui/icons-material/RemoveDone';
+import MuiAlert from '@mui/material/Alert';
 
 
 function DocumentManagement() {
@@ -12,6 +13,19 @@ function DocumentManagement() {
     const [data, setData] = useState([]);
     const [page, setPage] = useState(1);
     const [pages, setPages] = useState('');
+    const [snackbarOpen, setSnackbarOpen] = useState(false);
+    const [snackbarMessage, setSnackbarMessage] = useState('');
+    const [snackbarType, setSnackbarType] = useState('success');
+
+    const showSnackbar = (message, type) => {
+        setSnackbarMessage(message);
+        setSnackbarType(type);
+        setSnackbarOpen(true);
+      };
+    
+      const handleSnackbarClose = () => {
+        setSnackbarOpen(false);
+      };
 
     const handleSearch = (event) => {
         setSearchName(event.target.value);
@@ -59,7 +73,7 @@ function DocumentManagement() {
                     },
                 }
             );
-            alert(response.data);
+            showSnackbar(response.data);
             window.location.reload();
         } catch (error) {
             console.error(error);
@@ -163,6 +177,20 @@ function DocumentManagement() {
                 </Box>
                 <Box sx={{ display: 'flex', justifyContent: 'center', marginTop: "15px" }}>
                     <Pagination count={pages.length} page={page} onChange={handlePageChange} sx={{ '& .MuiPaginationItem-root': { fontSize: '15px', minWidth: '50px' } }} />
+                    <Snackbar
+                  open={snackbarOpen}
+                  autoHideDuration={3000}
+                  onClose={handleSnackbarClose}
+                  anchorOrigin={{ vertical: 'top', horizontal: 'right' }}
+                >
+                  <MuiAlert
+                    onClose={handleSnackbarClose}
+                    severity={snackbarType}
+                    sx={{ width: '100%', fontSize: '15px' }}
+                  >
+                    {snackbarMessage}
+                  </MuiAlert>
+                </Snackbar>
                 </Box>
             </Box>
         </Box>

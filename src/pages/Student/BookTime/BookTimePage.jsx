@@ -48,7 +48,7 @@ function BookTime() {
         left: '50%',
         transform: 'translate(-50%, -50%)',
         width: 400,
-        height: 630,
+        height: 640,
         bgcolor: 'background.paper',
         border: '2px solid #000',
         boxShadow: 'rgba(0, 0, 0, 0.24) 0px 3px 8px',
@@ -351,9 +351,9 @@ function BookTime() {
             >
                 <Box sx={styles}>
                     <Box sx={{ display: "flex", flexDirection: "column", alignItems: "center", justifyContent: "center" }}>
-                        <Typography sx={{ fontSize: "25px", fontWeight: "700" }}>Chuyển khoản ngân hàng</Typography>
+                        <Typography style={{ fontSize: "23px", fontWeight: "700" }}>Chuyển khoản ngân hàng</Typography>
                         <img src={QR} alt="logo" style={{ height: "200px", width: "200px" }} />
-                        <Typography sx={{ fontSize: "15px", fontWeight: "700", color: "red" }}>Nội dung: Họ và Tên + Lớp</Typography>
+                        <Typography style={{ fontSize: "18px", fontWeight: "700", color: "red" }}>Nội dung: Họ và Tên + Lớp</Typography>
                         <UploadImage />
                     </Box>
                     <Box sx={{ marginLeft: '40%', marginTop:"20px"}}>

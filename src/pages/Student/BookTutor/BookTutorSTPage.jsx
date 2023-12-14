@@ -1,6 +1,6 @@
 import React, { useEffect, useState } from "react";
 import './BookTutor.css';
-import { Box, Grid, Typography } from "@mui/material";
+import { Box, Grid, Snackbar, Typography } from "@mui/material";
 import PersonIcon from '@mui/icons-material/Person';
 import ShareIcon from '@mui/icons-material/Share';
 import MoreHorizIcon from '@mui/icons-material/MoreHoriz';
@@ -11,6 +11,8 @@ import { Link, useParams } from "react-router-dom";
 import axios from "axios";
 import { jwtDecode } from "jwt-decode";
 import DiscountIcon from '@mui/icons-material/Discount';
+import MuiAlert from '@mui/material/Alert';
+
 
 
 function BookTutorSTPage() {
@@ -19,6 +21,18 @@ function BookTutorSTPage() {
 
     const { tutorid } = useParams();
     const { classcourseid } = useParams();
+    const [snackbarOpen, setSnackbarOpen] = useState(false);
+    const [snackbarMessage, setSnackbarMessage] = useState('');
+    const [snackbarType, setSnackbarType] = useState('success');
+    const showSnackbar = (message, type) => {
+        setSnackbarMessage(message);
+        setSnackbarType(type);
+        setSnackbarOpen(true);
+      };
+    
+      const handleSnackbarClose = () => {
+        setSnackbarOpen(false);
+      };
 
     useEffect(() => {
         axios
@@ -113,7 +127,7 @@ function BookTutorSTPage() {
                 },
                 config
             );
-            alert("Đăng ký thành công bạn vui lòng đợi email duyệt từ EDU-CONNECT")
+            showSnackbar("Đăng ký thành công bạn vui lòng đợi email duyệt từ EDU-CONNECT")
             window.location.href = '/homestudent';
         } catch (error) {
             console.error(error);
@@ -274,6 +288,20 @@ function BookTutorSTPage() {
                         </Grid>
                     ))}
                 </Grid>
+                <Snackbar
+                  open={snackbarOpen}
+                  autoHideDuration={3000}
+                  onClose={handleSnackbarClose}
+                  anchorOrigin={{ vertical: 'top', horizontal: 'right' }}
+                >
+                  <MuiAlert
+                    onClose={handleSnackbarClose}
+                    severity={snackbarType}
+                    sx={{ width: '100%', fontSize: '15px' }}
+                  >
+                    {snackbarMessage}
+                  </MuiAlert>
+                </Snackbar>
             </Box>
         </Box>
     );

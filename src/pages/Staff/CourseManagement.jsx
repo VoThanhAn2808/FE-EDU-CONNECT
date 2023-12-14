@@ -1,8 +1,9 @@
 import React, { useCallback, useEffect, useState }
     from "react";
-import { Box, Button, Menu, MenuItem, Modal, Pagination, Table, TableBody, TableCell, TableContainer, TableHead, TableRow, TextField, Typography } from "@mui/material";
+import { Box, Button, Menu, MenuItem, Modal, Pagination, Snackbar, Table, TableBody, TableCell, TableContainer, TableHead, TableRow, TextField, Typography } from "@mui/material";
 import axios from "axios";
 import MoreVertIcon from '@mui/icons-material/MoreVert';
+import MuiAlert from '@mui/material/Alert';
 
 
 function CourseManagement() {
@@ -15,6 +16,19 @@ function CourseManagement() {
     const [date, setDate] = useState('');
     const [anchorEl, setAnchorEl] = useState(null);
     const [time, setTime] = useState([]);
+    const [snackbarOpen, setSnackbarOpen] = useState(false);
+    const [snackbarMessage, setSnackbarMessage] = useState('');
+    const [snackbarType, setSnackbarType] = useState('success');
+    
+    const showSnackbar = (message, type) => {
+        setSnackbarMessage(message);
+        setSnackbarType(type);
+        setSnackbarOpen(true);
+      };
+    
+      const handleSnackbarClose = () => {
+        setSnackbarOpen(false);
+      };
 
     const handleClicks = (event, tutorid, status, date, tutor, student) => {
         setAnchorEl(event.currentTarget);
@@ -77,7 +91,7 @@ function CourseManagement() {
         event.stopPropagation();
         try{
             const response = await axios.get(`http://localhost:8081/book/acceptcardpay/${book}`)
-            alert(response.data)
+            showSnackbar(response.data)
             window.location.reload();
         }catch(error) {
             console.error(error);
@@ -90,7 +104,7 @@ function CourseManagement() {
         event.stopPropagation();
         try{
             const response = await axios.delete(`http://localhost:8081/book/cancelcardpay/${book}`)
-            alert(response.data)
+            showSnackbar(response.data)
             window.location.reload();
         }catch(error) {
             console.error(error);
@@ -138,7 +152,7 @@ function CourseManagement() {
                     },
                 }
             );
-            alert(response.data);
+            showSnackbar(response.data);
             window.location.reload();
         } catch (error) {
             console.error(error);
@@ -320,6 +334,20 @@ function CourseManagement() {
                             <Button variant="outlined" sx={{ backgroundColor: "red", color: "white" }} onClick={handleClose}>
                                 Hủy
                             </Button>
+                            <Snackbar
+                  open={snackbarOpen}
+                  autoHideDuration={3000}
+                  onClose={handleSnackbarClose}
+                  anchorOrigin={{ vertical: 'top', horizontal: 'right' }}
+                >
+                  <MuiAlert
+                    onClose={handleSnackbarClose}
+                    severity={snackbarType}
+                    sx={{ width: '100%', fontSize: '15px' }}
+                  >
+                    {snackbarMessage}
+                  </MuiAlert>
+                </Snackbar>
                             <Button variant="contained" sx={{ marginLeft: '10px' }} onClick={handleClickChange}>
                                 Send
                             </Button>
