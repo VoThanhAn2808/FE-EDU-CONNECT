@@ -1,6 +1,6 @@
 import { Box } from '@mui/material';
 import Header from '../components/Header/Header';
-import Sidebar from '../components/Sidebar/Sidebar';
+import Sidebar from './Sidebar/Sidebar';
 import Footer from '../components/Footer/Footer';
 
 function LayoutStudent({ children }) {
@@ -17,32 +17,29 @@ function LayoutStudent({ children }) {
           sx={{
             display: 'flex',
             msFlex: 1,
+            marginTop: '70px',
+            height: "calc(100vh - 70px)"
           }}
         >
           <Box
             sx={{
-              width: '15%',
-              position: 'fixed',
-              top: '70px',
-              left: '0',
-              zIndex: 100,
+              minWidth: '15%',
             }}
           >
             <Sidebar />
           </Box>
           <Box
             sx={{
-              width: '85%',
-              marginLeft: '15%',
-              minHeight: 'calc(100vh - 70px)',
+              flex: "1",
+              height: 'calc(100vh - 70px)',
+              overflowY: "scroll",
               position: 'relative',
             }}
           >
             <Box
-              sx={{
-                marginTop: '70px',
-              }}
-            >
+            sx={{
+              minHeight: 'calc(100vh - 110px)',
+            }}>
               {children}
             </Box>
             <Footer />

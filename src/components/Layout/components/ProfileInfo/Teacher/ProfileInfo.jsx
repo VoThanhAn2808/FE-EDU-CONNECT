@@ -4,43 +4,37 @@ import Box from '@mui/material/Box';
 import { LocalizationProvider } from '@mui/x-date-pickers';
 import { AdapterDayjs } from '@mui/x-date-pickers/AdapterDayjs';
 import { DatePicker } from '@mui/x-date-pickers/DatePicker';
-import Typography from '@mui/material/Typography';
 import dayjs from 'dayjs';
-import { FormControl, InputAdornment, InputLabel, List, ListItem, ListItemText, MenuItem, Select } from '@mui/material';
+import { FormControl, InputAdornment, List, ListItem, ListItemText, MenuItem } from '@mui/material';
 import { ExpandLess, ExpandMore } from '@mui/icons-material';
 
-function ProfileInfo({ userData, handleInputChange, isEditing }) {
+function ProfileInfo({city, wards, userData, handleInputChange, isEditing }) {
 
-  const classList = userData.class.map((classObj) => classObj.name);
-  console.log(classList);
   const [open, setOpen] = React.useState(false);
 
   const handleClick = () => {
     setOpen(!open);
   };
-  
+
   return (
     <>
       <TextField
         label='Họ Và Tên'
         fullWidth
-        value={userData.name}
-        onChange={(e) => handleInputChange('name', e.target.value)}
+        value={userData.fullname || ''}
+        onChange={(e) => handleInputChange('fullname', e.target.value)}
         disabled={!isEditing}
+        InputLabelProps={{
+          shrink: userData.fullname ? true : undefined,
+        }}
       />
       <TextField
         label='Email'
         fullWidth
-        value={userData.email}
+        value={userData.email || ''}
         onChange={(e) => handleInputChange('email', e.target.value)}
-        disabled={!isEditing}
-      />
-      <TextField
-        label='Số Nhà & Tên Đường'
-        fullWidth
-        value={userData.address}
-        onChange={(e) => handleInputChange('address', e.target.value)}
-        disabled={!isEditing}
+        disabled={true}
+        InputLabelProps={{ shrink: true }}
       />
       <Box
         sx={{
@@ -51,18 +45,22 @@ function ProfileInfo({ userData, handleInputChange, isEditing }) {
         }}
       >
         <Box sx={{ width: '50%' }}>
-          <FormControl fullWidth disabled={!isEditing}>
-            <InputLabel id='gen'>Giới Tính</InputLabel>
-            <Select
-              labelId='demo-simple-select-label'
-              id='gen'
-              value={userData.gen}
-              label='Giới Tính'
-            >
-              <MenuItem value={0}>Nam</MenuItem>
-              <MenuItem value={1}>Nữ</MenuItem>
-            </Select>
-          </FormControl>
+          <TextField
+            select
+            label='Giới Tính'
+            value={userData.gender !== undefined ? userData.gender : ''}
+            InputLabelProps={{
+              shrink: true,
+            }}
+            disabled={!isEditing}
+            sx={{
+              width: '100%',
+            }}
+            onChange={(e) => handleInputChange('gender', e.target.value)}
+          >
+            <MenuItem value={1}>Nam</MenuItem>
+            <MenuItem value={0}>Nữ</MenuItem>
+          </TextField>
         </Box>
         <Box sx={{ width: '50%' }}>
           <FormControl fullWidth disabled={!isEditing}>
@@ -71,7 +69,7 @@ function ProfileInfo({ userData, handleInputChange, isEditing }) {
                 <TextField
                   id='subj'
                   label='Chuyên Môn'
-                  value={classList.length}
+                  value={userData.courseList ? userData.courseList.length.toString() : 'null'}
                   onClick={handleClick}
                   sx={{
                     width: '200px',
@@ -94,9 +92,9 @@ function ProfileInfo({ userData, handleInputChange, isEditing }) {
                 }}
               >
                 {open &&
-                  classList.map((value) => (
-                    <ListItem key={value} disableGutters>
-                      <ListItemText primary={value} />
+                  userData.courseList.map((course) => (
+                    <ListItem key={course.classcourseid} disableGutters>
+                      <ListItemText primary={`${course.courseName} ${course.class}`} />
                     </ListItem>
                   ))}
               </Box>
@@ -112,19 +110,34 @@ function ProfileInfo({ userData, handleInputChange, isEditing }) {
         }}
       >
         <TextField
+          select
           label='Huyện'
           fullWidth
-          value={userData.district}
-          onChange={(e) => handleInputChange('district', e.target.value)}
+          value={userData.wards || ''}
+          onChange={(e) => handleInputChange('wards', e.target.value)}
           disabled={!isEditing}
-        />
+        >
+          {city.map((c) => {
+            const code = c.name === userData.city ? c.code : null;
+            const filteredWards = code ? wards.filter((item) => item.province_code === code) : [];
+
+            return filteredWards.map((item, index) => (
+              <MenuItem key={index} value={item.name}>{item.name}</MenuItem>
+            ));
+          })}
+        </TextField>
         <TextField
+          select
           label='Tỉnh / Thành Phố'
           fullWidth
-          value={userData.city}
+          value={userData.city || ''}
           onChange={(e) => handleInputChange('city', e.target.value)}
           disabled={!isEditing}
-        />
+        >
+          {city.map((item, index) => (
+            <MenuItem key={index} value={item.name}>{item.name}</MenuItem>
+          ))}
+        </TextField>
       </Box>
       <Box
         sx={{
@@ -136,24 +149,18 @@ function ProfileInfo({ userData, handleInputChange, isEditing }) {
         <LocalizationProvider dateAdapter={AdapterDayjs}>
           <DatePicker
             label='Ngày sinh'
-            defaultValue={dayjs(userData.dateOfBirth)}
-            onChange={(date) => handleInputChange('dateOfBirth', date)}
-            inputFormat='DD/MM/YYYY'
-            renderInput={(params) => (
-              <Box sx={{ display: 'flex', flexDirection: 'column' }}>
-                <Typography variant='caption'>Date of Birth</Typography>
-                <TextField {...params} fullWidth />
-              </Box>
-            )}
-            sx={{
-              width: '50%',
+            value={userData.birthdate ? dayjs(userData.birthdate) : null}
+            onChange={(date) => handleInputChange('birthdate', date)}
+            InputLabelProps={{
+              shrink: userData.birthdate ? true : undefined,
             }}
+            sx={{ width: '50%' }}
             disabled={!isEditing}
           />
         </LocalizationProvider>
         <TextField
           label='Số Điện Thoại'
-          value={userData.phone}
+          value={userData.phone || ''}
           onChange={(e) => handleInputChange('phone', e.target.value)}
           disabled={!isEditing}
           sx={{
