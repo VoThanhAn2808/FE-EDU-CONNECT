@@ -57,6 +57,10 @@ import FeedbackTutors from '../pages/Student/FeedBack/FeedBackTutor';
 import Feedbackofcourse from '../pages/Tutor/ViewInfomationPage/Feedbackofcourse';
 import Demo from '../pages/Tutor/ExerciseDetail/Demo';
 import DemoDetail from '../pages/Tutor/ExerciseDetail/DemoDetail';
+import HomeworkList from '../pages/Tutor/ExerciseList/HomeworkList';
+
+
+
 const publicRoute = [
   { path: '/', component: Home, layout: DefaultLayout, allowedRoles: ["default"] },
   { path: '/subject/:id', component: SubjectPage, layout: DefaultLayout, allowedRoles: ["default"] },
@@ -101,6 +105,7 @@ const privateRoute = [
   { path: '/updatecalender', component: UpdateCalender, layout: LayoutTutor, allowedRoles: ["tutor"] },
   { path: '/demo/:classcourseid', component: Demo, layout: LayoutTutor, allowedRoles: ["tutor"] },
   { path: '/demodetail/:demoid', component: DemoDetail, layout: LayoutTutor, allowedRoles: ["tutor"] },
+  { path: '/homeworklist/:classcourseid', component: HomeworkList, layout: LayoutTutor, allowedRoles: ["tutor"] },
 
   { path: '/tutormanagement', component: TutorManagement, layout: LayoutStaff, allowedRoles: ["staff"] },
   { path: '/coursemanagement', component: CourseManagement, layout: LayoutStaff, allowedRoles: ["staff"] },
