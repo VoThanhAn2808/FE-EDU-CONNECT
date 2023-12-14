@@ -18,6 +18,7 @@ import { jwtDecode } from 'jwt-decode';
 const Sidebar = () => {
   const [openGrades, setOpenGrades] = useState(false);
   const [openSubject, setOpenSubject] = useState(false);
+  const [openHomework, setOpenHomework] = useState(false);
   const decodedToken = jwtDecode(localStorage.getItem('token'));
   const userId = decodedToken.id;
   const [course, setCourse] = useState([]);
@@ -35,10 +36,17 @@ const Sidebar = () => {
   const handleGradesClick = () => {
     setOpenGrades(!openGrades);
     setOpenSubject(false);
+    setOpenHomework(false);
   };
   const handleSubjectClick = () => {
     setOpenSubject(!openSubject);
     setOpenGrades(false);
+    setOpenHomework(false);
+  };
+  const handleHomeworkClick = () => {
+    setOpenHomework(!openHomework);
+    setOpenGrades(false);
+    setOpenSubject(false);
   };
   return (
     <Box
@@ -109,6 +117,31 @@ const Sidebar = () => {
             ))}
           </List>
         </Collapse>
+        {/* ////////////////////////////////// */}
+        <ListItemButton onClick={handleHomeworkClick}>
+          <ListItemIcon>
+            <TopicIcon />
+          </ListItemIcon>
+          <Typography sx={{ fontSize: '16px', marginRight: 'auto' }}><Link style={{ color: "black", textDecoration: "none" }}>Danh sách nộp bài tập </Link></Typography>
+          {openHomework ? <ExpandLess /> : <ExpandMore />}
+        </ListItemButton>
+
+        <Collapse in={openHomework} timeout='auto' unmountOnExit>
+          <List component='div' disablePadding>
+            {course.map((item, index) => (
+              <ListItemButton sx={{ pl: 3 }} key={index}>
+                <ListItemIcon></ListItemIcon>
+                <Typography sx={{ fontSize: '13px', marginRight: 'auto', fontWeight: 'bold' }}>
+                  <Link to={`/homeworklist/${item.classcourseid}`} style={{ color: "black", textDecoration: "none" }}>{item.courseName} {item.classname}</Link>
+                </Typography>
+              </ListItemButton>
+            ))}
+          </List>
+        </Collapse>
+
+
+
+
         <ListItemButton>
           <ListItemIcon>
             <CalendarMonthIcon />
