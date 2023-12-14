@@ -21,10 +21,12 @@ import axios from 'axios';
 import { Link } from 'react-router-dom';
 
 const data2 = [
-    { hotnew: HOTNEW, infor: "Lượng học sinh năm 2023", date: "20-08-2023", para: "Số lượng học sinh trong năm 2023 tăng hơn", more: "XEM THÊM", fullContent: "hết rồi nhé mọi người" },
-    { hotnew: HOTNEW, infor: "Lượng học sinh năm 2023", date: "20-08-2023", para: "Số lượng học sinh trong năm 2023 tăng hơn", more: "XEM THÊM", fullContent: "hết rồi nhé mọi người" },
-    { hotnew: HOTNEW, infor: "Lượng học sinh năm 2023", date: "20-08-2023", para: "Số lượng học sinh trong năm 2023 tăng hơn", more: "XEM THÊM", fullContent: "hết rồi nhé mọi người" },
+    { hotnew: HOTNEW, infor: "Lượng học sinh năm 2023", para: "Số lượng học sinh trong năm 2023 tăng hơn", more: "XEM THÊM" },
+    { hotnew: HOTNEW, infor: "Lượng học sinh năm 2023", para: "Số lượng học sinh trong năm 2023 tăng hơn", more: "XEM THÊM" },
+    { hotnew: HOTNEW, infor: "Lượng học sinh năm 2023", para: "Số lượng học sinh trong năm 2023 tăng hơn", more: "XEM THÊM" },
 ]
+
+const currentDate = new Date().toLocaleDateString(); // Get current date in the format: dd/mm/yyyy
 
 function Home() {
 
@@ -113,14 +115,14 @@ function Home() {
 
                                 <Link to={`/viewinfomationpages/${item.tutorid}`} style={{ color: 'black' }}>
                                     <Button
-                                    variant="contained" 
-                                    color="success"
+                                        variant="contained"
+                                        color="success"
                                         sx={{
                                             fontWeight: "400",
                                             fontSize: "20px",
                                             fontFamily: "cursive",
                                             height: "35px",
-                                            width: "200px", 
+                                            width: "200px",
                                             borderRadius: "5px",
                                             position: "absolute",
                                             top: "95%",
@@ -134,7 +136,7 @@ function Home() {
                                         Thông tin
                                     </Button>
                                 </Link>
-                                <img src={`http://localhost:8081/edu/file/fileuser/${item.img}/${item.tutorid}`} alt="giasu" className='giasu' style={{height : '310px'}} />
+                                <img src={`http://localhost:8081/edu/file/fileuser/${item.img}/${item.tutorid}`} alt="giasu" className='giasu' style={{ height: '230px' }} />
                             </Box>
                         </Grid>
                     ))}
@@ -272,7 +274,7 @@ function Home() {
                                             color: "#00000",
                                             fontSize: "17px",
                                             fontFamily: "cursive",
-                                            marginLeft:"33px"
+                                            marginLeft: "33px"
                                         }}
                                     >
                                         Đảm bảo chất lượng dạy học
@@ -281,11 +283,11 @@ function Home() {
                                         sx={{
                                             marginTop: "5%",
                                             fontSize: "12px",
-                                            marginLeft:"37px"
+                                            marginLeft: "37px"
 
                                         }}>
-                                            Chương trình dạy <br /> 
-                                            một kèm một
+                                        Chương trình dạy <br />
+                                        một kèm một
                                     </Typography>
                                     <img src={IMAGE27} alt="image27" className='image27' />
                                 </Box>
@@ -387,7 +389,7 @@ function Home() {
                                             color: "#00000",
                                             fontSize: "17px",
                                             fontFamily: "cursive",
-                                            marginLeft:"20px"
+                                            marginLeft: "20px"
                                         }}
                                     >
                                         Luôn luôn cung cấp bài giảng mới
@@ -396,10 +398,10 @@ function Home() {
                                         sx={{
                                             marginTop: "6%",
                                             fontSize: "12px",
-                                            marginLeft:"20px",
+                                            marginLeft: "20px",
 
                                         }}>
-                                            Được cập nhật bài giảng liên tục
+                                        Được cập nhật bài giảng liên tục
                                     </Typography>
                                     <img src={IMAGE28} alt="image28" className='image28' />
                                 </Box>
@@ -446,15 +448,15 @@ function Home() {
                                 </Typography>
                                 <Typography sx={{ marginBottom: 1, fontSize: "15px", marginLeft: "4%" }}>
                                     <CalendarTodayIcon sx={{ marginRight: "4%" }} />
-                                    {item.date}
+                                    {currentDate}
                                 </Typography>
                                 <Typography sx={{ marginBottom: 1, fontSize: "15px", marginLeft: "4%" }}>
                                     {item.para}
                                 </Typography>
                                 <Button variant="contained" color="success" sx={{ fontSize: "10px", height: "20px", width: "90px", margin: "0 auto", borderRadius: "15px" }}
-                                component="a"
-                                href="https://dnuni.fpt.edu.vn/tin-tuc/"
-                                target="_blank">
+                                    component="a"
+                                    href="https://dnuni.fpt.edu.vn/tin-tuc/"
+                                    target="_blank">
                                     {item.more}
                                 </Button>
 

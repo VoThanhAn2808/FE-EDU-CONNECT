@@ -21,11 +21,11 @@ function DocumentManagement() {
         setSnackbarMessage(message);
         setSnackbarType(type);
         setSnackbarOpen(true);
-      };
-    
-      const handleSnackbarClose = () => {
+    };
+
+    const handleSnackbarClose = () => {
         setSnackbarOpen(false);
-      };
+    };
 
     const handleSearch = (event) => {
         setSearchName(event.target.value);
@@ -64,8 +64,8 @@ function DocumentManagement() {
             const response = await axios.put(
                 `http://localhost:8081/staffsconnect/acceptfile`,
                 {
-                    fileid : fileid,
-                    status : status,
+                    fileid: fileid,
+                    status: status,
                 },
                 {
                     headers: {
@@ -114,7 +114,7 @@ function DocumentManagement() {
                     marginTop: '10px',
                 }}>
                     <TextField
-                    label="Tìm Kiếm"
+                        label="Tìm Kiếm"
                         sx={{
                             borderRadius: '11%',
                             width: '200px',
@@ -163,7 +163,7 @@ function DocumentManagement() {
                                                 </TableCell>
                                                 <TableCell sx={{ fontSize: "15px", fontFamily: "cursive", textAlign: "center", color: "red" }}>Đang đợi duyệt</TableCell>
                                                 <TableCell sx={{ fontSize: "15px", fontFamily: "cursive", textAlign: "center" }}>
-                                                    <CheckIcon sx={{ fontSize: "25px", marginRight : '15px' }} onClick={(e) => handleClickChange(e, item.fileid, 2)}/>
+                                                    <CheckIcon sx={{ fontSize: "25px", marginRight: '15px' }} onClick={(e) => handleClickChange(e, item.fileid, 2)} />
                                                     <RemoveDoneIcon sx={{ fontSize: "25px" }} onClick={(e) => handleClickChange(e, item.fileid, 0)} />
                                                 </TableCell>
                                             </TableRow>
@@ -178,19 +178,19 @@ function DocumentManagement() {
                 <Box sx={{ display: 'flex', justifyContent: 'center', marginTop: "15px" }}>
                     <Pagination count={pages.length} page={page} onChange={handlePageChange} sx={{ '& .MuiPaginationItem-root': { fontSize: '15px', minWidth: '50px' } }} />
                     <Snackbar
-                  open={snackbarOpen}
-                  autoHideDuration={3000}
-                  onClose={handleSnackbarClose}
-                  anchorOrigin={{ vertical: 'top', horizontal: 'right' }}
-                >
-                  <MuiAlert
-                    onClose={handleSnackbarClose}
-                    severity={snackbarType}
-                    sx={{ width: '100%', fontSize: '15px' }}
-                  >
-                    {snackbarMessage}
-                  </MuiAlert>
-                </Snackbar>
+                        open={snackbarOpen}
+                        autoHideDuration={3000}
+                        onClose={handleSnackbarClose}
+                        anchorOrigin={{ vertical: 'top', horizontal: 'right' }}
+                    >
+                        <MuiAlert
+                            onClose={handleSnackbarClose}
+                            severity={snackbarType}
+                            sx={{ width: '100%', fontSize: '15px' }}
+                        >
+                            {snackbarMessage}
+                        </MuiAlert>
+                    </Snackbar>
                 </Box>
             </Box>
         </Box>

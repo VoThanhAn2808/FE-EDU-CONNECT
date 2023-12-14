@@ -58,7 +58,7 @@ function Admin() {
       <Box>
         <Grid container spacing={1}>
           <Grid item xs={3}>
-          <Box sx={{ marginTop: '20px', backgroundColor: 'gold', marginLeft: '10px', height: '80px', width: '300px', borderRadius: '5px' }}>
+            <Box sx={{ marginTop: '20px', backgroundColor: 'gold', marginLeft: '10px', height: '80px', width: '300px', borderRadius: '5px' }}>
               <Typography variant="h5" sx={{ textAlign: 'center', paddingTop: '10px', fontFamily: 'cursive' }}>Số lượng học sinh</Typography>
               <Box sx={{ display: 'flex', paddingTop: '10px', justifyContent: 'center' }}>
                 <Typography variant="h4">{month.TotalStudents}</Typography>
@@ -88,7 +88,7 @@ function Admin() {
           </Grid>
           <Grid item xs={3}>
             <Box sx={{ marginTop: '20px', backgroundColor: 'gold', marginLeft: '10px', height: '80px', width: '300px', borderRadius: '5px' }}>
-            <Typography variant="h5" sx={{ textAlign: 'center', paddingTop: '10px', fontFamily: 'cursive' }}>Số lượng gia sư</Typography>
+              <Typography variant="h5" sx={{ textAlign: 'center', paddingTop: '10px', fontFamily: 'cursive' }}>Số lượng gia sư</Typography>
               <Box sx={{ display: 'flex', paddingTop: '10px', justifyContent: 'center' }}>
                 <Typography variant="h4">{month.TotalTutors}</Typography>
                 <Box
@@ -114,9 +114,9 @@ function Admin() {
           </Grid>
           <Grid item xs={3}>
             <Box sx={{ marginTop: '20px', backgroundColor: 'gold', marginLeft: '10px', height: '80px', width: '300px', borderRadius: '5px' }}>
-            <Typography variant="h5" sx={{ textAlign: 'center', paddingTop: '10px', fontFamily: 'cursive' }}>Lượng tiền </Typography>
+              <Typography variant="h5" sx={{ textAlign: 'center', paddingTop: '10px', fontFamily: 'cursive' }}>Lượng tiền </Typography>
               <Box sx={{ display: 'flex', paddingTop: '10px', justifyContent: 'center' }}>
-              <Typography variant="h4">
+                <Typography variant="h4">
                   {new Intl.NumberFormat('vi-VN', { style: 'currency', currency: 'VND' }).format(month.TotalRevenue)}
                 </Typography>
                 <Box
@@ -142,7 +142,7 @@ function Admin() {
           </Grid>
           <Grid item xs={3}>
             <Box sx={{ marginTop: '20px', backgroundColor: 'gold', marginLeft: '10px', height: '80px', width: '300px', borderRadius: '5px' }}>
-            <Typography variant="h5" sx={{ textAlign: 'center', paddingTop: '10px', fontFamily: 'cursive' }}>Số lượng nhân viên</Typography>
+              <Typography variant="h5" sx={{ textAlign: 'center', paddingTop: '10px', fontFamily: 'cursive' }}>Số lượng nhân viên</Typography>
               <Box sx={{ display: 'flex', paddingTop: '10px', justifyContent: 'center' }}>
                 <Typography variant="h4">{month.TotalStaff}</Typography>
                 <Box

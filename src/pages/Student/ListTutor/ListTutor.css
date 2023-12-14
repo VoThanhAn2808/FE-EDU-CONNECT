@@ -1,7 +1,8 @@
-.tutor{
+.tutor {
     height: 100%;
 }
-.tutor .container{
+
+.tutor .container {
     display: flex;
     align-items: center;
     justify-content: center;
@@ -14,10 +15,10 @@
     margin: auto;
     height: 90%;
     margin-bottom: 10%;
-    
+
 }
 
-.containers{
+.containers {
     display: flex;
     align-items: center;
     justify-content: center;
@@ -71,6 +72,6 @@
     font-family: cursive;
 }
 
-.tutor .link{
+.tutor .link {
     text-decoration: none;
 }

@@ -32,18 +32,19 @@ function Slide() {
           dynamicBullets: true,
         }}
         modules={[Pagination]}
-        style={{width : '100%', height : '100%'}}
+        style={{ width: '100%', height: '100%' }}
       >
         {data.map(({ avatar }, index) => {
           return (
             <SwiperSlide key={index} style={{
-              textAlign : 'center', fontSize : '18px', backgroundColor : '#fff'
+              textAlign: 'center', fontSize: '18px', backgroundColor: '#fff'
             }}>
-              <Box sx={{backgroundColor : 'GrayText', width : '300px', borderRadius : '5%'}}>
-                <Typography variant="h5" sx={{ marginBottom: '20px', width: '200px', fontFamily: 'cursive', marginLeft : 'auto', marginRight : 'auto', paddingTop : '10px' }}>Cảm ơn cô thầy rất nhiều có nhiều bài hay</Typography>
-                  <img src={avatar} alt={`Slide ${index}`} style={{display : 'block', width : '150px', height : '150px', borderRadius : '50%',
-                marginTop : '20px', objectFit : 'cover', marginLeft : '25%'
-                }}/>
+              <Box sx={{ backgroundColor: 'GrayText', width: '300px', borderRadius: '5%' }}>
+                <Typography variant="h5" sx={{ marginBottom: '20px', width: '200px', fontFamily: 'cursive', marginLeft: 'auto', marginRight: 'auto', paddingTop: '10px' }}>Cảm ơn cô thầy rất nhiều có nhiều bài hay</Typography>
+                <img src={avatar} alt={`Slide ${index}`} style={{
+                  display: 'block', width: '150px', height: '150px', borderRadius: '50%',
+                  marginTop: '20px', objectFit: 'cover', marginLeft: '25%'
+                }} />
                 <Rating
                   name="five-star-rating"
                   value={4}

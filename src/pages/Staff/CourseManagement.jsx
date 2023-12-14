@@ -19,16 +19,16 @@ function CourseManagement() {
     const [snackbarOpen, setSnackbarOpen] = useState(false);
     const [snackbarMessage, setSnackbarMessage] = useState('');
     const [snackbarType, setSnackbarType] = useState('success');
-    
+
     const showSnackbar = (message, type) => {
         setSnackbarMessage(message);
         setSnackbarType(type);
         setSnackbarOpen(true);
-      };
-    
-      const handleSnackbarClose = () => {
+    };
+
+    const handleSnackbarClose = () => {
         setSnackbarOpen(false);
-      };
+    };
 
     const handleClicks = (event, tutorid, status, date, tutor, student) => {
         setAnchorEl(event.currentTarget);
@@ -89,11 +89,11 @@ function CourseManagement() {
     const handleAccept = async (event) => {
         event.preventDefault();
         event.stopPropagation();
-        try{
+        try {
             const response = await axios.get(`http://localhost:8081/book/acceptcardpay/${book}`)
             showSnackbar(response.data)
             window.location.reload();
-        }catch(error) {
+        } catch (error) {
             console.error(error);
         }
         handleCloses();
@@ -102,11 +102,11 @@ function CourseManagement() {
     const handleCancel = async (event) => {
         event.preventDefault();
         event.stopPropagation();
-        try{
+        try {
             const response = await axios.delete(`http://localhost:8081/book/cancelcardpay/${book}`)
             showSnackbar(response.data)
             window.location.reload();
-        }catch(error) {
+        } catch (error) {
             console.error(error);
         }
         handleCloses();
@@ -242,16 +242,16 @@ function CourseManagement() {
                                                 <TableCell sx={{ fontSize: "15px", fontFamily: "cursive", textAlign: "center" }}>{item.endDate}</TableCell>
                                                 {item.status === '2' ? (
                                                     <TableCell sx={{ fontSize: "15px", fontFamily: "cursive", textAlign: "center" }}>
-                                                        Chuyển khoản 
+                                                        Chuyển khoản
                                                     </TableCell>
                                                 ) : (
                                                     <TableCell sx={{ fontSize: "15px", fontFamily: "cursive", textAlign: "center" }}>
-                                                        VNPAY 
+                                                        VNPAY
                                                     </TableCell>
                                                 )}
                                                 <TableCell sx={{ fontSize: "15px", fontFamily: "cursive", textAlign: "center", color: item.trangThai === 'Đã hoàn thành' ? 'green' : 'red' }}>{item.trangThai}</TableCell>
                                                 <TableCell sx={{ fontSize: "15px", fontFamily: "cursive", textAlign: "center" }}>
-                                                    <MoreVertIcon sx={{ fontSize: "25px" }} onClick={(e) => handleClicks(e, item.bookid, item.status, item.datepay,item.tutorName, item.studentName)} />
+                                                    <MoreVertIcon sx={{ fontSize: "25px" }} onClick={(e) => handleClicks(e, item.bookid, item.status, item.datepay, item.tutorName, item.studentName)} />
                                                 </TableCell>
                                             </TableRow>
                                         );
@@ -335,19 +335,19 @@ function CourseManagement() {
                                 Hủy
                             </Button>
                             <Snackbar
-                  open={snackbarOpen}
-                  autoHideDuration={3000}
-                  onClose={handleSnackbarClose}
-                  anchorOrigin={{ vertical: 'top', horizontal: 'right' }}
-                >
-                  <MuiAlert
-                    onClose={handleSnackbarClose}
-                    severity={snackbarType}
-                    sx={{ width: '100%', fontSize: '15px' }}
-                  >
-                    {snackbarMessage}
-                  </MuiAlert>
-                </Snackbar>
+                                open={snackbarOpen}
+                                autoHideDuration={3000}
+                                onClose={handleSnackbarClose}
+                                anchorOrigin={{ vertical: 'top', horizontal: 'right' }}
+                            >
+                                <MuiAlert
+                                    onClose={handleSnackbarClose}
+                                    severity={snackbarType}
+                                    sx={{ width: '100%', fontSize: '15px' }}
+                                >
+                                    {snackbarMessage}
+                                </MuiAlert>
+                            </Snackbar>
                             <Button variant="contained" sx={{ marginLeft: '10px' }} onClick={handleClickChange}>
                                 Send
                             </Button>

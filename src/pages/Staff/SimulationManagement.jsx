@@ -37,11 +37,11 @@ function SimulationManagement() {
         setSnackbarMessage(message);
         setSnackbarType(type);
         setSnackbarOpen(true);
-      };
-    
-      const handleSnackbarClose = () => {
+    };
+
+    const handleSnackbarClose = () => {
         setSnackbarOpen(false);
-      };
+    };
 
     const handleOpens = (link) => {
         setView(link)
@@ -490,19 +490,19 @@ function SimulationManagement() {
                             <Button sx={{ height: "30px", width: "20px", backgroundColor: "red", color: "white", marginRight: "5px" }} onClick={handleClose}>Huỷ</Button>
                             <Button sx={{ height: "30px", width: "20px", backgroundColor: "green", color: "white" }} onClick={handleSubmit}>Lưu</Button>
                             <Snackbar
-                  open={snackbarOpen}
-                  autoHideDuration={3000}
-                  onClose={handleSnackbarClose}
-                  anchorOrigin={{ vertical: 'top', horizontal: 'right' }}
-                >
-                  <MuiAlert
-                    onClose={handleSnackbarClose}
-                    severity={snackbarType}
-                    sx={{ width: '100%', fontSize: '15px' }}
-                  >
-                    {snackbarMessage}
-                  </MuiAlert>
-                </Snackbar>
+                                open={snackbarOpen}
+                                autoHideDuration={3000}
+                                onClose={handleSnackbarClose}
+                                anchorOrigin={{ vertical: 'top', horizontal: 'right' }}
+                            >
+                                <MuiAlert
+                                    onClose={handleSnackbarClose}
+                                    severity={snackbarType}
+                                    sx={{ width: '100%', fontSize: '15px' }}
+                                >
+                                    {snackbarMessage}
+                                </MuiAlert>
+                            </Snackbar>
                         </Box>
                     </Box>
                 </Modal>

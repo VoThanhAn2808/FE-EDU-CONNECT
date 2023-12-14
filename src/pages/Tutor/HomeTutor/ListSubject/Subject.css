@@ -1,7 +1,8 @@
-.body{
+.body {
     height: 100%;
 }
-.body .container{
+
+.body .container {
     display: flex;
     align-items: center;
     justify-content: center;
@@ -37,6 +38,6 @@
     margin-top: 1px;
 }
 
-.body .link{
+.body .link {
     text-decoration: none;
 }

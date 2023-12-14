@@ -1,5 +1,5 @@
 import React, { useState } from 'react';
-import { Card, Button, Grid, Typography, withStyles } from '@material-ui/core';
+import { Card, Button, Grid, withStyles } from '@material-ui/core';
 import { Box } from '@mui/material';
 
 const styles = {

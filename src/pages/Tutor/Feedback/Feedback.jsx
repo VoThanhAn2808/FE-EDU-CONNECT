@@ -73,8 +73,8 @@ function FeedbackTutor() {
                     alignItems: 'center',
                     marginTop: "15px",
                     marginBottom: "50px",
-                 }}>
-                    <Card sx={{ maxWidth: "400px", minWidth: "399px"}}>
+                }}>
+                    <Card sx={{ maxWidth: "400px", minWidth: "399px" }}>
                         <CardHeader
                             avatar={
                                 <Avatar alt="An" src="an.jpg" sx={{

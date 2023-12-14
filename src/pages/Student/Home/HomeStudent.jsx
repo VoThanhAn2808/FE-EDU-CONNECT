@@ -127,7 +127,7 @@ function Home() {
                                     <img
                                         src={`http://localhost:8081/edu/file/files/` + item.img}
                                         alt={item.courseName}
-                                        style={{ height: '200px', width : '150px' }}
+                                        style={{ height: '200px', width: '150px' }}
                                         className="subject-img"
                                     />
                                     <Typography className="nameSubject">
@@ -189,29 +189,29 @@ function Home() {
                                     {item.fullname}
                                 </Typography>
                                 <Link to={`/viewinfomationpage/${item.tutorid}`} style={{ color: 'black' }}>
-                                <Button
-                                variant="contained" 
-                                color="success"
-                                    sx={{
-                                        fontWeight: "400",
-                                        fontSize: "20px",
-                                        fontFamily: "cursive",
-                                        height: "35px",
-                                        width: "200px", 
-                                        borderRadius: "5px",
-                                        position: "absolute",
-                                        top: "95%",
-                                        left: "50%",
-                                        transform: "translate(-50%, -50%)",
-                                        textAlign: "center",
-                                        textTransform: "uppercase",
-                                        zIndex: 1
-                                    }}
-                                >
-                                    Thông tin
-                                </Button>
+                                    <Button
+                                        variant="contained"
+                                        color="success"
+                                        sx={{
+                                            fontWeight: "400",
+                                            fontSize: "20px",
+                                            fontFamily: "cursive",
+                                            height: "35px",
+                                            width: "200px",
+                                            borderRadius: "5px",
+                                            position: "absolute",
+                                            top: "95%",
+                                            left: "50%",
+                                            transform: "translate(-50%, -50%)",
+                                            textAlign: "center",
+                                            textTransform: "uppercase",
+                                            zIndex: 1
+                                        }}
+                                    >
+                                        Thông tin
+                                    </Button>
                                 </Link>
-                                <img src={`http://localhost:8081/edu/file/fileuser/${item.img}/${item.tutorid}`} alt="giasu" className='giasu' style={{height : '330px'}} />
+                                <img src={`http://localhost:8081/edu/file/fileuser/${item.img}/${item.tutorid}`} alt="giasu" className='giasu' style={{ height: '330px' }} />
                             </Box>
                         </Grid>
                     ))}
@@ -250,9 +250,9 @@ function Home() {
                                 Số lượng học sinh trong <br /> năm 2023 tăng hơn ...
                             </Typography>
                             <Button variant="contained" color="success" sx={{ fontSize: "10px", height: "20px", width: "90px", margin: "0 auto", borderRadius: "15px" }}
-                            component="a"
-                            href="https://dnuni.fpt.edu.vn/tin-tuc/"
-                            target="_blank">
+                                component="a"
+                                href="https://dnuni.fpt.edu.vn/tin-tuc/"
+                                target="_blank">
                                 Xem thêm
                             </Button>
                         </Box>
@@ -281,9 +281,9 @@ function Home() {
                                 Số lượng học sinh trong <br /> năm 2023 tăng hơn ...
                             </Typography>
                             <Button variant="contained" color="success" sx={{ fontSize: "10px", height: "20px", width: "90px", margin: "0 auto", borderRadius: "15px" }}
-                            component="a"
-                            href="https://dnuni.fpt.edu.vn/tin-tuc/"
-                            target="_blank">
+                                component="a"
+                                href="https://dnuni.fpt.edu.vn/tin-tuc/"
+                                target="_blank">
                                 Xem thêm
                             </Button>
                         </Box>
@@ -312,17 +312,15 @@ function Home() {
                                 Số lượng học sinh trong <br /> năm 2023 tăng hơn ...
                             </Typography>
                             <Button variant="contained" color="success" sx={{ fontSize: "10px", height: "20px", width: "90px", margin: "0 auto", borderRadius: "15px" }}
-                            component="a"
-                            href="https://dnuni.fpt.edu.vn/tin-tuc/"
-                            target="_blank">
+                                component="a"
+                                href="https://dnuni.fpt.edu.vn/tin-tuc/"
+                                target="_blank">
                                 Xem thêm
                             </Button>
                         </Box>
                     </Grid>
-
                 </Grid>
             </Box>
-
         </Box>
     );
 }

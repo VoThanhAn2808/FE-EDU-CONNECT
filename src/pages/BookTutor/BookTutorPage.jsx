@@ -34,7 +34,7 @@ function BookTutorPage() {
         axios
             .get(`http://localhost:8081/tutorByCourse/find4TutorByCourse?CourseId=${classcourseid}`)
             .then((response) => {
-                setPage(response.data); 
+                setPage(response.data);
             })
             .catch((error) => {
                 console.error(error);
@@ -47,7 +47,7 @@ function BookTutorPage() {
         axios
             .get(`http://localhost:8081/course/findCourseByTutor?tutorid=${tutorid}`)
             .then((response) => {
-                setCourse(response.data); 
+                setCourse(response.data);
             })
             .catch((error) => {
                 console.error(error);

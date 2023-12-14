@@ -47,7 +47,7 @@ const ProfileTeacher = () => {
             'Content-Type': 'application/json',
           },
         },
-      );      
+      );
       setUserData({ ...response.data, email: decodedToken.sub });
     } catch (error) {
       console.error(error);
@@ -88,8 +88,8 @@ const ProfileTeacher = () => {
             'Content-Type': 'multipart/form-data',
           },
         });
-        setShowSnackbar(true);
-        window.location.reload();
+      setShowSnackbar(true);
+      window.location.reload();
     } catch (error) {
       console.error(error);
     }
@@ -170,7 +170,7 @@ const ProfileTeacher = () => {
   const handleFileChange = (selectedFile) => {
     setUploadedFile(selectedFile);
   };
-  
+
 
   return (
     <Box
@@ -213,18 +213,18 @@ const ProfileTeacher = () => {
             isPhoneNumberValid={isPhoneNumberValid}
           />
           <Snackbar
-        open={showSnackbar}
-        autoHideDuration={3000}
-        onClose={handleCloseSnackbar}
-        anchorOrigin={{
-          vertical: 'top',
-          horizontal: 'center',
-        }}
-      >
-        <Alert severity="success" onClose={handleCloseSnackbar}>
-          Cập nhật thành công!
-        </Alert>
-      </Snackbar>
+            open={showSnackbar}
+            autoHideDuration={3000}
+            onClose={handleCloseSnackbar}
+            anchorOrigin={{
+              vertical: 'top',
+              horizontal: 'center',
+            }}
+          >
+            <Alert severity="success" onClose={handleCloseSnackbar}>
+              Cập nhật thành công!
+            </Alert>
+          </Snackbar>
           {isEditing ? (
             <Button variant='contained' onClick={handleSave}>
               Lưu

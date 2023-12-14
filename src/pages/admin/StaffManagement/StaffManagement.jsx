@@ -80,7 +80,7 @@ function StaffManagement() {
     const handleSearch = (event) => {
         setSearchName(event.target.value);
     };
-    
+
     const handleLinkClick = async (event) => {
         event.preventDefault();
         event.stopPropagation();
@@ -307,7 +307,7 @@ function StaffManagement() {
                     marginTop: '10px',
                 }}>
                     <TextField
-                    label="Tìm Kiếm"
+                        label="Tìm Kiếm"
                         sx={{
                             borderRadius: '11%',
                             width: '200px',
@@ -570,7 +570,7 @@ function StaffManagement() {
                                         onChange={(e) => setStaff({ ...staff, salary: e.target.value })}
                                         InputLabelProps={{
                                             shrink: staff.salary ? true : undefined,
-                                          }}
+                                        }}
                                         InputProps={{
                                             style: {
                                                 fontSize: '14px',

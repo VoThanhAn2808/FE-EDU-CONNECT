@@ -173,19 +173,19 @@ const ForgotPassword = () => {
             </Button>
           </Box>
           <Snackbar
-        open={snackbarOpen}
-        autoHideDuration={3000}
-        onClose={handleSnackbarClose}
-        anchorOrigin={{ vertical: 'top', horizontal: 'right' }}
-      >
-        <MuiAlert
-          onClose={handleSnackbarClose}
-          severity={snackbarType}
-          sx={{ width: '100%', fontSize: '15px' }}
-        >
-          {snackbarMessage}
-        </MuiAlert>
-      </Snackbar>
+            open={snackbarOpen}
+            autoHideDuration={3000}
+            onClose={handleSnackbarClose}
+            anchorOrigin={{ vertical: 'top', horizontal: 'right' }}
+          >
+            <MuiAlert
+              onClose={handleSnackbarClose}
+              severity={snackbarType}
+              sx={{ width: '100%', fontSize: '15px' }}
+            >
+              {snackbarMessage}
+            </MuiAlert>
+          </Snackbar>
         </form>
         <Typography
           sx={{

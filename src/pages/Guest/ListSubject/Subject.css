@@ -1,8 +1,9 @@
-.body{
+.body {
     height: 100%;
     margin-bottom: 8%;
 }
-.body .container{
+
+.body .container {
     display: flex;
     align-items: center;
     justify-content: center;
@@ -38,6 +39,6 @@
     margin-top: -10%;
 }
 
-.body .link{
+.body .link {
     text-decoration: none;
 }

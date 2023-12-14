@@ -5,9 +5,7 @@ import { jwtDecode } from "jwt-decode";
 import { getYear, getISOWeek } from 'date-fns';
 
 
-
 function CalendarStudent() {
-
     const [user, setUser] = useState([]);
     const [daysOfWeek, setDaysOfWeek] = useState([]);
     const [data, setData] = useState([]);

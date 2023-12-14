@@ -160,9 +160,9 @@ function Dashboard() {
           </LocalizationProvider>
         </Box>
       </Box>
-      <Box sx={{ display: "flex", width:"100%"}}>
+      <Box sx={{ display: "flex", width: "100%" }}>
         <ApexChart />
-        <Box sx={{width:"100%"}}>
+        <Box sx={{ width: "100%" }}>
           <PieChartMui />
           <RadarChartMui />
         </Box>

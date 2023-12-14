@@ -1,4 +1,4 @@
-import { TextField, Button, Select, MenuItem, FormControl, InputLabel, Grid, Box, Typography, } from '@mui/material';
+import { TextField, Button, Select, MenuItem, FormControl, InputLabel, Grid, Box, Typography, Snackbar, } from '@mui/material';
 import { useParams } from 'react-router';
 import Modal from '@mui/material/Modal';
 import axios from 'axios';
@@ -12,6 +12,10 @@ import CloudUploadIcon from '@mui/icons-material/CloudUpload';
 import styled from '@emotion/styled';
 import ProgesstestTable from './Progesstest';
 import none from './../../../assests/none.jpg';
+import MuiAlert from '@mui/material/Alert';
+
+
+
 function ExerciseDetailPage() {
   const [open, setOpen] = useState(false);
   const [open1, setOpen1] = useState(false);
@@ -19,7 +23,6 @@ function ExerciseDetailPage() {
   const [open3, setOpen3] = useState(false);
   const token = localStorage.getItem("token");
   const tutor = jwtDecode(token);
-
   const [homework, setHomework] = useState([]);
   const [files, setFiles] = useState([]);
   const [file, setFile] = useState('');
@@ -30,6 +33,21 @@ function ExerciseDetailPage() {
   const [link, setLink] = useState('');
   const [generalData, setGeneralData] = useState({});
   const params = useParams();
+  const [snackbarOpen, setSnackbarOpen] = useState(false);
+  const [snackbarMessage, setSnackbarMessage] = useState('');
+  const [snackbarType, setSnackbarType] = useState('success');
+
+  const showSnackbar = (message, type) => {
+    setSnackbarMessage(message);
+    setSnackbarType(type);
+    setSnackbarOpen(true);
+  };
+
+  const handleSnackbarClose = () => {
+    setSnackbarOpen(false);
+  };
+
+
   const fetchHomework = () => {
     axios
       .get(`http://localhost:8081/exersice/getHomeworkByExercise?exerciseId=${params.exerciseid}`)
@@ -213,7 +231,7 @@ function ExerciseDetailPage() {
           },
         }
       );
-      alert(response.data.message)
+      showSnackbar(response.data.message)
       window.location.reload();
     } catch (error) {
     }
@@ -237,7 +255,7 @@ function ExerciseDetailPage() {
           },
         }
       );
-      alert(response.data.message)
+      showSnackbar(response.data.message)
       window.location.reload();
     } catch (error) {
       console.error(error);
@@ -260,7 +278,7 @@ function ExerciseDetailPage() {
           },
         }
       );
-      alert(response.data.message)
+      showSnackbar(response.data.message)
       window.location.reload();
     } catch (error) {
       console.error(error);
@@ -284,7 +302,7 @@ function ExerciseDetailPage() {
           },
         }
       );
-      alert(response.data.message)
+      showSnackbar(response.data.message)
       window.location.reload();
     } catch (error) {
       console.error(error);
@@ -708,6 +726,20 @@ function ExerciseDetailPage() {
 
                 <Box sx={{ marginTop: "30px", marginLeft: "34%", display: 'flex' }}>
                   <Button type="submit" sx={{ backgroundColor: "green", color: "black", fontSize: "12px", fontWeight: "600" }} onClick={handleSubmitProgess}>Lưu</Button>
+                  <Snackbar
+                    open={snackbarOpen}
+                    autoHideDuration={3000}
+                    onClose={handleSnackbarClose}
+                    anchorOrigin={{ vertical: 'top', horizontal: 'right' }}
+                  >
+                    <MuiAlert
+                      onClose={handleSnackbarClose}
+                      severity={snackbarType}
+                      sx={{ width: '100%', fontSize: '15px' }}
+                    >
+                      {snackbarMessage}
+                    </MuiAlert>
+                  </Snackbar>
                   <Button sx={{ backgroundColor: "red", color: "black", fontSize: "12px", fontWeight: "600", marginLeft: '10px' }} onClick={() => setOpen3(false)} >Huỷ</Button>
                 </Box>
               </Box>
