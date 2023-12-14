@@ -76,7 +76,7 @@ function ProfileStaff() {
   const updateInfo = async () => {
     try {
       const formData = new FormData();
-      formData.append('fullname', userData.fullName);
+      formData.append('fullname', userData.fullname);
       formData.append('staffid', decodedToken.id);
       formData.append('file', userData.avt);
       formData.append('birthdate', userData.birthdate);
