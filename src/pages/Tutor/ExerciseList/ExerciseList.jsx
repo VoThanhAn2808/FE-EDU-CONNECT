@@ -1,22 +1,20 @@
-
-import Table from '@mui/material/Table';
-import TableBody from '@mui/material/TableBody';
-import TableCell from '@mui/material/TableCell';
-import TableContainer from '@mui/material/TableContainer';
-import TableHead from '@mui/material/TableHead';
-import TableRow from '@mui/material/TableRow';
-import Paper from '@mui/material/Paper';
 import axios from 'axios';
+import MoreHorizIcon from '@mui/icons-material/MoreHoriz';
 import * as React from 'react';
 import { useState, useEffect } from 'react';
-import { Alert, Button, Snackbar } from '@mui/material';
-
+import { Link, useParams } from "react-router-dom";
+import { Alert, Snackbar, Avatar, Box, Button, Menu, MenuItem, Modal, Pagination, Paper, Table, TableBody, TableCell, TableContainer, TableHead, TableRow, Typography } from "@mui/material";
 function ExerciseTable(props) {
   const [res, setRes] = useState(props.data);
   const [showSnackbar, setShowSnackbar] = useState(false);
+  const [anchorElUser, setAnchorElUser] = useState(null);
+  const [book, setBook] = useState('');
 
   const handleCloseSnackbar = () => {
     setShowSnackbar(false);
+  };
+  const handleCloseUserMenu = () => {
+    setAnchorElUser(null);
   };
 
   useEffect(() => {
@@ -33,6 +31,7 @@ function ExerciseTable(props) {
       });
     setShowSnackbar(true);
   }
+
   return (
     <TableContainer component={Paper} sx={{}}>
       <Table >
@@ -41,6 +40,7 @@ function ExerciseTable(props) {
             <TableCell style={{ width: 50, fontSize: "14px" }}>ID</TableCell>
             <TableCell style={{ width: 200, fontSize: "14px" }}>Tên chương</TableCell>
             <TableCell style={{ width: 50, fontSize: "14px" }}>Action</TableCell>
+            <TableCell style={{ width: 50, fontSize: "14px" }}></TableCell>
           </TableRow>
         </TableHead>
         <TableBody>
@@ -68,6 +68,9 @@ function ExerciseTable(props) {
                 <Button variant="contained" color="error" onClick={() => deleteExecise(row.exerciseid)}>
                   Xoá
                 </Button>
+              </TableCell>
+              <TableCell sx={{ height: '50px', textAlign: 'center' }}>
+                <MoreHorizIcon sx={{ fontSize: '30px' }} />
               </TableCell>
             </TableRow>
           ))}
