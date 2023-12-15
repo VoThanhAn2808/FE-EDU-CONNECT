@@ -1,4 +1,4 @@
-import { Button, Modal, Paper, Table, TableBody, TableCell, TableContainer, TableHead, TableRow, Typography } from "@mui/material";
+import { Button, Modal, Paper, Table, TableBody, TableCell, TableContainer, TableHead, TableRow, TextField, Typography } from "@mui/material";
 import { Snackbar, Alert } from '@mui/material';
 import { Box } from "@mui/system";
 import React, { useEffect, useRef, useState } from "react";
@@ -9,7 +9,6 @@ import { jwtDecode } from "jwt-decode";
 import VNPAY from "../../../assests/vnpay.png"
 import BANK from "../../../assests/bank.png"
 import QR from "../../../assests/QR.jpg"
-import UploadImage from "./UploadImage";
 
 
 function BookTime() {
@@ -27,6 +26,26 @@ function BookTime() {
     const [open1, setOpen1] = useState(false);
     const handleOpen1 = () => setOpen1(true);
     const handleClose1 = () => setOpen1(false);
+    const [image, setImage] = useState(null);
+    const handleImageChange = (e) => {
+        const selectedImage = e.target.files[0];
+        if (selectedImage) {
+          // Define the allowed file types
+          const allowedTypes = ['image/jpeg', 'image/jpg', 'image/png', 'image/gif', 'image/svg+xml'];
+    
+          // Check if the selected file type is in the allowed types
+          if (!allowedTypes.includes(selectedImage.type)) {
+            alert('Please select a valid image file (JPG, JPEG, GIF, PNG, SVG).');
+            // Clear the input if an invalid file is selected
+            e.target.value = null;
+            return;
+          }
+    
+          // Set the file to state if needed
+          setImage(selectedImage);
+        }
+    
+      };
 
     const style = {
         position: 'absolute',
@@ -48,7 +67,7 @@ function BookTime() {
         left: '50%',
         transform: 'translate(-50%, -50%)',
         width: 400,
-        height: 640,
+        height: 400,
         bgcolor: 'background.paper',
         border: '2px solid #000',
         boxShadow: 'rgba(0, 0, 0, 0.24) 0px 3px 8px',
@@ -354,7 +373,18 @@ function BookTime() {
                         <Typography style={{ fontSize: "23px", fontWeight: "700" }}>Chuyển khoản ngân hàng</Typography>
                         <img src={QR} alt="logo" style={{ height: "200px", width: "200px" }} />
                         <Typography style={{ fontSize: "18px", fontWeight: "700", color: "red" }}>Nội dung: Họ và Tên + Lớp</Typography>
-                        <UploadImage />
+                        <Box>
+                            <TextField
+                                accept="image/*"
+                                fullWidth
+                                variant='outlined'
+                                style={{ fontSize: '15px', fontFamily: 'cursive', textAlign: 'center' }}
+                                type="file"
+                                id="contained-button-file"
+                                onChange={handleImageChange}
+                                required
+                            />
+                        </Box>
                     </Box>
                     <Box sx={{ marginLeft: '40%', marginTop: "20px" }}>
                         <Button onClick={handleSubmit} variant="contained" style={{ height: '30px', backgroundColor: 'green', fontSize: '12px', marginRight: '20px' }}>

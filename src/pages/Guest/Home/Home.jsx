@@ -14,6 +14,8 @@ import IMAGE28 from "../../../assests/image 28.jpg"
 import IMAGE31 from "../../../assests/image 31.jpg"
 import IMAGE32 from "../../../assests/image 32.jpg"
 import HOTNEW from "../../../assests/hotnew.jpg"
+import EDU from "../../../assests/edu.jpg"
+import FPT from "../../../assests/FPT.png"
 import FooterHome from './Footerhome/FooterHome';
 import { Box, Button, Grid, Typography } from '@mui/material';
 import CalendarTodayIcon from '@mui/icons-material/CalendarToday';
@@ -21,9 +23,9 @@ import axios from 'axios';
 import { Link } from 'react-router-dom';
 
 const data2 = [
-    { hotnew: HOTNEW, infor: "Lượng học sinh năm 2023", para: "Số lượng học sinh trong năm 2023 tăng hơn", more: "XEM THÊM" },
-    { hotnew: HOTNEW, infor: "Lượng học sinh năm 2023", para: "Số lượng học sinh trong năm 2023 tăng hơn", more: "XEM THÊM" },
-    { hotnew: HOTNEW, infor: "Lượng học sinh năm 2023", para: "Số lượng học sinh trong năm 2023 tăng hơn", more: "XEM THÊM" },
+    { hotnew: HOTNEW, infor: "Thông tin chương trình học", para: "Chính thức khởi động cuộc thi Đấu trường Võ nhạc tại Đại học FPT", more: "XEM THÊM" },
+    { hotnew: EDU, infor: "Thông tin chương trình học", para: "Chính thức khởi động cuộc thi Đấu trường Võ nhạc tại Đại học FPT", more: "XEM THÊM" },
+    { hotnew: FPT, infor: "Thông tin chương trình học", para: "Chính thức khởi động cuộc thi Đấu trường Võ nhạc tại Đại học FPT", more: "XEM THÊM" },
 ]
 
 const currentDate = new Date().toLocaleDateString(); // Get current date in the format: dd/mm/yyyy
@@ -432,14 +434,14 @@ function Home() {
                 <Grid container spacing={1}>
                     {data2.map((item, index) => (
                         <Grid item xs={4} key={index}>
-                            <img src={item.hotnew} alt="hotnew" className='hotnew' />
+                            <img src={item.hotnew} alt="hotnew" className='hotnew' style={{height:"150px"}} />
                             <Box
                                 sx={{
                                     display: 'flex',
                                     flexDirection: 'column',
                                     justifyContent: 'center',
                                     width: '209px',
-                                    height: "135px",
+                                    height: "170px",
                                     margin: '0 auto',
                                     backgroundColor: "#D9D9D9"
                                 }}>

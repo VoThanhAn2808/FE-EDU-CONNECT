@@ -23,6 +23,25 @@ const Sidebar = () => {
   const [course, setStudentData] = useState([]);
   const decodedToken = jwtDecode(localStorage.getItem('token'));
   const userId = decodedToken.id;
+  const [isHomeClicked, setIsHomeClicked] = React.useState(false);
+  const [isMyCourseClicked, setIsMyCourseClicked] = React.useState(false);
+  const [isCalendarClicked, setIsCalendarClicked] = React.useState(false);
+  const [isPointClicked, setIsPointClicked] = React.useState(false);
+
+  const handleHomeClick = () => {
+    setIsHomeClicked(true);
+    setIsMyCourseClicked(false);
+    setIsCalendarClicked(false);
+    setIsPointClicked(false);
+  };
+
+  const handleCalendarClick = () => {
+    setIsHomeClicked(false);
+    setIsMyCourseClicked(false);
+    setIsCalendarClicked(true);
+    setIsPointClicked(false);
+  };
+
 
   const fetchUser = useCallback(async () => {
     try {
@@ -63,11 +82,19 @@ const Sidebar = () => {
   const handleCourseClick = () => {
     setOpenCourse(!openCourse);
     setOpenGrades(false);
+    setIsHomeClicked(false);
+    setIsMyCourseClicked(true);
+    setIsCalendarClicked(false);
+    setIsPointClicked(false);
   };
 
   const handleGradesClick = () => {
     setOpenGrades(!openGrades);
     setOpenCourse(false);
+    setIsHomeClicked(false);
+    setIsMyCourseClicked(false);
+    setIsCalendarClicked(false);
+    setIsPointClicked(true);
   };
   return (
     <Box
@@ -83,14 +110,27 @@ const Sidebar = () => {
           bgcolor: '#E0D3A8',
         }}
       >
-        <ListItemButton>
+        <ListItemButton
+          sx={{
+            backgroundColor: isHomeClicked ? 'rgba(255, 255, 255, 0.2)' : 'transparent',
+            borderRadius: '10px',
+            transition: 'background-color 0.3s ease',
+          }}
+          onClick={handleHomeClick}
+        >
           <ListItemIcon>
             <HomeIcon />
           </ListItemIcon>
           <Typography sx={{ fontSize: '16px', marginRight: 'auto' }}><Link to="/homestudent" style={{ color: "black", textDecoration: "none" }}>Trang chủ</Link></Typography>
         </ListItemButton>
 
-        <ListItemButton onClick={handleCourseClick}>
+        <ListItemButton
+        sx={{
+          backgroundColor: isMyCourseClicked ? 'rgba(255, 255, 255, 0.2)' : 'transparent',
+          borderRadius: '10px',
+          transition: 'background-color 0.3s ease',
+        }}
+         onClick={handleCourseClick}>
           <ListItemIcon>
             <SchoolIcon />
           </ListItemIcon>
@@ -111,14 +151,27 @@ const Sidebar = () => {
           </List>
         </Collapse>
 
-        <ListItemButton>
+        <ListItemButton
+        sx={{
+          backgroundColor: isCalendarClicked ? 'rgba(255, 255, 255, 0.2)' : 'transparent',
+          borderRadius: '10px',
+          transition: 'background-color 0.3s ease',
+        }}
+        onClick={handleCalendarClick}
+        >
           <ListItemIcon>
             <CalendarMonthIcon />
           </ListItemIcon>
           <Typography sx={{ fontSize: '16px', marginRight: 'auto' }}><Link to="/calendarstudent" style={{ color: "black", textDecoration: "none" }}>Lịch học</Link></Typography>
         </ListItemButton>
 
-        <ListItemButton onClick={handleGradesClick}>
+        <ListItemButton
+        sx={{
+          backgroundColor: isPointClicked ? 'rgba(255, 255, 255, 0.2)' : 'transparent',
+          borderRadius: '10px',
+          transition: 'background-color 0.3s ease',
+        }}
+         onClick={handleGradesClick}>
           <ListItemIcon>
             <MenuBookIcon />
           </ListItemIcon>
@@ -128,13 +181,13 @@ const Sidebar = () => {
 
         <Collapse in={openGrades} timeout='auto' unmountOnExit>
           <List component='div' disablePadding>
-          {course.map((item, index) => (
-            <ListItemButton sx={{ pl: 3 }} key={index}>
-              <ListItemIcon></ListItemIcon>
-              <Typography sx={{ fontSize: '13px', marginRight: 'auto', fontWeight: 'bold' }}>
-                <Link to={`/studentgrade/${item.bookid}`} style={{ color: "black", textDecoration: "none" }}>{item.courseName} {item.classname}</Link>
-              </Typography>
-            </ListItemButton>
+            {course.map((item, index) => (
+              <ListItemButton sx={{ pl: 3 }} key={index}>
+                <ListItemIcon></ListItemIcon>
+                <Typography sx={{ fontSize: '13px', marginRight: 'auto', fontWeight: 'bold' }}>
+                  <Link to={`/studentgrade/${item.bookid}`} style={{ color: "black", textDecoration: "none" }}>{item.courseName} {item.classname}</Link>
+                </Typography>
+              </ListItemButton>
             ))}
           </List>
         </Collapse>

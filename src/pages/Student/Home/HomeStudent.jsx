@@ -5,12 +5,22 @@ import Slide from "../../Guest/Home/Slide/Slide";
 import AN from "../../../assests/1.jpg"
 import ANN from "../../../assests/image 1.jpg"
 import HOTNEW from "../../../assests/hotnew.jpg"
+import EDU from "../../../assests/edu.jpg"
+import FPT from "../../../assests/FPT.png"
 import CalendarTodayIcon from '@mui/icons-material/CalendarToday';
 import axios from "axios";
 import PersonIcon from "@mui/icons-material/Person";
 import { Link } from "react-router-dom";
 import { jwtDecode } from 'jwt-decode';
 import DiscountIcon from '@mui/icons-material/Discount';
+
+const data2 = [
+    { hotnew: HOTNEW, infor: "Thông tin chương trình học", para: "Chính thức khởi động cuộc thi Đấu trường Võ nhạc tại Đại học FPT", more: "XEM THÊM" },
+    { hotnew: EDU, infor: "Thông tin chương trình học", para: "Chính thức khởi động cuộc thi Đấu trường Võ nhạc tại Đại học FPT", more: "XEM THÊM" },
+    { hotnew: FPT, infor: "Thông tin chương trình học", para: "Chính thức khởi động cuộc thi Đấu trường Võ nhạc tại Đại học FPT", more: "XEM THÊM" },
+]
+
+const currentDate = new Date().toLocaleDateString();
 
 function Home() {
     const [user, setUser] = useState([]);
@@ -226,99 +236,38 @@ function Home() {
                 </Typography>
 
                 <Grid container spacing={1}>
-
-                    <Grid item xs={4}>
-                        <img src={HOTNEW} alt="hotnew" className='hotnew' />
-                        <Box
-                            sx={{
-                                display: 'flex',
-                                flexDirection: 'column',
-                                justifyContent: 'center',
-                                width: '209px',
-                                height: "135px",
-                                margin: '0 auto',
-                                backgroundColor: "#D9D9D9"
-                            }}>
-                            <Typography sx={{ marginBottom: 1, fontSize: "15px", marginLeft: "4%" }}>
-                                Lượng học sinh năm 2023
-                            </Typography>
-                            <Typography sx={{ marginBottom: 1, fontSize: "15px", marginLeft: "4%" }}>
-                                <CalendarTodayIcon sx={{ marginRight: "4%" }} />
-                                20-08-2023
-                            </Typography>
-                            <Typography sx={{ marginBottom: 1, fontSize: "15px", marginLeft: "4%" }}>
-                                Số lượng học sinh trong <br /> năm 2023 tăng hơn ...
-                            </Typography>
-                            <Button variant="contained" color="success" sx={{ fontSize: "10px", height: "20px", width: "90px", margin: "0 auto", borderRadius: "15px" }}
-                                component="a"
-                                href="https://dnuni.fpt.edu.vn/tin-tuc/"
-                                target="_blank">
-                                Xem thêm
-                            </Button>
-                        </Box>
-                    </Grid>
-
-                    <Grid item xs={4}>
-                        <img src={HOTNEW} alt="hotnew" className='hotnew' />
-                        <Box
-                            sx={{
-                                display: 'flex',
-                                flexDirection: 'column',
-                                justifyContent: 'center',
-                                width: '209px',
-                                height: "135px",
-                                margin: '0 auto',
-                                backgroundColor: "#D9D9D9"
-                            }}>
-                            <Typography sx={{ marginBottom: 1, fontSize: "15px", marginLeft: "4%" }}>
-                                Lượng học sinh năm 2023
-                            </Typography>
-                            <Typography sx={{ marginBottom: 1, fontSize: "15px", marginLeft: "4%" }}>
-                                <CalendarTodayIcon sx={{ marginRight: "4%" }} />
-                                20-08-2023
-                            </Typography>
-                            <Typography sx={{ marginBottom: 1, fontSize: "15px", marginLeft: "4%" }}>
-                                Số lượng học sinh trong <br /> năm 2023 tăng hơn ...
-                            </Typography>
-                            <Button variant="contained" color="success" sx={{ fontSize: "10px", height: "20px", width: "90px", margin: "0 auto", borderRadius: "15px" }}
-                                component="a"
-                                href="https://dnuni.fpt.edu.vn/tin-tuc/"
-                                target="_blank">
-                                Xem thêm
-                            </Button>
-                        </Box>
-                    </Grid>
-
-                    <Grid item xs={4}>
-                        <img src={HOTNEW} alt="hotnew" className='hotnew' />
-                        <Box
-                            sx={{
-                                display: 'flex',
-                                flexDirection: 'column',
-                                justifyContent: 'center',
-                                width: '209px',
-                                height: "135px",
-                                margin: '0 auto',
-                                backgroundColor: "#D9D9D9"
-                            }}>
-                            <Typography sx={{ marginBottom: 1, fontSize: "15px", marginLeft: "4%" }}>
-                                Lượng học sinh năm 2023
-                            </Typography>
-                            <Typography sx={{ marginBottom: 1, fontSize: "15px", marginLeft: "4%" }}>
-                                <CalendarTodayIcon sx={{ marginRight: "4%" }} />
-                                20-08-2023
-                            </Typography>
-                            <Typography sx={{ marginBottom: 1, fontSize: "15px", marginLeft: "4%" }}>
-                                Số lượng học sinh trong <br /> năm 2023 tăng hơn ...
-                            </Typography>
-                            <Button variant="contained" color="success" sx={{ fontSize: "10px", height: "20px", width: "90px", margin: "0 auto", borderRadius: "15px" }}
-                                component="a"
-                                href="https://dnuni.fpt.edu.vn/tin-tuc/"
-                                target="_blank">
-                                Xem thêm
-                            </Button>
-                        </Box>
-                    </Grid>
+                    {data2.map((item, index) => (
+                        <Grid item xs={4} key={index}>
+                            <img src={item.hotnew} alt="hotnew" className='hotnew' style={{ height: "150px" }} />
+                            <Box
+                                sx={{
+                                    display: 'flex',
+                                    flexDirection: 'column',
+                                    justifyContent: 'center',
+                                    width: '209px',
+                                    height: "170px",
+                                    margin: '0 auto',
+                                    backgroundColor: "#D9D9D9"
+                                }}>
+                                <Typography sx={{ marginBottom: 1, fontSize: "15px", marginLeft: "4%" }}>
+                                    {item.infor}
+                                </Typography>
+                                <Typography sx={{ marginBottom: 1, fontSize: "15px", marginLeft: "4%" }}>
+                                    <CalendarTodayIcon sx={{ marginRight: "4%" }} />
+                                    {currentDate}
+                                </Typography>
+                                <Typography sx={{ marginBottom: 1, fontSize: "15px", marginLeft: "4%" }}>
+                                    {item.para}
+                                </Typography>
+                                <Button variant="contained" color="success" sx={{ fontSize: "10px", height: "20px", width: "90px", margin: "0 auto", borderRadius: "15px" }}
+                                    component="a"
+                                    href="https://dnuni.fpt.edu.vn/tin-tuc/"
+                                    target="_blank">
+                                    {item.more}
+                                </Button>
+                            </Box>
+                        </Grid>
+                    ))}
                 </Grid>
             </Box>
         </Box>
