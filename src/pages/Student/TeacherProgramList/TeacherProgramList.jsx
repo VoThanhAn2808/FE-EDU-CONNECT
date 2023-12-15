@@ -216,7 +216,7 @@ function TeacherProgramList() {
                                         <Link to={`/submitExercise/${homew.homeworkid}`} style={{ textDecoration: "none", color: "black" }}>
                                             <Box sx={{ display: "flex", alignItems: "center" }} >
                                                 <HomeWorkIcon sx={{ fontSize: "25px", marginLeft: "4%" }} />
-                                                <Typography sx={{ fontSize: "25px", marginLeft: "1%" }}> {homew.files}</Typography>
+                                                <Typography sx={{ fontSize: "25px", marginLeft: "1%" }}> {homew.title}</Typography>
                                             </Box>
                                         </Link>
                                     </Box>

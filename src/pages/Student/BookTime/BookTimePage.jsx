@@ -150,6 +150,57 @@ function BookTime() {
         }
     };
 
+    const handleSubmits = async (event) => {
+        event.preventDefault();
+      
+        const config = {
+          headers: {
+            'Content-Type': 'application/json',
+          },
+        };
+      
+        const configs = {
+          headers: {
+            'Content-Type': 'multipart/form-data',
+          },
+        };
+      
+        try {
+          await axios.delete(
+            `http://localhost:8081/book/deletetimeerror/${student.studentid}`,
+            config
+          );
+      
+          for (const checkbox of selectedCheckboxes) {
+            const postData = {
+              studentid: student.studentid,
+              timeId: checkbox.timeId,
+              lessonid: checkbox.lessonid,
+            };
+      
+            await axios.post(
+              'http://localhost:8081/book/timebook',
+              postData,
+              configs
+            );
+          }
+      
+          await axios.post(
+            `http://localhost:8081/book/banking`,
+            {
+              studentid: student.studentid,
+              file: image,
+              email: student.email,
+            },
+            configs
+          );
+          alert("Cảm on bạn đã tin cậy chúng tôi vui lòng bạn đợi chúng phản hồi từ EDU-CONNECT!")
+          window.location.href = '/homestudent';
+        } catch (error) {
+          console.error(error);
+        }
+      };
+
     const [showAlert, setShowAlert] = useState(false);
 
     const handlePaymentAndBooktime = async (event) => {
@@ -175,6 +226,11 @@ function BookTime() {
 
             const paymentResponse = await axios.get(
                 `http://localhost:8081/book/createpayment?studentid=${student.studentid}`,
+                config
+            );
+
+            await axios.delete(
+                `http://localhost:8081/book/deletetimeerror/${student.studentid}`,
                 config
             );
 
@@ -387,7 +443,7 @@ function BookTime() {
                         </Box>
                     </Box>
                     <Box sx={{ marginLeft: '40%', marginTop: "20px" }}>
-                        <Button onClick={handleSubmit} variant="contained" style={{ height: '30px', backgroundColor: 'green', fontSize: '12px', marginRight: '20px' }}>
+                        <Button onClick={handleSubmits} variant="contained" style={{ height: '30px', backgroundColor: 'green', fontSize: '12px', marginRight: '20px' }}>
                             Thanh toán
                         </Button>
                         <Button onClick={handleClose1} variant="contained" style={{ height: '30px', backgroundColor: 'red', fontSize: '12px' }}>
