@@ -20,6 +20,148 @@ import axios from 'axios';
 import { useState } from 'react';
 
 function Sidebar() {
+  const [isHomeClicked, setIsHomeClicked] = React.useState(false);
+  const [isTutorClicked, setIsTutorClicked] = React.useState(false);
+  const [isStudentClicked, setIsStudentClicked] = React.useState(false);
+  const [isTestClicked, setIsTestClicked] = React.useState(false);
+  const [isRegisterClicked, setIsRegisterClicked] = React.useState(false);
+  const [isDocumentClicked, setIsDocumentClicked] = React.useState(false);
+  const [isTutorRegisterClicked, setIsTutorRegisterClicked] = React.useState(false);
+  const [isSimulationClicked, setIsSimulationClicked] = React.useState(false);
+  const [isDiscountClicked, setIsDiscountClicked] = React.useState(false);
+  const [isPaymentClicked, setIsPaymentClicked] = React.useState(false);
+
+  const handleHomeClick = () => {
+    setIsHomeClicked(true);
+    setIsTutorClicked(false);
+    setIsStudentClicked(false);
+    setIsTestClicked(false);
+    setIsRegisterClicked(false);
+    setIsDocumentClicked(false);
+    setIsTutorRegisterClicked(false);
+    setIsSimulationClicked(false);
+    setIsDiscountClicked(false);
+    setIsPaymentClicked(false);
+};
+
+const handleTutorClick = () => {
+  setIsHomeClicked(false);
+  setIsTutorClicked(true);
+  setIsStudentClicked(false);
+  setIsTestClicked(false);
+  setIsRegisterClicked(false);
+  setIsDocumentClicked(false);
+  setIsTutorRegisterClicked(false);
+  setIsSimulationClicked(false);
+  setIsDiscountClicked(false);
+  setIsPaymentClicked(false);
+};
+
+const handleStudentClick = () => {
+  setIsHomeClicked(false);
+  setIsTutorClicked(false);
+  setIsStudentClicked(true);
+  setIsTestClicked(false);
+  setIsRegisterClicked(false);
+  setIsDocumentClicked(false);
+  setIsTutorRegisterClicked(false);
+  setIsSimulationClicked(false);
+  setIsDiscountClicked(false);
+  setIsPaymentClicked(false);
+};
+
+const handleTestClick = () => {
+  setIsHomeClicked(false);
+  setIsTutorClicked(false);
+  setIsStudentClicked(false);
+  setIsTestClicked(true);
+  setIsRegisterClicked(false);
+  setIsDocumentClicked(false);
+  setIsTutorRegisterClicked(false);
+  setIsSimulationClicked(false);
+  setIsDiscountClicked(false);
+  setIsPaymentClicked(false);
+};
+
+const handleRegisterClick = () => {
+  setIsHomeClicked(false);
+  setIsTutorClicked(false);
+  setIsStudentClicked(false);
+  setIsTestClicked(false);
+  setIsRegisterClicked(true);
+  setIsDocumentClicked(false);
+  setIsTutorRegisterClicked(false);
+  setIsSimulationClicked(false);
+  setIsDiscountClicked(false);
+  setIsPaymentClicked(false);
+};
+
+const handleDocumentClick = () => {
+  setIsHomeClicked(false);
+  setIsTutorClicked(false);
+  setIsStudentClicked(false);
+  setIsTestClicked(false);
+  setIsRegisterClicked(false);
+  setIsDocumentClicked(true);
+  setIsTutorRegisterClicked(false);
+  setIsSimulationClicked(false);
+  setIsDiscountClicked(false);
+  setIsPaymentClicked(false);
+};
+
+const handleTutorRegisterClick = () => {
+  setIsHomeClicked(false);
+  setIsTutorClicked(false);
+  setIsStudentClicked(false);
+  setIsTestClicked(false);
+  setIsRegisterClicked(false);
+  setIsDocumentClicked(false);
+  setIsTutorRegisterClicked(true);
+  setIsSimulationClicked(false);
+  setIsDiscountClicked(false);
+  setIsPaymentClicked(false);
+};
+
+const handleSimulationClick = () => {
+  setIsHomeClicked(false);
+  setIsTutorClicked(false);
+  setIsStudentClicked(false);
+  setIsTestClicked(false);
+  setIsRegisterClicked(false);
+  setIsDocumentClicked(false);
+  setIsTutorRegisterClicked(false);
+  setIsSimulationClicked(true);
+  setIsDiscountClicked(false);
+  setIsPaymentClicked(false);
+};
+
+const handleDiscountClick = () => {
+  setIsHomeClicked(false);
+  setIsTutorClicked(false);
+  setIsStudentClicked(false);
+  setIsTestClicked(false);
+  setIsRegisterClicked(false);
+  setIsDocumentClicked(false);
+  setIsTutorRegisterClicked(false);
+  setIsSimulationClicked(false);
+  setIsDiscountClicked(true);
+  setIsPaymentClicked(false);
+};
+
+const handlePaymentClick = () => {
+  setIsHomeClicked(false);
+  setIsTutorClicked(false);
+  setIsStudentClicked(false);
+  setIsTestClicked(false);
+  setIsRegisterClicked(false);
+  setIsDocumentClicked(false);
+  setIsTutorRegisterClicked(false);
+  setIsSimulationClicked(false);
+  setIsDiscountClicked(false);
+  setIsPaymentClicked(true);
+};
+
+
 
   const decodedToken = jwtDecode(localStorage.getItem('token'));
   const [data, setData] = useState([]);
@@ -80,28 +222,56 @@ function Sidebar() {
           bgcolor: '#E0D3A8',
         }}
       >
-        <ListItemButton>
+        <ListItemButton
+        sx={{
+          backgroundColor: isHomeClicked ? 'rgba(255, 255, 255, 0.2)' : 'transparent',
+          borderRadius: '10px',
+          transition: 'background-color 0.3s ease',
+        }}
+        onClick={handleHomeClick}
+        >
           <ListItemIcon>
             <DashboardIcon />
           </ListItemIcon>
           <Typography sx={{ fontSize: '16px', marginRight: 'auto' }}><Link to='/dashboard' style={{ color: "black", textDecoration: "none" }}>Dashboard</Link></Typography>
         </ListItemButton>
 
-        <ListItemButton>
+        <ListItemButton
+        sx={{
+          backgroundColor: isTutorClicked ? 'rgba(255, 255, 255, 0.2)' : 'transparent',
+          borderRadius: '10px',
+          transition: 'background-color 0.3s ease',
+        }}
+        onClick={handleTutorClick}
+        >
           <ListItemIcon>
             <CastForEducationIcon />
           </ListItemIcon>
           <Typography sx={{ fontSize: '16px', marginRight: 'auto' }}><Link to='/tutormanagement' style={{ color: "black", textDecoration: "none" }}>Quản lý gia sư</Link></Typography>
         </ListItemButton>
 
-        <ListItemButton>
+        <ListItemButton
+        sx={{
+          backgroundColor: isStudentClicked ? 'rgba(255, 255, 255, 0.2)' : 'transparent',
+          borderRadius: '10px',
+          transition: 'background-color 0.3s ease',
+        }}
+        onClick={handleStudentClick}
+        >
           <ListItemIcon>
             <SchoolIcon />
           </ListItemIcon>
           <Typography sx={{ fontSize: '16px', marginRight: 'auto' }}><Link to='/studentmanagement' style={{ color: "black", textDecoration: "none" }}>Quản lý học sinh</Link></Typography>
         </ListItemButton>
 
-        <ListItemButton>
+        <ListItemButton
+        sx={{
+          backgroundColor: isTestClicked ? 'rgba(255, 255, 255, 0.2)' : 'transparent',
+          borderRadius: '10px',
+          transition: 'background-color 0.3s ease',
+        }}
+        onClick={handleTestClick}
+         >
           <ListItemIcon>
             <CalendarMonthIcon />
           </ListItemIcon>
@@ -125,7 +295,14 @@ function Sidebar() {
           )}
         </ListItemButton>
 
-        <ListItemButton>
+        <ListItemButton
+        sx={{
+          backgroundColor: isRegisterClicked ? 'rgba(255, 255, 255, 0.2)' : 'transparent',
+          borderRadius: '10px',
+          transition: 'background-color 0.3s ease',
+        }}
+        onClick={handleRegisterClick}
+        >
           <ListItemIcon>
             <ClassIcon />
           </ListItemIcon>
@@ -149,7 +326,14 @@ function Sidebar() {
           )}
         </ListItemButton>
 
-        <ListItemButton>
+        <ListItemButton
+        sx={{
+          backgroundColor: isDocumentClicked ? 'rgba(255, 255, 255, 0.2)' : 'transparent',
+          borderRadius: '10px',
+          transition: 'background-color 0.3s ease',
+        }}
+        onClick={handleDocumentClick}
+        >
           <ListItemIcon>
             <FolderCopyIcon />
           </ListItemIcon>
@@ -173,7 +357,14 @@ function Sidebar() {
             )}</Typography>
         </ListItemButton>
 
-        <ListItemButton>
+        <ListItemButton
+        sx={{
+          backgroundColor: isTutorRegisterClicked ? 'rgba(255, 255, 255, 0.2)' : 'transparent',
+          borderRadius: '10px',
+          transition: 'background-color 0.3s ease',
+        }}
+        onClick={handleTutorRegisterClick}
+        >
           <ListItemIcon>
             <PeopleAltIcon />
           </ListItemIcon>
@@ -197,26 +388,40 @@ function Sidebar() {
           </Typography>
         </ListItemButton>
 
-        <ListItemButton>
+        <ListItemButton
+        sx={{
+          backgroundColor: isSimulationClicked ? 'rgba(255, 255, 255, 0.2)' : 'transparent',
+          borderRadius: '10px',
+          transition: 'background-color 0.3s ease',
+        }}
+        onClick={handleSimulationClick}
+        >
           <ListItemIcon>
             <BiotechIcon />
           </ListItemIcon>
           <Typography sx={{ fontSize: '16px', marginRight: 'auto' }}><Link to='/simulationmanagement' style={{ color: "black", textDecoration: "none" }}>Quản lý mô phỏng</Link></Typography>
         </ListItemButton>
 
-        <ListItemButton>
+        <ListItemButton
+        sx={{
+          backgroundColor: isDiscountClicked ? 'rgba(255, 255, 255, 0.2)' : 'transparent',
+          borderRadius: '10px',
+          transition: 'background-color 0.3s ease',
+        }}
+        onClick={handleDiscountClick}
+        >
           <ListItemIcon>
             <DiscountIcon />
           </ListItemIcon>
           <Typography sx={{ fontSize: '16px', marginRight: 'auto' }}><Link to='/discountmanagement' style={{ color: "black", textDecoration: "none" }}>Chương trình giảm giá</Link></Typography>
         </ListItemButton>
         <ListItemButton
-          sx={{
-            display: 'flex',
-            alignItems: 'center',
-            textDecoration: 'none',
-            color: 'black',
-          }}
+        sx={{
+          backgroundColor: isPaymentClicked ? 'rgba(255, 255, 255, 0.2)' : 'transparent',
+          borderRadius: '10px',
+          transition: 'background-color 0.3s ease',
+        }}
+        onClick={handlePaymentClick}
         >
           <ListItemIcon>
             <PaymentIcon />
