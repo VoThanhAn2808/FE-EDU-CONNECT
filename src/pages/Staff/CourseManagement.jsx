@@ -30,13 +30,14 @@ function CourseManagement() {
         setSnackbarOpen(false);
     };
 
-    const handleClicks = (event, tutorid, status, date, tutor, student) => {
+    const handleClicks = (event, tutorid, status, date, tutor, student, studentid) => {
         setAnchorEl(event.currentTarget);
         setBook(tutorid);
         setStatus(status);
         setDate(date);
         setStudent(student);
         setTutor(tutor);
+        setStduentid(studentid);
     };
 
     const handleCloses = () => {
@@ -54,6 +55,7 @@ function CourseManagement() {
     const [tutor, setTutor] = useState('');
     const [student, setStudent] = useState('');
     const [book, setBook] = useState('');
+    const [studentid, setStduentid] = useState('');
     const [link, setLink] = useState('');
     const [openUd, setOpenUd] = React.useState(false);
     const handleCloseUd = () => setOpenUd(false);
@@ -89,15 +91,17 @@ function CourseManagement() {
     const handleAccept = async (event) => {
         event.preventDefault();
         event.stopPropagation();
+
         try {
-            const response = await axios.get(`http://localhost:8081/book/acceptcardpay/${book}`)
-            showSnackbar(response.data)
+            showSnackbar("Bạn đã chấp nhận hóa đơn thành công");
             window.location.reload();
+            await axios.get(
+                `http://localhost:8081/book/acceptcardpay/${studentid}`
+            );
         } catch (error) {
             console.error(error);
         }
-        handleCloses();
-    }
+    };
 
     const handleCancel = async (event) => {
         event.preventDefault();
@@ -251,7 +255,7 @@ function CourseManagement() {
                                                 )}
                                                 <TableCell sx={{ fontSize: "15px", fontFamily: "cursive", textAlign: "center", color: item.trangThai === 'Đã hoàn thành' ? 'green' : 'red' }}>{item.trangThai}</TableCell>
                                                 <TableCell sx={{ fontSize: "15px", fontFamily: "cursive", textAlign: "center" }}>
-                                                    <MoreVertIcon sx={{ fontSize: "25px" }} onClick={(e) => handleClicks(e, item.bookid, item.status, item.datepay, item.tutorName, item.studentName)} />
+                                                    <MoreVertIcon sx={{ fontSize: "25px" }} onClick={(e) => handleClicks(e, item.bookid, item.status, item.datepay, item.tutorName, item.studentName, item.studentid)} />
                                                 </TableCell>
                                             </TableRow>
                                         );
@@ -266,7 +270,11 @@ function CourseManagement() {
                             onClose={handleCloses}
                         >
                             <MenuItem onClick={handleOpenV}>Xem thông tin</MenuItem>
-                            <MenuItem onClick={handleOpen}>Cập nhật google meet</MenuItem>
+                            {date !== null ? (
+                                <MenuItem onClick={handleOpen}>Cập nhật google meet</MenuItem>
+                            ) : (
+                                null
+                            )}
                             {status === '2' && date === null ? (
                                 <>
                                     <MenuItem onClick={handleAccept}>Chấp nhận pay</MenuItem>
@@ -292,7 +300,7 @@ function CourseManagement() {
                     <Box sx={{ backgroundColor: "#D9D9D9", width: "300px", height: "280px", borderRadius: "10px", border: '2px solid #000000', p: 2, }}>
                         <Typography sx={{ fontSize: "17px", marginTop: "10px", textAlign: 'center' }}>Học sinh: {detail.studentName}</Typography>
                         <Typography sx={{ fontSize: "17px", textAlign: 'center' }}>Gia sư: {detail.tutorName}</Typography>
-                        <Typography sx={{ fontSize: "17px", textAlign: 'center' }}>Gia sư: {detail.status === 1 ? "Chuyển khoản" : "VNPAY"}</Typography>
+                        <Typography sx={{ fontSize: "17px", textAlign: 'center' }}>Thanh toán bằng: {detail.status === 1 ? "Chuyển khoản" : "VNPAY"}</Typography>
                         <Typography sx={{ fontSize: "17px", textAlign: 'center' }}>Ngày đăng ký: {detail.dateregister}</Typography>
                         <Typography sx={{ fontSize: "17px", textAlign: 'center' }}>Ngày kết thúc: {detail.endDate}</Typography>
                         <Typography sx={{ fontSize: "17px", textAlign: 'center' }}>Môn: {detail.courseName}</Typography>
