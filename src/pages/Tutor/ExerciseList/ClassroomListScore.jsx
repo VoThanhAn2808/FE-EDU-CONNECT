@@ -19,26 +19,31 @@ function ClassroomListScore() {
     ];
     const [dataClassroomScore, setDataClassroomScore] = useState([]);
     const [editMode, setEditMode] = useState(false);
-    const { classcourseid } = useParams();
+    const { bookid } = useParams();
     const decodedToken = jwtDecode(localStorage.getItem('token'));
     const [mark, setMark] = useState('');
+    const [oldIndex, setOldIndex] = useState('');
     const [shouldDisable, setShouldDisable] = useState(false);
     const [tutor, setTutor] = useState('');
+    const [scoreClassroom, setScoreClassroom] = useState({
+        scoreid: 0,
+        score: 0
+    });
     useEffect(() => {
-        axios.get(`http://localhost:8081/educonnect/viewtutorcourse?classcourseid=${classcourseid}&tutorid=${decodedToken.id}`)
-            .then((response) => {
-                console.log("view tutor course", response.data);
-                setTutor(response.data);
-            })
-            .catch((error) => {
-            })
-        // axios.get(`http://localhost:8081/exersice/homeworkviewbytutor?classcourseid=${classcourseid}&tutorid=${decodedToken.id}`)
+        // axios.get(`http://localhost:8081/educonnect/viewtutorcourse?classcourseid=${classcourseid}&tutorid=${decodedToken.id}`)
         //     .then((response) => {
-        //         setDataHomework(response.data);
+        //         console.log("view tutor course", response.data);
+        //         setTutor(response.data);
         //     })
         //     .catch((error) => {
-        //         console.error(error);
-        //     });
+        //     })
+        axios.get(`http://localhost:8081/exersice/scoreclassroom/${bookid}`)
+            .then((response) => {
+                setDataClassroomScore(response.data);
+            })
+            .catch((error) => {
+                console.error(error);
+            });
     }, [dataClassroomScore]);
     const handleChange = (e) => {
         if (e.target.value.toLowerCase() === 'e') {
@@ -62,14 +67,25 @@ function ClassroomListScore() {
         // Handle the numeric input as needed
         console.log(numericValue);
     };
-    const handleOpenConfirmation = (e) => {
+    const handleOpenConfirmation = (e, index) => {
         setShouldDisable(true);
+        setScoreClassroom({
+            scoreid: e,
+            score: mark
+        });
         try {
-            axios.put(`http://localhost:8081/exersice/updateScoresubmit?score=${mark}&submitid=${e}`)
+            axios.post(`http://localhost:8081/exersice/addscoreclassroom`, scoreClassroom)
                 .then((response) => {
                     console.log(response.data);
                     if (response.data === 1) {
                         alert("Thành Công Lưu");
+                        setOldIndex(null);
+                        var elementDisable = document.getElementById("inputCellDisable-" + index);
+                        var elementNotDisable = document.getElementById("inputCellNotDisable-" + index);
+                        console.log("xxxxxx", elementDisable);
+                        elementDisable.style.display = "flex";
+                        elementNotDisable.style.display = "none";
+
                     }
                 })
                 .catch((error) => {
@@ -85,7 +101,17 @@ function ClassroomListScore() {
         }
     };
     const handleFixConfirmation = (e) => {
-        setEditMode(true);
+        setOldIndex(e);
+        if (oldIndex != e && oldIndex != null) {
+            alert("Phải lưu điểm ");
+            return;
+        }
+        var elementDisable = document.getElementById("inputCellDisable-" + e);
+        var elementNotDisable = document.getElementById("inputCellNotDisable-" + e);
+        var elementInputNotDisable = document.getElementById("inputNotDisable-" + e);
+        elementInputNotDisable.value = "";
+        elementDisable.style.display = "none";
+        elementNotDisable.style.display = "flex";
     };
 
 
@@ -109,36 +135,37 @@ function ClassroomListScore() {
                             </TableRow>
                         </TableHead>
                         <TableBody>
-                            {dataTest.map((row, index) => (
+                            {dataClassroomScore.map((row, index) => (
                                 <TableRow key={row.homeworkid} style={{ fontSize: "14px" }}>
-                                    <TableCell style={{ fontSize: "14px" }}>{row.id}</TableCell>
-                                    <TableCell style={{ fontSize: "14px", textAlign: 'center' }}>{row.nameExercise}</TableCell>
+                                    <TableCell style={{ fontSize: "14px" }}>{row.exerciseid}</TableCell>
+                                    <TableCell style={{ fontSize: "14px", textAlign: 'center' }}>{row.title}</TableCell>
                                     <TableCell style={{ fontSize: "14px" }}>
-                                        <Link href={`http://localhost:8081/edu/file/fileuser/${row.file}/${row.studentid}`} target="_blank" download>
+                                        {/* <Link href={`http://localhost:8081/edu/file/fileuser/${row.file}/${row.studentid}`} target="_blank" download>
                                             <InsertDriveFileIcon sx={{ fontSize: "25px", marginLeft: "4%" }} />
-                                        </Link>
+                                        </Link> */}
                                     </TableCell>
-                                    <TableCell style={{ display: 'flex', fontSize: "14px", textAlign: 'center' }}>
-                                        {row.status === 'Y' ? (
-                                            <TextField
-                                                id="inputDisable"
-                                                variant="outlined"
-                                                fullWidth
-                                                margin="normal"
-                                                style={{
-                                                    width: '50px',
-                                                    ...(shouldDisable && { color: 'gray', backgroundColor: '#f2f2f2', }),
+                                    <TableCell id={`inputCellDisable-${index}`} style={{ display: 'flex', fontSize: "14px", textAlign: 'center' }}>
+                                        <TextField
+                                            id={`inputDisable-${index}`}
+                                            variant="outlined"
+                                            fullWidth
+                                            margin="normal"
+                                            style={{
+                                                width: '50px',
+                                                ...(shouldDisable && { color: 'gray', backgroundColor: '#f2f2f2', }),
 
-                                                }}
-                                                inputProps={{
-                                                    pattern: '[0-9]*', // Allow only numeric input
-                                                    inputMode: 'numeric', // Set the input mode to numeric
-                                                }}
-                                                value={row.score}
-                                                disabled={editMode || row.status === 'Y'}
-                                            />
-                                        ) : <TextField
-                                            id="inputNotDisable"
+                                            }}
+                                            inputProps={{
+                                                pattern: '[0-9]*', // Allow only numeric input
+                                                inputMode: 'numeric', // Set the input mode to numeric
+                                            }}
+                                            value={row.score}
+                                            disabled={row.status === 'Y'}
+                                        />
+                                    </TableCell>
+                                    <TableCell id={`inputCellNotDisable-${index}`} style={{ display: 'none', fontSize: "14px", textAlign: 'center' }}>
+                                        <TextField
+                                            id={`inputNotDisable-${index}`}
                                             variant="outlined"
                                             fullWidth
                                             margin="normal"
@@ -152,19 +179,19 @@ function ClassroomListScore() {
                                                 pattern: '[0-9]*', // Allow only numeric input
                                                 inputMode: 'numeric', // Set the input mode to numeric
                                             }}
-                                            disabled={!editMode || row.status === 'Y'}
-                                        />}
+
+                                        />
                                     </TableCell>
                                     <TableCell style={{ fontSize: "14px", textAlign: 'center' }}>{row.submitdate}</TableCell>
                                     <TableCell style={{ fontSize: "14px" }}>
                                         <Button variant="contained" color="success" sx={{ marginRight: "10px" }}
                                             // onClick={() => handleOpen3(row.classroomid, row.link, row.nameclassroom)}
-                                            onClick={() => handleFixConfirmation()}
+                                            onClick={() => handleFixConfirmation(index)}
                                         >
                                             Sửa
                                         </Button>
                                         <Button variant="contained" color="primary" sx={{ marginRight: "10px" }}
-                                            onClick={() => handleOpenConfirmation(row.homeworkid)}
+                                            onClick={() => handleOpenConfirmation(row.classroomid, index)}
                                         >
                                             Lưu
                                         </Button>
