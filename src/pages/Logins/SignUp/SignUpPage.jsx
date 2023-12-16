@@ -123,6 +123,13 @@ function SignupPage() {
     }
 
     try {
+      if (age === 1) {
+        showSnackbar('Chúc mừng bạn đã là một thành viên của EDU-CONNECT', 'success');
+      } else {
+        showSnackbar('Chúc mừng bạn đã đăng ký thành công. Vui lòng đợi Email phản hồi từ chúng tôi', 'success');
+      }
+
+      window.location.href = '/login';
       const formData = new FormData();
       formData.append('fullname', name);
       formData.append('email', email);
@@ -137,14 +144,6 @@ function SignupPage() {
           'Content-Type': 'multipart/form-data',
         },
       });
-
-      if (age === 1) {
-        showSnackbar('Chúc mừng bạn đã là một thành viên của EDU-CONNECT', 'success');
-      } else {
-        showSnackbar('Chúc mừng bạn đã đăng ký thành công. Vui lòng đợi Email phản hồi từ chúng tôi', 'success');
-      }
-
-      window.location.href = '/login';
     } catch (error) {
       showSnackbar('Email đã tồn tại', 'error');
       console.error(error);
