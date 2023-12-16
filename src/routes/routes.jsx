@@ -307,14 +307,14 @@ const privateRoute = [
   },
 
   {
-    path: '/homeworklistscore/:classcourseid',
+    path: '/homeworklistscore/:bookid',
     component: HomeworkListScore,
     layout: LayoutTutor,
     allowedRoles: ["tutor"]
   },
 
   {
-    path: '/classroomlistscore/:classcourseid',
+    path: '/classroomlistscore/:bookid',
     component: ClassroomListScore,
     layout: LayoutTutor,
     allowedRoles: ["tutor"]
