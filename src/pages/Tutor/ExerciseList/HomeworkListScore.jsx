@@ -144,7 +144,7 @@ function HomeworkListScore() {
                                     <TableCell style={{ fontSize: "14px" }}>{row.homeworkid}</TableCell>
                                     <TableCell style={{ fontSize: "14px", textAlign: 'center' }}>{row.title}</TableCell>
                                     <TableCell style={{ fontSize: "14px" }}>
-                                        <Link href={`http://localhost:8081/edu/file/fileuser/${row.files}/${row.studentid}`} target="_blank" download>
+                                        <Link to={`http://localhost:8081/edu/file/fileuser/${row.files}/${row.studentid}`} target="_blank" download>
                                             <InsertDriveFileIcon sx={{ fontSize: "25px", marginLeft: "4%" }} />
                                         </Link>
                                     </TableCell>
