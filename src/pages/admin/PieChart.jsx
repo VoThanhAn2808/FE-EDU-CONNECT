@@ -8,7 +8,7 @@ function PieChartMui() {
 
   useEffect(() => {
     axios
-      .get(`http://localhost:8081/admin/piechart`)
+      .get(`http://capstone.recoff.cloud:8081/admin/piechart`)
       .then((response) => {
         setData(response.data);
       })

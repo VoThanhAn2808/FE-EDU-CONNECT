@@ -21,7 +21,7 @@ function Admin() {
 
   useEffect(() => {
     axios
-      .get(`http://localhost:8081/staffsconnect/staffstatisticsyear`)
+      .get(`http://capstone.recoff.cloud:8081/staffsconnect/staffstatisticsyear`)
       .then((response) => {
         setData(response.data);
       })
@@ -29,7 +29,7 @@ function Admin() {
         console.error(error);
       });
     axios
-      .get(`http://localhost:8081/admin/adminstatisticscurrentmonth`)
+      .get(`http://capstone.recoff.cloud:8081/admin/adminstatisticscurrentmonth`)
       .then((response) => {
         setMonth(response.data);
       })
@@ -37,7 +37,7 @@ function Admin() {
         console.error(error);
       });
     axios
-      .get(`http://localhost:8081/admin/adminstatisticspreviousmonth`)
+      .get(`http://capstone.recoff.cloud:8081/admin/adminstatisticspreviousmonth`)
       .then((response) => {
         setLmonth(response.data);
       })

@@ -56,7 +56,7 @@ function HomeworkTable(props, exercise) {
     event.stopPropagation();
     try {
       const response = await axios.delete(
-        `http://localhost:8081/exersice/deletehomework/${id}/${tutor.id}`,
+        `http://capstone.recoff.cloud:8081/exersice/deletehomework/${id}/${tutor.id}`,
         {
           headers: {
             "Content-Type": "application/json",
@@ -73,7 +73,7 @@ function HomeworkTable(props, exercise) {
   const [formData, setFormData] = useState('');
   useEffect(() => {
     if (demo != null) {
-      axios.get("http://localhost:8081/exersice/homework/detailhomework?homeworkid=" + demo)
+      axios.get("http://capstone.recoff.cloud:8081/exersice/homework/detailhomework?homeworkid=" + demo)
         .then((response) => {
           setFormData(response.data);
         })
@@ -82,7 +82,7 @@ function HomeworkTable(props, exercise) {
         });
     }
     axios
-      .get(`http://localhost:8081/demo/listAllDemo/${exercise}`)
+      .get(`http://capstone.recoff.cloud:8081/demo/listAllDemo/${exercise}`)
       .then((response) => {
         if (response && response.data) {
           setDemo1(response.data);
@@ -105,7 +105,7 @@ function HomeworkTable(props, exercise) {
       formDatas.append("endDate", formData.enddate);
       formDatas.append("tutorid", tutor.id);
       const response = await axios.put(
-        "http://localhost:8081/exersice/updatehomework",
+        "http://capstone.recoff.cloud:8081/exersice/updatehomework",
         formDatas,
         {
           headers: {
@@ -164,7 +164,7 @@ function HomeworkTable(props, exercise) {
                 )}
               </TableCell>
               <TableCell style={{ fontSize: "14px" }}>
-                <Link href={`http://localhost:8081/edu/file/fileuser/${row.files}/${tutor.id}`} target="_blank">
+                <Link href={`http://capstone.recoff.cloud:8081/edu/file/fileuser/${row.files}/${tutor.id}`} target="_blank">
                   <InsertDriveFileIcon sx={{ fontSize: "25px", marginLeft: "4%" }} />
                 </Link>
               </TableCell>
@@ -281,7 +281,7 @@ function HomeworkTable(props, exercise) {
                       style={{ fontSize: '14px' }}
                     >
                       <img
-                        src={`http://localhost:8081/edu/file/files/${item.img}`}
+                        src={`http://capstone.recoff.cloud:8081/edu/file/files/${item.img}`}
                         alt='demo'
                         style={{
                           width: 100,

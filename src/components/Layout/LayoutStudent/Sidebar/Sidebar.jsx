@@ -46,7 +46,7 @@ const Sidebar = () => {
   const fetchUser = useCallback(async () => {
     try {
       const response = await axios.get(
-        `http://localhost:8081/student/viewstudent?email=${userId}`,
+        `http://capstone.recoff.cloud:8081/student/viewstudent?email=${userId}`,
         {
           headers: {
             "Content-Type": "application/json",
@@ -61,7 +61,7 @@ const Sidebar = () => {
   const fetchStudentData = useCallback(async () => {
     try {
       const studentResponse = await axios.get(
-        `http://localhost:8081/course/RegisteredCourse?StudentId=${user.studentid}`
+        `http://capstone.recoff.cloud:8081/course/RegisteredCourse?StudentId=${user.studentid}`
       );
       setStudentData(studentResponse.data);
     } catch (error) {
@@ -125,12 +125,12 @@ const Sidebar = () => {
         </ListItemButton>
 
         <ListItemButton
-        sx={{
-          backgroundColor: isMyCourseClicked ? 'rgba(255, 255, 255, 0.2)' : 'transparent',
-          borderRadius: '10px',
-          transition: 'background-color 0.3s ease',
-        }}
-         onClick={handleCourseClick}>
+          sx={{
+            backgroundColor: isMyCourseClicked ? 'rgba(255, 255, 255, 0.2)' : 'transparent',
+            borderRadius: '10px',
+            transition: 'background-color 0.3s ease',
+          }}
+          onClick={handleCourseClick}>
           <ListItemIcon>
             <SchoolIcon />
           </ListItemIcon>
@@ -152,12 +152,12 @@ const Sidebar = () => {
         </Collapse>
 
         <ListItemButton
-        sx={{
-          backgroundColor: isCalendarClicked ? 'rgba(255, 255, 255, 0.2)' : 'transparent',
-          borderRadius: '10px',
-          transition: 'background-color 0.3s ease',
-        }}
-        onClick={handleCalendarClick}
+          sx={{
+            backgroundColor: isCalendarClicked ? 'rgba(255, 255, 255, 0.2)' : 'transparent',
+            borderRadius: '10px',
+            transition: 'background-color 0.3s ease',
+          }}
+          onClick={handleCalendarClick}
         >
           <ListItemIcon>
             <CalendarMonthIcon />
@@ -166,12 +166,12 @@ const Sidebar = () => {
         </ListItemButton>
 
         <ListItemButton
-        sx={{
-          backgroundColor: isPointClicked ? 'rgba(255, 255, 255, 0.2)' : 'transparent',
-          borderRadius: '10px',
-          transition: 'background-color 0.3s ease',
-        }}
-         onClick={handleGradesClick}>
+          sx={{
+            backgroundColor: isPointClicked ? 'rgba(255, 255, 255, 0.2)' : 'transparent',
+            borderRadius: '10px',
+            transition: 'background-color 0.3s ease',
+          }}
+          onClick={handleGradesClick}>
           <ListItemIcon>
             <MenuBookIcon />
           </ListItemIcon>

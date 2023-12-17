@@ -49,7 +49,7 @@ function ResetPassword() {
     const fetchStudentData = useCallback(async () => {
         try {
             const studentResponse = await axios.get(
-                `http://localhost:8081/edu/checktoken?token=${token}`
+                `http://capstone.recoff.cloud:8081/edu/checktoken?token=${token}`
             );
             if (studentResponse.data === false) {
                 window.location.href = '/login';
@@ -73,7 +73,7 @@ function ResetPassword() {
 
         try {
             await axios.put(
-                "http://localhost:8081/edu/resetpassword",
+                "http://capstone.recoff.cloud:8081/edu/resetpassword",
                 {
                     token: token,
                     password: password

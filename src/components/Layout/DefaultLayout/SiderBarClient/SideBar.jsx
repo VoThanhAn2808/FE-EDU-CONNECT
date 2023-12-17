@@ -39,13 +39,13 @@ const Sidebar = () => {
         setIsSecondaryClicked(false);
         setIsHighsClicked(false);
         setIsInforClicked(true);
-      };
+    };
 
     const [data, setData] = React.useState([]);
 
     useEffect(() => {
         axios
-            .get("http://localhost:8081/student/class")
+            .get("http://capstone.recoff.cloud:8081/student/class")
             .then((response) => {
                 setData(response.data);
             })
@@ -101,12 +101,12 @@ const Sidebar = () => {
                 }}
             >
                 <ListItemButton
-                sx={{
-                    backgroundColor: isHomeClicked ? 'rgba(255, 255, 255, 0.2)' : 'transparent',
-                    borderRadius: '10px',
-                    transition: 'background-color 0.3s ease',
-                  }}
-                  onClick={handleHomeClick} >
+                    sx={{
+                        backgroundColor: isHomeClicked ? 'rgba(255, 255, 255, 0.2)' : 'transparent',
+                        borderRadius: '10px',
+                        transition: 'background-color 0.3s ease',
+                    }}
+                    onClick={handleHomeClick} >
                     <ListItemIcon>
                         <HomeIcon />
                     </ListItemIcon>
@@ -114,12 +114,12 @@ const Sidebar = () => {
                 </ListItemButton>
 
                 <ListItemButton
-                sx={{
-                    backgroundColor: isPrimaryClicked ? 'rgba(255, 255, 255, 0.2)' : 'transparent',
-                    borderRadius: '10px',
-                    transition: 'background-color 0.3s ease',
-                  }}
-                 onClick={handlePrimaryClick}>
+                    sx={{
+                        backgroundColor: isPrimaryClicked ? 'rgba(255, 255, 255, 0.2)' : 'transparent',
+                        borderRadius: '10px',
+                        transition: 'background-color 0.3s ease',
+                    }}
+                    onClick={handlePrimaryClick}>
                     <ListItemIcon>
                         <MenuBookIcon />
                     </ListItemIcon>
@@ -147,12 +147,12 @@ const Sidebar = () => {
                 </Collapse>
 
                 <ListItemButton
-                sx={{
-                    backgroundColor: isSecondaryClicked ? 'rgba(255, 255, 255, 0.2)' : 'transparent',
-                    borderRadius: '10px',
-                    transition: 'background-color 0.3s ease',
-                  }}
-                 onClick={handleSecondaryClick}>
+                    sx={{
+                        backgroundColor: isSecondaryClicked ? 'rgba(255, 255, 255, 0.2)' : 'transparent',
+                        borderRadius: '10px',
+                        transition: 'background-color 0.3s ease',
+                    }}
+                    onClick={handleSecondaryClick}>
                     <ListItemIcon>
                         <AccountBalanceIcon />
                     </ListItemIcon>
@@ -180,12 +180,12 @@ const Sidebar = () => {
                 </Collapse>
 
                 <ListItemButton
-                sx={{
-                    backgroundColor: isHighsClicked ? 'rgba(255, 255, 255, 0.2)' : 'transparent',
-                    borderRadius: '10px',
-                    transition: 'background-color 0.3s ease',
-                  }}
-                 onClick={handleHighschoolClick}>
+                    sx={{
+                        backgroundColor: isHighsClicked ? 'rgba(255, 255, 255, 0.2)' : 'transparent',
+                        borderRadius: '10px',
+                        transition: 'background-color 0.3s ease',
+                    }}
+                    onClick={handleHighschoolClick}>
                     <ListItemIcon>
                         <SchoolIcon />
                     </ListItemIcon>
@@ -213,19 +213,19 @@ const Sidebar = () => {
                 </Collapse>
 
                 <ListItemButton
-                sx={{
-                    backgroundColor: isInforClicked ? 'rgba(255, 255, 255, 0.2)' : 'transparent',
-                    borderRadius: '10px',
-                    transition: 'background-color 0.3s ease',
-                  }}
-                  onClick={handleInforClick}
-                 component={Link} to="https://www.facebook.com/profile.php?id=61554408680276" target="_blank">
+                    sx={{
+                        backgroundColor: isInforClicked ? 'rgba(255, 255, 255, 0.2)' : 'transparent',
+                        borderRadius: '10px',
+                        transition: 'background-color 0.3s ease',
+                    }}
+                    onClick={handleInforClick}
+                    component={Link} to="https://www.facebook.com/profile.php?id=61554408680276" target="_blank">
                     <ListItemIcon>
                         <SendIcon />
                     </ListItemIcon>
                     <Typography sx={{ fontSize: '16px', marginRight: 'auto', }}>
                         Liên lạc với chúng tôi
-                        </Typography>
+                    </Typography>
                 </ListItemButton>
             </List>
         </Box>

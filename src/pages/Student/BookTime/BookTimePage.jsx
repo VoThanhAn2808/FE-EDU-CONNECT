@@ -32,22 +32,22 @@ function BookTime() {
     const handleImageChange = (e) => {
         const selectedImage = e.target.files[0];
         if (selectedImage) {
-          // Define the allowed file types
-          const allowedTypes = ['image/jpeg', 'image/jpg', 'image/png', 'image/gif', 'image/svg+xml'];
-    
-          // Check if the selected file type is in the allowed types
-          if (!allowedTypes.includes(selectedImage.type)) {
-            alert('Please select a valid image file (JPG, JPEG, GIF, PNG, SVG).');
-            // Clear the input if an invalid file is selected
-            e.target.value = null;
-            return;
-          }
-    
-          // Set the file to state if needed
-          setImage(selectedImage);
+            // Define the allowed file types
+            const allowedTypes = ['image/jpeg', 'image/jpg', 'image/png', 'image/gif', 'image/svg+xml'];
+
+            // Check if the selected file type is in the allowed types
+            if (!allowedTypes.includes(selectedImage.type)) {
+                alert('Please select a valid image file (JPG, JPEG, GIF, PNG, SVG).');
+                // Clear the input if an invalid file is selected
+                e.target.value = null;
+                return;
+            }
+
+            // Set the file to state if needed
+            setImage(selectedImage);
         }
-    
-      };
+
+    };
 
     const style = {
         position: 'absolute',
@@ -80,7 +80,7 @@ function BookTime() {
 
     useEffect(() => {
         axios
-            .get(`http://localhost:8081/book/timeline`)
+            .get(`http://capstone.recoff.cloud:8081/book/timeline`)
             .then((response) => {
                 setData(response.data);
             })
@@ -93,7 +93,7 @@ function BookTime() {
 
     useEffect(() => {
         axios
-            .get(`http://localhost:8081/book/lesson`)
+            .get(`http://capstone.recoff.cloud:8081/book/lesson`)
             .then((response) => {
                 setDaysOfWeek(response.data);
             })
@@ -109,7 +109,7 @@ function BookTime() {
 
     useEffect(() => {
         axios
-            .get(`http://localhost:8081/book/timeandlesson?tutorid=${tutorId}&studentid=${decodedTokenRef.current.id}`)
+            .get(`http://capstone.recoff.cloud:8081/book/timeandlesson?tutorid=${tutorId}&studentid=${decodedTokenRef.current.id}`)
             .then((response) => {
                 setScheduleData(response.data);
             })
@@ -123,7 +123,7 @@ function BookTime() {
     const [student, setStudent] = useState([]);
 
     useEffect(() => {
-        axios.get("http://localhost:8081/student/viewstudent?email=" + decodedToken.id)
+        axios.get("http://capstone.recoff.cloud:8081/student/viewstudent?email=" + decodedToken.id)
             .then((response) => {
                 setStudent(response.data);
             })
@@ -143,7 +143,7 @@ function BookTime() {
 
         try {
             await axios.delete(
-                `http://localhost:8081/book/cancelbook?studentid=${student.studentid}`,
+                `http://capstone.recoff.cloud:8081/book/cancelbook?studentid=${student.studentid}`,
                 config
             );
             window.location.href = '/homestudent';
@@ -154,67 +154,67 @@ function BookTime() {
 
     const handleSubmits = async (event) => {
         event.preventDefault();
-      
-        const config = {
-          headers: {
-            'Content-Type': 'application/json',
-          },
-        };
-      
-        const configs = {
-          headers: {
-            'Content-Type': 'multipart/form-data',
-          },
-        };
-      
-        try {
-          await axios.delete(
-            `http://localhost:8081/book/deletetimeerror/${student.studentid}`,
-            config
-          );
-      
-          for (const checkbox of selectedCheckboxes) {
-            const postData = {
-              studentid: student.studentid,
-              timeId: checkbox.timeId,
-              lessonid: checkbox.lessonid,
-            };
-      
-            await axios.post(
-              'http://localhost:8081/book/timebook',
-              postData,
-              configs
-            );
-          }
-      
-          await axios.post(
-            `http://localhost:8081/book/banking`,
-            {
-              studentid: student.studentid,
-              file: image,
-              email: student.email,
-            },
-            configs
-          );
-          showSnackbar("Cảm on bạn đã tin cậy chúng tôi vui lòng bạn đợi chúng phản hồi từ EDU-CONNECT!")
-          window.location.href = '/homestudent';
-        } catch (error) {
-          console.error(error);
-        }
-      };
 
-      const [snackbarOpen, setSnackbarOpen] = useState(false);
-      const [snackbarMessage, setSnackbarMessage] = useState('');
-      const [snackbarType, setSnackbarType] = useState('success');
-      const showSnackbar = (message, type) => {
-          setSnackbarMessage(message);
-          setSnackbarType(type);
-          setSnackbarOpen(true);
-      };
-  
-      const handleSnackbarClose = () => {
-          setSnackbarOpen(false);
-      };
+        const config = {
+            headers: {
+                'Content-Type': 'application/json',
+            },
+        };
+
+        const configs = {
+            headers: {
+                'Content-Type': 'multipart/form-data',
+            },
+        };
+
+        try {
+            await axios.delete(
+                `http://capstone.recoff.cloud:8081/book/deletetimeerror/${student.studentid}`,
+                config
+            );
+
+            for (const checkbox of selectedCheckboxes) {
+                const postData = {
+                    studentid: student.studentid,
+                    timeId: checkbox.timeId,
+                    lessonid: checkbox.lessonid,
+                };
+
+                await axios.post(
+                    'http://capstone.recoff.cloud:8081/book/timebook',
+                    postData,
+                    configs
+                );
+            }
+
+            await axios.post(
+                `http://capstone.recoff.cloud:8081/book/banking`,
+                {
+                    studentid: student.studentid,
+                    file: image,
+                    email: student.email,
+                },
+                configs
+            );
+            showSnackbar("Cảm on bạn đã tin cậy chúng tôi vui lòng bạn đợi chúng phản hồi từ EDU-CONNECT!")
+            window.location.href = '/homestudent';
+        } catch (error) {
+            console.error(error);
+        }
+    };
+
+    const [snackbarOpen, setSnackbarOpen] = useState(false);
+    const [snackbarMessage, setSnackbarMessage] = useState('');
+    const [snackbarType, setSnackbarType] = useState('success');
+    const showSnackbar = (message, type) => {
+        setSnackbarMessage(message);
+        setSnackbarType(type);
+        setSnackbarOpen(true);
+    };
+
+    const handleSnackbarClose = () => {
+        setSnackbarOpen(false);
+    };
 
     const [showAlert, setShowAlert] = useState(false);
 
@@ -240,12 +240,12 @@ function BookTime() {
             }
 
             const paymentResponse = await axios.get(
-                `http://localhost:8081/book/createpayment?studentid=${student.studentid}`,
+                `http://capstone.recoff.cloud:8081/book/createpayment?studentid=${student.studentid}`,
                 config
             );
 
             await axios.delete(
-                `http://localhost:8081/book/deletetimeerror/${student.studentid}`,
+                `http://capstone.recoff.cloud:8081/book/deletetimeerror/${student.studentid}`,
                 config
             );
 
@@ -257,7 +257,7 @@ function BookTime() {
                 };
 
                 await axios.post(
-                    'http://localhost:8081/book/timebook',
+                    'http://capstone.recoff.cloud:8081/book/timebook',
                     postData,
                     configs
                 );
@@ -462,19 +462,19 @@ function BookTime() {
                             Thanh toán
                         </Button>
                         <Snackbar
-                    open={snackbarOpen}
-                    autoHideDuration={3000}
-                    onClose={handleSnackbarClose}
-                    anchorOrigin={{ vertical: 'top', horizontal: 'right' }}
-                >
-                    <MuiAlert
-                        onClose={handleSnackbarClose}
-                        severity={snackbarType}
-                        sx={{ width: '100%', fontSize: '15px' }}
-                    >
-                        {snackbarMessage}
-                    </MuiAlert>
-                </Snackbar>
+                            open={snackbarOpen}
+                            autoHideDuration={3000}
+                            onClose={handleSnackbarClose}
+                            anchorOrigin={{ vertical: 'top', horizontal: 'right' }}
+                        >
+                            <MuiAlert
+                                onClose={handleSnackbarClose}
+                                severity={snackbarType}
+                                sx={{ width: '100%', fontSize: '15px' }}
+                            >
+                                {snackbarMessage}
+                            </MuiAlert>
+                        </Snackbar>
                         <Button onClick={handleClose1} variant="contained" style={{ height: '30px', backgroundColor: 'red', fontSize: '12px' }}>
                             Huỷ
                         </Button>

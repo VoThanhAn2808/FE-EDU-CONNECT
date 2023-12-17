@@ -40,11 +40,11 @@ const ForgotPassword = () => {
 
     try {
       const response = await axios.get(
-        "http://localhost:8081/edu/checkmail?email=" + email,
+        "http://capstone.recoff.cloud:8081/edu/checkmail?email=" + email,
         config
       );
       if (response.data === true) {
-        await axios.post("http://localhost:8081/edu/forgotpassword", {
+        await axios.post("http://capstone.recoff.cloud:8081/edu/forgotpassword", {
           email: email,
         }, configs);
         showSnackbar("Vui lòng bạn kiểm tra email", 'success')
@@ -173,19 +173,19 @@ const ForgotPassword = () => {
             </Button>
           </Box>
           <Snackbar
-        open={snackbarOpen}
-        autoHideDuration={5000}
-        onClose={handleSnackbarClose}
-        anchorOrigin={{ vertical: 'top', horizontal: 'right' }}
-      >
-        <MuiAlert
-          onClose={handleSnackbarClose}
-          severity={snackbarType}
-          sx={{ width: '100%', fontSize: '15px' }}
-        >
-          {snackbarMessage}
-        </MuiAlert>
-      </Snackbar>
+            open={snackbarOpen}
+            autoHideDuration={5000}
+            onClose={handleSnackbarClose}
+            anchorOrigin={{ vertical: 'top', horizontal: 'right' }}
+          >
+            <MuiAlert
+              onClose={handleSnackbarClose}
+              severity={snackbarType}
+              sx={{ width: '100%', fontSize: '15px' }}
+            >
+              {snackbarMessage}
+            </MuiAlert>
+          </Snackbar>
         </form>
         <Typography
           sx={{

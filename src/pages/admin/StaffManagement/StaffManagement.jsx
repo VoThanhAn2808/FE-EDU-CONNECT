@@ -87,7 +87,7 @@ function StaffManagement() {
 
         try {
             axios
-                .get(`http://localhost:8081/staffsconnect/ViewInfoStaff?staffId=${staffs}`)
+                .get(`http://capstone.recoff.cloud:8081/staffsconnect/ViewInfoStaff?staffId=${staffs}`)
                 .then((response) => {
                     setStaff(response.data);
                 })
@@ -105,7 +105,7 @@ function StaffManagement() {
 
         try {
             axios
-                .get(`http://localhost:8081/staffsconnect/ViewInfoStaff?staffId=${staffs}`)
+                .get(`http://capstone.recoff.cloud:8081/staffsconnect/ViewInfoStaff?staffId=${staffs}`)
                 .then((response) => {
                     setStaff(response.data);
                 })
@@ -121,7 +121,7 @@ function StaffManagement() {
     const [pages, setPages] = useState(1);
     const fetchData = useCallback((pageNumber) => {
         axios
-            .get(`http://localhost:8081/admin/staff?page=${pageNumber}`)
+            .get(`http://capstone.recoff.cloud:8081/admin/staff?page=${pageNumber}`)
             .then((response) => {
                 setData(response.data);
             })
@@ -141,7 +141,7 @@ function StaffManagement() {
 
     useEffect(() => {
         axios
-            .get(`http://localhost:8081/admin/totalpage`)
+            .get(`http://capstone.recoff.cloud:8081/admin/totalpage`)
             .then((response) => {
                 setPage(response.data);
             })
@@ -174,7 +174,7 @@ function StaffManagement() {
         event.stopPropagation();
         try {
             await axios.put(
-                `http://localhost:8081/admin/staff/updatesalary`,
+                `http://capstone.recoff.cloud:8081/admin/staff/updatesalary`,
                 {
                     staffid: staffid,
                     salary: staff.salary,
@@ -196,7 +196,7 @@ function StaffManagement() {
         event.stopPropagation();
         try {
             await axios.delete(
-                `http://localhost:8081/admin/staff/deletestaff/${staffid}`,
+                `http://capstone.recoff.cloud:8081/admin/staff/deletestaff/${staffid}`,
                 {
                     headers: {
                         "Content-Type": "application/json",
@@ -257,7 +257,7 @@ function StaffManagement() {
             formData.append('experience', experience);
 
             await axios.post(
-                "http://localhost:8081/admin/addstaff",
+                "http://capstone.recoff.cloud:8081/admin/addstaff",
                 formData,
                 {
                     headers: {
@@ -544,7 +544,7 @@ function StaffManagement() {
                         aria-describedby="modal-modal-description"
                     >
                         <Box sx={style}>
-                            <Avatar src={`http://localhost:8081/edu/file/files/${staff.img}`} sx={{ width: '90px', height: '90px', marginLeft: 'auto', marginRight: 'auto', marginBottom: '20px' }} />
+                            <Avatar src={`http://capstone.recoff.cloud:8081/edu/file/files/${staff.img}`} sx={{ width: '90px', height: '90px', marginLeft: 'auto', marginRight: 'auto', marginBottom: '20px' }} />
                             <Typography sx={{ fontSize: '15px', fontFamily: 'cursive', textAlign: 'center' }}>Tên Nhân viên: {staff.fullName} - {staff.staffid}</Typography>
                             <Typography sx={{ fontSize: '15px', fontFamily: 'cursive', textAlign: 'center' }}>Ngày Sinh: {staff.birthdate}</Typography>
                             <Typography sx={{ fontSize: '15px', fontFamily: 'cursive', textAlign: 'center' }}>SĐT: {staff.phone}</Typography>

@@ -36,7 +36,7 @@ function Home() {
 
     useEffect(() => {
         axios
-            .get("http://localhost:8081/educonnect/tutor/top3")
+            .get("http://capstone.recoff.cloud:8081/educonnect/tutor/top3")
             .then((response) => {
                 setData(response.data);
             })
@@ -138,7 +138,7 @@ function Home() {
                                         Thông tin
                                     </Button>
                                 </Link>
-                                <img src={`http://localhost:8081/edu/file/fileuser/${item.img}/${item.tutorid}`} alt="giasu" className='giasu' style={{ height: '230px' }} />
+                                <img src={`http://capstone.recoff.cloud:8081/edu/file/fileuser/${item.img}/${item.tutorid}`} alt="giasu" className='giasu' style={{ height: '230px' }} />
                             </Box>
                         </Grid>
                     ))}
@@ -434,7 +434,7 @@ function Home() {
                 <Grid container spacing={1}>
                     {data2.map((item, index) => (
                         <Grid item xs={4} key={index}>
-                            <img src={item.hotnew} alt="hotnew" className='hotnew' style={{height:"150px"}} />
+                            <img src={item.hotnew} alt="hotnew" className='hotnew' style={{ height: "150px" }} />
                             <Box
                                 sx={{
                                     display: 'flex',

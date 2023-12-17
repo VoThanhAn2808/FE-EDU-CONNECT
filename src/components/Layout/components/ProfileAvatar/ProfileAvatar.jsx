@@ -27,7 +27,7 @@ function ProfileAvatar({ userData, onFileChange, isEditing, role, uploadedFile }
   let avatarSrc;
 
   if (userData.img) {
-    avatarSrc = profilePic === null ? `http://localhost:8081/edu/file/fileuser/${userData.img}/${userId}` : profilePic;
+    avatarSrc = profilePic === null ? `http://capstone.recoff.cloud:8081/edu/file/fileuser/${userData.img}/${userId}` : profilePic;
   } else {
     avatarSrc = profilePic;
   }

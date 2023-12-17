@@ -9,7 +9,7 @@ function RadarChartMui() {
 
   useEffect(() => {
     axios
-      .get(`http://localhost:8081/admin/radarchart`)
+      .get(`http://capstone.recoff.cloud:8081/admin/radarchart`)
       .then((response) => {
         setData(response.data);
       })

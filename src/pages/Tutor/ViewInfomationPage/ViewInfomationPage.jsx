@@ -10,11 +10,11 @@ import { useParams } from "react-router";
 
 function ViewInfomationPage() {
   const [tutor, setTutor] = useState([]);
-  const {tutorid} = useParams();
+  const { tutorid } = useParams();
 
   useEffect(() => {
     axios
-      .get(`http://localhost:8081/educonnect/studentviewdetailtutor?tutorid=${tutorid}`)
+      .get(`http://capstone.recoff.cloud:8081/educonnect/studentviewdetailtutor?tutorid=${tutorid}`)
       .then((response) => {
         setTutor(response.data);
       })
@@ -25,7 +25,7 @@ function ViewInfomationPage() {
   const [data, setData] = useState([]);
   useEffect(() => {
     axios
-      .get(`http://localhost:8081/student/feedbackbooking/${tutorid}`)
+      .get(`http://capstone.recoff.cloud:8081/student/feedbackbooking/${tutorid}`)
       .then((response) => {
         setData(response.data);
       })
@@ -37,7 +37,7 @@ function ViewInfomationPage() {
   const [course, setCourse] = useState([]);
   useEffect(() => {
     axios
-      .get(`http://localhost:8081/educonnect/tutor/listcourse?tutorid=${tutorid}`)
+      .get(`http://capstone.recoff.cloud:8081/educonnect/tutor/listcourse?tutorid=${tutorid}`)
       .then((response) => {
         setCourse(response.data);
       })
@@ -66,12 +66,12 @@ function ViewInfomationPage() {
             emptyIcon={<StarIcon style={{ fontSize: '50px', color: '#e0e0e0' }} />}
             icon={<StarIcon style={{ fontSize: '50px', color: '#ffc107' }} />}
             sx={{
-              marginTop: '20px',marginLeft: '320px'
+              marginTop: '20px', marginLeft: '320px'
             }}
           />
         </Box>
         {tutor.img ? (
-          <img src={`http://localhost:8081/edu/file/fileuser/${tutor.img}/${tutor.tutorid}`} alt="tutor" style={{
+          <img src={`http://capstone.recoff.cloud:8081/edu/file/fileuser/${tutor.img}/${tutor.tutorid}`} alt="tutor" style={{
             width: '250px',
             height: '250px', float: 'right', marginLeft: '250px', borderRadius: '50%'
           }} />
@@ -166,7 +166,7 @@ function ViewInfomationPage() {
                   <Box sx={{ backgroundColor: 'GrayText', width: '300px', borderRadius: '5%' }}>
                     <Typography variant="h5" sx={{ marginBottom: '20px', width: '200px', fontFamily: 'cursive', marginLeft: 'auto', marginRight: 'auto', paddingTop: '10px' }}>{item.notes}</Typography>
                     <Typography variant="h5" sx={{ marginBottom: '20px', width: '200px', fontFamily: 'cursive', marginLeft: 'auto', marginRight: 'auto' }}>{`${item.coursename} ${item.classname}`}</Typography>
-                    <img src={`http://localhost:8081/edu/file/fileuser/${item.img}/${item.studentid}`} alt={`Slide ${index}`} style={{
+                    <img src={`http://capstone.recoff.cloud:8081/edu/file/fileuser/${item.img}/${item.studentid}`} alt={`Slide ${index}`} style={{
                       display: 'block', width: '150px', height: '150px', borderRadius: '50%',
                       marginTop: '20px', objectFit: 'cover', marginLeft: '25%'
                     }} />

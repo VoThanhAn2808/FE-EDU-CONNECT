@@ -13,7 +13,7 @@ function SubjectPage() {
 
     useEffect(() => {
         axios
-            .get("http://localhost:8081/course/findCourseByClass?classcourseid=" + id)
+            .get("http://capstone.recoff.cloud:8081/course/findCourseByClass?classcourseid=" + id)
             .then((response) => {
                 setData(response.data);
             })
@@ -40,7 +40,7 @@ function SubjectPage() {
                                 </Box>
                             )}
                             <img
-                                src={`http://localhost:8081/edu/file/files/${item.img}`}
+                                src={`http://capstone.recoff.cloud:8081/edu/file/files/${item.img}`}
                                 alt={item.courseName}
                                 style={{ width: '100px', height: '160px' }}
                                 className="subject-img"

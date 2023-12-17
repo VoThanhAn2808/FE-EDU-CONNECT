@@ -21,7 +21,7 @@ function ProfileInfo({
 
   useEffect(() => {
     axios
-      .get(`http://localhost:8081/student/class`)
+      .get(`http://capstone.recoff.cloud:8081/student/class`)
       .then((response) => {
         setData(response.data);
       })

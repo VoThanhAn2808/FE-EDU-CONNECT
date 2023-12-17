@@ -31,19 +31,19 @@ function ManagerStudent() {
     }, []);
 
     useEffect(() => {
-        axios.get(`http://localhost:8081/educonnect/tutor/studentfinished?tutorid=${decodedToken.id}&page=${page}&status=${status}&courseid=${courseId}`)
+        axios.get(`http://capstone.recoff.cloud:8081/educonnect/tutor/studentfinished?tutorid=${decodedToken.id}&page=${page}&status=${status}&courseid=${courseId}`)
             .then((response) => {
                 setListStudentfinished(response.data);
             })
             .catch((error) => {
             })
-        axios.get(`http://localhost:8081/educonnect/countstudent?tutorid=${decodedToken.id}&status=${status}&courseid=${courseId}`)
+        axios.get(`http://capstone.recoff.cloud:8081/educonnect/countstudent?tutorid=${decodedToken.id}&status=${status}&courseid=${courseId}`)
             .then((response) => {
                 setPageCount(response.data);
             })
             .catch((error) => {
             })
-        axios.get(`http://localhost:8081/educonnect/viewtutorcourse?classcourseid=${courseId}&tutorid=${decodedToken.id}`)
+        axios.get(`http://capstone.recoff.cloud:8081/educonnect/viewtutorcourse?classcourseid=${courseId}&tutorid=${decodedToken.id}`)
             .then((response) => {
                 setTutor(response.data);
             })
@@ -72,7 +72,7 @@ function ManagerStudent() {
         }
     };
     const handleOpen = () => {
-        axios.get(`http://localhost:8081/educonnect/tutor/student/viewprofile/timeline?tutorid=${decodedToken.id}&studentid=${studentid}&courseid=${courseId}`)
+        axios.get(`http://capstone.recoff.cloud:8081/educonnect/tutor/student/viewprofile/timeline?tutorid=${decodedToken.id}&studentid=${studentid}&courseid=${courseId}`)
             .then((response) => {
                 setResponseDataDetail(response.data)
                 setOpen(true);
@@ -144,7 +144,7 @@ function ManagerStudent() {
                                         <TableCell sx={{ width: '20%', height: '50px', fontSize: '15px', fontFamily: 'cursive' }}>{item.startdate}</TableCell>
                                         <TableCell sx={{ width: '20%', height: '50px', fontSize: '15px', fontFamily: 'cursive' }}>{checkStatus((new Date(item.startdate)).getTime(), (new Date(item.enddate)).getTime())}</TableCell>
                                         <TableCell sx={{ width: '20%', height: '50px', fontSize: '15px', fontFamily: 'cursive' }}>
-                                            <img src={`http://localhost:8081/edu/file/fileuser/${item.img}/${item.studentid}`} alt="edu" style={{ width: '60px', height: '60px', }} />
+                                            <img src={`http://capstone.recoff.cloud:8081/edu/file/fileuser/${item.img}/${item.studentid}`} alt="edu" style={{ width: '60px', height: '60px', }} />
                                         </TableCell>
                                         <TableCell sx={{ height: '50px', textAlign: 'center' }}>
                                             <MoreHorizIcon onClick={(event) => handleOpenUserMenu(event, item.studentid, item.bookid)} sx={{ fontSize: '30px' }} />
@@ -187,7 +187,7 @@ function ManagerStudent() {
                             <Box sx={{ marginTop: '-100px' }}>
                                 {responseDataDetail.length > 0 ?
                                     (<>
-                                        <Avatar src={`http://localhost:8081/edu/file/fileuser/${responseDataDetail[0].img}/${responseDataDetail[0].studentid}`} sx={{ width: '90px', height: '90px', marginLeft: '90px', marginBottom: '20px' }} />
+                                        <Avatar src={`http://capstone.recoff.cloud:8081/edu/file/fileuser/${responseDataDetail[0].img}/${responseDataDetail[0].studentid}`} sx={{ width: '90px', height: '90px', marginLeft: '90px', marginBottom: '20px' }} />
                                         <Typography sx={{ fontSize: '15px', fontFamily: 'cursive', marginLeft: '12%' }}>Học sinh: {responseDataDetail[0].fullname}</Typography>
                                         <Typography sx={{ fontSize: '15px', fontFamily: 'cursive', marginLeft: '12%' }}>Ngày Sinh: {responseDataDetail[0].birthdate}</Typography>
                                         <Typography sx={{ fontSize: '15px', fontFamily: 'cursive', marginLeft: '12%' }}>SĐT: {responseDataDetail[0].phone}</Typography>

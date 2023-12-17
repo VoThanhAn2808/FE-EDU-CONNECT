@@ -58,7 +58,7 @@ const Sidebar = () => {
   const [course, setCourse] = useState([]);
   useEffect(() => {
     axios
-      .get(`http://localhost:8081/educonnect/tutor/listcourse?tutorid=${userId}`)
+      .get(`http://capstone.recoff.cloud:8081/educonnect/tutor/listcourse?tutorid=${userId}`)
       .then((response) => {
         setCourse(response.data);
       })
@@ -114,13 +114,13 @@ const Sidebar = () => {
           bgcolor: '#E0D3A8',
         }}
       >
-        <ListItemButton 
-        sx={{
-          backgroundColor: isHomeClicked ? 'rgba(255, 255, 255, 0.2)' : 'transparent',
-          borderRadius: '10px',
-          transition: 'background-color 0.3s ease',
-        }}
-        onClick={handleHomeClick}
+        <ListItemButton
+          sx={{
+            backgroundColor: isHomeClicked ? 'rgba(255, 255, 255, 0.2)' : 'transparent',
+            borderRadius: '10px',
+            transition: 'background-color 0.3s ease',
+          }}
+          onClick={handleHomeClick}
         >
           <ListItemIcon>
             <HomeIcon />
@@ -129,12 +129,12 @@ const Sidebar = () => {
         </ListItemButton>
 
         <ListItemButton
-        sx={{
-          backgroundColor: isCalendarClicked ? 'rgba(255, 255, 255, 0.2)' : 'transparent',
-          borderRadius: '10px',
-          transition: 'background-color 0.3s ease',
-        }}
-        onClick={handleCalendarClick}
+          sx={{
+            backgroundColor: isCalendarClicked ? 'rgba(255, 255, 255, 0.2)' : 'transparent',
+            borderRadius: '10px',
+            transition: 'background-color 0.3s ease',
+          }}
+          onClick={handleCalendarClick}
         >
           <ListItemIcon>
             <CalendarMonthIcon />
@@ -143,12 +143,12 @@ const Sidebar = () => {
         </ListItemButton>
 
         <ListItemButton
-        sx={{
-          backgroundColor: isGradesClicked ? 'rgba(255, 255, 255, 0.2)' : 'transparent',
-          borderRadius: '10px',
-          transition: 'background-color 0.3s ease',
-        }}
-         onClick={handleGradesClick}>
+          sx={{
+            backgroundColor: isGradesClicked ? 'rgba(255, 255, 255, 0.2)' : 'transparent',
+            borderRadius: '10px',
+            transition: 'background-color 0.3s ease',
+          }}
+          onClick={handleGradesClick}>
           <ListItemIcon>
             <SchoolIcon />
           </ListItemIcon>
@@ -170,12 +170,12 @@ const Sidebar = () => {
         </Collapse>
 
         <ListItemButton
-        sx={{
-          backgroundColor: isSubjectClicked ? 'rgba(255, 255, 255, 0.2)' : 'transparent',
-          borderRadius: '10px',
-          transition: 'background-color 0.3s ease',
-        }}
-         onClick={handleSubjectClick}>
+          sx={{
+            backgroundColor: isSubjectClicked ? 'rgba(255, 255, 255, 0.2)' : 'transparent',
+            borderRadius: '10px',
+            transition: 'background-color 0.3s ease',
+          }}
+          onClick={handleSubjectClick}>
           <ListItemIcon>
             <TopicIcon />
           </ListItemIcon>
@@ -197,12 +197,12 @@ const Sidebar = () => {
         </Collapse>
         {/* ////////////////////////////////// */}
         <ListItemButton
-        sx={{
-          backgroundColor: isHomeworkClicked ? 'rgba(255, 255, 255, 0.2)' : 'transparent',
-          borderRadius: '10px',
-          transition: 'background-color 0.3s ease',
-        }}
-         onClick={handleHomeworkClick}>
+          sx={{
+            backgroundColor: isHomeworkClicked ? 'rgba(255, 255, 255, 0.2)' : 'transparent',
+            borderRadius: '10px',
+            transition: 'background-color 0.3s ease',
+          }}
+          onClick={handleHomeworkClick}>
           <ListItemIcon>
             <TopicIcon />
           </ListItemIcon>
@@ -224,13 +224,13 @@ const Sidebar = () => {
         </Collapse>
 
         <ListItemButton
-        sx={{
-          backgroundColor: isFixCalendarClicked ? 'rgba(255, 255, 255, 0.2)' : 'transparent',
-          borderRadius: '10px',
-          transition: 'background-color 0.3s ease',
-        }}
-        onClick={handleFixCalendarClick}
-         >
+          sx={{
+            backgroundColor: isFixCalendarClicked ? 'rgba(255, 255, 255, 0.2)' : 'transparent',
+            borderRadius: '10px',
+            transition: 'background-color 0.3s ease',
+          }}
+          onClick={handleFixCalendarClick}
+        >
           <ListItemIcon>
             <CalendarMonthIcon />
           </ListItemIcon>

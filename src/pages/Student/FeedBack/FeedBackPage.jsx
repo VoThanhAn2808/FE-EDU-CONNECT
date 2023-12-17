@@ -14,7 +14,7 @@ function Feedback() {
     const student = jwtDecode(localStorage.getItem('token'));
     useEffect(() => {
         axios
-            .get("http://localhost:8081/student/feedback/" + student.id)
+            .get("http://capstone.recoff.cloud:8081/student/feedback/" + student.id)
             .then((response) => {
                 setFeedback(response.data);
             })
@@ -35,7 +35,7 @@ function Feedback() {
 
         try {
             await axios.post(
-                "http://localhost:8081/student/addfeedback",
+                "http://capstone.recoff.cloud:8081/student/addfeedback",
                 {
                     feedbackid: feedbackid,
                     notes: note,

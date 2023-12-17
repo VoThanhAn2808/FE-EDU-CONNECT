@@ -52,7 +52,7 @@ function SimulationManagement() {
     const handleOpenUd = (demoid) => {
         try {
             axios
-                .get(`http://localhost:8081/demo/detaildemo?demoid=${demoid}`)
+                .get(`http://capstone.recoff.cloud:8081/demo/detaildemo?demoid=${demoid}`)
                 .then((response) => {
                     setDetail(response.data);
                 })
@@ -77,7 +77,7 @@ function SimulationManagement() {
             formData.append('file', file);
 
             const response = await axios.post(
-                "http://localhost:8081/demo/adddemo",
+                "http://capstone.recoff.cloud:8081/demo/adddemo",
                 formData,
                 {
                     headers: {
@@ -103,7 +103,7 @@ function SimulationManagement() {
             formData.append('file', detail.img);
 
             const response = await axios.put(
-                "http://localhost:8081/demo/updatedemo",
+                "http://capstone.recoff.cloud:8081/demo/updatedemo",
                 formData,
                 {
                     headers: {
@@ -119,7 +119,7 @@ function SimulationManagement() {
     };
     useEffect(() => {
         axios
-            .get(`http://localhost:8081/demo/listdemo?classid=${classid}&courseName=${courseName}`)
+            .get(`http://capstone.recoff.cloud:8081/demo/listdemo?classid=${classid}&courseName=${courseName}`)
             .then((response) => {
                 setDemo(response.data);
             })
@@ -127,7 +127,7 @@ function SimulationManagement() {
                 console.error(error);
             });
         axios
-            .get(`http://localhost:8081/demo/listclass`)
+            .get(`http://capstone.recoff.cloud:8081/demo/listclass`)
             .then((response) => {
                 setClassEntity(response.data);
             })
@@ -135,7 +135,7 @@ function SimulationManagement() {
                 console.error(error);
             });
         axios
-            .get(`http://localhost:8081/demo/listcourse`)
+            .get(`http://capstone.recoff.cloud:8081/demo/listcourse`)
             .then((response) => {
                 setCourse(response.data);
             })
@@ -143,7 +143,7 @@ function SimulationManagement() {
                 console.error(error);
             });
         axios
-            .get(`http://localhost:8081/student/class`)
+            .get(`http://capstone.recoff.cloud:8081/student/class`)
             .then((response) => {
                 setData(response.data);
             })
@@ -151,7 +151,7 @@ function SimulationManagement() {
                 console.error(error);
             });
         axios
-            .get(`http://localhost:8081/course/listcourse`)
+            .get(`http://capstone.recoff.cloud:8081/course/listcourse`)
             .then((response) => {
                 setSubject(response.data);
             })
@@ -296,7 +296,7 @@ function SimulationManagement() {
                                         <TableCell sx={{ fontSize: "15px", fontFamily: "cursive", textAlign: "center" }}>{item.coursename}</TableCell>
                                         <TableCell sx={{ fontSize: "15px", fontFamily: "cursive", textAlign: "center" }}>{item.demoname}</TableCell>
                                         <TableCell sx={{ fontSize: "15px", fontFamily: "cursive", textAlign: "center" }}>
-                                            <img src={`http://localhost:8081/edu/file/files/${item.img}`} alt="an" style={{ width: '100px', height: '100px', borderRadius: '50%' }} />
+                                            <img src={`http://capstone.recoff.cloud:8081/edu/file/files/${item.img}`} alt="an" style={{ width: '100px', height: '100px', borderRadius: '50%' }} />
                                         </TableCell>
                                         <TableCell sx={{ fontSize: "15px", fontFamily: "cursive", textAlign: "center" }}>
                                             <RemoveRedEyeIcon sx={{ fontSize: '25px' }} onClick={() => handleOpens(item.linkdemo)} />

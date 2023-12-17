@@ -11,7 +11,7 @@ function StudentGrade() {
 
     useEffect(() => {
         axios
-            .get(`http://localhost:8081/course/tutorexercise?bookid=${bookid}`)
+            .get(`http://capstone.recoff.cloud:8081/course/tutorexercise?bookid=${bookid}`)
             .then((response) => {
                 setTutor(response.data);
             })
@@ -21,7 +21,7 @@ function StudentGrade() {
     }, [bookid]);
     useEffect(() => {
         axios
-            .get(`http://localhost:8081/exersice/scoreexercise?bookid=${bookid}`)
+            .get(`http://capstone.recoff.cloud:8081/exersice/scoreexercise?bookid=${bookid}`)
             .then((response) => {
                 setHome(response.data);
             })
@@ -31,7 +31,7 @@ function StudentGrade() {
     }, [bookid]);
     useEffect(() => {
         axios
-            .get(`http://localhost:8081/exersice/scoreclassroom/${bookid}`)
+            .get(`http://capstone.recoff.cloud:8081/exersice/scoreclassroom/${bookid}`)
             .then((response) => {
                 setClassroom(response.data);
             })

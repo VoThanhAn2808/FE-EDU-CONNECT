@@ -28,7 +28,7 @@ function ExerciseTable(props) {
   }, [props.data]);
   const deleteExecise = (id) => {
     axios
-      .delete(`http://localhost:8081/exersice/deleteexercise/${id}`)
+      .delete(`http://capstone.recoff.cloud:8081/exersice/deleteexercise/${id}`)
       .then(() => {
         props.fetchData();
       })

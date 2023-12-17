@@ -40,7 +40,7 @@ function ProfileStaff() {
   const fetchUser = useCallback(async () => {
     try {
       const response = await axios.get(
-        `http://localhost:8081/staffsconnect/ViewInfoStaff?staffId=${userId}`,
+        `http://capstone.recoff.cloud:8081/staffsconnect/ViewInfoStaff?staffId=${userId}`,
         {
           headers: {
             'Content-Type': 'application/json',
@@ -84,7 +84,7 @@ function ProfileStaff() {
       formData.append('wards', userData.wards);
 
       await axios.put(
-        'http://localhost:8081/staffsconnect/UpdateStaff',
+        'http://capstone.recoff.cloud:8081/staffsconnect/UpdateStaff',
         formData,
         {
           headers: {

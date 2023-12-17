@@ -42,124 +42,124 @@ function Sidebar() {
     setIsSimulationClicked(false);
     setIsDiscountClicked(false);
     setIsPaymentClicked(false);
-};
+  };
 
-const handleTutorClick = () => {
-  setIsHomeClicked(false);
-  setIsTutorClicked(true);
-  setIsStudentClicked(false);
-  setIsTestClicked(false);
-  setIsRegisterClicked(false);
-  setIsDocumentClicked(false);
-  setIsTutorRegisterClicked(false);
-  setIsSimulationClicked(false);
-  setIsDiscountClicked(false);
-  setIsPaymentClicked(false);
-};
+  const handleTutorClick = () => {
+    setIsHomeClicked(false);
+    setIsTutorClicked(true);
+    setIsStudentClicked(false);
+    setIsTestClicked(false);
+    setIsRegisterClicked(false);
+    setIsDocumentClicked(false);
+    setIsTutorRegisterClicked(false);
+    setIsSimulationClicked(false);
+    setIsDiscountClicked(false);
+    setIsPaymentClicked(false);
+  };
 
-const handleStudentClick = () => {
-  setIsHomeClicked(false);
-  setIsTutorClicked(false);
-  setIsStudentClicked(true);
-  setIsTestClicked(false);
-  setIsRegisterClicked(false);
-  setIsDocumentClicked(false);
-  setIsTutorRegisterClicked(false);
-  setIsSimulationClicked(false);
-  setIsDiscountClicked(false);
-  setIsPaymentClicked(false);
-};
+  const handleStudentClick = () => {
+    setIsHomeClicked(false);
+    setIsTutorClicked(false);
+    setIsStudentClicked(true);
+    setIsTestClicked(false);
+    setIsRegisterClicked(false);
+    setIsDocumentClicked(false);
+    setIsTutorRegisterClicked(false);
+    setIsSimulationClicked(false);
+    setIsDiscountClicked(false);
+    setIsPaymentClicked(false);
+  };
 
-const handleTestClick = () => {
-  setIsHomeClicked(false);
-  setIsTutorClicked(false);
-  setIsStudentClicked(false);
-  setIsTestClicked(true);
-  setIsRegisterClicked(false);
-  setIsDocumentClicked(false);
-  setIsTutorRegisterClicked(false);
-  setIsSimulationClicked(false);
-  setIsDiscountClicked(false);
-  setIsPaymentClicked(false);
-};
+  const handleTestClick = () => {
+    setIsHomeClicked(false);
+    setIsTutorClicked(false);
+    setIsStudentClicked(false);
+    setIsTestClicked(true);
+    setIsRegisterClicked(false);
+    setIsDocumentClicked(false);
+    setIsTutorRegisterClicked(false);
+    setIsSimulationClicked(false);
+    setIsDiscountClicked(false);
+    setIsPaymentClicked(false);
+  };
 
-const handleRegisterClick = () => {
-  setIsHomeClicked(false);
-  setIsTutorClicked(false);
-  setIsStudentClicked(false);
-  setIsTestClicked(false);
-  setIsRegisterClicked(true);
-  setIsDocumentClicked(false);
-  setIsTutorRegisterClicked(false);
-  setIsSimulationClicked(false);
-  setIsDiscountClicked(false);
-  setIsPaymentClicked(false);
-};
+  const handleRegisterClick = () => {
+    setIsHomeClicked(false);
+    setIsTutorClicked(false);
+    setIsStudentClicked(false);
+    setIsTestClicked(false);
+    setIsRegisterClicked(true);
+    setIsDocumentClicked(false);
+    setIsTutorRegisterClicked(false);
+    setIsSimulationClicked(false);
+    setIsDiscountClicked(false);
+    setIsPaymentClicked(false);
+  };
 
-const handleDocumentClick = () => {
-  setIsHomeClicked(false);
-  setIsTutorClicked(false);
-  setIsStudentClicked(false);
-  setIsTestClicked(false);
-  setIsRegisterClicked(false);
-  setIsDocumentClicked(true);
-  setIsTutorRegisterClicked(false);
-  setIsSimulationClicked(false);
-  setIsDiscountClicked(false);
-  setIsPaymentClicked(false);
-};
+  const handleDocumentClick = () => {
+    setIsHomeClicked(false);
+    setIsTutorClicked(false);
+    setIsStudentClicked(false);
+    setIsTestClicked(false);
+    setIsRegisterClicked(false);
+    setIsDocumentClicked(true);
+    setIsTutorRegisterClicked(false);
+    setIsSimulationClicked(false);
+    setIsDiscountClicked(false);
+    setIsPaymentClicked(false);
+  };
 
-const handleTutorRegisterClick = () => {
-  setIsHomeClicked(false);
-  setIsTutorClicked(false);
-  setIsStudentClicked(false);
-  setIsTestClicked(false);
-  setIsRegisterClicked(false);
-  setIsDocumentClicked(false);
-  setIsTutorRegisterClicked(true);
-  setIsSimulationClicked(false);
-  setIsDiscountClicked(false);
-  setIsPaymentClicked(false);
-};
+  const handleTutorRegisterClick = () => {
+    setIsHomeClicked(false);
+    setIsTutorClicked(false);
+    setIsStudentClicked(false);
+    setIsTestClicked(false);
+    setIsRegisterClicked(false);
+    setIsDocumentClicked(false);
+    setIsTutorRegisterClicked(true);
+    setIsSimulationClicked(false);
+    setIsDiscountClicked(false);
+    setIsPaymentClicked(false);
+  };
 
-const handleSimulationClick = () => {
-  setIsHomeClicked(false);
-  setIsTutorClicked(false);
-  setIsStudentClicked(false);
-  setIsTestClicked(false);
-  setIsRegisterClicked(false);
-  setIsDocumentClicked(false);
-  setIsTutorRegisterClicked(false);
-  setIsSimulationClicked(true);
-  setIsDiscountClicked(false);
-  setIsPaymentClicked(false);
-};
+  const handleSimulationClick = () => {
+    setIsHomeClicked(false);
+    setIsTutorClicked(false);
+    setIsStudentClicked(false);
+    setIsTestClicked(false);
+    setIsRegisterClicked(false);
+    setIsDocumentClicked(false);
+    setIsTutorRegisterClicked(false);
+    setIsSimulationClicked(true);
+    setIsDiscountClicked(false);
+    setIsPaymentClicked(false);
+  };
 
-const handleDiscountClick = () => {
-  setIsHomeClicked(false);
-  setIsTutorClicked(false);
-  setIsStudentClicked(false);
-  setIsTestClicked(false);
-  setIsRegisterClicked(false);
-  setIsDocumentClicked(false);
-  setIsTutorRegisterClicked(false);
-  setIsSimulationClicked(false);
-  setIsDiscountClicked(true);
-  setIsPaymentClicked(false);
-};
+  const handleDiscountClick = () => {
+    setIsHomeClicked(false);
+    setIsTutorClicked(false);
+    setIsStudentClicked(false);
+    setIsTestClicked(false);
+    setIsRegisterClicked(false);
+    setIsDocumentClicked(false);
+    setIsTutorRegisterClicked(false);
+    setIsSimulationClicked(false);
+    setIsDiscountClicked(true);
+    setIsPaymentClicked(false);
+  };
 
-const handlePaymentClick = () => {
-  setIsHomeClicked(false);
-  setIsTutorClicked(false);
-  setIsStudentClicked(false);
-  setIsTestClicked(false);
-  setIsRegisterClicked(false);
-  setIsDocumentClicked(false);
-  setIsTutorRegisterClicked(false);
-  setIsSimulationClicked(false);
-  setIsDiscountClicked(false);
-  setIsPaymentClicked(true);
-};
+  const handlePaymentClick = () => {
+    setIsHomeClicked(false);
+    setIsTutorClicked(false);
+    setIsStudentClicked(false);
+    setIsTestClicked(false);
+    setIsRegisterClicked(false);
+    setIsDocumentClicked(false);
+    setIsTutorRegisterClicked(false);
+    setIsSimulationClicked(false);
+    setIsDiscountClicked(false);
+    setIsPaymentClicked(true);
+  };
 
 
 
@@ -171,35 +171,35 @@ const handlePaymentClick = () => {
   const [tutor, setTutor] = useState([]);
 
   useEffect(() => {
-    axios.get(`http://localhost:8081/staffsconnect/totalpayment?staffid=${decodedToken.id}`)
+    axios.get(`http://capstone.recoff.cloud:8081/staffsconnect/totalpayment?staffid=${decodedToken.id}`)
       .then((response) => {
         setData(response.data);
       })
       .catch((error) => {
         console.error(error);
       });
-    axios.get(`http://localhost:8081/staffsconnect/countTutorRegistersForLessons?staffid=${decodedToken.id}`)
+    axios.get(`http://capstone.recoff.cloud:8081/staffsconnect/countTutorRegistersForLessons?staffid=${decodedToken.id}`)
       .then((response) => {
         setFile(response.data);
       })
       .catch((error) => {
         console.error(error);
       });
-    axios.get(`http://localhost:8081/staffsconnect/counttrylearn`)
+    axios.get(`http://capstone.recoff.cloud:8081/staffsconnect/counttrylearn`)
       .then((response) => {
         setTry(response.data);
       })
       .catch((error) => {
         console.error(error);
       });
-    axios.get(`http://localhost:8081/staffsconnect/totalPageStudentRegistration`)
+    axios.get(`http://capstone.recoff.cloud:8081/staffsconnect/totalPageStudentRegistration`)
       .then((response) => {
         setBook(response.data);
       })
       .catch((error) => {
         console.error(error);
       });
-    axios.get(`http://localhost:8081/staffsconnect/countWaitForConfirmTutor`)
+    axios.get(`http://capstone.recoff.cloud:8081/staffsconnect/countWaitForConfirmTutor`)
       .then((response) => {
         setTutor(response.data);
       })
@@ -223,12 +223,12 @@ const handlePaymentClick = () => {
         }}
       >
         <ListItemButton
-        sx={{
-          backgroundColor: isHomeClicked ? 'rgba(255, 255, 255, 0.2)' : 'transparent',
-          borderRadius: '10px',
-          transition: 'background-color 0.3s ease',
-        }}
-        onClick={handleHomeClick}
+          sx={{
+            backgroundColor: isHomeClicked ? 'rgba(255, 255, 255, 0.2)' : 'transparent',
+            borderRadius: '10px',
+            transition: 'background-color 0.3s ease',
+          }}
+          onClick={handleHomeClick}
         >
           <ListItemIcon>
             <DashboardIcon />
@@ -237,12 +237,12 @@ const handlePaymentClick = () => {
         </ListItemButton>
 
         <ListItemButton
-        sx={{
-          backgroundColor: isTutorClicked ? 'rgba(255, 255, 255, 0.2)' : 'transparent',
-          borderRadius: '10px',
-          transition: 'background-color 0.3s ease',
-        }}
-        onClick={handleTutorClick}
+          sx={{
+            backgroundColor: isTutorClicked ? 'rgba(255, 255, 255, 0.2)' : 'transparent',
+            borderRadius: '10px',
+            transition: 'background-color 0.3s ease',
+          }}
+          onClick={handleTutorClick}
         >
           <ListItemIcon>
             <CastForEducationIcon />
@@ -251,12 +251,12 @@ const handlePaymentClick = () => {
         </ListItemButton>
 
         <ListItemButton
-        sx={{
-          backgroundColor: isStudentClicked ? 'rgba(255, 255, 255, 0.2)' : 'transparent',
-          borderRadius: '10px',
-          transition: 'background-color 0.3s ease',
-        }}
-        onClick={handleStudentClick}
+          sx={{
+            backgroundColor: isStudentClicked ? 'rgba(255, 255, 255, 0.2)' : 'transparent',
+            borderRadius: '10px',
+            transition: 'background-color 0.3s ease',
+          }}
+          onClick={handleStudentClick}
         >
           <ListItemIcon>
             <SchoolIcon />
@@ -265,13 +265,13 @@ const handlePaymentClick = () => {
         </ListItemButton>
 
         <ListItemButton
-        sx={{
-          backgroundColor: isTestClicked ? 'rgba(255, 255, 255, 0.2)' : 'transparent',
-          borderRadius: '10px',
-          transition: 'background-color 0.3s ease',
-        }}
-        onClick={handleTestClick}
-         >
+          sx={{
+            backgroundColor: isTestClicked ? 'rgba(255, 255, 255, 0.2)' : 'transparent',
+            borderRadius: '10px',
+            transition: 'background-color 0.3s ease',
+          }}
+          onClick={handleTestClick}
+        >
           <ListItemIcon>
             <CalendarMonthIcon />
           </ListItemIcon>
@@ -296,12 +296,12 @@ const handlePaymentClick = () => {
         </ListItemButton>
 
         <ListItemButton
-        sx={{
-          backgroundColor: isRegisterClicked ? 'rgba(255, 255, 255, 0.2)' : 'transparent',
-          borderRadius: '10px',
-          transition: 'background-color 0.3s ease',
-        }}
-        onClick={handleRegisterClick}
+          sx={{
+            backgroundColor: isRegisterClicked ? 'rgba(255, 255, 255, 0.2)' : 'transparent',
+            borderRadius: '10px',
+            transition: 'background-color 0.3s ease',
+          }}
+          onClick={handleRegisterClick}
         >
           <ListItemIcon>
             <ClassIcon />
@@ -327,12 +327,12 @@ const handlePaymentClick = () => {
         </ListItemButton>
 
         <ListItemButton
-        sx={{
-          backgroundColor: isDocumentClicked ? 'rgba(255, 255, 255, 0.2)' : 'transparent',
-          borderRadius: '10px',
-          transition: 'background-color 0.3s ease',
-        }}
-        onClick={handleDocumentClick}
+          sx={{
+            backgroundColor: isDocumentClicked ? 'rgba(255, 255, 255, 0.2)' : 'transparent',
+            borderRadius: '10px',
+            transition: 'background-color 0.3s ease',
+          }}
+          onClick={handleDocumentClick}
         >
           <ListItemIcon>
             <FolderCopyIcon />
@@ -358,12 +358,12 @@ const handlePaymentClick = () => {
         </ListItemButton>
 
         <ListItemButton
-        sx={{
-          backgroundColor: isTutorRegisterClicked ? 'rgba(255, 255, 255, 0.2)' : 'transparent',
-          borderRadius: '10px',
-          transition: 'background-color 0.3s ease',
-        }}
-        onClick={handleTutorRegisterClick}
+          sx={{
+            backgroundColor: isTutorRegisterClicked ? 'rgba(255, 255, 255, 0.2)' : 'transparent',
+            borderRadius: '10px',
+            transition: 'background-color 0.3s ease',
+          }}
+          onClick={handleTutorRegisterClick}
         >
           <ListItemIcon>
             <PeopleAltIcon />
@@ -389,12 +389,12 @@ const handlePaymentClick = () => {
         </ListItemButton>
 
         <ListItemButton
-        sx={{
-          backgroundColor: isSimulationClicked ? 'rgba(255, 255, 255, 0.2)' : 'transparent',
-          borderRadius: '10px',
-          transition: 'background-color 0.3s ease',
-        }}
-        onClick={handleSimulationClick}
+          sx={{
+            backgroundColor: isSimulationClicked ? 'rgba(255, 255, 255, 0.2)' : 'transparent',
+            borderRadius: '10px',
+            transition: 'background-color 0.3s ease',
+          }}
+          onClick={handleSimulationClick}
         >
           <ListItemIcon>
             <BiotechIcon />
@@ -403,12 +403,12 @@ const handlePaymentClick = () => {
         </ListItemButton>
 
         <ListItemButton
-        sx={{
-          backgroundColor: isDiscountClicked ? 'rgba(255, 255, 255, 0.2)' : 'transparent',
-          borderRadius: '10px',
-          transition: 'background-color 0.3s ease',
-        }}
-        onClick={handleDiscountClick}
+          sx={{
+            backgroundColor: isDiscountClicked ? 'rgba(255, 255, 255, 0.2)' : 'transparent',
+            borderRadius: '10px',
+            transition: 'background-color 0.3s ease',
+          }}
+          onClick={handleDiscountClick}
         >
           <ListItemIcon>
             <DiscountIcon />
@@ -416,12 +416,12 @@ const handlePaymentClick = () => {
           <Typography sx={{ fontSize: '16px', marginRight: 'auto' }}><Link to='/discountmanagement' style={{ color: "black", textDecoration: "none" }}>Chương trình giảm giá</Link></Typography>
         </ListItemButton>
         <ListItemButton
-        sx={{
-          backgroundColor: isPaymentClicked ? 'rgba(255, 255, 255, 0.2)' : 'transparent',
-          borderRadius: '10px',
-          transition: 'background-color 0.3s ease',
-        }}
-        onClick={handlePaymentClick}
+          sx={{
+            backgroundColor: isPaymentClicked ? 'rgba(255, 255, 255, 0.2)' : 'transparent',
+            borderRadius: '10px',
+            transition: 'background-color 0.3s ease',
+          }}
+          onClick={handlePaymentClick}
         >
           <ListItemIcon>
             <PaymentIcon />

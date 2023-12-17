@@ -37,14 +37,14 @@ function HomeworkListScore() {
 
     const [tutor, setTutor] = useState('');
     useEffect(() => {
-        // axios.get(`http://localhost:8081/educonnect/viewtutorcourse?classcourseid=${classcourseid}&tutorid=${decodedToken.id}`)
+        // axios.get(`http://capstone.recoff.cloud:8081/educonnect/viewtutorcourse?classcourseid=${classcourseid}&tutorid=${decodedToken.id}`)
         //     .then((response) => {
         //         console.log("view tutor course", response.data);
         //         setTutor(response.data);
         //     })
         //     .catch((error) => {
         //     })
-        axios.get(`http://localhost:8081/exersice/homeworkviewbytutor?bookid=${bookid}`)
+        axios.get(`http://capstone.recoff.cloud:8081/exersice/homeworkviewbytutor?bookid=${bookid}`)
             .then((response) => {
                 setDataHomework(response.data);
             })
@@ -78,7 +78,7 @@ function HomeworkListScore() {
     const handleOpenConfirmation = (e, index) => {
         setShouldDisable(true);
         try {
-            axios.put(`http://localhost:8081/exersice/updateScoresubmit?score=${mark}&submitid=${e}`)
+            axios.put(`http://capstone.recoff.cloud:8081/exersice/updateScoresubmit?score=${mark}&submitid=${e}`)
                 .then((response) => {
                     console.log(response.data);
                     if (response.data === 1) {
@@ -144,7 +144,7 @@ function HomeworkListScore() {
                                     <TableCell style={{ fontSize: "14px" }}>{row.homeworkid}</TableCell>
                                     <TableCell style={{ fontSize: "14px", textAlign: 'center' }}>{row.title}</TableCell>
                                     <TableCell style={{ fontSize: "14px" }}>
-                                        <Link href={`http://localhost:8081/edu/file/fileuser/${row.files}/${row.studentid}`} target="_blank" download>
+                                        <Link href={`http://capstone.recoff.cloud:8081/edu/file/fileuser/${row.files}/${row.studentid}`} target="_blank" download>
                                             <InsertDriveFileIcon sx={{ fontSize: "25px", marginLeft: "4%" }} />
                                         </Link>
                                     </TableCell>

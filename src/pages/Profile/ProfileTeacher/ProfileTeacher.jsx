@@ -41,7 +41,7 @@ const ProfileTeacher = () => {
   const fetchUser = useCallback(async () => {
     try {
       const response = await axios.get(
-        `http://localhost:8081/educonnect/viewTutor?tutorId=${userId}`,
+        `http://capstone.recoff.cloud:8081/educonnect/viewTutor?tutorId=${userId}`,
         {
           headers: {
             'Content-Type': 'application/json',
@@ -57,7 +57,7 @@ const ProfileTeacher = () => {
   const fetchCourse = useCallback(async () => {
     try {
       const response = await axios.get(
-        `http://localhost:8081/educonnect/tutor/course?tutorid=${userId}`,
+        `http://capstone.recoff.cloud:8081/educonnect/tutor/course?tutorid=${userId}`,
         {
           headers: {
             'Content-Type': 'application/json',
@@ -82,7 +82,7 @@ const ProfileTeacher = () => {
       formData.append('city', userData.city);
       formData.append('wards', userData.wards);
       formData.append('file', uploadedFile);
-      await axios.put('http://localhost:8081/educonnect/UpdateTutor', formData,
+      await axios.put('http://capstone.recoff.cloud:8081/educonnect/UpdateTutor', formData,
         {
           headers: {
             'Content-Type': 'multipart/form-data',

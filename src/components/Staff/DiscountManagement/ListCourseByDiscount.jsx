@@ -37,7 +37,7 @@ export default function ListCourseByDiscout(props) {
 
     useEffect(() => {
         axios
-            .get(`http://localhost:8081/discount/listcoursebydiscourseid?discountid=${selectDiscountId}`)
+            .get(`http://capstone.recoff.cloud:8081/discount/listcoursebydiscourseid?discountid=${selectDiscountId}`)
             .then((response) => {
                 setCourse(response.data);
             })

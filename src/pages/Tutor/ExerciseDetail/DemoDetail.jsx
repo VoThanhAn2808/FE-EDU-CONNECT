@@ -9,7 +9,7 @@ function DemoDetail(props) {
     const { demoid } = useParams();
     const [pageContent, setPageContent] = useState('');
     useEffect(() => {
-        axios.get(`http://localhost:8081/demo/detaildemo?demoid=${demoid}`)
+        axios.get(`http://capstone.recoff.cloud:8081/demo/detaildemo?demoid=${demoid}`)
             .then((response) => {
                 setPageContent(response.data);
             })
