@@ -14,7 +14,7 @@ function Feedback() {
     const student = jwtDecode(localStorage.getItem('token'));
     useEffect(() => {
         axios
-            .get("http://capstone.recoff.cloud:8081/student/feedback/" + student.id)
+            .get("http://ec2-13-250-214-184.ap-southeast-1.compute.amazonaws.com:8081/student/feedback/" + student.id)
             .then((response) => {
                 setFeedback(response.data);
             })
@@ -35,7 +35,7 @@ function Feedback() {
 
         try {
             await axios.post(
-                "http://capstone.recoff.cloud:8081/student/addfeedback",
+                "http://ec2-13-250-214-184.ap-southeast-1.compute.amazonaws.com:8081/student/addfeedback",
                 {
                     feedbackid: feedbackid,
                     notes: note,

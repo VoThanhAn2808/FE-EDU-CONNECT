@@ -49,7 +49,7 @@ function ProgesstestTable(props) {
         event.stopPropagation();
         try {
             const response = await axios.delete(
-                `http://capstone.recoff.cloud:8081/exersice/deleteclassroom/${id}`,
+                `http://ec2-13-250-214-184.ap-southeast-1.compute.amazonaws.com:8081/exersice/deleteclassroom/${id}`,
                 {
                     headers: {
                         "Content-Type": "application/json",
@@ -74,7 +74,7 @@ function ProgesstestTable(props) {
 
         try {
             const response = await axios.put(
-                "http://capstone.recoff.cloud:8081/exersice/updateclassroom",
+                "http://ec2-13-250-214-184.ap-southeast-1.compute.amazonaws.com:8081/exersice/updateclassroom",
                 {
                     classroomid: classroom,
                     nameclassroom: progess,

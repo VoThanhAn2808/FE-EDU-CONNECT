@@ -67,7 +67,7 @@ function CourseManagement() {
     const handleOpenV = () => {
         try {
             axios
-                .get(`http://capstone.recoff.cloud:8081/staffsconnect/learntime?bookid=${book}`)
+                .get(`http://ec2-13-250-214-184.ap-southeast-1.compute.amazonaws.com:8081/staffsconnect/learntime?bookid=${book}`)
                 .then((response) => {
                     setTime(response.data);
                 })
@@ -75,7 +75,7 @@ function CourseManagement() {
                     console.error(error);
                 });
             axios
-                .get(`http://capstone.recoff.cloud:8081/staffsconnect/detailmanagestudent?bookid=${book}`)
+                .get(`http://ec2-13-250-214-184.ap-southeast-1.compute.amazonaws.com:8081/staffsconnect/detailmanagestudent?bookid=${book}`)
                 .then((response) => {
                     setDetail(response.data);
                 })
@@ -96,7 +96,7 @@ function CourseManagement() {
             showSnackbar("Bạn đã chấp nhận hóa đơn thành công");
             window.location.reload();
             await axios.get(
-                `http://capstone.recoff.cloud:8081/book/acceptcardpay/${studentid}`
+                `http://ec2-13-250-214-184.ap-southeast-1.compute.amazonaws.com:8081/book/acceptcardpay/${studentid}`
             );
         } catch (error) {
             console.error(error);
@@ -107,7 +107,7 @@ function CourseManagement() {
         event.preventDefault();
         event.stopPropagation();
         try {
-            const response = await axios.delete(`http://capstone.recoff.cloud:8081/book/cancelcardpay/${book}`)
+            const response = await axios.delete(`http://ec2-13-250-214-184.ap-southeast-1.compute.amazonaws.com:8081/book/cancelcardpay/${book}`)
             showSnackbar(response.data)
             window.location.reload();
         } catch (error) {
@@ -118,7 +118,7 @@ function CourseManagement() {
 
     const fetchData = useCallback((pageNumber) => {
         axios
-            .get(`http://capstone.recoff.cloud:8081/staffsconnect/managestudent?page=${pageNumber}`)
+            .get(`http://ec2-13-250-214-184.ap-southeast-1.compute.amazonaws.com:8081/staffsconnect/managestudent?page=${pageNumber}`)
             .then((response) => {
                 setData(response.data);
             })
@@ -129,7 +129,7 @@ function CourseManagement() {
 
     useEffect(() => {
         axios
-            .get(`http://capstone.recoff.cloud:8081/staffsconnect/totalpageStudent`)
+            .get(`http://ec2-13-250-214-184.ap-southeast-1.compute.amazonaws.com:8081/staffsconnect/totalpageStudent`)
             .then((response) => {
                 setPages(response.data);
             })
@@ -145,7 +145,7 @@ function CourseManagement() {
         event.stopPropagation();
         try {
             const response = await axios.put(
-                `http://capstone.recoff.cloud:8081/staffsconnect/addlinkmeet`,
+                `http://ec2-13-250-214-184.ap-southeast-1.compute.amazonaws.com:8081/staffsconnect/addlinkmeet`,
                 {
                     bookid: book,
                     linkmeet: link,

@@ -36,7 +36,7 @@ function DocumentManagement() {
     };
     const fetchData = useCallback((pageNumber) => {
         axios
-            .get(`http://capstone.recoff.cloud:8081/staffsconnect/listtutorregistersforlessons?page=${pageNumber}&staffid=${decodedToken.id}`)
+            .get(`http://ec2-13-250-214-184.ap-southeast-1.compute.amazonaws.com:8081/staffsconnect/listtutorregistersforlessons?page=${pageNumber}&staffid=${decodedToken.id}`)
             .then((response) => {
                 setData(response.data);
             })
@@ -48,7 +48,7 @@ function DocumentManagement() {
     useEffect(() => {
         fetchData(page);
         axios
-            .get(`http://capstone.recoff.cloud:8081/staffsconnect/totalpageTutor?staffid=${decodedToken.id}`)
+            .get(`http://ec2-13-250-214-184.ap-southeast-1.compute.amazonaws.com:8081/staffsconnect/totalpageTutor?staffid=${decodedToken.id}`)
             .then((response) => {
                 setPages(response.data);
             })
@@ -62,7 +62,7 @@ function DocumentManagement() {
         event.stopPropagation();
         try {
             const response = await axios.put(
-                `http://capstone.recoff.cloud:8081/staffsconnect/acceptfile`,
+                `http://ec2-13-250-214-184.ap-southeast-1.compute.amazonaws.com:8081/staffsconnect/acceptfile`,
                 {
                     fileid: fileid,
                     status: status,
@@ -157,7 +157,7 @@ function DocumentManagement() {
                                                 <TableCell sx={{ fontSize: "15px", fontFamily: "cursive", textAlign: "center" }}>{item.nameFile}</TableCell>
                                                 <TableCell sx={{ fontSize: "15px", fontFamily: "cursive", textAlign: "center" }}>{item.coursename}</TableCell>
                                                 <TableCell sx={{ fontSize: "15px", fontFamily: "cursive", textAlign: "center" }}>
-                                                    <Link style={{ textDecoration: "none" }} href={`http://capstone.recoff.cloud:8081/edu/file/fileuser/${item.files}/${item.tutorid}`} target="_blank">
+                                                    <Link style={{ textDecoration: "none" }} href={`http://ec2-13-250-214-184.ap-southeast-1.compute.amazonaws.com:8081/edu/file/fileuser/${item.files}/${item.tutorid}`} target="_blank">
                                                         Tải File
                                                     </Link>
                                                 </TableCell>

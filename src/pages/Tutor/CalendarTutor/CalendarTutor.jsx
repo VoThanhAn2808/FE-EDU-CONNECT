@@ -27,7 +27,7 @@ function CalendarTutor() {
 
         try {
             axios
-                .get(`http://capstone.recoff.cloud:8081/schedule/detailschedule?tutorid=${userId}&date=${date}&timeid=${timeid}`)
+                .get(`http://ec2-13-250-214-184.ap-southeast-1.compute.amazonaws.com:8081/schedule/detailschedule?tutorid=${userId}&date=${date}&timeid=${timeid}`)
                 .then((response) => {
                     setSchedule(response.data);
                 })
@@ -52,7 +52,7 @@ function CalendarTutor() {
     const fetchUser = useCallback(async () => {
         try {
             const response = await axios.get(
-                `http://capstone.recoff.cloud:8081/educonnect/viewTutor?tutorId=${userId}`,
+                `http://ec2-13-250-214-184.ap-southeast-1.compute.amazonaws.com:8081/educonnect/viewTutor?tutorId=${userId}`,
                 {
                     headers: {
                         "Content-Type": "application/json",
@@ -71,7 +71,7 @@ function CalendarTutor() {
 
     useEffect(() => {
         axios
-            .get(`http://capstone.recoff.cloud:8081/book/lesson`)
+            .get(`http://ec2-13-250-214-184.ap-southeast-1.compute.amazonaws.com:8081/book/lesson`)
             .then((response) => {
                 setDaysOfWeek(response.data);
             })
@@ -82,7 +82,7 @@ function CalendarTutor() {
 
     useEffect(() => {
         axios
-            .get(`http://capstone.recoff.cloud:8081/book/timeline`)
+            .get(`http://ec2-13-250-214-184.ap-southeast-1.compute.amazonaws.com:8081/book/timeline`)
             .then((response) => {
                 setData(response.data);
             })
@@ -99,7 +99,7 @@ function CalendarTutor() {
     const fetchStudentData = useCallback(async () => {
         try {
             const studentResponse = await axios.get(
-                `http://capstone.recoff.cloud:8081/schedule/studentscheduletutor?tutorid=${userId}&week=${week}&year=${year}`
+                `http://ec2-13-250-214-184.ap-southeast-1.compute.amazonaws.com:8081/schedule/studentscheduletutor?tutorid=${userId}&week=${week}&year=${year}`
             );
             setScheduleData(studentResponse.data);
         } catch (error) {
@@ -155,7 +155,7 @@ function CalendarTutor() {
         try {
             const formattedDate = format(new Date(date), 'yyyy-MM-dd');
             await axios.post(
-                "http://capstone.recoff.cloud:8081/schedule/changecalender",
+                "http://ec2-13-250-214-184.ap-southeast-1.compute.amazonaws.com:8081/schedule/changecalender",
                 {
                     bookid: schedule.bookid,
                     datechange: schedule.scheduled_Date,

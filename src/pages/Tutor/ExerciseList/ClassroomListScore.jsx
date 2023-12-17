@@ -30,14 +30,14 @@ function ClassroomListScore() {
         score: 0
     });
     useEffect(() => {
-        // axios.get(`http://capstone.recoff.cloud:8081/educonnect/viewtutorcourse?classcourseid=${classcourseid}&tutorid=${decodedToken.id}`)
+        // axios.get(`http://ec2-13-250-214-184.ap-southeast-1.compute.amazonaws.com:8081/educonnect/viewtutorcourse?classcourseid=${classcourseid}&tutorid=${decodedToken.id}`)
         //     .then((response) => {
         //         console.log("view tutor course", response.data);
         //         setTutor(response.data);
         //     })
         //     .catch((error) => {
         //     })
-        axios.get(`http://capstone.recoff.cloud:8081/exersice/scoreclassroom/${bookid}`)
+        axios.get(`http://ec2-13-250-214-184.ap-southeast-1.compute.amazonaws.com:8081/exersice/scoreclassroom/${bookid}`)
             .then((response) => {
                 setDataClassroomScore(response.data);
             })
@@ -74,7 +74,7 @@ function ClassroomListScore() {
             score: mark
         });
         try {
-            axios.post(`http://capstone.recoff.cloud:8081/exersice/addscoreclassroom`, scoreClassroom)
+            axios.post(`http://ec2-13-250-214-184.ap-southeast-1.compute.amazonaws.com:8081/exersice/addscoreclassroom`, scoreClassroom)
                 .then((response) => {
                     console.log(response.data);
                     if (response.data === 1) {
@@ -140,7 +140,7 @@ function ClassroomListScore() {
                                     <TableCell style={{ fontSize: "14px" }}>{row.exerciseid}</TableCell>
                                     <TableCell style={{ fontSize: "14px", textAlign: 'center' }}>{row.title}</TableCell>
                                     <TableCell style={{ fontSize: "14px" }}>
-                                        {/* <Link href={`http://capstone.recoff.cloud:8081/edu/file/fileuser/${row.file}/${row.studentid}`} target="_blank" download>
+                                        {/* <Link href={`http://ec2-13-250-214-184.ap-southeast-1.compute.amazonaws.com:8081/edu/file/fileuser/${row.file}/${row.studentid}`} target="_blank" download>
                                             <InsertDriveFileIcon sx={{ fontSize: "25px", marginLeft: "4%" }} />
                                         </Link> */}
                                     </TableCell>

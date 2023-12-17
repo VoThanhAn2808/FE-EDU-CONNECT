@@ -13,7 +13,7 @@ function Slide() {
   const [data, setData] = useState([]);
   useEffect(() => {
     axios
-      .get(`http://capstone.recoff.cloud:8081/discount/listdiscounts`)
+      .get(`http://ec2-13-250-214-184.ap-southeast-1.compute.amazonaws.com:8081/discount/listdiscounts`)
       .then((response) => {
         setData(response.data);
       })
@@ -39,7 +39,7 @@ function Slide() {
                   top: '10%', fontFamily: 'serif', color: 'black', fontWeight: '800', fontSize: '20px'
                 }}>
                   {item.desciption}</Typography>
-                <img src={`http://capstone.recoff.cloud:8081/edu/file/files/` + item.img} alt={`Slide ${index}`} />
+                <img src={`http://ec2-13-250-214-184.ap-southeast-1.compute.amazonaws.com:8081/edu/file/files/` + item.img} alt={`Slide ${index}`} />
               </Box>
             </SwiperSlide>
           );

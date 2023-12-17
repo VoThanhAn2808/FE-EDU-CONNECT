@@ -37,7 +37,7 @@ export default function ListCourseByDiscout(props) {
 
     useEffect(() => {
         axios
-            .get(`http://capstone.recoff.cloud:8081/discount/listcoursebydiscourseid?discountid=${selectDiscountId}`)
+            .get(`http://ec2-13-250-214-184.ap-southeast-1.compute.amazonaws.com:8081/discount/listcoursebydiscourseid?discountid=${selectDiscountId}`)
             .then((response) => {
                 setCourse(response.data);
             })

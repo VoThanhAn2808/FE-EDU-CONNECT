@@ -57,7 +57,7 @@ const ProfileStudent = () => {
   const fetchUser = useCallback(async () => {
     try {
       const response = await axios.get(
-        `http://capstone.recoff.cloud:8081/student/viewstudent?email=${userId}`,
+        `http://ec2-13-250-214-184.ap-southeast-1.compute.amazonaws.com:8081/student/viewstudent?email=${userId}`,
         {
           headers: {
             'Content-Type': 'application/json',
@@ -104,7 +104,7 @@ const ProfileStudent = () => {
       formData.append('classentity', userData.classId);
 
       await axios.put(
-        'http://capstone.recoff.cloud:8081/student/updatestudent',
+        'http://ec2-13-250-214-184.ap-southeast-1.compute.amazonaws.com:8081/student/updatestudent',
         formData,
         {
           headers: {

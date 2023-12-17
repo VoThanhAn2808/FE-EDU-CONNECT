@@ -50,7 +50,7 @@ function ExerciseDetailPage() {
 
   const fetchHomework = () => {
     axios
-      .get(`http://capstone.recoff.cloud:8081/exersice/getHomeworkByExercise?exerciseId=${params.exerciseid}`)
+      .get(`http://ec2-13-250-214-184.ap-southeast-1.compute.amazonaws.com:8081/exersice/getHomeworkByExercise?exerciseId=${params.exerciseid}`)
       .then((response) => {
         if (response && response.data) {
           setHomework(response.data);
@@ -63,7 +63,7 @@ function ExerciseDetailPage() {
 
   const fetchFile = () => {
     axios
-      .get(`http://capstone.recoff.cloud:8081/exersice/getfileexercise?bookid=${params.exerciseid}`)
+      .get(`http://ec2-13-250-214-184.ap-southeast-1.compute.amazonaws.com:8081/exersice/getfileexercise?bookid=${params.exerciseid}`)
       .then((response) => {
         if (response && response.data) {
           setFiles(response.data);
@@ -76,7 +76,7 @@ function ExerciseDetailPage() {
 
   const fetchVideo = () => {
     axios
-      .get(`http://capstone.recoff.cloud:8081/exersice/getvideoexercise?bookid=${params.exerciseid}`)
+      .get(`http://ec2-13-250-214-184.ap-southeast-1.compute.amazonaws.com:8081/exersice/getvideoexercise?bookid=${params.exerciseid}`)
       .then((response) => {
         if (response && response.data) {
           setVideos(response.data);
@@ -88,7 +88,7 @@ function ExerciseDetailPage() {
   };
   const fetchProgess = () => {
     axios
-      .get(`http://capstone.recoff.cloud:8081/exersice/getclassroomexercise?bookid=${params.exerciseid}`)
+      .get(`http://ec2-13-250-214-184.ap-southeast-1.compute.amazonaws.com:8081/exersice/getclassroomexercise?bookid=${params.exerciseid}`)
       .then((response) => {
         if (response && response.data) {
           setProgess(response.data);
@@ -101,7 +101,7 @@ function ExerciseDetailPage() {
 
   const fetchDemo = () => {
     axios
-      .get(`http://capstone.recoff.cloud:8081/demo/listAllDemo/${params.exerciseid}`)
+      .get(`http://ec2-13-250-214-184.ap-southeast-1.compute.amazonaws.com:8081/demo/listAllDemo/${params.exerciseid}`)
       .then((response) => {
         if (response && response.data) {
           setDemo(response.data);
@@ -113,7 +113,7 @@ function ExerciseDetailPage() {
   };
   const fetchData = () => {
     axios
-      .get(`http://capstone.recoff.cloud:8081/exersice/getExerciseById/${params.exerciseid}`)
+      .get(`http://ec2-13-250-214-184.ap-southeast-1.compute.amazonaws.com:8081/exersice/getExerciseById/${params.exerciseid}`)
       .then((response) => {
         if (response && response.data) {
           setGeneralData(response.data);
@@ -223,7 +223,7 @@ function ExerciseDetailPage() {
       formDatas.append("endDate", formData.endDate);
       formDatas.append("tutorid", tutor.id);
       const response = await axios.post(
-        "http://capstone.recoff.cloud:8081/exersice/addhomework",
+        "http://ec2-13-250-214-184.ap-southeast-1.compute.amazonaws.com:8081/exersice/addhomework",
         formDatas,
         {
           headers: {
@@ -243,7 +243,7 @@ function ExerciseDetailPage() {
     try {
 
       const response = await axios.post(
-        "http://capstone.recoff.cloud:8081/exersice/addvideo",
+        "http://ec2-13-250-214-184.ap-southeast-1.compute.amazonaws.com:8081/exersice/addvideo",
         {
           exerciseid: params.exerciseid,
           namevideo: name,
@@ -266,7 +266,7 @@ function ExerciseDetailPage() {
     try {
 
       const response = await axios.post(
-        "http://capstone.recoff.cloud:8081/exersice/addclassroom",
+        "http://ec2-13-250-214-184.ap-southeast-1.compute.amazonaws.com:8081/exersice/addclassroom",
         {
           exerciseid: params.exerciseid,
           nameclassroom: name,
@@ -289,7 +289,7 @@ function ExerciseDetailPage() {
     try {
 
       const response = await axios.post(
-        "http://capstone.recoff.cloud:8081/exersice/addfile",
+        "http://ec2-13-250-214-184.ap-southeast-1.compute.amazonaws.com:8081/exersice/addfile",
         {
           exerciseid: params.exerciseid,
           tutorid: tutor.id,
@@ -475,7 +475,7 @@ function ExerciseDetailPage() {
                           >
                             <Box sx={{ display: 'flex' }}>
                               <img
-                                src={`http://capstone.recoff.cloud:8081/edu/file/files/${item.img}`}
+                                src={`http://ec2-13-250-214-184.ap-southeast-1.compute.amazonaws.com:8081/edu/file/files/${item.img}`}
                                 alt='demo'
                                 style={{
                                   width: 70,

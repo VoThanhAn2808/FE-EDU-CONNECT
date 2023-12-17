@@ -44,7 +44,7 @@ function StudentManagement() {
         event.preventDefault();
         event.stopPropagation();
         try {
-            const response = await axios.get(`http://capstone.recoff.cloud:8081/staffsconnect/student/block/${student}`);
+            const response = await axios.get(`http://ec2-13-250-214-184.ap-southeast-1.compute.amazonaws.com:8081/staffsconnect/student/block/${student}`);
             showSnackbar(response.data);
             window.location.reload();
         } catch (error) {
@@ -55,7 +55,7 @@ function StudentManagement() {
     const [pstudent, setPstudent] = useState('');
     const fetchTop = useCallback((pageNumber) => {
         axios
-            .get(`http://capstone.recoff.cloud:8081/staffsconnect/student?page=${pageNumber}`)
+            .get(`http://ec2-13-250-214-184.ap-southeast-1.compute.amazonaws.com:8081/staffsconnect/student?page=${pageNumber}`)
             .then((response) => {
                 setData(response.data);
             })
@@ -70,7 +70,7 @@ function StudentManagement() {
 
     useEffect(() => {
         axios
-            .get(`http://capstone.recoff.cloud:8081/staffsconnect/pagestudent`)
+            .get(`http://ec2-13-250-214-184.ap-southeast-1.compute.amazonaws.com:8081/staffsconnect/pagestudent`)
             .then((response) => {
                 setPstudent(response.data);
             })
@@ -85,7 +85,7 @@ function StudentManagement() {
     useEffect(() => {
         if (student !== null) {
             axios
-                .get(`http://capstone.recoff.cloud:8081/staffsconnect/student/viewprofile/${student}`)
+                .get(`http://ec2-13-250-214-184.ap-southeast-1.compute.amazonaws.com:8081/staffsconnect/student/viewprofile/${student}`)
                 .then((response) => {
                     setVstudent(response.data);
                 })
@@ -206,7 +206,7 @@ function StudentManagement() {
                 >
                     <Box sx={{ backgroundColor: "#D9D9D9", width: "300px", height: "400px", borderRadius: "10px", border: '2px solid #000000', p: 2, }}>
                         {vstudent.img ? (
-                            <Avatar sx={{ height: "100px", width: "100px", marginLeft: "30%" }} src={`http://capstone.recoff.cloud:8081/edu/file/files/${vstudent.img}`} />
+                            <Avatar sx={{ height: "100px", width: "100px", marginLeft: "30%" }} src={`http://ec2-13-250-214-184.ap-southeast-1.compute.amazonaws.com:8081/edu/file/files/${vstudent.img}`} />
                         ) : (
                             <Avatar sx={{ height: "100px", width: "100px", marginLeft: "30%" }} />
                         )}

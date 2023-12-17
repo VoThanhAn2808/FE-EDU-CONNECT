@@ -28,7 +28,7 @@ function UpdateCalender() {
 
     useEffect(() => {
         // Fetch timeline data
-        axios.get(`http://capstone.recoff.cloud:8081/book/timeline`)
+        axios.get(`http://ec2-13-250-214-184.ap-southeast-1.compute.amazonaws.com:8081/book/timeline`)
             .then((response) => {
                 if (response && response.data) {
                     setData(response.data);
@@ -37,7 +37,7 @@ function UpdateCalender() {
             .catch((error) => {
                 console.error("Error fetching timeline:", error);
             });
-        axios.get(`http://capstone.recoff.cloud:8081/book/lesson`)
+        axios.get(`http://ec2-13-250-214-184.ap-southeast-1.compute.amazonaws.com:8081/book/lesson`)
             .then((response) => {
                 if (response && response.data) {
                     setDaysOfWeek(response.data);
@@ -46,7 +46,7 @@ function UpdateCalender() {
             .catch((error) => {
                 console.error("Error fetching lessons:", error);
             });
-        axios.get(`http://capstone.recoff.cloud:8081/educonnect/listteachtime?tutorid=${tutor.id}`)
+        axios.get(`http://ec2-13-250-214-184.ap-southeast-1.compute.amazonaws.com:8081/educonnect/listteachtime?tutorid=${tutor.id}`)
             .then((response) => {
                 if (response && response.data) {
                     setTime(response.data);
@@ -98,7 +98,7 @@ function UpdateCalender() {
             for (const cellIndex of selectedCells) {
                 const [timeId, lessonId] = cellIndex.split('-');
                 await axios.delete(
-                    `http://capstone.recoff.cloud:8081/schedule/deletecalender/${timeId}/${lessonId}/${tutor.id}`,
+                    `http://ec2-13-250-214-184.ap-southeast-1.compute.amazonaws.com:8081/schedule/deletecalender/${timeId}/${lessonId}/${tutor.id}`,
                     config
                 );
                 window.location.href = '/updatecalender';
@@ -131,7 +131,7 @@ function UpdateCalender() {
                 };
 
                 await axios.post(
-                    "http://capstone.recoff.cloud:8081/educonnect/choicetime",
+                    "http://ec2-13-250-214-184.ap-southeast-1.compute.amazonaws.com:8081/educonnect/choicetime",
                     postData,
                     config
                 );

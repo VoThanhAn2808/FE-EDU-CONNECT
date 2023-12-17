@@ -28,7 +28,7 @@ function SubmitExercise() {
 
     useEffect(() => {
         axios
-            .get(`http://capstone.recoff.cloud:8081/exersice/homework/detailhomework?homeworkid=${bookid}`)
+            .get(`http://ec2-13-250-214-184.ap-southeast-1.compute.amazonaws.com:8081/exersice/homework/detailhomework?homeworkid=${bookid}`)
             .then((response) => {
                 setData(response.data);
             })
@@ -51,7 +51,7 @@ function SubmitExercise() {
             formData.append('file', files);
 
             await axios.post(
-                "http://capstone.recoff.cloud:8081/exersice/addsubmithomework",
+                "http://ec2-13-250-214-184.ap-southeast-1.compute.amazonaws.com:8081/exersice/addsubmithomework",
                 formData,
                 {
                     headers: {
@@ -74,7 +74,7 @@ function SubmitExercise() {
             formData.append('file', files);
 
             await axios.put(
-                "http://capstone.recoff.cloud:8081/exersice/updatesubmit",
+                "http://ec2-13-250-214-184.ap-southeast-1.compute.amazonaws.com:8081/exersice/updatesubmit",
                 formData,
                 {
                     headers: {
@@ -199,7 +199,7 @@ function SubmitExercise() {
                         </Box>
 
                         <Box style={{ float: 'left', marginTop: '10px' }}>
-                            <Link href={`http://capstone.recoff.cloud:8081/edu/file/fileuser/${data.filesHomework}/${data.tutorid}`} target="_blank">
+                            <Link href={`http://ec2-13-250-214-184.ap-southeast-1.compute.amazonaws.com:8081/edu/file/fileuser/${data.filesHomework}/${data.tutorid}`} target="_blank">
 
                                 <Button
                                     variant="contained"
@@ -249,7 +249,7 @@ function SubmitExercise() {
                                                             </Box>
                                                         ) : (
 
-                                                            <Link href={`http://capstone.recoff.cloud:8081/edu/file/fileuser/${data.fileSubmid}/${userId}`} target="_blank" style={{ textDecoration: 'none', color: 'black' }}>
+                                                            <Link href={`http://ec2-13-250-214-184.ap-southeast-1.compute.amazonaws.com:8081/edu/file/fileuser/${data.fileSubmid}/${userId}`} target="_blank" style={{ textDecoration: 'none', color: 'black' }}>
                                                                 <Typography sx={{ fontSize: '15px' }}>{data.fileSubmid}</Typography>
                                                             </Link>
                                                         )}

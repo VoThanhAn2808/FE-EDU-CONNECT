@@ -36,7 +36,7 @@ function Home() {
 
     useEffect(() => {
         axios
-            .get("http://capstone.recoff.cloud:8081/educonnect/tutor/top3")
+            .get("http://ec2-13-250-214-184.ap-southeast-1.compute.amazonaws.com:8081/educonnect/tutor/top3")
             .then((response) => {
                 setData(response.data);
             })
@@ -138,7 +138,7 @@ function Home() {
                                         Thông tin
                                     </Button>
                                 </Link>
-                                <img src={`http://capstone.recoff.cloud:8081/edu/file/fileuser/${item.img}/${item.tutorid}`} alt="giasu" className='giasu' style={{ height: '230px' }} />
+                                <img src={`http://ec2-13-250-214-184.ap-southeast-1.compute.amazonaws.com:8081/edu/file/fileuser/${item.img}/${item.tutorid}`} alt="giasu" className='giasu' style={{ height: '230px' }} />
                             </Box>
                         </Grid>
                     ))}

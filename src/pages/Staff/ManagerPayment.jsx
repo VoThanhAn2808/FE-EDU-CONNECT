@@ -13,7 +13,7 @@ function ManagerPayment() {
     const [open, setOpen] = useState(false);
     const fetchData = useCallback((pageNumber) => {
         axios
-            .get(`http://capstone.recoff.cloud:8081/staffsconnect/payfortutor?staffid=${decodedToken.id}&page=${pageNumber}`)
+            .get(`http://ec2-13-250-214-184.ap-southeast-1.compute.amazonaws.com:8081/staffsconnect/payfortutor?staffid=${decodedToken.id}&page=${pageNumber}`)
             .then((response) => {
                 setDicount(response.data);
             })
@@ -31,7 +31,7 @@ function ManagerPayment() {
     };
 
     useEffect(() => {
-        axios.get(`http://capstone.recoff.cloud:8081/staffsconnect/totalpay?staffid=${decodedToken.id}`)
+        axios.get(`http://ec2-13-250-214-184.ap-southeast-1.compute.amazonaws.com:8081/staffsconnect/totalpay?staffid=${decodedToken.id}`)
             .then((response) => {
                 setPage(response.data);
             })
@@ -45,7 +45,7 @@ function ManagerPayment() {
         event.stopPropagation();
         try {
             await axios.put(
-                `http://capstone.recoff.cloud:8081/staffsconnect/accept/${tutorid}`
+                `http://ec2-13-250-214-184.ap-southeast-1.compute.amazonaws.com:8081/staffsconnect/accept/${tutorid}`
             );
             window.location.href = "/managerpayment";
         } catch (error) {

@@ -54,7 +54,7 @@ function FileTable(props) {
         event.stopPropagation();
         try {
             const response = await axios.delete(
-                `http://capstone.recoff.cloud:8081/exersice/deletefile/${id}/${tutor.id}`,
+                `http://ec2-13-250-214-184.ap-southeast-1.compute.amazonaws.com:8081/exersice/deletefile/${id}/${tutor.id}`,
                 {
                     headers: {
                         "Content-Type": "application/json",
@@ -72,7 +72,7 @@ function FileTable(props) {
         try {
 
             const response = await axios.put(
-                "http://capstone.recoff.cloud:8081/exersice/updatefile",
+                "http://ec2-13-250-214-184.ap-southeast-1.compute.amazonaws.com:8081/exersice/updatefile",
                 {
                     fileid: fileid,
                     nameFile: nameFile,
@@ -134,7 +134,7 @@ function FileTable(props) {
                             <TableCell style={{ fontSize: "14px" }}>{row.fileid}</TableCell>
                             <TableCell style={{ fontSize: "14px", textAlign: 'center' }}>{row.namefile}</TableCell>
                             <TableCell style={{ fontSize: "14px" }}>
-                                <Link href={`http://capstone.recoff.cloud:8081/edu/file/fileuser/${row.files}/${tutor.id}`} target="_blank">
+                                <Link href={`http://ec2-13-250-214-184.ap-southeast-1.compute.amazonaws.com:8081/edu/file/fileuser/${row.files}/${tutor.id}`} target="_blank">
                                     <InsertDriveFileIcon sx={{ fontSize: "25px", marginLeft: "4%" }} />
                                 </Link>
                             </TableCell>

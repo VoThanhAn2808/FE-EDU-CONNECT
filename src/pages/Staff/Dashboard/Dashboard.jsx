@@ -20,7 +20,7 @@ function Dashboard() {
 
   useEffect(() => {
     axios
-      .get(`http://capstone.recoff.cloud:8081/staffsconnect/staffstatisticsyear`)
+      .get(`http://ec2-13-250-214-184.ap-southeast-1.compute.amazonaws.com:8081/staffsconnect/staffstatisticsyear`)
       .then((response) => {
         setData(response.data);
       })
@@ -28,7 +28,7 @@ function Dashboard() {
         console.error(error);
       });
     axios
-      .get(`http://capstone.recoff.cloud:8081/staffsconnect/staffstatisticscurrentmonth?staffId=2`)
+      .get(`http://ec2-13-250-214-184.ap-southeast-1.compute.amazonaws.com:8081/staffsconnect/staffstatisticscurrentmonth?staffId=2`)
       .then((response) => {
         setMonth(response.data);
       })
@@ -36,7 +36,7 @@ function Dashboard() {
         console.error(error);
       });
     axios
-      .get(`http://capstone.recoff.cloud:8081/staffsconnect/staffstatisticspreviousmonth?staffId=2`)
+      .get(`http://ec2-13-250-214-184.ap-southeast-1.compute.amazonaws.com:8081/staffsconnect/staffstatisticspreviousmonth?staffId=2`)
       .then((response) => {
         setLmonth(response.data);
       })

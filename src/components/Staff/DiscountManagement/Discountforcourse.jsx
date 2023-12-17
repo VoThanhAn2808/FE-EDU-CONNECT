@@ -29,7 +29,7 @@ export default function DiscountForCourse(props) {
 
     useEffect(() => {
         axios
-            .get(`http://capstone.recoff.cloud:8081/course/listcourse`)
+            .get(`http://ec2-13-250-214-184.ap-southeast-1.compute.amazonaws.com:8081/course/listcourse`)
             .then((response) => {
                 setData(response.data);
             })
@@ -40,7 +40,7 @@ export default function DiscountForCourse(props) {
 
     useEffect(() => {
         axios
-            .get(`http://capstone.recoff.cloud:8081/discount/listdiscountforcourse`)
+            .get(`http://ec2-13-250-214-184.ap-southeast-1.compute.amazonaws.com:8081/discount/listdiscountforcourse`)
             .then((response) => {
                 setDis(response.data);
             })
@@ -52,7 +52,7 @@ export default function DiscountForCourse(props) {
     const handleSubmit = async (event) => {
         event.preventDefault();
         try {
-            const response = await axios.post('http://capstone.recoff.cloud:8081/discount/adddiscourse', {
+            const response = await axios.post('http://ec2-13-250-214-184.ap-southeast-1.compute.amazonaws.com:8081/discount/adddiscourse', {
                 discountid: discount,
                 courseid: course
             });
