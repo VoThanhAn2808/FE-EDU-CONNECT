@@ -27,6 +27,9 @@ function Home() {
     const [course, setStudentData] = useState([]);
     const decodedToken = jwtDecode(localStorage.getItem('token'));
     const userId = decodedToken.id;
+    const CancelToken = axios.CancelToken;
+    const source = CancelToken.source();
+
 
     const fetchUser = useCallback(async () => {
         try {
@@ -36,6 +39,9 @@ function Home() {
                     headers: {
                         "Content-Type": "application/json",
                     },
+                },
+                {
+                    cancelToken: source.token,
                 }
             );
             setUser(response.data);
@@ -70,7 +76,9 @@ function Home() {
 
     useEffect(() => {
         axios
-            .get("http://localhost:8081/educonnect/tutor/top3")
+            .get("http://localhost:8081/educonnect/tutor/top3", {
+                cancelToken: source.token,
+            })
             .then((response) => {
                 setData(response.data);
             })
