@@ -82,7 +82,6 @@ function ClassroomListScore() {
                         setOldIndex(null);
                         var elementDisable = document.getElementById("inputCellDisable-" + index);
                         var elementNotDisable = document.getElementById("inputCellNotDisable-" + index);
-                        console.log("xxxxxx", elementDisable);
                         elementDisable.style.display = "flex";
                         elementNotDisable.style.display = "none";
 
@@ -119,7 +118,7 @@ function ClassroomListScore() {
         <Box>
             <Box sx={{ width: '98%', marginTop: "20px", borderRadius: "5px", marginLeft: "1%", marginRight: "1%", backgroundColor: "#E2D6D6" }}>
                 <Typography sx={{ fontSize: "40px", marginLeft: "2%", fontFamily: "cursive", paddingBottom: "20px" }}>Danh sách bài tập kiểm tra trắc nghiệm</Typography>
-                <Typography sx={{ fontSize: "30px", marginLeft: "2%", fontFamily: "cursive", paddingBottom: "20px" }}>{tutor.coursename} {tutor.classname}-Nguyễn Trọng Hiếu</Typography>
+                <Typography sx={{ fontSize: "30px", marginLeft: "2%", fontFamily: "cursive", paddingBottom: "20px" }}>{dataClassroomScore[0]?.studentname}</Typography>
             </Box>
             <Box sx={{ width: '98%', marginTop: "20px", borderRadius: "5px", marginLeft: "1%", marginRight: "1%", backgroundColor: "#E2D6D6" }}>
                 <TableContainer component={Paper} sx={{}}>

@@ -46,6 +46,7 @@ function HomeworkListScore() {
         //     })
         axios.get(`http://localhost:8081/exersice/homeworkviewbytutor?bookid=${bookid}`)
             .then((response) => {
+                console.log("XXXXXXX", response.data);
                 setDataHomework(response.data);
             })
             .catch((error) => {
@@ -86,7 +87,6 @@ function HomeworkListScore() {
                         setOldIndex(null);
                         var elementDisable = document.getElementById("inputCellDisable-" + index);
                         var elementNotDisable = document.getElementById("inputCellNotDisable-" + index);
-                        console.log("xxxxxx", elementDisable);
                         elementDisable.style.display = "flex";
                         elementNotDisable.style.display = "none";
 
@@ -123,7 +123,7 @@ function HomeworkListScore() {
         <Box>
             <Box sx={{ width: '98%', marginTop: "20px", borderRadius: "5px", marginLeft: "1%", marginRight: "1%", backgroundColor: "#E2D6D6" }}>
                 <Typography sx={{ fontSize: "40px", marginLeft: "2%", fontFamily: "cursive", paddingBottom: "20px" }}>Danh sách bài tập về nhà</Typography>
-                <Typography sx={{ fontSize: "30px", marginLeft: "2%", fontFamily: "cursive", paddingBottom: "20px" }}>{tutor.coursename} {tutor.classname}-{dataHomework[0]?.studentname}</Typography>
+                <Typography sx={{ fontSize: "30px", marginLeft: "2%", fontFamily: "cursive", paddingBottom: "20px" }}>{dataHomework[0]?.studentname}</Typography>
             </Box>
             <Box sx={{ width: '98%', marginTop: "20px", borderRadius: "5px", marginLeft: "1%", marginRight: "1%", backgroundColor: "#E2D6D6" }}>
                 <TableContainer component={Paper} sx={{}}>
@@ -144,9 +144,9 @@ function HomeworkListScore() {
                                     <TableCell style={{ fontSize: "14px" }}>{row.homeworkid}</TableCell>
                                     <TableCell style={{ fontSize: "14px", textAlign: 'center' }}>{row.title}</TableCell>
                                     <TableCell style={{ fontSize: "14px" }}>
-                                        <Link href={`http://localhost:8081/edu/file/fileuser/${row.files}/${row.studentid}`} target="_blank" download>
+                                        <a href={`http://localhost:8081/edu/file/fileuser/${row.files}/${row.studentid}`} target="_blank" download>
                                             <InsertDriveFileIcon sx={{ fontSize: "25px", marginLeft: "4%" }} />
-                                        </Link>
+                                        </a>
                                     </TableCell>
                                     <TableCell id={`inputCellDisable-${index}`} style={{ display: 'flex', fontSize: "14px", textAlign: 'center' }}>
 
