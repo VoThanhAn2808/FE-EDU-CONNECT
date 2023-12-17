@@ -32,22 +32,22 @@ function BookTime() {
     const handleImageChange = (e) => {
         const selectedImage = e.target.files[0];
         if (selectedImage) {
-          // Define the allowed file types
-          const allowedTypes = ['image/jpeg', 'image/jpg', 'image/png', 'image/gif', 'image/svg+xml'];
-    
-          // Check if the selected file type is in the allowed types
-          if (!allowedTypes.includes(selectedImage.type)) {
-            showSnackbar('Làm ơn chọn file theo định dạng (JPG, JPEG, GIF, PNG, SVG).');
-            // Clear the input if an invalid file is selected
-            e.target.value = null;
-            return;
-          }
-    
-          // Set the file to state if needed
-          setImage(selectedImage);
+            // Define the allowed file types
+            const allowedTypes = ['image/jpeg', 'image/jpg', 'image/png', 'image/gif', 'image/svg+xml'];
+
+            // Check if the selected file type is in the allowed types
+            if (!allowedTypes.includes(selectedImage.type)) {
+                showSnackbar('Làm ơn chọn file theo định dạng (JPG, JPEG, GIF, PNG, SVG).');
+                // Clear the input if an invalid file is selected
+                e.target.value = null;
+                return;
+            }
+
+            // Set the file to state if needed
+            setImage(selectedImage);
         }
-    
-      };
+
+    };
 
     const style = {
         position: 'absolute',
@@ -154,67 +154,67 @@ function BookTime() {
 
     const handleSubmits = async (event) => {
         event.preventDefault();
-      
-        const config = {
-          headers: {
-            'Content-Type': 'application/json',
-          },
-        };
-      
-        const configs = {
-          headers: {
-            'Content-Type': 'multipart/form-data',
-          },
-        };
-      
-        try {
-          await axios.delete(
-            `http://localhost:8081/book/deletetimeerror/${student.studentid}`,
-            config
-          );
-      
-          for (const checkbox of selectedCheckboxes) {
-            const postData = {
-              studentid: student.studentid,
-              timeId: checkbox.timeId,
-              lessonid: checkbox.lessonid,
-            };
-      
-            await axios.post(
-              'http://localhost:8081/book/timebook',
-              postData,
-              configs
-            );
-          }
-      
-          await axios.post(
-            `http://localhost:8081/book/banking`,
-            {
-              studentid: student.studentid,
-              file: image,
-              email: student.email,
-            },
-            configs
-          );
-          showSnackbar("Cảm on bạn đã tin cậy chúng tôi vui lòng bạn đợi chúng phản hồi từ EDU-CONNECT!")
-          window.location.href = '/homestudent';
-        } catch (error) {
-          console.error(error);
-        }
-      };
 
-      const [snackbarOpen, setSnackbarOpen] = useState(false);
-      const [snackbarMessage, setSnackbarMessage] = useState('');
-      const [snackbarType, setSnackbarType] = useState('success');
-      const showSnackbar = (message, type) => {
-          setSnackbarMessage(message);
-          setSnackbarType(type);
-          setSnackbarOpen(true);
-      };
-  
-      const handleSnackbarClose = () => {
-          setSnackbarOpen(false);
-      };
+        const config = {
+            headers: {
+                'Content-Type': 'application/json',
+            },
+        };
+
+        const configs = {
+            headers: {
+                'Content-Type': 'multipart/form-data',
+            },
+        };
+
+        try {
+            await axios.delete(
+                `http://localhost:8081/book/deletetimeerror/${student.studentid}`,
+                config
+            );
+
+            for (const checkbox of selectedCheckboxes) {
+                const postData = {
+                    studentid: student.studentid,
+                    timeId: checkbox.timeId,
+                    lessonid: checkbox.lessonid,
+                };
+
+                await axios.post(
+                    'http://localhost:8081/book/timebook',
+                    postData,
+                    configs
+                );
+            }
+
+            await axios.post(
+                `http://localhost:8081/book/banking`,
+                {
+                    studentid: student.studentid,
+                    file: image,
+                    email: student.email,
+                },
+                configs
+            );
+            showSnackbar("Cảm on bạn đã tin cậy chúng tôi vui lòng bạn đợi chúng phản hồi từ EDU-CONNECT!")
+            window.location.href = '/homestudent';
+        } catch (error) {
+            console.error(error);
+        }
+    };
+
+    const [snackbarOpen, setSnackbarOpen] = useState(false);
+    const [snackbarMessage, setSnackbarMessage] = useState('');
+    const [snackbarType, setSnackbarType] = useState('success');
+    const showSnackbar = (message, type) => {
+        setSnackbarMessage(message);
+        setSnackbarType(type);
+        setSnackbarOpen(true);
+    };
+
+    const handleSnackbarClose = () => {
+        setSnackbarOpen(false);
+    };
 
     const [showAlert, setShowAlert] = useState(false);
 
@@ -274,8 +274,6 @@ function BookTime() {
     };
 
     const [selectedCheckboxes, setSelectedCheckboxes] = useState([]);
-
-    console.log("ds", selectedCheckboxes);
 
     const handleCheckboxChange = (item) => {
         if (selectedCheckboxes.includes(item)) {
@@ -462,19 +460,19 @@ function BookTime() {
                             Thanh toán
                         </Button>
                         <Snackbar
-                    open={snackbarOpen}
-                    autoHideDuration={3000}
-                    onClose={handleSnackbarClose}
-                    anchorOrigin={{ vertical: 'top', horizontal: 'right' }}
-                >
-                    <MuiAlert
-                        onClose={handleSnackbarClose}
-                        severity={snackbarType}
-                        sx={{ width: '100%', fontSize: '15px' }}
-                    >
-                        {snackbarMessage}
-                    </MuiAlert>
-                </Snackbar>
+                            open={snackbarOpen}
+                            autoHideDuration={3000}
+                            onClose={handleSnackbarClose}
+                            anchorOrigin={{ vertical: 'top', horizontal: 'right' }}
+                        >
+                            <MuiAlert
+                                onClose={handleSnackbarClose}
+                                severity={snackbarType}
+                                sx={{ width: '100%', fontSize: '15px' }}
+                            >
+                                {snackbarMessage}
+                            </MuiAlert>
+                        </Snackbar>
                         <Button onClick={handleClose1} variant="contained" style={{ height: '30px', backgroundColor: 'red', fontSize: '12px' }}>
                             Huỷ
                         </Button>

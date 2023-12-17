@@ -46,7 +46,7 @@ function ExerciseTable(props) {
             <TableRow style={{ backgroundColor: "#e2d6d6c9" }}>
               <TableCell style={{ width: 50, fontSize: "14px" }}>ID</TableCell>
               <TableCell style={{ width: 200, fontSize: "14px" }}>Tên chương</TableCell>
-              <TableCell style={{ width: 50, fontSize: "14px" }}>Action</TableCell>
+              <TableCell style={{ width: 50, fontSize: "14px", textAlign: "center" }}>Action</TableCell>
               <TableCell style={{ width: 50, fontSize: "14px" }}></TableCell>
             </TableRow>
           </TableHead>
@@ -55,7 +55,7 @@ function ExerciseTable(props) {
               <TableRow key={row.exerciseid} style={{ fontSize: "14px" }}>
                 <TableCell style={{ fontSize: "14px" }}>{row.exerciseid}</TableCell>
                 <TableCell style={{ fontSize: "14px" }}>{row.title}</TableCell>
-                <TableCell style={{ fontSize: "14px" }}>
+                <TableCell style={{ fontSize: "14px", textAlign: "center" }}>
                   <Button type='link' variant="contained" color="success" sx={{ marginRight: "10px" }} href={`/exercisedetail/${row.exerciseid}`}>
                     Xem
                   </Button>

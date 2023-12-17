@@ -43,7 +43,7 @@ function Demo() {
             .catch((error) => {
                 console.error(error);
             });
-    });
+    }, [classcourseid, decodedToken.id]);
 
     const handlePageChange = (event, pageNumber) => {
         setPages(pageNumber);
@@ -74,7 +74,7 @@ function Demo() {
                                     <TableCell style={{ fontSize: "14px" }}>{row.coursename}-{row.classname}</TableCell>
                                     <TableCell style={{ fontSize: "14px" }}>{row.demoname}</TableCell>
                                     <TableCell style={{ fontSize: "14px" }}>
-                                        <img src={`http://localhost:8081/edu/file/files/${row.img}`} style={{width : '80px'}} alt='an'/>
+                                        <img src={`http://localhost:8081/edu/file/files/${row.img}`} style={{ width: '80px' }} alt='an' />
                                     </TableCell>
                                     <TableCell style={{ fontSize: "14px" }}>
                                         <Button type='link' variant="contained" color="success" sx={{ marginRight: "10px" }} component={Link}

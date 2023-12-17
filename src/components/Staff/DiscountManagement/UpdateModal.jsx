@@ -50,7 +50,6 @@ export default function UpdateModal(props) {
   useEffect(() => {
     axios.post('http://localhost:8081/discount/detailDiscount', dataToSend)
       .then((response) => {
-        console.log(response.data);
         setDataDetailDiscount(response.data);
       })
       .catch((error) => {
@@ -60,7 +59,6 @@ export default function UpdateModal(props) {
 
   useEffect(() => {
     const filename = dataDetailDiscount.img;
-    console.log("filename" + filename);
     axios.get(`http://localhost:8081/edu/file/files/${filename}`, {
       responseType: 'blob',  // Important: Set the response type to 'blob'
     })
@@ -139,7 +137,6 @@ export default function UpdateModal(props) {
           }
           else if (responseUploadImage.status === 200) {
             const response = await axios.put(`http://localhost:8081/staffsconnect/discount/updateDiscount/${decodedToken.id}`, myObject);
-            console.log("Update " + response.data);
             if (response.data === 1) {
               alert("Cập nhập thành công");
             }
@@ -172,7 +169,6 @@ export default function UpdateModal(props) {
       };
       try {
         const response = await axios.put(`http://localhost:8081/staffsconnect/discount/updateDiscount/${decodedToken.id}`, myObject);
-        console.log("Update " + response.data);
         if (response.data === 1) {
           alert("Cập nhập thành công");
         }
@@ -197,8 +193,6 @@ export default function UpdateModal(props) {
   const handleClearClick = () => {
     const inputImage = document.getElementById("grdImage");
     const buttonFile = document.getElementById("btnFile");
-    console.log(buttonFile);
-    console.log("inputImage", inputImage);
     buttonFile.style.display = "block";
     inputImage.style.display = "none";
 
