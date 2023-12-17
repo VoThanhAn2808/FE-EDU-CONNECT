@@ -43,12 +43,12 @@ const ForgotPassword = () => {
         "http://localhost:8081/edu/checkmail?email=" + email,
         config
       );
+      showSnackbar("Vui lòng bạn kiểm tra email", 'success')
+      window.location.href = "/login"
       if (response.data === true) {
         await axios.post("http://localhost:8081/edu/forgotpassword", {
           email: email,
         }, configs);
-        showSnackbar("Vui lòng bạn kiểm tra email", 'success')
-        window.location.href = "/login"
       } else if (response.data !== true) {
         showSnackbar("Email không chính xác", 'error')
         window.location.href = "/forgotpass"
@@ -173,19 +173,19 @@ const ForgotPassword = () => {
             </Button>
           </Box>
           <Snackbar
-        open={snackbarOpen}
-        autoHideDuration={5000}
-        onClose={handleSnackbarClose}
-        anchorOrigin={{ vertical: 'top', horizontal: 'right' }}
-      >
-        <MuiAlert
-          onClose={handleSnackbarClose}
-          severity={snackbarType}
-          sx={{ width: '100%', fontSize: '15px' }}
-        >
-          {snackbarMessage}
-        </MuiAlert>
-      </Snackbar>
+            open={snackbarOpen}
+            autoHideDuration={5000}
+            onClose={handleSnackbarClose}
+            anchorOrigin={{ vertical: 'top', horizontal: 'right' }}
+          >
+            <MuiAlert
+              onClose={handleSnackbarClose}
+              severity={snackbarType}
+              sx={{ width: '100%', fontSize: '15px' }}
+            >
+              {snackbarMessage}
+            </MuiAlert>
+          </Snackbar>
         </form>
         <Typography
           sx={{

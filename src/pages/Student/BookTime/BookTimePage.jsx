@@ -9,6 +9,8 @@ import { jwtDecode } from "jwt-decode";
 import VNPAY from "../../../assests/vnpay.png"
 import BANK from "../../../assests/bank.png"
 import QR from "../../../assests/QR.jpg"
+import MuiAlert from '@mui/material/Alert';
+
 
 
 function BookTime() {
@@ -150,6 +152,70 @@ function BookTime() {
         }
     };
 
+    const handleSubmits = async (event) => {
+        event.preventDefault();
+      
+        const config = {
+          headers: {
+            'Content-Type': 'application/json',
+          },
+        };
+      
+        const configs = {
+          headers: {
+            'Content-Type': 'multipart/form-data',
+          },
+        };
+      
+        try {
+          await axios.delete(
+            `http://localhost:8081/book/deletetimeerror/${student.studentid}`,
+            config
+          );
+      
+          for (const checkbox of selectedCheckboxes) {
+            const postData = {
+              studentid: student.studentid,
+              timeId: checkbox.timeId,
+              lessonid: checkbox.lessonid,
+            };
+      
+            await axios.post(
+              'http://localhost:8081/book/timebook',
+              postData,
+              configs
+            );
+          }
+      
+          await axios.post(
+            `http://localhost:8081/book/banking`,
+            {
+              studentid: student.studentid,
+              file: image,
+              email: student.email,
+            },
+            configs
+          );
+          showSnackbar("Cảm on bạn đã tin cậy chúng tôi vui lòng bạn đợi chúng phản hồi từ EDU-CONNECT!")
+          window.location.href = '/homestudent';
+        } catch (error) {
+          console.error(error);
+        }
+      };
+
+      const [snackbarOpen, setSnackbarOpen] = useState(false);
+      const [snackbarMessage, setSnackbarMessage] = useState('');
+      const [snackbarType, setSnackbarType] = useState('success');
+      const showSnackbar = (message, type) => {
+          setSnackbarMessage(message);
+          setSnackbarType(type);
+          setSnackbarOpen(true);
+      };
+  
+      const handleSnackbarClose = () => {
+          setSnackbarOpen(false);
+      };
+
     const [showAlert, setShowAlert] = useState(false);
 
     const handlePaymentAndBooktime = async (event) => {
@@ -175,6 +241,11 @@ function BookTime() {
 
             const paymentResponse = await axios.get(
                 `http://localhost:8081/book/createpayment?studentid=${student.studentid}`,
+                config
+            );
+
+            await axios.delete(
+                `http://localhost:8081/book/deletetimeerror/${student.studentid}`,
                 config
             );
 
@@ -387,9 +458,23 @@ function BookTime() {
                         </Box>
                     </Box>
                     <Box sx={{ marginLeft: '40%', marginTop: "20px" }}>
-                        <Button onClick={handleSubmit} variant="contained" style={{ height: '30px', backgroundColor: 'green', fontSize: '12px', marginRight: '20px' }}>
+                        <Button onClick={handleSubmits} variant="contained" style={{ height: '30px', backgroundColor: 'green', fontSize: '12px', marginRight: '20px' }}>
                             Thanh toán
                         </Button>
+                        <Snackbar
+                    open={snackbarOpen}
+                    autoHideDuration={3000}
+                    onClose={handleSnackbarClose}
+                    anchorOrigin={{ vertical: 'top', horizontal: 'right' }}
+                >
+                    <MuiAlert
+                        onClose={handleSnackbarClose}
+                        severity={snackbarType}
+                        sx={{ width: '100%', fontSize: '15px' }}
+                    >
+                        {snackbarMessage}
+                    </MuiAlert>
+                </Snackbar>
                         <Button onClick={handleClose1} variant="contained" style={{ height: '30px', backgroundColor: 'red', fontSize: '12px' }}>
                             Huỷ
                         </Button>
