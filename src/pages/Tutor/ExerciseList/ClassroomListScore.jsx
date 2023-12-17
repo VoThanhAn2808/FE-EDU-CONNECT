@@ -139,9 +139,7 @@ function ClassroomListScore() {
                                     <TableCell style={{ fontSize: "14px" }}>{row.exerciseid}</TableCell>
                                     <TableCell style={{ fontSize: "14px", textAlign: 'center' }}>{row.title}</TableCell>
                                     <TableCell style={{ fontSize: "14px" }}>
-                                        {/* <Link href={`http://localhost:8081/edu/file/fileuser/${row.file}/${row.studentid}`} target="_blank" download>
-                                            <InsertDriveFileIcon sx={{ fontSize: "25px", marginLeft: "4%" }} />
-                                        </Link> */}
+                                        {row.nameclassroom}
                                     </TableCell>
                                     <TableCell id={`inputCellDisable-${index}`} style={{ display: 'flex', fontSize: "14px", textAlign: 'center' }}>
                                         <TextField

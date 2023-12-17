@@ -51,7 +51,7 @@ function ExerciseTable(props) {
             </TableRow>
           </TableHead>
           <TableBody>
-            {res.map((row) => (
+            {res.length > 0 ? res.map((row) => (
               <TableRow key={row.exerciseid} style={{ fontSize: "14px" }}>
                 <TableCell style={{ fontSize: "14px" }}>{row.exerciseid}</TableCell>
                 <TableCell style={{ fontSize: "14px" }}>{row.title}</TableCell>
@@ -80,7 +80,10 @@ function ExerciseTable(props) {
                   <MoreHorizIcon sx={{ fontSize: '30px' }} onClick={(event) => handleOpenUserMenu(event, row.exerciseid, row.bookid)} />
                 </TableCell>
               </TableRow>
-            ))}
+            )) :
+              <TableCell sx={{ height: '50px', textAlign: 'center' }}>
+                <TableCell style={{ fontSize: "10px", fontFamily: "cursive", textAlign: "center" }} colSpan={4}>Không có dữ liệu</TableCell>
+              </TableCell>}
           </TableBody>
         </Table>
       </TableContainer>
