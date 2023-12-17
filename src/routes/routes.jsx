@@ -57,7 +57,8 @@ import FeedbackTutors from '../pages/Student/FeedBack/FeedBackTutor';
 import Feedbackofcourse from '../pages/Tutor/ViewInfomationPage/Feedbackofcourse';
 import Demo from '../pages/Tutor/ExerciseDetail/Demo';
 import DemoDetail from '../pages/Tutor/ExerciseDetail/DemoDetail';
-
+import HomeworkListScore from '../pages/Tutor/ExerciseList/HomeworkListScore';
+import ClassroomListScore from '../pages/Tutor/ExerciseList/ClassroomListScore';
 
 const publicRoute = [
   {
@@ -301,6 +302,20 @@ const privateRoute = [
   {
     path: '/demodetail/:demoid',
     component: DemoDetail,
+    layout: LayoutTutor,
+    allowedRoles: ["tutor"]
+  },
+
+  {
+    path: '/homeworklistscore/:bookid',
+    component: HomeworkListScore,
+    layout: LayoutTutor,
+    allowedRoles: ["tutor"]
+  },
+
+  {
+    path: '/classroomlistscore/:bookid',
+    component: ClassroomListScore,
     layout: LayoutTutor,
     allowedRoles: ["tutor"]
   },
