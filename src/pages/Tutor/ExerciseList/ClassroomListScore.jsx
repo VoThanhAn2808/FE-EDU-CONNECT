@@ -8,17 +8,7 @@ import { useState, useEffect } from 'react';
 import { Link, useParams } from "react-router-dom";
 import { jwtDecode } from 'jwt-decode';
 function ClassroomListScore() {
-    const dataTest = [
-        {
-            id: 1, nameExercise: "Chương 1-Kiểm tra điểm quá trình lần 1 ", file: "API.txt", score: "8", startDate: "12-05-2023", studentid: "1", status: "Y"
-        },
-        {
-            id: 2, nameExercise: "Chương 1-Kiểm tra điểm quá trình lần 1", file: "API.txt", score: "9", startDate: "12-05-2023", studentid: "1", status: "Y"
-        },
-
-    ];
     const [dataClassroomScore, setDataClassroomScore] = useState([]);
-    const [editMode, setEditMode] = useState(false);
     const { bookid } = useParams();
     const decodedToken = jwtDecode(localStorage.getItem('token'));
     const [mark, setMark] = useState('');
@@ -29,14 +19,18 @@ function ClassroomListScore() {
         scoreid: 0,
         score: 0
     });
-    useEffect(() => {
-        // axios.get(`http://localhost:8081/educonnect/viewtutorcourse?classcourseid=${classcourseid}&tutorid=${decodedToken.id}`)
-        //     .then((response) => {
-        //         console.log("view tutor course", response.data);
-        //         setTutor(response.data);
-        //     })
-        //     .catch((error) => {
-        //     })
+
+    const getStudentByBookId = () => {
+        axios.get(`http://localhost:8081/student/getStudentByBookId?bookid=${bookid}`)
+            .then((response) => {
+                setTutor(response.data);
+            })
+            .catch((error) => {
+                console.error(error);
+            });
+    };
+
+    const fetchData = () => {
         axios.get(`http://localhost:8081/exersice/scoreclassroom/${bookid}`)
             .then((response) => {
                 setDataClassroomScore(response.data);
@@ -44,7 +38,13 @@ function ClassroomListScore() {
             .catch((error) => {
                 console.error(error);
             });
-    }, [dataClassroomScore]);
+    };
+
+    useEffect(() => {
+        getStudentByBookId();
+        fetchData();
+    }, [bookid]);
+
     const handleChange = (e) => {
         if (e.target.value.toLowerCase() === 'e') {
             e.target.value = '';
@@ -65,41 +65,40 @@ function ClassroomListScore() {
         e.target.value = numericValue;
         setMark(numericValue);
         // Handle the numeric input as needed
-        console.log(numericValue);
+    };
+
+    const addScoreClassroom = async (index) => {
+        try {
+            const response = await axios.post(
+                `http://localhost:8081/exersice/addscoreclassroom`,
+                scoreClassroom
+            );
+
+            if (response.data === 1) {
+                alert("Lưu thành công");
+                setOldIndex(null);
+                var elementDisable = document.getElementById("inputCellDisable-" + index);
+                var elementNotDisable = document.getElementById("inputCellNotDisable-" + index);
+                elementDisable.style.display = "flex";
+                elementNotDisable.style.display = "none";
+            }
+            fetchData();
+        } catch (error) {
+            console.error(error);
+        } finally {
+            setShouldDisable(false); // Enable the TextField after the request is complete
+        }
     };
     const handleOpenConfirmation = (e, index) => {
         setShouldDisable(true);
         setScoreClassroom({
             scoreid: e,
-            score: mark
+            score: mark,
         });
-        try {
-            axios.post(`http://localhost:8081/exersice/addscoreclassroom`, scoreClassroom)
-                .then((response) => {
-                    console.log(response.data);
-                    if (response.data === 1) {
-                        alert("Thành Công Lưu");
-                        setOldIndex(null);
-                        var elementDisable = document.getElementById("inputCellDisable-" + index);
-                        var elementNotDisable = document.getElementById("inputCellNotDisable-" + index);
-                        console.log("xxxxxx", elementDisable);
-                        elementDisable.style.display = "flex";
-                        elementNotDisable.style.display = "none";
 
-                    }
-                })
-                .catch((error) => {
-                    console.error(error);
-                })
-                .finally(() => {
-                    setShouldDisable(false); // Enable the TextField after the request is complete
-                });
-
-        } catch (error) {
-            console.error(error);
-            setShouldDisable(false);
-        }
+        addScoreClassroom(index);
     };
+
     const handleFixConfirmation = (e) => {
         setOldIndex(e);
         if (oldIndex != e && oldIndex != null) {
@@ -119,7 +118,7 @@ function ClassroomListScore() {
         <Box>
             <Box sx={{ width: '98%', marginTop: "20px", borderRadius: "5px", marginLeft: "1%", marginRight: "1%", backgroundColor: "#E2D6D6" }}>
                 <Typography sx={{ fontSize: "40px", marginLeft: "2%", fontFamily: "cursive", paddingBottom: "20px" }}>Danh sách bài tập kiểm tra trắc nghiệm</Typography>
-                <Typography sx={{ fontSize: "30px", marginLeft: "2%", fontFamily: "cursive", paddingBottom: "20px" }}>{tutor.coursename} {tutor.classname}-Nguyễn Trọng Hiếu</Typography>
+                <Typography sx={{ fontSize: "30px", marginLeft: "2%", fontFamily: "cursive", paddingBottom: "20px" }}>{tutor.fullname}</Typography>
             </Box>
             <Box sx={{ width: '98%', marginTop: "20px", borderRadius: "5px", marginLeft: "1%", marginRight: "1%", backgroundColor: "#E2D6D6" }}>
                 <TableContainer component={Paper} sx={{}}>
@@ -140,9 +139,7 @@ function ClassroomListScore() {
                                     <TableCell style={{ fontSize: "14px" }}>{row.exerciseid}</TableCell>
                                     <TableCell style={{ fontSize: "14px", textAlign: 'center' }}>{row.title}</TableCell>
                                     <TableCell style={{ fontSize: "14px" }}>
-                                        {/* <Link href={`http://localhost:8081/edu/file/fileuser/${row.file}/${row.studentid}`} target="_blank" download>
-                                            <InsertDriveFileIcon sx={{ fontSize: "25px", marginLeft: "4%" }} />
-                                        </Link> */}
+                                        {row.nameclassroom}
                                     </TableCell>
                                     <TableCell id={`inputCellDisable-${index}`} style={{ display: 'flex', fontSize: "14px", textAlign: 'center' }}>
                                         <TextField

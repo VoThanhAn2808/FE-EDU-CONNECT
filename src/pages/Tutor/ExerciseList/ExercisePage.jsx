@@ -30,8 +30,7 @@ function ExerciseListPage() {
 
   const [data, setData] = useState([]);
   const fetchData = () => {
-    axios
-      .get(`http://localhost:8081/exersice/findexersice?bookid=${bookid}`)
+    axios.get(`http://localhost:8081/exersice/findexersice?bookid=${bookid}`)
       .then((response) => {
         if (response && response.data) {
           setData(response.data);
@@ -44,7 +43,7 @@ function ExerciseListPage() {
 
   useEffect(() => {
     fetchData()
-  },);
+  }, [bookid]);
 
 
   const style = {

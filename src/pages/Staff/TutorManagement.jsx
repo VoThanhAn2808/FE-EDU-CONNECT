@@ -429,7 +429,7 @@ function TutorManagement() {
                                         ))
                                     ) : (
                                         <TableRow>
-                                            <TableCell style={{ fontSize: "10px", fontFamily: "cursive", textAlign: "center" }} colSpan={4}>No data available</TableCell>
+                                            <TableCell style={{ fontSize: "10px", fontFamily: "cursive", textAlign: "center" }} colSpan={4}>Không có dữ liệu</TableCell>
                                         </TableRow>
                                     )}
                                 </TableBody>

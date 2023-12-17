@@ -46,16 +46,16 @@ function ExerciseTable(props) {
             <TableRow style={{ backgroundColor: "#e2d6d6c9" }}>
               <TableCell style={{ width: 50, fontSize: "14px" }}>ID</TableCell>
               <TableCell style={{ width: 200, fontSize: "14px" }}>Tên chương</TableCell>
-              <TableCell style={{ width: 50, fontSize: "14px" }}>Action</TableCell>
+              <TableCell style={{ width: 50, fontSize: "14px", textAlign: "center" }}>Action</TableCell>
               <TableCell style={{ width: 50, fontSize: "14px" }}></TableCell>
             </TableRow>
           </TableHead>
           <TableBody>
-            {res.map((row) => (
+            {res.length > 0 ? res.map((row) => (
               <TableRow key={row.exerciseid} style={{ fontSize: "14px" }}>
                 <TableCell style={{ fontSize: "14px" }}>{row.exerciseid}</TableCell>
                 <TableCell style={{ fontSize: "14px" }}>{row.title}</TableCell>
-                <TableCell style={{ fontSize: "14px" }}>
+                <TableCell style={{ fontSize: "14px", textAlign: "center" }}>
                   <Button type='link' variant="contained" color="success" sx={{ marginRight: "10px" }} href={`/exercisedetail/${row.exerciseid}`}>
                     Xem
                   </Button>
@@ -80,7 +80,10 @@ function ExerciseTable(props) {
                   <MoreHorizIcon sx={{ fontSize: '30px' }} onClick={(event) => handleOpenUserMenu(event, row.exerciseid, row.bookid)} />
                 </TableCell>
               </TableRow>
-            ))}
+            )) :
+              <TableCell sx={{ height: '50px', textAlign: 'center' }}>
+                <TableCell style={{ fontSize: "10px", fontFamily: "cursive", textAlign: "center" }} colSpan={4}>Không có dữ liệu</TableCell>
+              </TableCell>}
           </TableBody>
         </Table>
       </TableContainer>

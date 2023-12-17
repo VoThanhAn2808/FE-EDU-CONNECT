@@ -18,40 +18,33 @@ function HomeworkListScore() {
     const [rowStates, setRowStates] = useState(
         dataHomework.map((row) => ({ score: row.score, shouldDisable: false }))
     );
-
-    const dataTest = [
-        {
-            homeworkid: "1", title: "Chương 1-Kiểm tra bài tập về nhà lần 1", files: "API.txt", studentid: "1", score: "8", status: "Y", submitdate: "13-12-2023"
-        },
-        {
-            homeworkid: "2", title: "Chương 1-Kiểm tra bài tập về nhà lần 2", files: "API.txt", studentid: "1", score: "8", status: "Y", submitdate: "13-12-2023"
-        },
-        {
-            homeworkid: "3", title: "Chương 1-Kiểm tra bài tập về nhà lần 3", files: "API.txt", studentid: "1", score: "8", status: "Y", submitdate: "13-12-2023"
-        },
-        {
-            homeworkid: "4", title: "Chương 1-Kiểm tra bài tập về nhà lần 4", files: "API.txt", studentid: "1", score: "8", status: "Y", submitdate: "13-12-2023"
-        },
-    ];
-
-
     const [tutor, setTutor] = useState('');
-    useEffect(() => {
-        // axios.get(`http://localhost:8081/educonnect/viewtutorcourse?classcourseid=${classcourseid}&tutorid=${decodedToken.id}`)
-        //     .then((response) => {
-        //         console.log("view tutor course", response.data);
-        //         setTutor(response.data);
-        //     })
-        //     .catch((error) => {
-        //     })
+
+    const getStudentByBookId = () => {
+        axios.get(`http://localhost:8081/student/getStudentByBookId?bookid=${bookid}`)
+            .then((response) => {
+                setTutor(response.data);
+            })
+            .catch((error) => {
+                console.error(error);
+            });
+    };
+
+    const fetchData = () => {
         axios.get(`http://localhost:8081/exersice/homeworkviewbytutor?bookid=${bookid}`)
             .then((response) => {
                 setDataHomework(response.data);
             })
             .catch((error) => {
-                console.error(error);
             });
-    }, [dataHomework]);
+
+    };
+
+    useEffect(() => {
+        getStudentByBookId();
+        fetchData();
+    }, [bookid]);
+
     const handleChange = (e) => {
         if (e.target.value.toLowerCase() === 'e') {
             e.target.value = '';
@@ -71,8 +64,7 @@ function HomeworkListScore() {
         // Update the input value
         e.target.value = numericValue;
         setMark(numericValue);
-        // Handle the numeric input as needed
-        console.log(numericValue);
+
     };
 
     const handleOpenConfirmation = (e, index) => {
@@ -80,17 +72,16 @@ function HomeworkListScore() {
         try {
             axios.put(`http://localhost:8081/exersice/updateScoresubmit?score=${mark}&submitid=${e}`)
                 .then((response) => {
-                    console.log(response.data);
                     if (response.data === 1) {
                         alert("Thành Công Lưu");
                         setOldIndex(null);
                         var elementDisable = document.getElementById("inputCellDisable-" + index);
                         var elementNotDisable = document.getElementById("inputCellNotDisable-" + index);
-                        console.log("xxxxxx", elementDisable);
                         elementDisable.style.display = "flex";
                         elementNotDisable.style.display = "none";
 
                     }
+                    fetchData();
                 })
                 .catch((error) => {
                     console.error(error);
@@ -123,7 +114,7 @@ function HomeworkListScore() {
         <Box>
             <Box sx={{ width: '98%', marginTop: "20px", borderRadius: "5px", marginLeft: "1%", marginRight: "1%", backgroundColor: "#E2D6D6" }}>
                 <Typography sx={{ fontSize: "40px", marginLeft: "2%", fontFamily: "cursive", paddingBottom: "20px" }}>Danh sách bài tập về nhà</Typography>
-                <Typography sx={{ fontSize: "30px", marginLeft: "2%", fontFamily: "cursive", paddingBottom: "20px" }}>{tutor.coursename} {tutor.classname}-{dataHomework[0]?.studentname}</Typography>
+                <Typography sx={{ fontSize: "30px", marginLeft: "2%", fontFamily: "cursive", paddingBottom: "20px" }}>{tutor.fullname}</Typography>
             </Box>
             <Box sx={{ width: '98%', marginTop: "20px", borderRadius: "5px", marginLeft: "1%", marginRight: "1%", backgroundColor: "#E2D6D6" }}>
                 <TableContainer component={Paper} sx={{}}>
