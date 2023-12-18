@@ -8,37 +8,48 @@ function StudentGrade() {
     const { bookid } = useParams();
     const [home, setHome] = useState([]);
     const [classroom, setClassroom] = useState([]);
+    const CancelToken = axios.CancelToken;
+    const source = CancelToken.source();
 
     useEffect(() => {
         axios
-            .get(`http://localhost:8081/course/tutorexercise?bookid=${bookid}`)
+            .get(`http://localhost:8081/course/tutorexercise?bookid=${bookid}`,
+                {
+                    cancelToken: source.token,
+                })
             .then((response) => {
                 setTutor(response.data);
             })
             .catch((error) => {
                 console.error(error);
             });
-    }, [bookid]);
+    });
     useEffect(() => {
         axios
-            .get(`http://localhost:8081/exersice/scoreexercise?bookid=${bookid}`)
+            .get(`http://localhost:8081/exersice/scoreexercise?bookid=${bookid}`,
+                {
+                    cancelToken: source.token,
+                })
             .then((response) => {
                 setHome(response.data);
             })
             .catch((error) => {
                 console.error(error);
             });
-    }, [bookid]);
+    });
     useEffect(() => {
         axios
-            .get(`http://localhost:8081/exersice/scoreclassroom/${bookid}`)
+            .get(`http://localhost:8081/exersice/scoreclassroom/${bookid}`,
+                {
+                    cancelToken: source.token,
+                })
             .then((response) => {
                 setClassroom(response.data);
             })
             .catch((error) => {
                 console.error(error);
             });
-    }, [bookid]);
+    });
 
     return (
         <Box>

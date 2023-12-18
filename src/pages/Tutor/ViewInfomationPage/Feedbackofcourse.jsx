@@ -15,9 +15,14 @@ function Feedbackofcourse() {
   const decodedToken = jwtDecode(localStorage.getItem('token'));
   const [course, setCourse] = useState([]);
   const [data, setData] = useState([]);
+  const CancelToken = axios.CancelToken;
+  const source = CancelToken.source();
   useEffect(() => {
     axios
-      .get(`http://localhost:8081/educonnect/studentviewdetailtutor?tutorid=${decodedToken.id}`)
+      .get(`http://localhost:8081/educonnect/studentviewdetailtutor?tutorid=${decodedToken.id}`,
+        {
+          cancelToken: source.token,
+        })
       .then((response) => {
         setTutor(response.data);
       })
@@ -25,7 +30,10 @@ function Feedbackofcourse() {
         console.error(error);
       });
     axios
-      .get(`http://localhost:8081/educonnect/tutor/listcourse?tutorid=${decodedToken.id}`)
+      .get(`http://localhost:8081/educonnect/tutor/listcourse?tutorid=${decodedToken.id}`,
+        {
+          cancelToken: source.token,
+        })
       .then((response) => {
         setCourse(response.data);
       })
@@ -33,14 +41,17 @@ function Feedbackofcourse() {
         console.error(error);
       });
     axios
-      .get(`http://localhost:8081/educonnect/feedbackofcourse/${decodedToken.id}/${classcourseid}`)
+      .get(`http://localhost:8081/educonnect/feedbackofcourse/${decodedToken.id}/${classcourseid}`,
+        {
+          cancelToken: source.token,
+        })
       .then((response) => {
         setData(response.data);
       })
       .catch((error) => {
         console.error(error);
       });
-  }, [decodedToken.id, classcourseid]);
+  });
 
   return (
     <Box>

@@ -11,6 +11,8 @@ function CalendarStudent() {
     const [data, setData] = useState([]);
     const decodedToken = jwtDecode(localStorage.getItem('token'));
     const userId = decodedToken.id;
+    const CancelToken = axios.CancelToken;
+    const source = CancelToken.source();
 
     const fetchUser = useCallback(async () => {
         try {
@@ -20,13 +22,16 @@ function CalendarStudent() {
                     headers: {
                         "Content-Type": "application/json",
                     },
+                },
+                {
+                    cancelToken: source.token,
                 }
             );
             setUser(response.data);
         } catch (error) {
             console.error(error);
         }
-    }, [userId]);
+    });
 
     useEffect(() => {
         axios

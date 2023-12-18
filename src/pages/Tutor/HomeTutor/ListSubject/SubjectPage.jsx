@@ -12,16 +12,21 @@ function SubjectPage() {
     const [data, setData] = useState([]);
     const decodedToken = jwtDecode(localStorage.getItem('token'));
     const userId = decodedToken.id;
+    const CancelToken = axios.CancelToken;
+    const source = CancelToken.source();
     useEffect(() => {
         axios
-            .get(`http://localhost:8081/educonnect/tutor/course?tutorid=${userId}`)
+            .get(`http://localhost:8081/educonnect/tutor/course?tutorid=${userId}`,
+                {
+                    cancelToken: source.token,
+                })
             .then((response) => {
                 setData(response.data);
             })
             .catch((error) => {
                 console.error(error);
             });
-    }, [userId]);
+    });
 
     return (
         <Box className="body">

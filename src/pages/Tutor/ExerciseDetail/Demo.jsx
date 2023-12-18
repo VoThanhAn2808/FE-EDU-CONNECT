@@ -20,14 +20,22 @@ function Demo() {
     const decodedToken = jwtDecode(localStorage.getItem('token'));
     const [pages, setPages] = useState(1);
     const [page, setPage] = useState(1);
+    const CancelToken = axios.CancelToken;
+    const source = CancelToken.source();
     useEffect(() => {
-        axios.get(`http://localhost:8081/educonnect/viewtutorcourse?classcourseid=${classcourseid}&tutorid=${decodedToken.id}`)
+        axios.get(`http://localhost:8081/educonnect/viewtutorcourse?classcourseid=${classcourseid}&tutorid=${decodedToken.id}`,
+            {
+                cancelToken: source.token,
+            })
             .then((response) => {
                 setTutor(response.data);
             })
             .catch((error) => {
             })
-        axios.get(`http://localhost:8081/demo/listdemobyclasscourse?classcourseid=${classcourseid}`)
+        axios.get(`http://localhost:8081/demo/listdemobyclasscourse?classcourseid=${classcourseid}`,
+            {
+                cancelToken: source.token,
+            })
             .then((response) => {
 
                 setDemoList(response.data);
@@ -35,7 +43,10 @@ function Demo() {
             .catch((error) => {
                 console.error(error);
             });
-        axios.get(`http://localhost:8081/demo/totalpagedemo?classcourseid=${classcourseid}`)
+        axios.get(`http://localhost:8081/demo/totalpagedemo?classcourseid=${classcourseid}`,
+            {
+                cancelToken: source.token,
+            })
             .then((response) => {
 
                 setPage(response.data);
@@ -43,7 +54,7 @@ function Demo() {
             .catch((error) => {
                 console.error(error);
             });
-    }, [classcourseid, decodedToken.id]);
+    });
 
     const handlePageChange = (event, pageNumber) => {
         setPages(pageNumber);

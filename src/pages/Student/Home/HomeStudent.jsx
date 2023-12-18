@@ -48,18 +48,21 @@ function Home() {
         } catch (error) {
             console.error(error);
         }
-    }, [userId]);
+    });
 
     const fetchStudentData = useCallback(async () => {
         try {
             const studentResponse = await axios.get(
-                `http://localhost:8081/course/listcourseforstudent?classcourseid=${user.classId}&studentid=${user.studentid}`
+                `http://localhost:8081/course/listcourseforstudent?classcourseid=${user.classId}&studentid=${user.studentid}`,
+                {
+                    cancelToken: source.token,
+                }
             );
             setStudentData(studentResponse.data);
         } catch (error) {
             console.error(error);
         }
-    }, [user.classId, user.studentid]);
+    });
 
     useEffect(() => {
         fetchUser();
@@ -85,7 +88,7 @@ function Home() {
             .catch((error) => {
                 console.error(error);
             });
-    }, []);
+    });
     return (
         <Box sx={{ marginBottom: "80px" }}>
             <Slide />

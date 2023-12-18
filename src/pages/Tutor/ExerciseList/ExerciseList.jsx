@@ -2,8 +2,8 @@ import axios from 'axios';
 import MoreHorizIcon from '@mui/icons-material/MoreHoriz';
 import * as React from 'react';
 import { useState, useEffect } from 'react';
-import { Link, useParams } from "react-router-dom";
-import { Alert, Snackbar, Avatar, Box, Button, Menu, MenuItem, Modal, Pagination, Paper, Table, TableBody, TableCell, TableContainer, TableHead, TableRow, Typography } from "@mui/material";
+import { Link} from "react-router-dom";
+import { Alert, Snackbar, Box, Button, Menu, MenuItem, Paper, Table, TableBody, TableCell, TableContainer, TableHead, TableRow} from "@mui/material";
 function ExerciseTable(props) {
   const [res, setRes] = useState(props.data);
   const [showSnackbar, setShowSnackbar] = useState(false);

@@ -12,6 +12,8 @@ function ExerciseListPage() {
   const [course, setCourse] = useState('');
   const { bookid } = useParams();
   const [showSnackbar, setShowSnackbar] = useState(false);
+  const CancelToken = axios.CancelToken;
+  const source = CancelToken.source();
 
   const handleCloseSnackbar = () => {
     setShowSnackbar(false);
@@ -30,7 +32,10 @@ function ExerciseListPage() {
 
   const [data, setData] = useState([]);
   const fetchData = () => {
-    axios.get(`http://localhost:8081/exersice/findexersice?bookid=${bookid}`)
+    axios.get(`http://localhost:8081/exersice/findexersice?bookid=${bookid}`,
+      {
+        cancelToken: source.token,
+      })
       .then((response) => {
         if (response && response.data) {
           setData(response.data);
@@ -43,7 +48,7 @@ function ExerciseListPage() {
 
   useEffect(() => {
     fetchData()
-  }, [bookid]);
+  });
 
 
   const style = {

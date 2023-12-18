@@ -10,17 +10,22 @@ import axios from "axios";
 function SubjectPage() {
     const [data, setData] = useState([]);
     const { id } = useParams();
+    const CancelToken = axios.CancelToken;
+    const source = CancelToken.source();
 
     useEffect(() => {
         axios
-            .get("http://localhost:8081/course/findCourseByClass?classcourseid=" + id)
+            .get("http://localhost:8081/course/findCourseByClass?classcourseid=" + id,
+                {
+                    cancelToken: source.token,
+                })
             .then((response) => {
                 setData(response.data);
             })
             .catch((error) => {
                 console.error(error);
             });
-    }, [id]);
+    });
 
     return (
         <Box className="body">

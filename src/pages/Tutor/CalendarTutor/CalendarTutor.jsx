@@ -22,6 +22,8 @@ function CalendarTutor() {
     const handleClose4 = () => setOpen4(false);
     const [errorMessage, setErrorMessage] = useState('');
     const [openSnackbar, setOpenSnackbar] = useState(false);
+    const CancelToken = axios.CancelToken;
+    const source = CancelToken.source();
 
     const handleLinkClick = async (date, timeid, event) => {
         event.preventDefault();
@@ -59,13 +61,16 @@ function CalendarTutor() {
                     headers: {
                         "Content-Type": "application/json",
                     },
+                },
+                {
+                    cancelToken: source.token,
                 }
             );
             setUser(response.data);
         } catch (error) {
             console.error(error);
         }
-    }, [userId]);
+    });
 
     useEffect(() => {
         fetchUser();
@@ -101,13 +106,16 @@ function CalendarTutor() {
     const fetchStudentData = useCallback(async () => {
         try {
             const studentResponse = await axios.get(
-                `http://localhost:8081/schedule/studentscheduletutor?tutorid=${userId}&week=${week}&year=${year}`
+                `http://localhost:8081/schedule/studentscheduletutor?tutorid=${userId}&week=${week}&year=${year}`,
+                {
+                    cancelToken: source.token,
+                }
             );
             setScheduleData(studentResponse.data);
         } catch (error) {
             console.error(error);
         }
-    }, [week, year, userId]);
+    });
 
     useEffect(() => {
         if (week && userId && year) {

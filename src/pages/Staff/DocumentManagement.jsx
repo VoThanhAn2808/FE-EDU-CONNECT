@@ -16,6 +16,8 @@ function DocumentManagement() {
     const [snackbarOpen, setSnackbarOpen] = useState(false);
     const [snackbarMessage, setSnackbarMessage] = useState('');
     const [snackbarType, setSnackbarType] = useState('success');
+    const CancelToken = axios.CancelToken;
+    const source = CancelToken.source();
 
     const showSnackbar = (message, type) => {
         setSnackbarMessage(message);
@@ -36,26 +38,32 @@ function DocumentManagement() {
     };
     const fetchData = useCallback((pageNumber) => {
         axios
-            .get(`http://localhost:8081/staffsconnect/listtutorregistersforlessons?page=${pageNumber}&staffid=${decodedToken.id}`)
+            .get(`http://localhost:8081/staffsconnect/listtutorregistersforlessons?page=${pageNumber}&staffid=${decodedToken.id}`,
+                {
+                    cancelToken: source.token,
+                })
             .then((response) => {
                 setData(response.data);
             })
             .catch((error) => {
                 console.error(error);
             });
-    }, [decodedToken.id]);
+    });
 
     useEffect(() => {
         fetchData(page);
         axios
-            .get(`http://localhost:8081/staffsconnect/totalpageTutor?staffid=${decodedToken.id}`)
+            .get(`http://localhost:8081/staffsconnect/totalpageTutor?staffid=${decodedToken.id}`,
+                {
+                    cancelToken: source.token,
+                })
             .then((response) => {
                 setPages(response.data);
             })
             .catch((error) => {
                 console.error(error);
             });
-    }, [decodedToken.id, fetchData, page]);
+    });
 
     const handleClickChange = async (event, fileid, status) => {
         event.preventDefault();

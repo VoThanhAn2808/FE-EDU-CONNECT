@@ -1,11 +1,8 @@
-import { Avatar, Box, Button, TextField, Menu, MenuItem, Modal, Pagination, Paper, Table, TableBody, TableCell, TableContainer, TableHead, TableRow, Typography } from "@mui/material";
+import { Box, Button, TextField, Paper, Table, TableBody, TableCell, TableContainer, TableHead, TableRow, Typography } from "@mui/material";
 import axios from 'axios';
-import SchoolIcon from '@mui/icons-material/School';
-import CheckCircleOutlineIcon from '@mui/icons-material/CheckCircleOutline';
-import InsertDriveFileIcon from '@mui/icons-material/InsertDriveFile';
 import * as React from 'react';
 import { useState, useEffect } from 'react';
-import { Link, useParams } from "react-router-dom";
+import { useParams } from "react-router-dom";
 import { jwtDecode } from 'jwt-decode';
 function ClassroomListScore() {
     const [dataClassroomScore, setDataClassroomScore] = useState([]);
@@ -15,13 +12,18 @@ function ClassroomListScore() {
     const [oldIndex, setOldIndex] = useState('');
     const [shouldDisable, setShouldDisable] = useState(false);
     const [tutor, setTutor] = useState('');
+    const CancelToken = axios.CancelToken;
+    const source = CancelToken.source();
     const [scoreClassroom, setScoreClassroom] = useState({
         scoreid: 0,
         score: 0
     });
 
     const getStudentByBookId = () => {
-        axios.get(`http://localhost:8081/student/getStudentByBookId?bookid=${bookid}`)
+        axios.get(`http://localhost:8081/student/getStudentByBookId?bookid=${bookid}`,
+            {
+                cancelToken: source.token,
+            })
             .then((response) => {
                 setTutor(response.data);
             })
@@ -31,7 +33,10 @@ function ClassroomListScore() {
     };
 
     const fetchData = () => {
-        axios.get(`http://localhost:8081/exersice/scoreclassroom/${bookid}`)
+        axios.get(`http://localhost:8081/exersice/scoreclassroom/${bookid}`,
+            {
+                cancelToken: source.token,
+            })
             .then((response) => {
                 setDataClassroomScore(response.data);
             })
@@ -43,7 +48,7 @@ function ClassroomListScore() {
     useEffect(() => {
         getStudentByBookId();
         fetchData();
-    }, [bookid]);
+    });
 
     const handleChange = (e) => {
         if (e.target.value.toLowerCase() === 'e') {

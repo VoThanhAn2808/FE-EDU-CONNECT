@@ -30,6 +30,8 @@ function Sidebar() {
   const [isSimulationClicked, setIsSimulationClicked] = React.useState(false);
   const [isDiscountClicked, setIsDiscountClicked] = React.useState(false);
   const [isPaymentClicked, setIsPaymentClicked] = React.useState(false);
+  const CancelToken = axios.CancelToken;
+const source = CancelToken.source();
 
   const handleHomeClick = () => {
     setIsHomeClicked(true);
@@ -171,14 +173,21 @@ const handlePaymentClick = () => {
   const [tutor, setTutor] = useState([]);
 
   useEffect(() => {
-    axios.get(`http://localhost:8081/staffsconnect/totalpayment?staffid=${decodedToken.id}`)
+    axios.get(`http://localhost:8081/staffsconnect/totalpayment?staffid=${decodedToken.id}`,
+    {
+      cancelToken: source.token,
+    })
       .then((response) => {
         setData(response.data);
       })
       .catch((error) => {
         console.error(error);
       });
-    axios.get(`http://localhost:8081/staffsconnect/countTutorRegistersForLessons?staffid=${decodedToken.id}`)
+    axios.get(`http://localhost:8081/staffsconnect/countTutorRegistersForLessons?staffid=${decodedToken.id}`,
+    {
+      cancelToken: source.token,
+    }
+    )
       .then((response) => {
         setFile(response.data);
       })
@@ -206,7 +215,7 @@ const handlePaymentClick = () => {
       .catch((error) => {
         console.error(error);
       });
-  }, [decodedToken.id]);
+  });
 
   return (
     <Box

@@ -29,6 +29,8 @@ function BookTime() {
     const handleOpen1 = () => setOpen1(true);
     const handleClose1 = () => setOpen1(false);
     const [image, setImage] = useState(null);
+    const CancelToken = axios.CancelToken;
+    const source = CancelToken.source();
     const handleImageChange = (e) => {
         const selectedImage = e.target.files[0];
         if (selectedImage) {
@@ -109,28 +111,34 @@ function BookTime() {
 
     useEffect(() => {
         axios
-            .get(`http://localhost:8081/book/timeandlesson?tutorid=${tutorId}&studentid=${decodedTokenRef.current.id}`)
+            .get(`http://localhost:8081/book/timeandlesson?tutorid=${tutorId}&studentid=${decodedTokenRef.current.id}`,
+                {
+                    cancelToken: source.token,
+                })
             .then((response) => {
                 setScheduleData(response.data);
             })
             .catch((error) => {
                 console.error(error);
             });
-    }, [tutorId, decodedTokenRef.current.id]);
+    });
 
     const decodedToken = jwtDecode(localStorage.getItem('token'));
 
     const [student, setStudent] = useState([]);
 
     useEffect(() => {
-        axios.get("http://localhost:8081/student/viewstudent?email=" + decodedToken.id)
+        axios.get("http://localhost:8081/student/viewstudent?email=" + decodedToken.id,
+            {
+                cancelToken: source.token,
+            })
             .then((response) => {
                 setStudent(response.data);
             })
             .catch((error) => {
                 console.error(error);
             });
-    }, [decodedToken.id]);
+    });
 
     const handleSubmit = async (event) => {
         event.preventDefault();

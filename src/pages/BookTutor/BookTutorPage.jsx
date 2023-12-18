@@ -17,42 +17,53 @@ function BookTutorPage() {
 
     const { tutorid } = useParams();
     const { classcourseid } = useParams();
+    const CancelToken = axios.CancelToken;
+    const source = CancelToken.source();
 
     useEffect(() => {
         axios
-            .get(`http://localhost:8081/educonnect/tutor/booktutor?tutorid=${tutorid}&classcourseid=${classcourseid}`)
+            .get(`http://localhost:8081/educonnect/tutor/booktutor?tutorid=${tutorid}&classcourseid=${classcourseid}`,
+                {
+                    cancelToken: source.token,
+                })
             .then((response) => {
                 setData(response.data);
             })
             .catch((error) => {
                 console.error(error);
             });
-    }, [tutorid, classcourseid]);
+    });
     const [page, setPage] = useState([]);
 
     useEffect(() => {
         axios
-            .get(`http://localhost:8081/tutorByCourse/find4TutorByCourse?CourseId=${classcourseid}`)
+            .get(`http://localhost:8081/tutorByCourse/find4TutorByCourse?CourseId=${classcourseid}`,
+            {
+                cancelToken: source.token,
+              })
             .then((response) => {
                 setPage(response.data);
             })
             .catch((error) => {
                 console.error(error);
             });
-    }, [classcourseid]);
+    });
 
     const [course, setCourse] = useState([]);
 
     useEffect(() => {
         axios
-            .get(`http://localhost:8081/course/findCourseByTutor?tutorid=${tutorid}`)
+            .get(`http://localhost:8081/course/findCourseByTutor?tutorid=${tutorid}`,
+            {
+                cancelToken: source.token,
+              })
             .then((response) => {
                 setCourse(response.data);
             })
             .catch((error) => {
                 console.error(error);
             });
-    }, [tutorid]);
+    });
     return (
         <Box className="body">
             <Box className="body-tutor" >

@@ -32,6 +32,8 @@ function DiscountManagement() {
     const [searchValue, setSearchValue] = useState('');
     const [currentPage, setCurrentPage] = useState(1);
     const [title, setTitle] = useState('');
+    const CancelToken = axios.CancelToken;
+    const source = CancelToken.source();
     const [dataToSend, setDataToSend] = useState({
         title: '',
         pageNo: '',
@@ -39,14 +41,17 @@ function DiscountManagement() {
     });
 
     useEffect(() => {
-        axios.post('http://localhost:8081/discount/listdiscount', dataToSend)
+        axios.post('http://localhost:8081/discount/listdiscount', dataToSend,
+            {
+                cancelToken: source.token,
+            })
             .then((response) => {
                 setDicount(response.data);
             })
             .catch((error) => {
                 console.error(error);
             });
-    }, [dataToSend]); //Thêm dependencies trống để chỉ gọi useEffect một lần sau componentDidMount
+    }); //Thêm dependencies trống để chỉ gọi useEffect một lần sau componentDidMount
 
     const handleKeyPress = (event) => {
         if (event.key === 'Enter') {

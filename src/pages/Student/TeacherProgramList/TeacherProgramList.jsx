@@ -19,67 +19,87 @@ function TeacherProgramList() {
     const [video, setVideo] = useState([]);
     const [classs, setClasss] = useState([]);
     const [home, setHome] = useState([]);
+    const CancelToken = axios.CancelToken;
+    const source = CancelToken.source();
     useEffect(() => {
         axios
-            .get(`http://localhost:8081/course/tutorexercise?bookid=${bookid}`)
+            .get(`http://localhost:8081/course/tutorexercise?bookid=${bookid}`,
+                {
+                    cancelToken: source.token,
+                })
             .then((response) => {
                 setData(response.data);
             })
             .catch((error) => {
                 console.error(error);
             });
-    }, [bookid]);
+    });
 
     useEffect(() => {
         axios
-            .get(`http://localhost:8081/exersice/findexersice?bookid=${bookid}`)
+            .get(`http://localhost:8081/exersice/findexersice?bookid=${bookid}`,
+                {
+                    cancelToken: source.token,
+                })
             .then((response) => {
                 setExercise(response.data);
             })
             .catch((error) => {
                 console.error(error);
             });
-    }, [bookid]);
+    });
     useEffect(() => {
         axios
-            .get(`http://localhost:8081/exersice/fileexercise?bookid=${bookid}`)
+            .get(`http://localhost:8081/exersice/fileexercise?bookid=${bookid}`,
+                {
+                    cancelToken: source.token,
+                })
             .then((response) => {
                 setFiles(response.data);
             })
             .catch((error) => {
                 console.error(error);
             });
-    }, [bookid]);
+    });
     useEffect(() => {
         axios
-            .get(`http://localhost:8081/exersice/videoexercise?bookid=${bookid}`)
+            .get(`http://localhost:8081/exersice/videoexercise?bookid=${bookid}`,
+                {
+                    cancelToken: source.token,
+                })
             .then((response) => {
                 setVideo(response.data);
             })
             .catch((error) => {
                 console.error(error);
             });
-    }, [bookid]);
+    });
     useEffect(() => {
         axios
-            .get(`http://localhost:8081/exersice/classroomexercise?bookid=${bookid}`)
+            .get(`http://localhost:8081/exersice/classroomexercise?bookid=${bookid}`,
+                {
+                    cancelToken: source.token,
+                })
             .then((response) => {
                 setClasss(response.data);
             })
             .catch((error) => {
                 console.error(error);
             });
-    }, [bookid]);
+    });
     useEffect(() => {
         axios
-            .get(`http://localhost:8081/exersice/homeworkexercise?bookid=${bookid}`)
+            .get(`http://localhost:8081/exersice/homeworkexercise?bookid=${bookid}`,
+                {
+                    cancelToken: source.token,
+                })
             .then((response) => {
                 setHome(response.data);
             })
             .catch((error) => {
                 console.error(error);
             });
-    }, [bookid]);
+    });
     const handleLinkClick = async (fileid, event, file) => {
         event.preventDefault();
         event.stopPropagation();

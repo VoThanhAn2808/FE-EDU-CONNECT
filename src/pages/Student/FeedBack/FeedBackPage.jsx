@@ -12,16 +12,21 @@ function Feedback() {
     const [feedbacks, setFeedback] = useState([]);
     const [note, setNote] = useState('');
     const student = jwtDecode(localStorage.getItem('token'));
+    const CancelToken = axios.CancelToken;
+    const source = CancelToken.source();
     useEffect(() => {
         axios
-            .get("http://localhost:8081/student/feedback/" + student.id)
+            .get("http://localhost:8081/student/feedback/" + student.id,
+                {
+                    cancelToken: source.token,
+                })
             .then((response) => {
                 setFeedback(response.data);
             })
             .catch((error) => {
                 console.error(error);
             });
-    }, [student.id]);
+    });
 
     const handleSubmitFB = async (event, feedbackid) => {
         event.preventDefault();

@@ -12,17 +12,22 @@ function ListTutor() {
     const [pages, setPages] = useState(1);
     const [pageTop, setPageTop] = useState(1);
     const [searchName, setSearchName] = useState('');
+    const CancelToken = axios.CancelToken;
+    const source = CancelToken.source();
 
     const fetchData = useCallback((pageNumber) => {
         axios
-            .get(`http://localhost:8081/tutorByCourse/findTutorByCourse?courseid=${id}&page=${pageNumber}`)
+            .get(`http://localhost:8081/tutorByCourse/findTutorByCourse?courseid=${id}&page=${pageNumber}`,
+                {
+                    cancelToken: source.token,
+                })
             .then((response) => {
                 setData(response.data);
             })
             .catch((error) => {
                 console.error(error);
             });
-    }, [id]);
+    });
 
     useEffect(() => {
         fetchData(pages);
@@ -35,14 +40,17 @@ function ListTutor() {
     const [top, setTop] = useState([]);
     const fetchTop = useCallback((pageNumber) => {
         axios
-            .get(`http://localhost:8081/educonnect/ListAllDecsTutor?courseid=${id}&page=${pageNumber}`)
+            .get(`http://localhost:8081/educonnect/ListAllDecsTutor?courseid=${id}&page=${pageNumber}`,
+                {
+                    cancelToken: source.token,
+                })
             .then((response) => {
                 setTop(response.data);
             })
             .catch((error) => {
                 console.error(error);
             });
-    }, [id]);
+    });
     useEffect(() => {
         fetchTop(pageTop);
     }, [pageTop, fetchTop]);
@@ -55,27 +63,33 @@ function ListTutor() {
 
     useEffect(() => {
         axios
-            .get(`http://localhost:8081/tutorByCourse/pagetutor/${id}`)
+            .get(`http://localhost:8081/tutorByCourse/pagetutor/${id}`,
+                {
+                    cancelToken: source.token,
+                })
             .then((response) => {
                 setPage(response.data);
             })
             .catch((error) => {
                 console.error(error);
             });
-    }, [id]);
+    });
 
     const [cpage, setCpage] = useState(1);
 
     useEffect(() => {
         axios
-            .get("http://localhost:8081/educonnect/countpage?classcourseid=" + id)
+            .get("http://localhost:8081/educonnect/countpage?classcourseid=" + id,
+                {
+                    cancelToken: source.token,
+                })
             .then((response) => {
                 setCpage(response.data);
             })
             .catch((error) => {
                 console.error(error);
             });
-    }, [id]);
+    });
 
     const handleSearchChange = (event) => {
         setSearchName(event.target.value);

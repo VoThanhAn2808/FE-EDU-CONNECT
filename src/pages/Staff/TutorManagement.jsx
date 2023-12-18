@@ -20,6 +20,8 @@ function TutorManagement() {
     const [snackbarOpen, setSnackbarOpen] = useState(false);
     const [snackbarMessage, setSnackbarMessage] = useState('');
     const [snackbarType, setSnackbarType] = useState('success');
+    const CancelToken = axios.CancelToken;
+    const source = CancelToken.source();
 
     const showSnackbar = (message, type) => {
         setSnackbarMessage(message);
@@ -48,14 +50,17 @@ function TutorManagement() {
 
     const fetchTop = useCallback((pageNumber) => {
         axios
-            .get(`http://localhost:8081/staffsconnect/tutor/${decodedToken.id}/${pageNumber}`)
+            .get(`http://localhost:8081/staffsconnect/tutor/${decodedToken.id}/${pageNumber}`,
+                {
+                    cancelToken: source.token,
+                })
             .then((response) => {
                 setData(response.data);
             })
             .catch((error) => {
                 console.error(error);
             });
-    }, [decodedToken.id]);
+    });
     const [page, setPage] = useState(1);
     const [total, settotal] = useState([]);
     useEffect(() => {
@@ -66,7 +71,10 @@ function TutorManagement() {
     };
     useEffect(() => {
         axios
-            .get(`http://localhost:8081/staffsconnect/totaltutor?staffid=${decodedToken.id}`)
+            .get(`http://localhost:8081/staffsconnect/totaltutor?staffid=${decodedToken.id}`,
+                {
+                    cancelToken: source.token,
+                })
             .then((response) => {
                 settotal(response.data);
             })
@@ -107,7 +115,7 @@ function TutorManagement() {
                     console.error(error);
                 });
         }
-    }, [tutor, decodedToken.id]);
+    });
     const handleClickClasscourse = async (tutorid, event) => {
         event.preventDefault();
         event.stopPropagation();

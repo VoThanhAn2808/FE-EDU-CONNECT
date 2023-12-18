@@ -10,41 +10,52 @@ import { useParams } from "react-router";
 
 function ViewInfomationPage() {
   const [tutor, setTutor] = useState([]);
-  const {tutorid} = useParams();
+  const { tutorid } = useParams();
+  const CancelToken = axios.CancelToken;
+  const source = CancelToken.source();
 
   useEffect(() => {
     axios
-      .get(`http://localhost:8081/educonnect/studentviewdetailtutor?tutorid=${tutorid}`)
+      .get(`http://localhost:8081/educonnect/studentviewdetailtutor?tutorid=${tutorid}`,
+        {
+          cancelToken: source.token,
+        })
       .then((response) => {
         setTutor(response.data);
       })
       .catch((error) => {
         console.error(error);
       });
-  }, [tutorid]);
+  });
   const [data, setData] = useState([]);
   useEffect(() => {
     axios
-      .get(`http://localhost:8081/student/feedbackbooking/${tutorid}`)
+      .get(`http://localhost:8081/student/feedbackbooking/${tutorid}`,
+        {
+          cancelToken: source.token,
+        })
       .then((response) => {
         setData(response.data);
       })
       .catch((error) => {
         console.error(error);
       });
-  }, [tutorid]);
+  });
 
   const [course, setCourse] = useState([]);
   useEffect(() => {
     axios
-      .get(`http://localhost:8081/educonnect/tutor/listcourse?tutorid=${tutorid}`)
+      .get(`http://localhost:8081/educonnect/tutor/listcourse?tutorid=${tutorid}`,
+        {
+          cancelToken: source.token,
+        })
       .then((response) => {
         setCourse(response.data);
       })
       .catch((error) => {
         console.error(error);
       });
-  }, [tutorid]);
+  });
   return (
     <Box>
       <Box
@@ -66,7 +77,7 @@ function ViewInfomationPage() {
             emptyIcon={<StarIcon style={{ fontSize: '50px', color: '#e0e0e0' }} />}
             icon={<StarIcon style={{ fontSize: '50px', color: '#ffc107' }} />}
             sx={{
-              marginTop: '20px',marginLeft: '320px'
+              marginTop: '20px', marginLeft: '320px'
             }}
           />
         </Box>

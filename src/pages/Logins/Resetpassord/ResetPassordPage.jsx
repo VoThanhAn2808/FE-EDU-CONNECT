@@ -6,6 +6,8 @@ import Button from '@mui/joy/Button';
 import { Visibility, VisibilityOff } from '@mui/icons-material';
 import { useParams } from 'react-router-dom';
 import axios from 'axios';
+import { Snackbar, Alert } from '@mui/material';
+
 
 function ResetPassword() {
     const [showNewPassword, setShowNewPassword] = useState(false);
@@ -80,11 +82,21 @@ function ResetPassword() {
                 },
                 config
             );
-            alert("Thay đổi mật khẩu thành công")
+            setAlertMessage("Thay đổi mật khẩu thành công")
+            setAlertSeverity('success');
+            setShowAlert(true);
             window.location.href = '/login';
         } catch (error) {
             console.error(error);
         }
+    };
+    const [showAlert, setShowAlert] = useState(false);
+    const [alertMessage, setAlertMessage] = useState('');
+    const [alertSeverity, setAlertSeverity] = useState('success');
+
+
+    const handleAlertClose = () => {
+        setShowAlert(false);
     };
 
     return (
@@ -211,6 +223,15 @@ function ResetPassword() {
                         >
                             Đổi Mật Khẩu
                         </Button>
+                        <Snackbar open={showAlert}
+                            autoHideDuration={5000}
+                            onClose={handleAlertClose}
+                            anchorOrigin={{ vertical: 'top', horizontal: 'center' }}
+                        >
+                            <Alert onClose={handleAlertClose} severity={alertSeverity} sx={{ backgroundColor: alertSeverity === 'error' ? '#ffee58' : '#4caf50', fontSize: "15px" }}>
+                                {alertMessage}
+                            </Alert>
+                        </Snackbar>
                     </Box>
                 </form>
                 <Typography

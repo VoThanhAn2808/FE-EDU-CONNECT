@@ -21,6 +21,8 @@ function ManagerStudent() {
     const [tutor, setTutor] = useState('');
     const [book, setBook] = useState('');
     const { courseId } = useParams();
+    const CancelToken = axios.CancelToken;
+    const source = CancelToken.source();
 
     useEffect(() => {
         const intervalId = setInterval(() => {
@@ -31,25 +33,34 @@ function ManagerStudent() {
     }, []);
 
     useEffect(() => {
-        axios.get(`http://localhost:8081/educonnect/tutor/studentfinished?tutorid=${decodedToken.id}&page=${page}&status=${status}&courseid=${courseId}`)
+        axios.get(`http://localhost:8081/educonnect/tutor/studentfinished?tutorid=${decodedToken.id}&page=${page}&status=${status}&courseid=${courseId}`,
+            {
+                cancelToken: source.token,
+            })
             .then((response) => {
                 setListStudentfinished(response.data);
             })
             .catch((error) => {
             })
-        axios.get(`http://localhost:8081/educonnect/countstudent?tutorid=${decodedToken.id}&status=${status}&courseid=${courseId}`)
+        axios.get(`http://localhost:8081/educonnect/countstudent?tutorid=${decodedToken.id}&status=${status}&courseid=${courseId}`,
+            {
+                cancelToken: source.token,
+            })
             .then((response) => {
                 setPageCount(response.data);
             })
             .catch((error) => {
             })
-        axios.get(`http://localhost:8081/educonnect/viewtutorcourse?classcourseid=${courseId}&tutorid=${decodedToken.id}`)
+        axios.get(`http://localhost:8081/educonnect/viewtutorcourse?classcourseid=${courseId}&tutorid=${decodedToken.id}`,
+            {
+                cancelToken: source.token,
+            })
             .then((response) => {
                 setTutor(response.data);
             })
             .catch((error) => {
             })
-    }, [page, status, courseId, decodedToken.id]);
+    });
 
 
     const handleOpenUserMenu = (event, studentId, bookid) => {
@@ -72,7 +83,10 @@ function ManagerStudent() {
         }
     };
     const handleOpen = () => {
-        axios.get(`http://localhost:8081/educonnect/tutor/student/viewprofile/timeline?tutorid=${decodedToken.id}&studentid=${studentid}&courseid=${courseId}`)
+        axios.get(`http://localhost:8081/educonnect/tutor/student/viewprofile/timeline?tutorid=${decodedToken.id}&studentid=${studentid}&courseid=${courseId}`,
+            {
+                cancelToken: source.token,
+            })
             .then((response) => {
                 setResponseDataDetail(response.data)
                 setOpen(true);

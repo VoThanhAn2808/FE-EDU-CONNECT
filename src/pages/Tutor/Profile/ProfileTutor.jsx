@@ -26,6 +26,8 @@ const ProfileTutor = () => {
   const [isEditing, setIsEditing] = useState(true);
   const [city, setCity] = useState([]);
   const [wards, setWards] = useState([]);
+  const CancelToken = axios.CancelToken;
+  const source = CancelToken.source();
 
 
   const fetchUser = useCallback(async () => {
@@ -37,12 +39,15 @@ const ProfileTutor = () => {
             'Content-Type': 'application/json',
           },
         },
+        {
+          cancelToken: source.token,
+        }
       );
       setUserData({ ...response.data, email: decodedToken.sub });
     } catch (error) {
       console.error(error);
     }
-  }, [userId, decodedToken.sub]);
+  });
 
   const fetchCourse = useCallback(async () => {
     try {
@@ -53,12 +58,15 @@ const ProfileTutor = () => {
             'Content-Type': 'application/json',
           },
         },
+        {
+          cancelToken: source.token,
+        }
       );
       setUserData((prevUserData) => ({ ...prevUserData, courseList: response.data }));
     } catch (error) {
       console.error(error);
     }
-  }, [userId]);
+  });
 
 
   useEffect(() => {

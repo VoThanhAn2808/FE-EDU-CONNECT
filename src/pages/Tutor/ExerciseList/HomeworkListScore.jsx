@@ -1,7 +1,5 @@
-import { Avatar, Box, Button, TextField, Menu, MenuItem, Modal, Pagination, Paper, Table, TableBody, TableCell, TableContainer, TableHead, TableRow, Typography } from "@mui/material";
+import { Box, Button, TextField, Paper, Table, TableBody, TableCell, TableContainer, TableHead, TableRow, Typography } from "@mui/material";
 import axios from 'axios';
-import SchoolIcon from '@mui/icons-material/School';
-import CheckCircleOutlineIcon from '@mui/icons-material/CheckCircleOutline';
 import InsertDriveFileIcon from '@mui/icons-material/InsertDriveFile';
 import * as React from 'react';
 import { useState, useEffect } from 'react';
@@ -15,13 +13,18 @@ function HomeworkListScore() {
     const [mark, setMark] = useState('');
     const [oldIndex, setOldIndex] = useState('');
     const [shouldDisable, setShouldDisable] = useState(false);
+    const CancelToken = axios.CancelToken;
+    const source = CancelToken.source();
     const [rowStates, setRowStates] = useState(
         dataHomework.map((row) => ({ score: row.score, shouldDisable: false }))
     );
     const [tutor, setTutor] = useState('');
 
     const getStudentByBookId = () => {
-        axios.get(`http://localhost:8081/student/getStudentByBookId?bookid=${bookid}`)
+        axios.get(`http://localhost:8081/student/getStudentByBookId?bookid=${bookid}`,
+            {
+                cancelToken: source.token,
+            })
             .then((response) => {
                 setTutor(response.data);
             })
@@ -31,7 +34,10 @@ function HomeworkListScore() {
     };
 
     const fetchData = () => {
-        axios.get(`http://localhost:8081/exersice/homeworkviewbytutor?bookid=${bookid}`)
+        axios.get(`http://localhost:8081/exersice/homeworkviewbytutor?bookid=${bookid}`,
+            {
+                cancelToken: source.token,
+            })
             .then((response) => {
                 setDataHomework(response.data);
             })
@@ -43,7 +49,7 @@ function HomeworkListScore() {
     useEffect(() => {
         getStudentByBookId();
         fetchData();
-    }, [bookid]);
+    });
 
     const handleChange = (e) => {
         if (e.target.value.toLowerCase() === 'e') {
