@@ -58,7 +58,7 @@ export default function CreateModal(props) {
 
       // Check if the selected file type is in the allowed types
       if (!allowedTypes.includes(selectedImage.type)) {
-        showSnackbar("Làm ơn chọn hình ảnh có đuôi(JPG, JPEG, GIF, PNG, SVG)! ", "warning");
+        showSnackbar("Làm ơn chọn file theo định dạng (JPG, JPEG, GIF, PNG, SVG)! ", "warning");
         // Clear the input if an invalid file is selected
         e.target.value = null;
         return;
