@@ -9,7 +9,8 @@ import { AdapterDayjs } from '@mui/x-date-pickers/AdapterDayjs';
 import { DatePicker } from '@mui/x-date-pickers/DatePicker';
 import { jwtDecode } from "jwt-decode";
 import axios from "axios";
-
+import { Snackbar, Alert } from '@mui/material';
+import MuiAlert from '@mui/material/Alert';
 const style = {
   position: 'absolute',
   top: '50%',
@@ -34,6 +35,21 @@ export default function CreateModal(props) {
 
   const handleClose = () => setOpen(false);
 
+
+  const [snackbarOpen, setSnackbarOpen] = useState(false);
+  const [snackbarMessage, setSnackbarMessage] = useState('');
+  const [snackbarType, setSnackbarType] = useState('success');
+
+  const showSnackbar = (message, type) => {
+    setSnackbarMessage(message);
+    setSnackbarType(type);
+    setSnackbarOpen(true);
+  };
+
+  const handleSnackbarClose = () => {
+    setSnackbarOpen(false);
+  };
+
   const handleImageChange = (e) => {
     const selectedImage = e.target.files[0];
     if (selectedImage) {
@@ -42,7 +58,7 @@ export default function CreateModal(props) {
 
       // Check if the selected file type is in the allowed types
       if (!allowedTypes.includes(selectedImage.type)) {
-        alert('Please select a valid image file (JPG, JPEG, GIF, PNG, SVG).');
+        showSnackbar("Làm ơn chọn hình ảnh có đuôi(JPG, JPEG, GIF, PNG, SVG)! ", "warning");
         // Clear the input if an invalid file is selected
         e.target.value = null;
         return;
@@ -78,7 +94,10 @@ export default function CreateModal(props) {
       });
       if (responseUploadImage.status === 200) {
         const response = await axios.post('http://localhost:8081/discount/adddiscount', myObject);
-        alert(response.data.message);
+        // alert(response.data.message);
+        if (response.data.message == "Save Successfully") {
+          showSnackbar("Lưu thành công", "success");
+        }
         handleClose();
         window.location.reload();
       } else {
@@ -200,6 +219,20 @@ export default function CreateModal(props) {
             </Grid>
           </form>
         </Container>
+        <Snackbar
+          open={snackbarOpen}
+          autoHideDuration={3000}
+          onClose={handleSnackbarClose}
+          anchorOrigin={{ vertical: 'top', horizontal: 'right' }}
+        >
+          <MuiAlert
+            onClose={handleSnackbarClose}
+            severity={snackbarType}
+            sx={{ width: '100%', fontSize: '15px' }}
+          >
+            {snackbarMessage}
+          </MuiAlert>
+        </Snackbar>
       </Box>
     </Modal>
   );

@@ -26,7 +26,7 @@ function SubjectPage() {
             .catch((error) => {
                 console.error(error);
             });
-    });
+    }, [userId]);
 
     return (
         <Box className="body">

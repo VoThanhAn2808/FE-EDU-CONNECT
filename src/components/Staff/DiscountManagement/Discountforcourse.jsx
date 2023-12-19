@@ -27,6 +27,20 @@ export default function DiscountForCourse(props) {
 
     const handleClose = () => setOpen(false);
 
+    const [snackbarOpen, setSnackbarOpen] = useState(false);
+    const [snackbarMessage, setSnackbarMessage] = useState('');
+    const [snackbarType, setSnackbarType] = useState('success');
+
+    const showSnackbar = (message, type) => {
+        setSnackbarMessage(message);
+        setSnackbarType(type);
+        setSnackbarOpen(true);
+    };
+
+    const handleSnackbarClose = () => {
+        setSnackbarOpen(false);
+    };
+
     useEffect(() => {
         axios
             .get(`http://localhost:8081/course/listcourse`)
@@ -56,10 +70,13 @@ export default function DiscountForCourse(props) {
                 discountid: discount,
                 courseid: course
             });
-            alert(response.data.message);
+            if (response.data.message == "Save Successfully") {
+                showSnackbar("Lưu thành công", "success");
+            }
             handleClose();
             window.location.reload();
         } catch (error) {
+            showSnackbar("Hệ thống lỗi.Liên hệ với admin để giải quyết!", "error");
             console.error('An error occurred during the API call', error);
         }
     };

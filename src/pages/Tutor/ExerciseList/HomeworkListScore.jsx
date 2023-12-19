@@ -5,6 +5,8 @@ import * as React from 'react';
 import { useState, useEffect } from 'react';
 import { Link, useParams } from "react-router-dom";
 import { jwtDecode } from 'jwt-decode';
+import { Snackbar, Alert } from '@mui/material';
+import MuiAlert from '@mui/material/Alert';
 function HomeworkListScore() {
     const [dataHomework, setDataHomework] = useState([]);
     const { classcourseid } = useParams();
@@ -19,6 +21,18 @@ function HomeworkListScore() {
         dataHomework.map((row) => ({ score: row.score, shouldDisable: false }))
     );
     const [tutor, setTutor] = useState('');
+
+    const [snackbarOpen, setSnackbarOpen] = useState(false);
+    const [snackbarMessage, setSnackbarMessage] = useState('');
+    const [snackbarType, setSnackbarType] = useState('success');
+    const showSnackbar = (message, type) => {
+        setSnackbarMessage(message);
+        setSnackbarType(type);
+        setSnackbarOpen(true);
+    };
+    const handleSnackbarClose = () => {
+        setSnackbarOpen(false);
+    };
 
     const getStudentByBookId = () => {
         axios.get(`http://localhost:8081/student/getStudentByBookId?bookid=${bookid}`,
@@ -49,7 +63,7 @@ function HomeworkListScore() {
     useEffect(() => {
         getStudentByBookId();
         fetchData();
-    });
+    }, [bookid]);
 
     const handleChange = (e) => {
         if (e.target.value.toLowerCase() === 'e') {
@@ -79,7 +93,7 @@ function HomeworkListScore() {
             axios.put(`http://localhost:8081/exersice/updateScoresubmit?score=${mark}&submitid=${e}`)
                 .then((response) => {
                     if (response.data === 1) {
-                        alert("Thành Công Lưu");
+                        showSnackbar("Lưu thành công", "success");
                         setOldIndex(null);
                         var elementDisable = document.getElementById("inputCellDisable-" + index);
                         var elementNotDisable = document.getElementById("inputCellNotDisable-" + index);
@@ -104,7 +118,7 @@ function HomeworkListScore() {
     const handleFixConfirmation = (e) => {
         setOldIndex(e);
         if (oldIndex != e && oldIndex != null) {
-            alert("Phải lưu điểm ");
+            showSnackbar("Phải lưu điểm!", "warning");
             return;
         }
         var elementDisable = document.getElementById("inputCellDisable-" + e);
@@ -196,6 +210,20 @@ function HomeworkListScore() {
                                         >
                                             Lưu
                                         </Button>
+                                        <Snackbar
+                                            open={snackbarOpen}
+                                            autoHideDuration={3000}
+                                            onClose={handleSnackbarClose}
+                                            anchorOrigin={{ vertical: 'top', horizontal: 'right' }}
+                                        >
+                                            <MuiAlert
+                                                onClose={handleSnackbarClose}
+                                                severity={snackbarType}
+                                                sx={{ width: '100%', fontSize: '15px' }}
+                                            >
+                                                {snackbarMessage}
+                                            </MuiAlert>
+                                        </Snackbar>
                                     </TableCell>
                                 </TableRow>
                             ))}
