@@ -42,7 +42,7 @@ const ProfileStudents = () => {
   const fetchUser = useCallback(async () => {
     try {
       const response = await axios.get(
-        `http://ec2-13-250-214-184.ap-southeast-1.compute.amazonaws.com:8081/student/viewstudent?email=${userId}`,
+        `http://localhost:8081/student/viewstudent?email=${userId}`,
         {
           headers: {
             'Content-Type': 'application/json',
@@ -91,7 +91,7 @@ const ProfileStudents = () => {
       formData.append('classentity', userData.classId);
 
       await axios.put(
-        'http://ec2-13-250-214-184.ap-southeast-1.compute.amazonaws.com:8081/student/updatestudent',
+        'http://localhost:8081/student/updatestudent',
         formData,
         {
           headers: {

@@ -150,7 +150,7 @@ function Header() {
         event.stopPropagation();
         try {
             await axios.post(
-                `http://ec2-13-250-214-184.ap-southeast-1.compute.amazonaws.com:8081/educonnect/paymenttutor`,
+                `http://localhost:8081/educonnect/paymenttutor`,
                 {
                     tutorid: tutorid,
                     money: money,
@@ -177,13 +177,13 @@ function Header() {
         try {
             if (role === 1) {
                 const check = await axios.get(
-                    `http://ec2-13-250-214-184.ap-southeast-1.compute.amazonaws.com:8081/student/checkstudent?studentid=${decodedTokenRef.current.id}`,
+                    `http://localhost:8081/student/checkstudent?studentid=${decodedTokenRef.current.id}`,
                 );
                 setCheckProfile(check.data);
             }
             if (role === 2) {
                 const check = await axios.get(
-                    `http://ec2-13-250-214-184.ap-southeast-1.compute.amazonaws.com:8081/educonnect/checktutor?tutorid=${decodedTokenRef.current.id}`,
+                    `http://localhost:8081/educonnect/checktutor?tutorid=${decodedTokenRef.current.id}`,
                 );
                 setCheckProfile(check.data);
             }
@@ -201,7 +201,7 @@ function Header() {
                 checkUserProfile(role);
                 if (role === 1) {
                     axios
-                        .get(`http://ec2-13-250-214-184.ap-southeast-1.compute.amazonaws.com:8081/student/viewstudent?email=${decodedTokenRef.current.id}`)
+                        .get(`http://localhost:8081/student/viewstudent?email=${decodedTokenRef.current.id}`)
                         .then((response) => {
                             setData(response.data);
                         })
@@ -210,7 +210,7 @@ function Header() {
                         });
                 } else if (role === 2) {
                     axios
-                        .get(`http://ec2-13-250-214-184.ap-southeast-1.compute.amazonaws.com:8081/educonnect/viewTutor?tutorId=${decodedTokenRef.current.id}`)
+                        .get(`http://localhost:8081/educonnect/viewTutor?tutorId=${decodedTokenRef.current.id}`)
                         .then((response) => {
                             setData(response.data);
                         })
@@ -218,7 +218,7 @@ function Header() {
                             console.error(error);
                         });
                     axios
-                        .get(`http://ec2-13-250-214-184.ap-southeast-1.compute.amazonaws.com:8081/educonnect/showbank?tutorid=${decodedTokenRef.current.id}`)
+                        .get(`http://localhost:8081/educonnect/showbank?tutorid=${decodedTokenRef.current.id}`)
                         .then((response) => {
                             setShow(response.data);
                         })
@@ -226,7 +226,7 @@ function Header() {
                             console.error(error);
                         });
                     axios
-                        .get(`http://ec2-13-250-214-184.ap-southeast-1.compute.amazonaws.com:8081/educonnect/historypay?tutorid=${decodedTokenRef.current.id}`)
+                        .get(`http://localhost:8081/educonnect/historypay?tutorid=${decodedTokenRef.current.id}`)
                         .then((response) => {
                             setHistory(response.data);
                         })
@@ -243,7 +243,7 @@ function Header() {
                         });
                 } else if (role === 3) {
                     axios
-                        .get(`http://ec2-13-250-214-184.ap-southeast-1.compute.amazonaws.com:8081/staffsconnect/ViewInfoStaff?staffId=${decodedTokenRef.current.id}`)
+                        .get(`http://localhost:8081/staffsconnect/ViewInfoStaff?staffId=${decodedTokenRef.current.id}`)
                         .then((response) => {
                             setData(response.data);
                         })
@@ -353,7 +353,7 @@ function Header() {
                                             {data.img && decodedTokenRef.current ? (
                                                 <Avatar
                                                     alt={data.fullname}
-                                                    src={`http://ec2-13-250-214-184.ap-southeast-1.compute.amazonaws.com:8081/edu/file/fileuser/${data.img}/${decodedTokenRef.current.id}`}
+                                                    src={`http://localhost:8081/edu/file/fileuser/${data.img}/${decodedTokenRef.current.id}`}
                                                     sx={{
                                                         height: "55px",
                                                         width: "55px",

@@ -46,7 +46,7 @@ const Sidebar = () => {
   const fetchUser = useCallback(async () => {
     try {
       const response = await axios.get(
-        `http://ec2-13-250-214-184.ap-southeast-1.compute.amazonaws.com:8081/student/viewstudent?email=${userId}`,
+        `http://localhost:8081/student/viewstudent?email=${userId}`,
         {
           headers: {
             "Content-Type": "application/json",
@@ -61,7 +61,7 @@ const Sidebar = () => {
   const fetchStudentData = useCallback(async () => {
     try {
       const studentResponse = await axios.get(
-        `http://ec2-13-250-214-184.ap-southeast-1.compute.amazonaws.com:8081/course/RegisteredCourse?StudentId=${user.studentid}`
+        `http://localhost:8081/course/RegisteredCourse?StudentId=${user.studentid}`
       );
       setStudentData(studentResponse.data);
     } catch (error) {

@@ -27,7 +27,7 @@ function ProfileAvatar({ userData, onFileChange, isEditing, role, uploadedFile }
   let avatarSrc;
 
   if (userData.img) {
-    avatarSrc = profilePic === null ? `http://ec2-13-250-214-184.ap-southeast-1.compute.amazonaws.com:8081/edu/file/fileuser/${userData.img}/${userId}` : profilePic;
+    avatarSrc = profilePic === null ? `http://localhost:8081/edu/file/fileuser/${userData.img}/${userId}` : profilePic;
   } else {
     avatarSrc = profilePic;
   }

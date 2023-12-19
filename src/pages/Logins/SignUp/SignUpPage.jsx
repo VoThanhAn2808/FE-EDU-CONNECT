@@ -34,7 +34,7 @@ function SignupPage() {
 
   useEffect(() => {
     axios
-      .get(`http://ec2-13-250-214-184.ap-southeast-1.compute.amazonaws.com:8081/student/class`)
+      .get(`http://localhost:8081/student/class`)
       .then((response) => {
         setData(response.data);
       })
@@ -139,7 +139,7 @@ function SignupPage() {
       formData.append('classentity', selectedClass ? selectedClass : 1);
       formData.append('file', files);
 
-      await axios.post('http://ec2-13-250-214-184.ap-southeast-1.compute.amazonaws.com:8081/edu/register', formData, {
+      await axios.post('http://localhost:8081/edu/register', formData, {
         headers: {
           'Content-Type': 'multipart/form-data',
         },

@@ -27,7 +27,7 @@ function FeedbackTutor() {
 
     useEffect(() => {
         axios
-            .get("http://ec2-13-250-214-184.ap-southeast-1.compute.amazonaws.com:8081/student/feedbacktutor/" + student.id)
+            .get("http://localhost:8081/student/feedbacktutor/" + student.id)
             .then((response) => {
                 setFeedback(response.data);
             })
@@ -48,7 +48,7 @@ function FeedbackTutor() {
 
         try {
             await axios.put(
-                "http://ec2-13-250-214-184.ap-southeast-1.compute.amazonaws.com:8081/student/feedback/update",
+                "http://localhost:8081/student/feedback/update",
                 {
                     feedbackid: detail.feedbackid,
                     notes: detail.note,
@@ -67,7 +67,7 @@ function FeedbackTutor() {
     const handleOpen = (feedbackid) => {
         try {
             axios
-                .get(`http://ec2-13-250-214-184.ap-southeast-1.compute.amazonaws.com:8081/student/detailfeeback/${feedbackid}`)
+                .get(`http://localhost:8081/student/detailfeeback/${feedbackid}`)
                 .then((response) => {
                     setDetail(response.data);
                 })

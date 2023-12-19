@@ -71,13 +71,13 @@ export default function CreateModal(props) {
     };
     try {
       //Upload image
-      const responseUploadImage = await axios.post('http://ec2-13-250-214-184.ap-southeast-1.compute.amazonaws.com:8081/edu/file/uploadImages', formData, {
+      const responseUploadImage = await axios.post('http://localhost:8081/edu/file/uploadImages', formData, {
         headers: {
           'Content-Type': 'multipart/form-data',
         },
       });
       if (responseUploadImage.status === 200) {
-        const response = await axios.post('http://ec2-13-250-214-184.ap-southeast-1.compute.amazonaws.com:8081/discount/adddiscount', myObject);
+        const response = await axios.post('http://localhost:8081/discount/adddiscount', myObject);
         alert(response.data.message);
         handleClose();
         window.location.reload();

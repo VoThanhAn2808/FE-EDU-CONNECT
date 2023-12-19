@@ -171,35 +171,35 @@ function Sidebar() {
   const [tutor, setTutor] = useState([]);
 
   useEffect(() => {
-    axios.get(`http://ec2-13-250-214-184.ap-southeast-1.compute.amazonaws.com:8081/staffsconnect/totalpayment?staffid=${decodedToken.id}`)
+    axios.get(`http://localhost:8081/staffsconnect/totalpayment?staffid=${decodedToken.id}`)
       .then((response) => {
         setData(response.data);
       })
       .catch((error) => {
         console.error(error);
       });
-    axios.get(`http://ec2-13-250-214-184.ap-southeast-1.compute.amazonaws.com:8081/staffsconnect/countTutorRegistersForLessons?staffid=${decodedToken.id}`)
+    axios.get(`http://localhost:8081/staffsconnect/countTutorRegistersForLessons?staffid=${decodedToken.id}`)
       .then((response) => {
         setFile(response.data);
       })
       .catch((error) => {
         console.error(error);
       });
-    axios.get(`http://ec2-13-250-214-184.ap-southeast-1.compute.amazonaws.com:8081/staffsconnect/counttrylearn`)
+    axios.get(`http://localhost:8081/staffsconnect/counttrylearn`)
       .then((response) => {
         setTry(response.data);
       })
       .catch((error) => {
         console.error(error);
       });
-    axios.get(`http://ec2-13-250-214-184.ap-southeast-1.compute.amazonaws.com:8081/staffsconnect/totalPageStudentRegistration`)
+    axios.get(`http://localhost:8081/staffsconnect/totalPageStudentRegistration`)
       .then((response) => {
         setBook(response.data);
       })
       .catch((error) => {
         console.error(error);
       });
-    axios.get(`http://ec2-13-250-214-184.ap-southeast-1.compute.amazonaws.com:8081/staffsconnect/countWaitForConfirmTutor`)
+    axios.get(`http://localhost:8081/staffsconnect/countWaitForConfirmTutor`)
       .then((response) => {
         setTutor(response.data);
       })

@@ -60,7 +60,7 @@ function TutorRegisterManagement() {
         event.stopPropagation();
         try {
             const response = await axios.put(
-                `http://ec2-13-250-214-184.ap-southeast-1.compute.amazonaws.com:8081/staffsconnect/accepttutor`,
+                `http://localhost:8081/staffsconnect/accepttutor`,
                 {
                     tutorid: tutor,
                     staffid: decodedToken.id,
@@ -87,7 +87,7 @@ function TutorRegisterManagement() {
         event.stopPropagation();
         try {
             const response = await axios.put(
-                `http://ec2-13-250-214-184.ap-southeast-1.compute.amazonaws.com:8081/staffsconnect/accepttutorfinal`,
+                `http://localhost:8081/staffsconnect/accepttutorfinal`,
                 {
                     tutorid: tutor,
                     staffid: decodedToken.id,
@@ -114,7 +114,7 @@ function TutorRegisterManagement() {
         event.stopPropagation();
         try {
             const response = await axios.delete(
-                `http://ec2-13-250-214-184.ap-southeast-1.compute.amazonaws.com:8081/staffsconnect/deletetutorregister/${tutorid}`);
+                `http://localhost:8081/staffsconnect/deletetutorregister/${tutorid}`);
             showSnackbar(response.data);
             window.location.reload();
         } catch (error) {
@@ -125,7 +125,7 @@ function TutorRegisterManagement() {
 
     useEffect(() => {
         axios
-            .get(`http://ec2-13-250-214-184.ap-southeast-1.compute.amazonaws.com:8081/staffsconnect/listwaitforconfirm?page=${page}`)
+            .get(`http://localhost:8081/staffsconnect/listwaitforconfirm?page=${page}`)
             .then((response) => {
                 setData(response.data);
             })
@@ -133,7 +133,7 @@ function TutorRegisterManagement() {
                 console.error(error);
             });
         axios
-            .get(`http://ec2-13-250-214-184.ap-southeast-1.compute.amazonaws.com:8081/staffsconnect/pageforwaittutor`)
+            .get(`http://localhost:8081/staffsconnect/pageforwaittutor`)
             .then((response) => {
                 settotal(response.data);
             })
@@ -216,7 +216,7 @@ function TutorRegisterManagement() {
                                                 <TableCell sx={{ fontSize: "15px", fontFamily: "cursive", textAlign: "center" }}>{item.tutorid}</TableCell>
                                                 <TableCell sx={{ fontSize: "15px", fontFamily: "cursive", textAlign: "center" }}>{item.fullName}</TableCell>
                                                 <TableCell sx={{ fontSize: "15px", fontFamily: "cursive", textAlign: "center" }}>{item.cv ? (
-                                                    <Link style={{ textDecoration: "none" }} href={`http://ec2-13-250-214-184.ap-southeast-1.compute.amazonaws.com:8081/edu/file/fileuser/${item.cv}/${item.tutorid}`} target="_blank" rel="noopener noreferrer">
+                                                    <Link style={{ textDecoration: "none" }} href={`http://localhost:8081/edu/file/fileuser/${item.cv}/${item.tutorid}`} target="_blank" rel="noopener noreferrer">
                                                         Tải File
                                                     </Link>
                                                 ) : (

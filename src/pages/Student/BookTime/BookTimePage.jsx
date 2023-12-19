@@ -80,7 +80,7 @@ function BookTime() {
 
     useEffect(() => {
         axios
-            .get(`http://ec2-13-250-214-184.ap-southeast-1.compute.amazonaws.com:8081/book/timeline`)
+            .get(`http://localhost:8081/book/timeline`)
             .then((response) => {
                 setData(response.data);
             })
@@ -93,7 +93,7 @@ function BookTime() {
 
     useEffect(() => {
         axios
-            .get(`http://ec2-13-250-214-184.ap-southeast-1.compute.amazonaws.com:8081/book/lesson`)
+            .get(`http://localhost:8081/book/lesson`)
             .then((response) => {
                 setDaysOfWeek(response.data);
             })
@@ -109,7 +109,7 @@ function BookTime() {
 
     useEffect(() => {
         axios
-            .get(`http://ec2-13-250-214-184.ap-southeast-1.compute.amazonaws.com:8081/book/timeandlesson?tutorid=${tutorId}&studentid=${decodedTokenRef.current.id}`)
+            .get(`http://localhost:8081/book/timeandlesson?tutorid=${tutorId}&studentid=${decodedTokenRef.current.id}`)
             .then((response) => {
                 setScheduleData(response.data);
             })
@@ -123,7 +123,7 @@ function BookTime() {
     const [student, setStudent] = useState([]);
 
     useEffect(() => {
-        axios.get("http://ec2-13-250-214-184.ap-southeast-1.compute.amazonaws.com:8081/student/viewstudent?email=" + decodedToken.id)
+        axios.get("http://localhost:8081/student/viewstudent?email=" + decodedToken.id)
             .then((response) => {
                 setStudent(response.data);
             })
@@ -143,7 +143,7 @@ function BookTime() {
 
         try {
             await axios.delete(
-                `http://ec2-13-250-214-184.ap-southeast-1.compute.amazonaws.com:8081/book/cancelbook?studentid=${student.studentid}`,
+                `http://localhost:8081/book/cancelbook?studentid=${student.studentid}`,
                 config
             );
             window.location.href = '/homestudent';
@@ -169,7 +169,7 @@ function BookTime() {
 
         try {
             await axios.delete(
-                `http://ec2-13-250-214-184.ap-southeast-1.compute.amazonaws.com:8081/book/deletetimeerror/${student.studentid}`,
+                `http://localhost:8081/book/deletetimeerror/${student.studentid}`,
                 config
             );
 
@@ -181,14 +181,14 @@ function BookTime() {
                 };
 
                 await axios.post(
-                    'http://ec2-13-250-214-184.ap-southeast-1.compute.amazonaws.com:8081/book/timebook',
+                    'http://localhost:8081/book/timebook',
                     postData,
                     configs
                 );
             }
 
             await axios.post(
-                `http://ec2-13-250-214-184.ap-southeast-1.compute.amazonaws.com:8081/book/banking`,
+                `http://localhost:8081/book/banking`,
                 {
                     studentid: student.studentid,
                     file: image,
@@ -240,12 +240,12 @@ function BookTime() {
             }
 
             const paymentResponse = await axios.get(
-                `http://ec2-13-250-214-184.ap-southeast-1.compute.amazonaws.com:8081/book/createpayment?studentid=${student.studentid}`,
+                `http://localhost:8081/book/createpayment?studentid=${student.studentid}`,
                 config
             );
 
             await axios.delete(
-                `http://ec2-13-250-214-184.ap-southeast-1.compute.amazonaws.com:8081/book/deletetimeerror/${student.studentid}`,
+                `http://localhost:8081/book/deletetimeerror/${student.studentid}`,
                 config
             );
 
@@ -257,7 +257,7 @@ function BookTime() {
                 };
 
                 await axios.post(
-                    'http://ec2-13-250-214-184.ap-southeast-1.compute.amazonaws.com:8081/book/timebook',
+                    'http://localhost:8081/book/timebook',
                     postData,
                     configs
                 );

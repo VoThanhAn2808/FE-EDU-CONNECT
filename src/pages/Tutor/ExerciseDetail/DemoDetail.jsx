@@ -9,7 +9,7 @@ function DemoDetail(props) {
     const { demoid } = useParams();
     const [pageContent, setPageContent] = useState('');
     useEffect(() => {
-        axios.get(`http://ec2-13-250-214-184.ap-southeast-1.compute.amazonaws.com:8081/demo/detaildemo?demoid=${demoid}`)
+        axios.get(`http://localhost:8081/demo/detaildemo?demoid=${demoid}`)
             .then((response) => {
                 setPageContent(response.data);
             })

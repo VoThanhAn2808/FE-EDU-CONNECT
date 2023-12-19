@@ -19,7 +19,7 @@ function ExerciseListPage() {
 
   const onCreateExercise = async () => {
     if (course)
-      await axios.post('http://ec2-13-250-214-184.ap-southeast-1.compute.amazonaws.com:8081/exersice/addexercise', {
+      await axios.post('http://localhost:8081/exersice/addexercise', {
         bookid: bookid,
         title: course,
       });
@@ -31,7 +31,7 @@ function ExerciseListPage() {
   const [data, setData] = useState([]);
   const fetchData = () => {
     axios
-      .get(`http://ec2-13-250-214-184.ap-southeast-1.compute.amazonaws.com:8081/exersice/findexersice?bookid=${bookid}`)
+      .get(`http://localhost:8081/exersice/findexersice?bookid=${bookid}`)
       .then((response) => {
         if (response && response.data) {
           setData(response.data);

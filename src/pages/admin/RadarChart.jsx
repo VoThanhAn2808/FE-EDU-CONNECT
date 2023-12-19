@@ -9,7 +9,7 @@ function RadarChartMui() {
 
   useEffect(() => {
     axios
-      .get(`http://ec2-13-250-214-184.ap-southeast-1.compute.amazonaws.com:8081/admin/radarchart`)
+      .get(`http://localhost:8081/admin/radarchart`)
       .then((response) => {
         setData(response.data);
       })
