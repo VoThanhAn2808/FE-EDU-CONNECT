@@ -25,17 +25,22 @@ function SubmitExercise() {
     const formattedDate = `${year}-${month}-${day}`;
     const decodedToken = jwtDecode(localStorage.getItem('token'));
     const userId = decodedToken.id;
+    const CancelToken = axios.CancelToken;
+    const source = CancelToken.source();
 
     useEffect(() => {
         axios
-            .get(`http://localhost:8081/exersice/homework/detailhomework?homeworkid=${bookid}`)
+            .get(`http://ec2-13-250-214-184.ap-southeast-1.compute.amazonaws.com:8081/exersice/homework/detailhomework?homeworkid=${bookid}`,
+                {
+                    cancelToken: source.token,
+                })
             .then((response) => {
                 setData(response.data);
             })
             .catch((error) => {
                 console.error(error);
             });
-    }, [bookid]);
+    });
 
     const handleUploadFile = (event) => {
         const selectedFile = event.target.files[0];
@@ -51,7 +56,7 @@ function SubmitExercise() {
             formData.append('file', files);
 
             await axios.post(
-                "http://localhost:8081/exersice/addsubmithomework",
+                "http://ec2-13-250-214-184.ap-southeast-1.compute.amazonaws.com:8081/exersice/addsubmithomework",
                 formData,
                 {
                     headers: {
@@ -74,7 +79,7 @@ function SubmitExercise() {
             formData.append('file', files);
 
             await axios.put(
-                "http://localhost:8081/exersice/updatesubmit",
+                "http://ec2-13-250-214-184.ap-southeast-1.compute.amazonaws.com:8081/exersice/updatesubmit",
                 formData,
                 {
                     headers: {
@@ -199,7 +204,7 @@ function SubmitExercise() {
                         </Box>
 
                         <Box style={{ float: 'left', marginTop: '10px' }}>
-                            <Link href={`http://localhost:8081/edu/file/fileuser/${data.filesHomework}/${data.tutorid}`} target="_blank">
+                            <Link href={`http://ec2-13-250-214-184.ap-southeast-1.compute.amazonaws.com:8081/edu/file/fileuser/${data.filesHomework}/${data.tutorid}`} target="_blank">
 
                                 <Button
                                     variant="contained"
@@ -249,7 +254,7 @@ function SubmitExercise() {
                                                             </Box>
                                                         ) : (
 
-                                                            <Link href={`http://localhost:8081/edu/file/fileuser/${data.fileSubmid}/${userId}`} target="_blank" style={{ textDecoration: 'none', color: 'black' }}>
+                                                            <Link href={`http://ec2-13-250-214-184.ap-southeast-1.compute.amazonaws.com:8081/edu/file/fileuser/${data.fileSubmid}/${userId}`} target="_blank" style={{ textDecoration: 'none', color: 'black' }}>
                                                                 <Typography sx={{ fontSize: '15px' }}>{data.fileSubmid}</Typography>
                                                             </Link>
                                                         )}

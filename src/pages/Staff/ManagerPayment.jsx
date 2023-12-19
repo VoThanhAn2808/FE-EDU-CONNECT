@@ -11,16 +11,21 @@ function ManagerPayment() {
     const [page, setPage] = useState('');
     const [pages, setPages] = useState(1);
     const [open, setOpen] = useState(false);
+    const CancelToken = axios.CancelToken;
+    const source = CancelToken.source();
     const fetchData = useCallback((pageNumber) => {
         axios
-            .get(`http://localhost:8081/staffsconnect/payfortutor?staffid=${decodedToken.id}&page=${pageNumber}`)
+            .get(`http://ec2-13-250-214-184.ap-southeast-1.compute.amazonaws.com:8081/staffsconnect/payfortutor?staffid=${decodedToken.id}&page=${pageNumber}`,
+                {
+                    cancelToken: source.token,
+                })
             .then((response) => {
                 setDicount(response.data);
             })
             .catch((error) => {
                 console.error(error);
             });
-    }, [decodedToken.id]);
+    });
 
     useEffect(() => {
         fetchData(pages);
@@ -31,21 +36,24 @@ function ManagerPayment() {
     };
 
     useEffect(() => {
-        axios.get(`http://localhost:8081/staffsconnect/totalpay?staffid=${decodedToken.id}`)
+        axios.get(`http://ec2-13-250-214-184.ap-southeast-1.compute.amazonaws.com:8081/staffsconnect/totalpay?staffid=${decodedToken.id}`,
+            {
+                cancelToken: source.token,
+            })
             .then((response) => {
                 setPage(response.data);
             })
             .catch((error) => {
                 console.error(error);
             });
-    }, [decodedToken.id]);
+    });
 
     const handleClickChange = async (tutorid, event) => {
         event.preventDefault();
         event.stopPropagation();
         try {
             await axios.put(
-                `http://localhost:8081/staffsconnect/accept/${tutorid}`
+                `http://ec2-13-250-214-184.ap-southeast-1.compute.amazonaws.com:8081/staffsconnect/accept/${tutorid}`
             );
             window.location.href = "/managerpayment";
         } catch (error) {

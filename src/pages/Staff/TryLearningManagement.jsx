@@ -61,7 +61,7 @@ function TryLearningManagement() {
 
     const fetchData = useCallback((pageNumber) => {
         axios
-            .get(`http://localhost:8081/staffsconnect/studentTrylearning/${pageNumber}`)
+            .get(`http://ec2-13-250-214-184.ap-southeast-1.compute.amazonaws.com:8081/staffsconnect/studentTrylearning/${pageNumber}`)
             .then((response) => {
                 setData(response.data);
             })
@@ -72,7 +72,7 @@ function TryLearningManagement() {
 
     useEffect(() => {
         axios
-            .get(`http://localhost:8081/staffsconnect/counttrylearnpage`)
+            .get(`http://ec2-13-250-214-184.ap-southeast-1.compute.amazonaws.com:8081/staffsconnect/counttrylearnpage`)
             .then((response) => {
                 setPages(response.data);
             })
@@ -81,7 +81,7 @@ function TryLearningManagement() {
             });
         if (student !== null && tutor != null) {
             axios
-                .get(`http://localhost:8081/staffsconnect/student/viewprofile/${student}`)
+                .get(`http://ec2-13-250-214-184.ap-southeast-1.compute.amazonaws.com:8081/staffsconnect/student/viewprofile/${student}`)
                 .then((response) => {
                     setVstudent(response.data);
                 })
@@ -89,7 +89,7 @@ function TryLearningManagement() {
                     console.error(error);
                 });
             axios
-                .get(`http://localhost:8081/staffsconnect/tutor/viewprofile/${tutor}`)
+                .get(`http://ec2-13-250-214-184.ap-southeast-1.compute.amazonaws.com:8081/staffsconnect/tutor/viewprofile/${tutor}`)
                 .then((response) => {
                     setVtutor(response.data);
                 })
@@ -105,7 +105,7 @@ function TryLearningManagement() {
         try {
             const formatDate = format(new Date(date), 'yyyy-MM-dd');
             const response = await axios.put(
-                `http://localhost:8081/staffsconnect/accepttrylean`,
+                `http://ec2-13-250-214-184.ap-southeast-1.compute.amazonaws.com:8081/staffsconnect/accepttrylean`,
                 {
                     studentid: vstudent.studentid,
                     status: status,

@@ -18,14 +18,12 @@ import { jwtDecode } from 'jwt-decode';
 const Sidebar = () => {
   const [openGrades, setOpenGrades] = useState(false);
   const [openSubject, setOpenSubject] = useState(false);
-  const [openHomework, setOpenHomework] = useState(false);
   const decodedToken = jwtDecode(localStorage.getItem('token'));
   const userId = decodedToken.id;
   const [isHomeClicked, setIsHomeClicked] = useState(false);
   const [isCalendarClicked, setIsCalendarClicked] = useState(false);
   const [isGradesClicked, setIsGradesClicked] = useState(false);
   const [isSubjectClicked, setIsSubjectClicked] = useState(false);
-  const [isHomeworkClicked, setIsHomeworkClicked] = useState(false);
   const [isFixCalendarClicked, setIsFixCalendarClicked] = useState(false);
 
   const handleHomeClick = () => {
@@ -33,7 +31,6 @@ const Sidebar = () => {
     setIsCalendarClicked(false);
     setIsGradesClicked(false);
     setIsSubjectClicked(false);
-    setIsHomeworkClicked(false);
     setIsFixCalendarClicked(false);
   };
 
@@ -42,7 +39,6 @@ const Sidebar = () => {
     setIsCalendarClicked(true);
     setIsGradesClicked(false);
     setIsSubjectClicked(false);
-    setIsHomeworkClicked(false);
     setIsFixCalendarClicked(false);
   };
 
@@ -51,14 +47,14 @@ const Sidebar = () => {
     setIsCalendarClicked(false);
     setIsGradesClicked(false);
     setIsSubjectClicked(false);
-    setIsHomeworkClicked(false);
+
     setIsFixCalendarClicked(true);
   }
 
   const [course, setCourse] = useState([]);
   useEffect(() => {
     axios
-      .get(`http://localhost:8081/educonnect/tutor/listcourse?tutorid=${userId}`)
+      .get(`http://ec2-13-250-214-184.ap-southeast-1.compute.amazonaws.com:8081/educonnect/tutor/listcourse?tutorid=${userId}`)
       .then((response) => {
         setCourse(response.data);
       })
@@ -70,36 +66,22 @@ const Sidebar = () => {
   const handleGradesClick = () => {
     setOpenGrades(!openGrades);
     setOpenSubject(false);
-    setOpenHomework(false);
     setIsHomeClicked(false);
     setIsCalendarClicked(false);
     setIsGradesClicked(true);
     setIsSubjectClicked(false);
-    setIsHomeworkClicked(false);
     setIsFixCalendarClicked(false);
   };
   const handleSubjectClick = () => {
     setOpenSubject(!openSubject);
     setOpenGrades(false);
-    setOpenHomework(false);
     setIsHomeClicked(false);
     setIsCalendarClicked(false);
     setIsGradesClicked(false);
     setIsSubjectClicked(true);
-    setIsHomeworkClicked(false);
     setIsFixCalendarClicked(false);
   };
-  const handleHomeworkClick = () => {
-    setOpenHomework(!openHomework);
-    setOpenGrades(false);
-    setOpenSubject(false);
-    setIsHomeClicked(false);
-    setIsCalendarClicked(false);
-    setIsGradesClicked(false);
-    setIsSubjectClicked(false);
-    setIsHomeworkClicked(true);
-    setIsFixCalendarClicked(false);
-  };
+
   return (
     <Box
       sx={{
@@ -159,7 +141,7 @@ const Sidebar = () => {
         <Collapse in={openGrades} timeout='auto' unmountOnExit>
           <List component='div' disablePadding>
             {course.map((item, index) => (
-              <ListItemButton sx={{ pl: 3 }} key={index}>
+              <ListItemButton sx={{ pl: 3 }} key={index} onClick={handleGradesClick}>
                 <ListItemIcon></ListItemIcon>
                 <Typography sx={{ fontSize: '13px', marginRight: 'auto', fontWeight: 'bold' }}>
                   <Link to={`/managerstudent/${item.classcourseid}`} style={{ color: "black", textDecoration: "none" }}>{item.courseName} {item.classname}</Link>
@@ -190,33 +172,6 @@ const Sidebar = () => {
                 <ListItemIcon></ListItemIcon>
                 <Typography sx={{ fontSize: '13px', marginRight: 'auto', fontWeight: 'bold' }}>
                   <Link to={`/demo/${item.classcourseid}`} style={{ color: "black", textDecoration: "none" }}>{item.courseName} {item.classname}</Link>
-                </Typography>
-              </ListItemButton>
-            ))}
-          </List>
-        </Collapse>
-        {/* ////////////////////////////////// */}
-        <ListItemButton
-          sx={{
-            backgroundColor: isHomeworkClicked ? 'rgba(255, 255, 255, 0.2)' : 'transparent',
-            borderRadius: '10px',
-            transition: 'background-color 0.3s ease',
-          }}
-          onClick={handleHomeworkClick}>
-          <ListItemIcon>
-            <TopicIcon />
-          </ListItemIcon>
-          <Typography sx={{ fontSize: '16px', marginRight: 'auto' }}><Link style={{ color: "black", textDecoration: "none" }}>Danh sách nộp bài tập </Link></Typography>
-          {openHomework ? <ExpandLess /> : <ExpandMore />}
-        </ListItemButton>
-
-        <Collapse in={openHomework} timeout='auto' unmountOnExit>
-          <List component='div' disablePadding>
-            {course.map((item, index) => (
-              <ListItemButton sx={{ pl: 3 }} key={index}>
-                <ListItemIcon></ListItemIcon>
-                <Typography sx={{ fontSize: '13px', marginRight: 'auto', fontWeight: 'bold' }}>
-                  <Link to={`/homeworklist/${item.classcourseid}`} style={{ color: "black", textDecoration: "none" }}>{item.courseName} {item.classname}</Link>
                 </Typography>
               </ListItemButton>
             ))}

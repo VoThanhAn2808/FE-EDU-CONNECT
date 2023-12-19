@@ -19,6 +19,8 @@ function LoginPage() {
   const [showAlert, setShowAlert] = useState(false);
   const [alertMessage, setAlertMessage] = useState('');
   const [alertSeverity, setAlertSeverity] = useState('success');
+  const CancelToken = axios.CancelToken;
+  const source = CancelToken.source();
 
   const handleAlertClose = () => {
     setShowAlert(false);
@@ -40,7 +42,7 @@ function LoginPage() {
 
     try {
       const response = await axios.post(
-        "http://localhost:8081/edu/authenticate",
+        "http://ec2-13-250-214-184.ap-southeast-1.compute.amazonaws.com:8081/edu/authenticate",
         {
           username: email,
           password: password,
@@ -56,14 +58,20 @@ function LoginPage() {
       const decodedToken = jwtDecode(token);
 
       if (decodedToken.role === 1) {
-        const fb = await axios.get("http://localhost:8081/student/feedback/" + decodedToken.id, config);
+        const fb = await axios.get("http://ec2-13-250-214-184.ap-southeast-1.compute.amazonaws.com:8081/student/feedback/" + decodedToken.id, config,
+          {
+            cancelToken: source.token,
+          });
         if (Array.isArray(fb.data) && fb.data.length > 0) {
           window.location.href = "/feedback";
         } else {
           window.location.href = "/homestudent";
         }
       } else if (decodedToken.role === 2) {
-        const check = await axios.get(`http://localhost:8081/educonnect/checktutor?tutorid=${decodedToken.id}`)
+        const check = await axios.get(`http://ec2-13-250-214-184.ap-southeast-1.compute.amazonaws.com:8081/educonnect/checktutor?tutorid=${decodedToken.id}`,
+          {
+            cancelToken: source.token,
+          })
         if (check.data === false) {
           window.location.href = "/updatecalender";
         } else {

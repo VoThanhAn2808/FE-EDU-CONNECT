@@ -21,6 +21,8 @@ function ManagerStudent() {
     const [tutor, setTutor] = useState('');
     const [book, setBook] = useState('');
     const { courseId } = useParams();
+    const CancelToken = axios.CancelToken;
+    const source = CancelToken.source();
 
     useEffect(() => {
         const intervalId = setInterval(() => {
@@ -31,25 +33,34 @@ function ManagerStudent() {
     }, []);
 
     useEffect(() => {
-        axios.get(`http://localhost:8081/educonnect/tutor/studentfinished?tutorid=${decodedToken.id}&page=${page}&status=${status}&courseid=${courseId}`)
+        axios.get(`http://ec2-13-250-214-184.ap-southeast-1.compute.amazonaws.com:8081/educonnect/tutor/studentfinished?tutorid=${decodedToken.id}&page=${page}&status=${status}&courseid=${courseId}`,
+            {
+                cancelToken: source.token,
+            })
             .then((response) => {
                 setListStudentfinished(response.data);
             })
             .catch((error) => {
             })
-        axios.get(`http://localhost:8081/educonnect/countstudent?tutorid=${decodedToken.id}&status=${status}&courseid=${courseId}`)
+        axios.get(`http://ec2-13-250-214-184.ap-southeast-1.compute.amazonaws.com:8081/educonnect/countstudent?tutorid=${decodedToken.id}&status=${status}&courseid=${courseId}`,
+            {
+                cancelToken: source.token,
+            })
             .then((response) => {
                 setPageCount(response.data);
             })
             .catch((error) => {
             })
-        axios.get(`http://localhost:8081/educonnect/viewtutorcourse?classcourseid=${courseId}&tutorid=${decodedToken.id}`)
+        axios.get(`http://ec2-13-250-214-184.ap-southeast-1.compute.amazonaws.com:8081/educonnect/viewtutorcourse?classcourseid=${courseId}&tutorid=${decodedToken.id}`,
+            {
+                cancelToken: source.token,
+            })
             .then((response) => {
                 setTutor(response.data);
             })
             .catch((error) => {
             })
-    }, [page, status, courseId, decodedToken.id]);
+    });
 
 
     const handleOpenUserMenu = (event, studentId, bookid) => {
@@ -72,7 +83,10 @@ function ManagerStudent() {
         }
     };
     const handleOpen = () => {
-        axios.get(`http://localhost:8081/educonnect/tutor/student/viewprofile/timeline?tutorid=${decodedToken.id}&studentid=${studentid}&courseid=${courseId}`)
+        axios.get(`http://ec2-13-250-214-184.ap-southeast-1.compute.amazonaws.com:8081/educonnect/tutor/student/viewprofile/timeline?tutorid=${decodedToken.id}&studentid=${studentid}&courseid=${courseId}`,
+            {
+                cancelToken: source.token,
+            })
             .then((response) => {
                 setResponseDataDetail(response.data)
                 setOpen(true);
@@ -111,7 +125,7 @@ function ManagerStudent() {
             </Box>
             <Box sx={{ width: '98%', height: '100%', marginBottom: '50px', marginTop: "10px", borderRadius: "5px", marginLeft: "1%", marginRight: "1%", backgroundColor: "#E2D6D6" }}>
                 <Box sx={{ marginLeft: '55%', paddingTop: '20px', display: 'flex', marginRight: '12px', }}>
-                    <Button variant="contained" color="warning" style={{ fontSize: '12px', fontFamily: 'cursive', marginRight: '10px', }} onChange={() => { setStatus(1) }}>
+                    <Button variant="contained" color="warning" style={{ fontSize: '12px', fontFamily: 'cursive', marginRight: '10px', }} onClick={() => { setStatus(1) }}>
                         Học sinh đang đợi học
                     </Button>
                     <Button variant="contained" color="error" style={{ fontSize: '12px', fontFamily: 'cursive', marginRight: '10px', }} onClick={() => { setStatus(2) }}>
@@ -144,7 +158,7 @@ function ManagerStudent() {
                                         <TableCell sx={{ width: '20%', height: '50px', fontSize: '15px', fontFamily: 'cursive' }}>{item.startdate}</TableCell>
                                         <TableCell sx={{ width: '20%', height: '50px', fontSize: '15px', fontFamily: 'cursive' }}>{checkStatus((new Date(item.startdate)).getTime(), (new Date(item.enddate)).getTime())}</TableCell>
                                         <TableCell sx={{ width: '20%', height: '50px', fontSize: '15px', fontFamily: 'cursive' }}>
-                                            <img src={`http://localhost:8081/edu/file/fileuser/${item.img}/${item.studentid}`} alt="edu" style={{ width: '60px', height: '60px', }} />
+                                            <img src={`http://ec2-13-250-214-184.ap-southeast-1.compute.amazonaws.com:8081/edu/file/fileuser/${item.img}/${item.studentid}`} alt="edu" style={{ width: '60px', height: '60px', }} />
                                         </TableCell>
                                         <TableCell sx={{ height: '50px', textAlign: 'center' }}>
                                             <MoreHorizIcon onClick={(event) => handleOpenUserMenu(event, item.studentid, item.bookid)} sx={{ fontSize: '30px' }} />
@@ -187,7 +201,7 @@ function ManagerStudent() {
                             <Box sx={{ marginTop: '-100px' }}>
                                 {responseDataDetail.length > 0 ?
                                     (<>
-                                        <Avatar src={`http://localhost:8081/edu/file/fileuser/${responseDataDetail[0].img}/${responseDataDetail[0].studentid}`} sx={{ width: '90px', height: '90px', marginLeft: '90px', marginBottom: '20px' }} />
+                                        <Avatar src={`http://ec2-13-250-214-184.ap-southeast-1.compute.amazonaws.com:8081/edu/file/fileuser/${responseDataDetail[0].img}/${responseDataDetail[0].studentid}`} sx={{ width: '90px', height: '90px', marginLeft: '90px', marginBottom: '20px' }} />
                                         <Typography sx={{ fontSize: '15px', fontFamily: 'cursive', marginLeft: '12%' }}>Học sinh: {responseDataDetail[0].fullname}</Typography>
                                         <Typography sx={{ fontSize: '15px', fontFamily: 'cursive', marginLeft: '12%' }}>Ngày Sinh: {responseDataDetail[0].birthdate}</Typography>
                                         <Typography sx={{ fontSize: '15px', fontFamily: 'cursive', marginLeft: '12%' }}>SĐT: {responseDataDetail[0].phone}</Typography>

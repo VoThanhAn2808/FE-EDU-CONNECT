@@ -27,6 +27,8 @@ import MuiAlert from '@mui/material/Alert';
 
 function Header() {
 
+    const CancelToken = axios.CancelToken;
+    const source = CancelToken.source();
     const [isVisible, setIsVisible] = useState(false);
 
     const toggleVisibility = () => {
@@ -150,7 +152,7 @@ function Header() {
         event.stopPropagation();
         try {
             await axios.post(
-                `http://localhost:8081/educonnect/paymenttutor`,
+                `http://ec2-13-250-214-184.ap-southeast-1.compute.amazonaws.com:8081/educonnect/paymenttutor`,
                 {
                     tutorid: tutorid,
                     money: money,
@@ -177,13 +179,19 @@ function Header() {
         try {
             if (role === 1) {
                 const check = await axios.get(
-                    `http://localhost:8081/student/checkstudent?studentid=${decodedTokenRef.current.id}`,
+                    `http://ec2-13-250-214-184.ap-southeast-1.compute.amazonaws.com:8081/student/checkstudent?studentid=${decodedTokenRef.current.id}`,
+                    {
+                        cancelToken: source.token,
+                    }
                 );
                 setCheckProfile(check.data);
             }
             if (role === 2) {
                 const check = await axios.get(
-                    `http://localhost:8081/educonnect/checktutor?tutorid=${decodedTokenRef.current.id}`,
+                    `http://ec2-13-250-214-184.ap-southeast-1.compute.amazonaws.com:8081/educonnect/checktutor?tutorid=${decodedTokenRef.current.id}`,
+                    {
+                        cancelToken: source.token,
+                    }
                 );
                 setCheckProfile(check.data);
             }
@@ -201,7 +209,10 @@ function Header() {
                 checkUserProfile(role);
                 if (role === 1) {
                     axios
-                        .get(`http://localhost:8081/student/viewstudent?email=${decodedTokenRef.current.id}`)
+                        .get(`http://ec2-13-250-214-184.ap-southeast-1.compute.amazonaws.com:8081/student/viewstudent?email=${decodedTokenRef.current.id}`,
+                            {
+                                cancelToken: source.token,
+                            })
                         .then((response) => {
                             setData(response.data);
                         })
@@ -210,7 +221,10 @@ function Header() {
                         });
                 } else if (role === 2) {
                     axios
-                        .get(`http://localhost:8081/educonnect/viewTutor?tutorId=${decodedTokenRef.current.id}`)
+                        .get(`http://ec2-13-250-214-184.ap-southeast-1.compute.amazonaws.com:8081/educonnect/viewTutor?tutorId=${decodedTokenRef.current.id}`,
+                            {
+                                cancelToken: source.token,
+                            })
                         .then((response) => {
                             setData(response.data);
                         })
@@ -218,7 +232,10 @@ function Header() {
                             console.error(error);
                         });
                     axios
-                        .get(`http://localhost:8081/educonnect/showbank?tutorid=${decodedTokenRef.current.id}`)
+                        .get(`http://ec2-13-250-214-184.ap-southeast-1.compute.amazonaws.com:8081/educonnect/showbank?tutorid=${decodedTokenRef.current.id}`,
+                            {
+                                cancelToken: source.token,
+                            })
                         .then((response) => {
                             setShow(response.data);
                         })
@@ -226,7 +243,10 @@ function Header() {
                             console.error(error);
                         });
                     axios
-                        .get(`http://localhost:8081/educonnect/historypay?tutorid=${decodedTokenRef.current.id}`)
+                        .get(`http://ec2-13-250-214-184.ap-southeast-1.compute.amazonaws.com:8081/educonnect/historypay?tutorid=${decodedTokenRef.current.id}`,
+                            {
+                                cancelToken: source.token,
+                            })
                         .then((response) => {
                             setHistory(response.data);
                         })
@@ -243,7 +263,10 @@ function Header() {
                         });
                 } else if (role === 3) {
                     axios
-                        .get(`http://localhost:8081/staffsconnect/ViewInfoStaff?staffId=${decodedTokenRef.current.id}`)
+                        .get(`http://ec2-13-250-214-184.ap-southeast-1.compute.amazonaws.com:8081/staffsconnect/ViewInfoStaff?staffId=${decodedTokenRef.current.id}`,
+                            {
+                                cancelToken: source.token,
+                            })
                         .then((response) => {
                             setData(response.data);
                         })
@@ -255,7 +278,7 @@ function Header() {
         } catch (error) {
             console.error('Error decoding the token:', error);
         }
-    }, [token]);
+    });
 
     const handleProfileClick = () => {
         decodedTokenRef.current = jwtDecode(token);
@@ -353,7 +376,7 @@ function Header() {
                                             {data.img && decodedTokenRef.current ? (
                                                 <Avatar
                                                     alt={data.fullname}
-                                                    src={`http://localhost:8081/edu/file/fileuser/${data.img}/${decodedTokenRef.current.id}`}
+                                                    src={`http://ec2-13-250-214-184.ap-southeast-1.compute.amazonaws.com:8081/edu/file/fileuser/${data.img}/${decodedTokenRef.current.id}`}
                                                     sx={{
                                                         height: "55px",
                                                         width: "55px",

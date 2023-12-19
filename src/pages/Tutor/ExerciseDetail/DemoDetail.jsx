@@ -8,8 +8,13 @@ import Iframe from "react-iframe";
 function DemoDetail(props) {
     const { demoid } = useParams();
     const [pageContent, setPageContent] = useState('');
+    const CancelToken = axios.CancelToken;
+    const source = CancelToken.source();
     useEffect(() => {
-        axios.get(`http://localhost:8081/demo/detaildemo?demoid=${demoid}`)
+        axios.get(`http://ec2-13-250-214-184.ap-southeast-1.compute.amazonaws.com:8081/demo/detaildemo?demoid=${demoid}`,
+            {
+                cancelToken: source.token,
+            })
             .then((response) => {
                 setPageContent(response.data);
             })

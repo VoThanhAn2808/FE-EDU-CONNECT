@@ -18,12 +18,13 @@ import MuiAlert from '@mui/material/Alert';
 function BookTutorSTPage() {
 
     const [data, setData] = useState([]);
-
     const { tutorid } = useParams();
     const { classcourseid } = useParams();
     const [snackbarOpen, setSnackbarOpen] = useState(false);
     const [snackbarMessage, setSnackbarMessage] = useState('');
     const [snackbarType, setSnackbarType] = useState('success');
+    const CancelToken = axios.CancelToken;
+    const source = CancelToken.source();
     const showSnackbar = (message, type) => {
         setSnackbarMessage(message);
         setSnackbarType(type);
@@ -36,52 +37,64 @@ function BookTutorSTPage() {
 
     useEffect(() => {
         axios
-            .get(`http://localhost:8081/educonnect/tutor/booktutor?tutorid=${tutorid}&classcourseid=${classcourseid}`)
+            .get(`http://ec2-13-250-214-184.ap-southeast-1.compute.amazonaws.com:8081/educonnect/tutor/booktutor?tutorid=${tutorid}&classcourseid=${classcourseid}`,
+                {
+                    cancelToken: source.token,
+                })
             .then((response) => {
                 setData(response.data);
             })
             .catch((error) => {
                 console.error(error);
             });
-    }, [tutorid, classcourseid]);
+    });
     const [page, setPage] = useState([]);
 
     useEffect(() => {
         axios
-            .get(`http://localhost:8081/tutorByCourse/find4TutorByCourse?CourseId=${classcourseid}`)
+            .get(`http://ec2-13-250-214-184.ap-southeast-1.compute.amazonaws.com:8081/tutorByCourse/find4TutorByCourse?CourseId=${classcourseid}`,
+                {
+                    cancelToken: source.token,
+                })
             .then((response) => {
                 setPage(response.data);
             })
             .catch((error) => {
                 console.error(error);
             });
-    }, [classcourseid]);
+    });
 
     const [course, setCourse] = useState([]);
 
     useEffect(() => {
         axios
-            .get(`http://localhost:8081/course/findCourseByTutor?tutorid=${tutorid}`)
+            .get(`http://ec2-13-250-214-184.ap-southeast-1.compute.amazonaws.com:8081/course/findCourseByTutor?tutorid=${tutorid}`,
+                {
+                    cancelToken: source.token,
+                })
             .then((response) => {
                 setCourse(response.data);
             })
             .catch((error) => {
                 console.error(error);
             });
-    }, [tutorid]);
+    });
 
     const decodedToken = jwtDecode(localStorage.getItem('token'));
     const [student, setStudent] = useState([]);
 
     useEffect(() => {
-        axios.get("http://localhost:8081/student/viewstudent?email=" + decodedToken.id)
+        axios.get("http://ec2-13-250-214-184.ap-southeast-1.compute.amazonaws.com:8081/student/viewstudent?email=" + decodedToken.id,
+            {
+                cancelToken: source.token,
+            })
             .then((response) => {
                 setStudent(response.data);
             })
             .catch((error) => {
                 console.error(error);
             });
-    }, [decodedToken.id]);
+    });
 
     const studentid = student.studentid;
     const handleSubmit = async (event) => {
@@ -95,7 +108,7 @@ function BookTutorSTPage() {
 
         try {
             await axios.post(
-                "http://localhost:8081/book/bookcourse",
+                "http://ec2-13-250-214-184.ap-southeast-1.compute.amazonaws.com:8081/book/bookcourse",
                 {
                     studentId: studentid,
                     tutorId: tutorid,
@@ -119,7 +132,7 @@ function BookTutorSTPage() {
 
         try {
             await axios.post(
-                "http://localhost:8081/trylearn/booktrylearn",
+                "http://ec2-13-250-214-184.ap-southeast-1.compute.amazonaws.com:8081/trylearn/booktrylearn",
                 {
                     studentid: studentid,
                     tutorid: tutorid,
@@ -139,7 +152,7 @@ function BookTutorSTPage() {
                 <Grid container spacing={1}>
                     <Grid item xs={5} >
                         <Box className="tutor-infor">
-                            <img src={`http://localhost:8081/edu/file/fileuser/${data.img}/${data.tutorId}`} alt={data.fullname} className="tutor-img" />
+                            <img src={`http://ec2-13-250-214-184.ap-southeast-1.compute.amazonaws.com:8081/edu/file/fileuser/${data.img}/${data.tutorId}`} alt={data.fullname} className="tutor-img" />
                         </Box>
                     </Grid>
                     <Grid item xs={7}>
@@ -227,7 +240,7 @@ function BookTutorSTPage() {
                                         <Typography sx={{ fontWeight: 'bold' }}>{item.discount}%</Typography>
                                     </Box>
                                 )}
-                                <img src={`http://localhost:8081/edu/file/files/` + item.img}
+                                <img src={`http://ec2-13-250-214-184.ap-southeast-1.compute.amazonaws.com:8081/edu/file/files/` + item.img}
                                     alt={item.courseName}
                                     style={{ width: '120px', height: '170px' }}
                                     className="courseimg" />
@@ -263,7 +276,7 @@ function BookTutorSTPage() {
                                 <Typography sx={{ fontSize: '12px', textAlign: 'center', fontFamily: 'cursive', marginTop: '5px' }}>
                                     Gia sư dạy {item.coursename} {item.classentity}
                                 </Typography>
-                                <img src={`http://localhost:8081/edu/file/fileuser/${item.img}/${item.tutorid}`}
+                                <img src={`http://ec2-13-250-214-184.ap-southeast-1.compute.amazonaws.com:8081/edu/file/fileuser/${item.img}/${item.tutorid}`}
                                     style={{ width: '120px', height: '170px' }}
                                     alt="subject" className="imgtutor" />
                                 <Rating

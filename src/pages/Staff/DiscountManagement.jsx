@@ -32,6 +32,8 @@ function DiscountManagement() {
     const [searchValue, setSearchValue] = useState('');
     const [currentPage, setCurrentPage] = useState(1);
     const [title, setTitle] = useState('');
+    const CancelToken = axios.CancelToken;
+    const source = CancelToken.source();
     const [dataToSend, setDataToSend] = useState({
         title: '',
         pageNo: '',
@@ -39,14 +41,17 @@ function DiscountManagement() {
     });
 
     useEffect(() => {
-        axios.post('http://localhost:8081/discount/listdiscount', dataToSend)
+        axios.post('http://ec2-13-250-214-184.ap-southeast-1.compute.amazonaws.com:8081/discount/listdiscount', dataToSend,
+            {
+                cancelToken: source.token,
+            })
             .then((response) => {
                 setDicount(response.data);
             })
             .catch((error) => {
                 console.error(error);
             });
-    }, [dataToSend]); //Thêm dependencies trống để chỉ gọi useEffect một lần sau componentDidMount
+    }); //Thêm dependencies trống để chỉ gọi useEffect một lần sau componentDidMount
 
     const handleKeyPress = (event) => {
         if (event.key === 'Enter') {
@@ -87,10 +92,10 @@ function DiscountManagement() {
     const onDeleteRow = async (id) => {
         try {
             const listDelete = [id];
-            const response = await axios.post('http://localhost:8081/discount/deleteDiscount', listDelete);
+            const response = await axios.post('http://ec2-13-250-214-184.ap-southeast-1.compute.amazonaws.com:8081/discount/deleteDiscount', listDelete);
             if (response.data.message === 'Success') {
                 alert("Xóa thành công");
-                axios.post('http://localhost:8081/discount/listdiscount', dataToSend)
+                axios.post('http://ec2-13-250-214-184.ap-southeast-1.compute.amazonaws.com:8081/discount/listdiscount', dataToSend)
                     .then((response) => {
                         setDicount(response.data);
                     })
@@ -172,7 +177,7 @@ function DiscountManagement() {
                                         <TableRow key={item.discountid}>
                                             <TableCell onClick={() => handleCellClick(item.discountid)} style={{ fontSize: "10px", fontFamily: "cursive", textAlign: "center" }}>{item.discount}</TableCell>
                                             <TableCell onClick={() => handleCellClick(item.discountid)} style={{ fontSize: "10px", fontFamily: "cursive", textAlign: "center" }}>{item.desciption}</TableCell>
-                                            <TableCell onClick={() => handleCellClick(item.discountid)} style={{ fontSize: "10px", fontFamily: "cursive", textAlign: "center", width: '18px' }}><img src={'http://localhost:8081/edu/file/files/' + item.img} alt={`Discount Image for ${item.title}`} style={{ maxWidth: '100%', maxHeight: '100%', }} /></TableCell>
+                                            <TableCell onClick={() => handleCellClick(item.discountid)} style={{ fontSize: "10px", fontFamily: "cursive", textAlign: "center", width: '18px' }}><img src={'http://ec2-13-250-214-184.ap-southeast-1.compute.amazonaws.com:8081/edu/file/files/' + item.img} alt={`Discount Image for ${item.title}`} style={{ maxWidth: '100%', maxHeight: '100%', }} /></TableCell>
 
                                             <TableCell onClick={() => handleCellClick(item.discountid)} style={{ fontSize: "10px", fontFamily: "cursive", textAlign: "center" }}>{item.startDate}</TableCell>
                                             <TableCell onClick={() => handleCellClick(item.discountid)} style={{ fontSize: "10px", fontFamily: "cursive", textAlign: "center" }}>{item.endDate}</TableCell>

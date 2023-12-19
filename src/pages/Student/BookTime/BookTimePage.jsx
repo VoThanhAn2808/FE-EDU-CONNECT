@@ -29,6 +29,8 @@ function BookTime() {
     const handleOpen1 = () => setOpen1(true);
     const handleClose1 = () => setOpen1(false);
     const [image, setImage] = useState(null);
+    const CancelToken = axios.CancelToken;
+    const source = CancelToken.source();
     const handleImageChange = (e) => {
         const selectedImage = e.target.files[0];
         if (selectedImage) {
@@ -37,7 +39,7 @@ function BookTime() {
 
             // Check if the selected file type is in the allowed types
             if (!allowedTypes.includes(selectedImage.type)) {
-                alert('Please select a valid image file (JPG, JPEG, GIF, PNG, SVG).');
+                showSnackbar('Làm ơn chọn file theo định dạng (JPG, JPEG, GIF, PNG, SVG).');
                 // Clear the input if an invalid file is selected
                 e.target.value = null;
                 return;
@@ -80,7 +82,7 @@ function BookTime() {
 
     useEffect(() => {
         axios
-            .get(`http://localhost:8081/book/timeline`)
+            .get(`http://ec2-13-250-214-184.ap-southeast-1.compute.amazonaws.com:8081/book/timeline`)
             .then((response) => {
                 setData(response.data);
             })
@@ -93,7 +95,7 @@ function BookTime() {
 
     useEffect(() => {
         axios
-            .get(`http://localhost:8081/book/lesson`)
+            .get(`http://ec2-13-250-214-184.ap-southeast-1.compute.amazonaws.com:8081/book/lesson`)
             .then((response) => {
                 setDaysOfWeek(response.data);
             })
@@ -109,28 +111,34 @@ function BookTime() {
 
     useEffect(() => {
         axios
-            .get(`http://localhost:8081/book/timeandlesson?tutorid=${tutorId}&studentid=${decodedTokenRef.current.id}`)
+            .get(`http://ec2-13-250-214-184.ap-southeast-1.compute.amazonaws.com:8081/book/timeandlesson?tutorid=${tutorId}&studentid=${decodedTokenRef.current.id}`,
+                {
+                    cancelToken: source.token,
+                })
             .then((response) => {
                 setScheduleData(response.data);
             })
             .catch((error) => {
                 console.error(error);
             });
-    }, [tutorId, decodedTokenRef.current.id]);
+    });
 
     const decodedToken = jwtDecode(localStorage.getItem('token'));
 
     const [student, setStudent] = useState([]);
 
     useEffect(() => {
-        axios.get("http://localhost:8081/student/viewstudent?email=" + decodedToken.id)
+        axios.get("http://ec2-13-250-214-184.ap-southeast-1.compute.amazonaws.com:8081/student/viewstudent?email=" + decodedToken.id,
+            {
+                cancelToken: source.token,
+            })
             .then((response) => {
                 setStudent(response.data);
             })
             .catch((error) => {
                 console.error(error);
             });
-    }, [decodedToken.id]);
+    });
 
     const handleSubmit = async (event) => {
         event.preventDefault();
@@ -143,7 +151,7 @@ function BookTime() {
 
         try {
             await axios.delete(
-                `http://localhost:8081/book/cancelbook?studentid=${student.studentid}`,
+                `http://ec2-13-250-214-184.ap-southeast-1.compute.amazonaws.com:8081/book/cancelbook?studentid=${student.studentid}`,
                 config
             );
             window.location.href = '/homestudent';
@@ -169,7 +177,7 @@ function BookTime() {
 
         try {
             await axios.delete(
-                `http://localhost:8081/book/deletetimeerror/${student.studentid}`,
+                `http://ec2-13-250-214-184.ap-southeast-1.compute.amazonaws.com:8081/book/deletetimeerror/${student.studentid}`,
                 config
             );
 
@@ -181,14 +189,14 @@ function BookTime() {
                 };
 
                 await axios.post(
-                    'http://localhost:8081/book/timebook',
+                    'http://ec2-13-250-214-184.ap-southeast-1.compute.amazonaws.com:8081/book/timebook',
                     postData,
                     configs
                 );
             }
 
             await axios.post(
-                `http://localhost:8081/book/banking`,
+                `http://ec2-13-250-214-184.ap-southeast-1.compute.amazonaws.com:8081/book/banking`,
                 {
                     studentid: student.studentid,
                     file: image,
@@ -240,12 +248,12 @@ function BookTime() {
             }
 
             const paymentResponse = await axios.get(
-                `http://localhost:8081/book/createpayment?studentid=${student.studentid}`,
+                `http://ec2-13-250-214-184.ap-southeast-1.compute.amazonaws.com:8081/book/createpayment?studentid=${student.studentid}`,
                 config
             );
 
             await axios.delete(
-                `http://localhost:8081/book/deletetimeerror/${student.studentid}`,
+                `http://ec2-13-250-214-184.ap-southeast-1.compute.amazonaws.com:8081/book/deletetimeerror/${student.studentid}`,
                 config
             );
 
@@ -257,7 +265,7 @@ function BookTime() {
                 };
 
                 await axios.post(
-                    'http://localhost:8081/book/timebook',
+                    'http://ec2-13-250-214-184.ap-southeast-1.compute.amazonaws.com:8081/book/timebook',
                     postData,
                     configs
                 );
@@ -274,8 +282,6 @@ function BookTime() {
     };
 
     const [selectedCheckboxes, setSelectedCheckboxes] = useState([]);
-
-    console.log("ds", selectedCheckboxes);
 
     const handleCheckboxChange = (item) => {
         if (selectedCheckboxes.includes(item)) {

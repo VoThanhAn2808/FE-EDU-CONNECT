@@ -20,6 +20,8 @@ function TutorManagement() {
     const [snackbarOpen, setSnackbarOpen] = useState(false);
     const [snackbarMessage, setSnackbarMessage] = useState('');
     const [snackbarType, setSnackbarType] = useState('success');
+    const CancelToken = axios.CancelToken;
+    const source = CancelToken.source();
 
     const showSnackbar = (message, type) => {
         setSnackbarMessage(message);
@@ -48,14 +50,17 @@ function TutorManagement() {
 
     const fetchTop = useCallback((pageNumber) => {
         axios
-            .get(`http://localhost:8081/staffsconnect/tutor/${decodedToken.id}/${pageNumber}`)
+            .get(`http://ec2-13-250-214-184.ap-southeast-1.compute.amazonaws.com:8081/staffsconnect/tutor/${decodedToken.id}/${pageNumber}`,
+                {
+                    cancelToken: source.token,
+                })
             .then((response) => {
                 setData(response.data);
             })
             .catch((error) => {
                 console.error(error);
             });
-    }, [decodedToken.id]);
+    });
     const [page, setPage] = useState(1);
     const [total, settotal] = useState([]);
     useEffect(() => {
@@ -66,7 +71,10 @@ function TutorManagement() {
     };
     useEffect(() => {
         axios
-            .get(`http://localhost:8081/staffsconnect/totaltutor?staffid=${decodedToken.id}`)
+            .get(`http://ec2-13-250-214-184.ap-southeast-1.compute.amazonaws.com:8081/staffsconnect/totaltutor?staffid=${decodedToken.id}`,
+                {
+                    cancelToken: source.token,
+                })
             .then((response) => {
                 settotal(response.data);
             })
@@ -75,7 +83,7 @@ function TutorManagement() {
             });
         if (tutor !== null) {
             axios
-                .get(`http://localhost:8081/staffsconnect/tutor/viewprofile/${tutor}`)
+                .get(`http://ec2-13-250-214-184.ap-southeast-1.compute.amazonaws.com:8081/staffsconnect/tutor/viewprofile/${tutor}`)
                 .then((response) => {
                     setData1(response.data);
                 })
@@ -83,7 +91,7 @@ function TutorManagement() {
                     console.error(error);
                 });
             axios
-                .get(`http://localhost:8081/staffsconnect/tutor/viewprofile/classcourse/${tutor}`)
+                .get(`http://ec2-13-250-214-184.ap-southeast-1.compute.amazonaws.com:8081/staffsconnect/tutor/viewprofile/classcourse/${tutor}`)
                 .then((response) => {
                     setData2(response.data);
                 })
@@ -91,7 +99,7 @@ function TutorManagement() {
                     console.error(error);
                 });
             axios
-                .get(`http://localhost:8081/staffsconnect/tutor/viewprofile/timeline/${tutor}`)
+                .get(`http://ec2-13-250-214-184.ap-southeast-1.compute.amazonaws.com:8081/staffsconnect/tutor/viewprofile/timeline/${tutor}`)
                 .then((response) => {
                     setData3(response.data);
                 })
@@ -99,7 +107,7 @@ function TutorManagement() {
                     console.error(error);
                 });
             axios
-                .get(`http://localhost:8081/educonnect/historypay?tutorid=${tutor}`)
+                .get(`http://ec2-13-250-214-184.ap-southeast-1.compute.amazonaws.com:8081/educonnect/historypay?tutorid=${tutor}`)
                 .then((response) => {
                     setHistory(response.data);
                 })
@@ -107,7 +115,7 @@ function TutorManagement() {
                     console.error(error);
                 });
         }
-    }, [tutor, decodedToken.id]);
+    });
     const handleClickClasscourse = async (tutorid, event) => {
         event.preventDefault();
         event.stopPropagation();
@@ -116,7 +124,7 @@ function TutorManagement() {
             formData.append('classcourseid', course);
             formData.append('tutorid', tutorid);
             const response = await axios.post(
-                `http://localhost:8081/staffsconnect/addClasscourseForTutor`,
+                `http://ec2-13-250-214-184.ap-southeast-1.compute.amazonaws.com:8081/staffsconnect/addClasscourseForTutor`,
                 formData,
                 {
                     headers: {
@@ -136,7 +144,7 @@ function TutorManagement() {
         event.stopPropagation();
         try {
             const response = await axios.put(
-                `http://localhost:8081/staffsconnect/tutor/updatesalary`,
+                `http://ec2-13-250-214-184.ap-southeast-1.compute.amazonaws.com:8081/staffsconnect/tutor/updatesalary`,
                 {
                     tutorid: tutorid,
                     price: data1.price,
@@ -162,7 +170,7 @@ function TutorManagement() {
         event.preventDefault();
         event.stopPropagation();
         try {
-            const response = await axios.get(`http://localhost:8081/staffsconnect/tutor/block/${tutor}`);
+            const response = await axios.get(`http://ec2-13-250-214-184.ap-southeast-1.compute.amazonaws.com:8081/staffsconnect/tutor/block/${tutor}`);
             if (response.data === true) {
                 alert("succsess");
                 window.location.reload();
@@ -181,7 +189,7 @@ function TutorManagement() {
 
     useEffect(() => {
         axios
-            .get("http://localhost:8081/student/class")
+            .get("http://ec2-13-250-214-184.ap-southeast-1.compute.amazonaws.com:8081/student/class")
             .then((response) => {
                 setClassEntity(response.data);
             })
@@ -193,7 +201,7 @@ function TutorManagement() {
     useEffect(() => {
         if (classcourse) {
             axios
-                .get(`http://localhost:8081/course/findCourseByClass?classcourseid=${classcourse}`)
+                .get(`http://ec2-13-250-214-184.ap-southeast-1.compute.amazonaws.com:8081/course/findCourseByClass?classcourseid=${classcourse}`)
                 .then((response) => {
                     setCourseC(response.data);
                 })
@@ -367,7 +375,7 @@ function TutorManagement() {
                     }}
                 >
                     <Box sx={{ backgroundColor: "#D9D9D9", width: "340px", borderRadius: "10px", border: '2px solid #000000', p: 2, maxHeight: 'calc(100vh - 200px)', overflowY: 'auto', }}>
-                        <Avatar sx={{ height: "100px", width: "100px", marginLeft: "30%" }} src={`http://localhost:8081/edu/file/files/` + data1.img} />
+                        <Avatar sx={{ height: "100px", width: "100px", marginLeft: "30%" }} src={`http://ec2-13-250-214-184.ap-southeast-1.compute.amazonaws.com:8081/edu/file/files/` + data1.img} />
                         <Typography sx={{ fontSize: "17px", marginTop: "20px" }}>Giáo viên: {data1.fullname}</Typography>
                         <Typography sx={{ fontSize: "17px" }}>Ngày sinh: {data1.birthdate}</Typography>
                         <Typography sx={{ fontSize: "17px" }}>Số điện thoại: {data1.phone}</Typography>
@@ -429,7 +437,7 @@ function TutorManagement() {
                                         ))
                                     ) : (
                                         <TableRow>
-                                            <TableCell style={{ fontSize: "10px", fontFamily: "cursive", textAlign: "center" }} colSpan={4}>No data available</TableCell>
+                                            <TableCell style={{ fontSize: "10px", fontFamily: "cursive", textAlign: "center" }} colSpan={4}>Không có dữ liệu</TableCell>
                                         </TableRow>
                                     )}
                                 </TableBody>

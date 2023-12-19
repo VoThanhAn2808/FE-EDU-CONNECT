@@ -26,39 +26,47 @@ const ProfileTutor = () => {
   const [isEditing, setIsEditing] = useState(true);
   const [city, setCity] = useState([]);
   const [wards, setWards] = useState([]);
+  const CancelToken = axios.CancelToken;
+  const source = CancelToken.source();
 
 
   const fetchUser = useCallback(async () => {
     try {
       const response = await axios.get(
-        `http://localhost:8081/educonnect/viewTutor?tutorId=${userId}`,
+        `http://ec2-13-250-214-184.ap-southeast-1.compute.amazonaws.com:8081/educonnect/viewTutor?tutorId=${userId}`,
         {
           headers: {
             'Content-Type': 'application/json',
           },
         },
+        {
+          cancelToken: source.token,
+        }
       );
       setUserData({ ...response.data, email: decodedToken.sub });
     } catch (error) {
       console.error(error);
     }
-  }, [userId, decodedToken.sub]);
+  });
 
   const fetchCourse = useCallback(async () => {
     try {
       const response = await axios.get(
-        `http://localhost:8081/educonnect/tutor/course?tutorid=${userId}`,
+        `http://ec2-13-250-214-184.ap-southeast-1.compute.amazonaws.com:8081/educonnect/tutor/course?tutorid=${userId}`,
         {
           headers: {
             'Content-Type': 'application/json',
           },
         },
+        {
+          cancelToken: source.token,
+        }
       );
       setUserData((prevUserData) => ({ ...prevUserData, courseList: response.data }));
     } catch (error) {
       console.error(error);
     }
-  }, [userId]);
+  });
 
 
   useEffect(() => {
@@ -96,7 +104,7 @@ const ProfileTutor = () => {
       formData.append('city', userData.city);
       formData.append('wards', userData.wards);
       formData.append('file', uploadedFile);
-      await axios.put('http://localhost:8081/educonnect/UpdateTutor', formData,
+      await axios.put('http://ec2-13-250-214-184.ap-southeast-1.compute.amazonaws.com:8081/educonnect/UpdateTutor', formData,
         {
           headers: {
             'Content-Type': 'multipart/form-data',

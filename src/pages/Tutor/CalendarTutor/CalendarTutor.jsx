@@ -1,5 +1,5 @@
 import React, { useCallback, useEffect, useState } from "react";
-import { Box, Button, Link, Menu, MenuItem, Modal, Paper, Table, TableBody, TableCell, TableContainer, TableHead, TableRow, TextField, Typography } from "@mui/material";
+import { Alert, Box, Button, Link, Menu, MenuItem, Modal, Paper, Snackbar, Table, TableBody, TableCell, TableContainer, TableHead, TableRow, TextField, Typography } from "@mui/material";
 import { jwtDecode } from "jwt-decode";
 import MoreVertIcon from '@mui/icons-material/MoreVert';
 import axios from "axios";
@@ -20,6 +20,10 @@ function CalendarTutor() {
     const [open4, setOpen4] = useState(false);
     const handleOpen4 = () => setOpen4(true);
     const handleClose4 = () => setOpen4(false);
+    const [errorMessage, setErrorMessage] = useState('');
+    const [openSnackbar, setOpenSnackbar] = useState(false);
+    const CancelToken = axios.CancelToken;
+    const source = CancelToken.source();
 
     const handleLinkClick = async (date, timeid, event) => {
         event.preventDefault();
@@ -27,7 +31,7 @@ function CalendarTutor() {
 
         try {
             axios
-                .get(`http://localhost:8081/schedule/detailschedule?tutorid=${userId}&date=${date}&timeid=${timeid}`)
+                .get(`http://ec2-13-250-214-184.ap-southeast-1.compute.amazonaws.com:8081/schedule/detailschedule?tutorid=${userId}&date=${date}&timeid=${timeid}`)
                 .then((response) => {
                     setSchedule(response.data);
                 })
@@ -52,18 +56,21 @@ function CalendarTutor() {
     const fetchUser = useCallback(async () => {
         try {
             const response = await axios.get(
-                `http://localhost:8081/educonnect/viewTutor?tutorId=${userId}`,
+                `http://ec2-13-250-214-184.ap-southeast-1.compute.amazonaws.com:8081/educonnect/viewTutor?tutorId=${userId}`,
                 {
                     headers: {
                         "Content-Type": "application/json",
                     },
+                },
+                {
+                    cancelToken: source.token,
                 }
             );
             setUser(response.data);
         } catch (error) {
             console.error(error);
         }
-    }, [userId]);
+    });
 
     useEffect(() => {
         fetchUser();
@@ -71,7 +78,7 @@ function CalendarTutor() {
 
     useEffect(() => {
         axios
-            .get(`http://localhost:8081/book/lesson`)
+            .get(`http://ec2-13-250-214-184.ap-southeast-1.compute.amazonaws.com:8081/book/lesson`)
             .then((response) => {
                 setDaysOfWeek(response.data);
             })
@@ -82,7 +89,7 @@ function CalendarTutor() {
 
     useEffect(() => {
         axios
-            .get(`http://localhost:8081/book/timeline`)
+            .get(`http://ec2-13-250-214-184.ap-southeast-1.compute.amazonaws.com:8081/book/timeline`)
             .then((response) => {
                 setData(response.data);
             })
@@ -99,13 +106,16 @@ function CalendarTutor() {
     const fetchStudentData = useCallback(async () => {
         try {
             const studentResponse = await axios.get(
-                `http://localhost:8081/schedule/studentscheduletutor?tutorid=${userId}&week=${week}&year=${year}`
+                `http://ec2-13-250-214-184.ap-southeast-1.compute.amazonaws.com:8081/schedule/studentscheduletutor?tutorid=${userId}&week=${week}&year=${year}`,
+                {
+                    cancelToken: source.token,
+                }
             );
             setScheduleData(studentResponse.data);
         } catch (error) {
             console.error(error);
         }
-    }, [week, year, userId]);
+    });
 
     useEffect(() => {
         if (week && userId && year) {
@@ -142,6 +152,13 @@ function CalendarTutor() {
     const [date, setDate] = useState('');
     const [times, setTimes] = useState('');
 
+    const handleDateChange = (newDate) => {
+        if (newDate.isBefore(dayjs(), 'day')) {
+            console.log('Selected date is before today!');
+        } else {
+            setDate(newDate);
+        }
+    };
 
     const handleSubmitTry = async (event) => {
         event.preventDefault();
@@ -151,28 +168,41 @@ function CalendarTutor() {
                 "Content-Type": "application/json",
             },
         };
+        if (date && !dayjs(date).isBefore(dayjs(), 'day')) {
+            try {
+                const formattedDate = format(new Date(date), 'yyyy-MM-dd');
+                await axios.post(
+                    "http://ec2-13-250-214-184.ap-southeast-1.compute.amazonaws.com:8081/schedule/changecalender",
+                    {
+                        bookid: schedule.bookid,
+                        datechange: schedule.scheduled_Date,
+                        timeid: times,  // Ensure `times` is defined and in the expected format
+                        subject: schedule.courses,
+                        nametutor: user.fullname,
+                        time: schedule.timeline,
+                        lesson: schedule.lessonline,
+                        date: formattedDate,  // Ensure `date` is defined and in the expected format
+                    },
+                    config
+                );
 
-        try {
-            const formattedDate = format(new Date(date), 'yyyy-MM-dd');
-            await axios.post(
-                "http://localhost:8081/schedule/changecalender",
-                {
-                    bookid: schedule.bookid,
-                    datechange: schedule.scheduled_Date,
-                    timeid: times,  // Ensure `times` is defined and in the expected format
-                    subject: schedule.courses,
-                    nametutor: user.fullname,
-                    time: schedule.timeline,
-                    lesson: schedule.lessonline,
-                    date: formattedDate,  // Ensure `date` is defined and in the expected format
-                },
-                config
-            );
-
-            window.location.href = '/calendartutor';
-        } catch (error) {
-            console.error(error);
+                window.location.href = '/calendartutor';
+            } catch (error) {
+                console.error(error);
+            }
+        } else {
+            // Invalid date, show an error message
+            setErrorMessage('Selected date is before or equal to today.');
+            setOpenSnackbar(true);
         }
+
+    };
+
+    const handleCloseSnackbar = (event, reason) => {
+        if (reason === 'clickaway') {
+            return;
+        }
+        setOpenSnackbar(false);
     };
 
 
@@ -283,9 +313,9 @@ function CalendarTutor() {
                             <Typography sx={{ fontSize: '15px', fontFamily: 'cursive', textAlign: 'center', marginTop: '20px' }}>Thay đổi lịch học</Typography>
                             <LocalizationProvider dateAdapter={AdapterDayjs}>
                                 <StyledDatePicker
-                                    label='Chọn ngày'
-                                    value={date ? dayjs(date) : null}
-                                    onChange={(newDate) => setDate(newDate)}
+                                    label="Chọn ngày"
+                                    value={date}
+                                    onChange={handleDateChange}
                                     InputLabelProps={{
                                         style: {
                                             fontSize: '12px',
@@ -293,17 +323,17 @@ function CalendarTutor() {
                                         },
                                     }}
                                     sx={{
-                                        fontSize: "14px",
-                                        height: "28px",
-                                        width: "202px",
+                                        fontSize: '14px',
+                                        height: '28px',
+                                        width: '202px',
                                         marginLeft: '25%',
-                                        marginTop: '15px'
+                                        marginTop: '15px',
                                     }}
                                 />
                             </LocalizationProvider>
                             <TextField
                                 select
-                                label="chọn giờ"
+                                label="Chọn giờ"
                                 value={times}
                                 onChange={(e) => setTimes(e.target.value)}
                                 sx={{
@@ -325,6 +355,15 @@ function CalendarTutor() {
                                 ))}
                             </TextField>
                             <Button type="submit" variant="contained" style={{ width: '50px', fontSize: '12px', marginTop: '30px', marginLeft: '40%' }}>Lưu</Button>
+                            <Snackbar
+                                open={openSnackbar}
+                                autoHideDuration={6000}
+                                onClose={handleCloseSnackbar}
+                            >
+                                <Alert onClose={handleCloseSnackbar} severity="error" sx={{ width: '100%' }}>
+                                    {errorMessage}
+                                </Alert>
+                            </Snackbar>
                         </Box>
                     </form>
                 </Modal>

@@ -16,6 +16,8 @@ function DocumentManagement() {
     const [snackbarOpen, setSnackbarOpen] = useState(false);
     const [snackbarMessage, setSnackbarMessage] = useState('');
     const [snackbarType, setSnackbarType] = useState('success');
+    const CancelToken = axios.CancelToken;
+    const source = CancelToken.source();
 
     const showSnackbar = (message, type) => {
         setSnackbarMessage(message);
@@ -36,33 +38,39 @@ function DocumentManagement() {
     };
     const fetchData = useCallback((pageNumber) => {
         axios
-            .get(`http://localhost:8081/staffsconnect/listtutorregistersforlessons?page=${pageNumber}&staffid=${decodedToken.id}`)
+            .get(`http://ec2-13-250-214-184.ap-southeast-1.compute.amazonaws.com:8081/staffsconnect/listtutorregistersforlessons?page=${pageNumber}&staffid=${decodedToken.id}`,
+                {
+                    cancelToken: source.token,
+                })
             .then((response) => {
                 setData(response.data);
             })
             .catch((error) => {
                 console.error(error);
             });
-    }, [decodedToken.id]);
+    });
 
     useEffect(() => {
         fetchData(page);
         axios
-            .get(`http://localhost:8081/staffsconnect/totalpageTutor?staffid=${decodedToken.id}`)
+            .get(`http://ec2-13-250-214-184.ap-southeast-1.compute.amazonaws.com:8081/staffsconnect/totalpageTutor?staffid=${decodedToken.id}`,
+                {
+                    cancelToken: source.token,
+                })
             .then((response) => {
                 setPages(response.data);
             })
             .catch((error) => {
                 console.error(error);
             });
-    }, [decodedToken.id, fetchData, page]);
+    });
 
     const handleClickChange = async (event, fileid, status) => {
         event.preventDefault();
         event.stopPropagation();
         try {
             const response = await axios.put(
-                `http://localhost:8081/staffsconnect/acceptfile`,
+                `http://ec2-13-250-214-184.ap-southeast-1.compute.amazonaws.com:8081/staffsconnect/acceptfile`,
                 {
                     fileid: fileid,
                     status: status,
@@ -157,7 +165,7 @@ function DocumentManagement() {
                                                 <TableCell sx={{ fontSize: "15px", fontFamily: "cursive", textAlign: "center" }}>{item.nameFile}</TableCell>
                                                 <TableCell sx={{ fontSize: "15px", fontFamily: "cursive", textAlign: "center" }}>{item.coursename}</TableCell>
                                                 <TableCell sx={{ fontSize: "15px", fontFamily: "cursive", textAlign: "center" }}>
-                                                    <Link style={{ textDecoration: "none" }} href={`http://localhost:8081/edu/file/fileuser/${item.files}/${item.tutorid}`} target="_blank">
+                                                    <Link style={{ textDecoration: "none" }} href={`http://ec2-13-250-214-184.ap-southeast-1.compute.amazonaws.com:8081/edu/file/fileuser/${item.files}/${item.tutorid}`} target="_blank">
                                                         Tải File
                                                     </Link>
                                                 </TableCell>

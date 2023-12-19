@@ -27,33 +27,42 @@ function Home() {
     const [course, setStudentData] = useState([]);
     const decodedToken = jwtDecode(localStorage.getItem('token'));
     const userId = decodedToken.id;
+    const CancelToken = axios.CancelToken;
+    const source = CancelToken.source();
+
 
     const fetchUser = useCallback(async () => {
         try {
             const response = await axios.get(
-                `http://localhost:8081/student/viewstudent?email=${userId}`,
+                `http://ec2-13-250-214-184.ap-southeast-1.compute.amazonaws.com:8081/student/viewstudent?email=${userId}`,
                 {
                     headers: {
                         "Content-Type": "application/json",
                     },
+                },
+                {
+                    cancelToken: source.token,
                 }
             );
             setUser(response.data);
         } catch (error) {
             console.error(error);
         }
-    }, [userId]);
+    });
 
     const fetchStudentData = useCallback(async () => {
         try {
             const studentResponse = await axios.get(
-                `http://localhost:8081/course/listcourseforstudent?classcourseid=${user.classId}&studentid=${user.studentid}`
+                `http://ec2-13-250-214-184.ap-southeast-1.compute.amazonaws.com:8081/course/listcourseforstudent?classcourseid=${user.classId}&studentid=${user.studentid}`,
+                {
+                    cancelToken: source.token,
+                }
             );
             setStudentData(studentResponse.data);
         } catch (error) {
             console.error(error);
         }
-    }, [user.classId, user.studentid]);
+    });
 
     useEffect(() => {
         fetchUser();
@@ -70,14 +79,16 @@ function Home() {
 
     useEffect(() => {
         axios
-            .get("http://localhost:8081/educonnect/tutor/top3")
+            .get("http://ec2-13-250-214-184.ap-southeast-1.compute.amazonaws.com:8081/educonnect/tutor/top3", {
+                cancelToken: source.token,
+            })
             .then((response) => {
                 setData(response.data);
             })
             .catch((error) => {
                 console.error(error);
             });
-    }, []);
+    });
     return (
         <Box sx={{ marginBottom: "80px" }}>
             <Slide />
@@ -135,7 +146,7 @@ function Home() {
                                         </Box>
                                     )}
                                     <img
-                                        src={`http://localhost:8081/edu/file/files/` + item.img}
+                                        src={`http://ec2-13-250-214-184.ap-southeast-1.compute.amazonaws.com:8081/edu/file/files/` + item.img}
                                         alt={item.courseName}
                                         style={{ height: '200px', width: '150px' }}
                                         className="subject-img"
@@ -221,7 +232,7 @@ function Home() {
                                         Thông tin
                                     </Button>
                                 </Link>
-                                <img src={`http://localhost:8081/edu/file/fileuser/${item.img}/${item.tutorid}`} alt="giasu" className='giasu' style={{ height: '330px' }} />
+                                <img src={`http://ec2-13-250-214-184.ap-southeast-1.compute.amazonaws.com:8081/edu/file/fileuser/${item.img}/${item.tutorid}`} alt="giasu" className='giasu' style={{ height: '330px' }} />
                             </Box>
                         </Grid>
                     ))}

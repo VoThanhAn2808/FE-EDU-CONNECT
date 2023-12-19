@@ -17,49 +17,60 @@ function BookTutorPage() {
 
     const { tutorid } = useParams();
     const { classcourseid } = useParams();
+    const CancelToken = axios.CancelToken;
+    const source = CancelToken.source();
 
     useEffect(() => {
         axios
-            .get(`http://localhost:8081/educonnect/tutor/booktutor?tutorid=${tutorid}&classcourseid=${classcourseid}`)
+            .get(`http://ec2-13-250-214-184.ap-southeast-1.compute.amazonaws.com:8081/educonnect/tutor/booktutor?tutorid=${tutorid}&classcourseid=${classcourseid}`,
+                {
+                    cancelToken: source.token,
+                })
             .then((response) => {
                 setData(response.data);
             })
             .catch((error) => {
                 console.error(error);
             });
-    }, [tutorid, classcourseid]);
+    });
     const [page, setPage] = useState([]);
 
     useEffect(() => {
         axios
-            .get(`http://localhost:8081/tutorByCourse/find4TutorByCourse?CourseId=${classcourseid}`)
+            .get(`http://ec2-13-250-214-184.ap-southeast-1.compute.amazonaws.com:8081/tutorByCourse/find4TutorByCourse?CourseId=${classcourseid}`,
+                {
+                    cancelToken: source.token,
+                })
             .then((response) => {
                 setPage(response.data);
             })
             .catch((error) => {
                 console.error(error);
             });
-    }, [classcourseid]);
+    });
 
     const [course, setCourse] = useState([]);
 
     useEffect(() => {
         axios
-            .get(`http://localhost:8081/course/findCourseByTutor?tutorid=${tutorid}`)
+            .get(`http://ec2-13-250-214-184.ap-southeast-1.compute.amazonaws.com:8081/course/findCourseByTutor?tutorid=${tutorid}`,
+                {
+                    cancelToken: source.token,
+                })
             .then((response) => {
                 setCourse(response.data);
             })
             .catch((error) => {
                 console.error(error);
             });
-    }, [tutorid]);
+    });
     return (
         <Box className="body">
             <Box className="body-tutor" >
                 <Grid container spacing={1}>
                     <Grid item xs={5} >
                         <Box className="tutor-infor">
-                            <img src={`http://localhost:8081/edu/file/fileuser/${data.img}/${data.tutorId}`} alt={data.fullname} className="tutor-img" />
+                            <img src={`http://ec2-13-250-214-184.ap-southeast-1.compute.amazonaws.com:8081/edu/file/fileuser/${data.img}/${data.tutorId}`} alt={data.fullname} className="tutor-img" />
                         </Box>
                     </Grid>
                     <Grid item xs={7}>
@@ -147,7 +158,7 @@ function BookTutorPage() {
                                         <Typography sx={{ fontWeight: 'bold' }}>{item.discount}%</Typography>
                                     </Box>
                                 )}
-                                <img src={`http://localhost:8081/edu/file/files/` + item.img}
+                                <img src={`http://ec2-13-250-214-184.ap-southeast-1.compute.amazonaws.com:8081/edu/file/files/` + item.img}
                                     style={{ width: '120px', height: '180px' }}
                                     alt={item.courseName} className="courseimg" />
                                 <Typography className="namebook">
@@ -182,7 +193,7 @@ function BookTutorPage() {
                                 <Typography sx={{ fontSize: '12px', textAlign: 'center', marginTop: '5px' }}>
                                     Gia sư dạy {item.coursename} {item.classentity}
                                 </Typography>
-                                <img src={`http://localhost:8081/edu/file/fileuser/${item.img}/${item.tutorid}`}
+                                <img src={`http://ec2-13-250-214-184.ap-southeast-1.compute.amazonaws.com:8081/edu/file/fileuser/${item.img}/${item.tutorid}`}
                                     style={{ width: '130px', height: '180px' }}
                                     alt="subject" className="imgtutor" />
                                 <Rating

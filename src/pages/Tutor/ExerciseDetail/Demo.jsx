@@ -20,14 +20,22 @@ function Demo() {
     const decodedToken = jwtDecode(localStorage.getItem('token'));
     const [pages, setPages] = useState(1);
     const [page, setPage] = useState(1);
+    const CancelToken = axios.CancelToken;
+    const source = CancelToken.source();
     useEffect(() => {
-        axios.get(`http://localhost:8081/educonnect/viewtutorcourse?classcourseid=${classcourseid}&tutorid=${decodedToken.id}`)
+        axios.get(`http://ec2-13-250-214-184.ap-southeast-1.compute.amazonaws.com:8081/educonnect/viewtutorcourse?classcourseid=${classcourseid}&tutorid=${decodedToken.id}`,
+            {
+                cancelToken: source.token,
+            })
             .then((response) => {
                 setTutor(response.data);
             })
             .catch((error) => {
             })
-        axios.get(`http://localhost:8081/demo/listdemobyclasscourse?classcourseid=${classcourseid}`)
+        axios.get(`http://ec2-13-250-214-184.ap-southeast-1.compute.amazonaws.com:8081/demo/listdemobyclasscourse?classcourseid=${classcourseid}`,
+            {
+                cancelToken: source.token,
+            })
             .then((response) => {
 
                 setDemoList(response.data);
@@ -35,7 +43,10 @@ function Demo() {
             .catch((error) => {
                 console.error(error);
             });
-        axios.get(`http://localhost:8081/demo/totalpagedemo?classcourseid=${classcourseid}`)
+        axios.get(`http://ec2-13-250-214-184.ap-southeast-1.compute.amazonaws.com:8081/demo/totalpagedemo?classcourseid=${classcourseid}`,
+            {
+                cancelToken: source.token,
+            })
             .then((response) => {
 
                 setPage(response.data);
@@ -74,7 +85,7 @@ function Demo() {
                                     <TableCell style={{ fontSize: "14px" }}>{row.coursename}-{row.classname}</TableCell>
                                     <TableCell style={{ fontSize: "14px" }}>{row.demoname}</TableCell>
                                     <TableCell style={{ fontSize: "14px" }}>
-                                        <img src={`http://localhost:8081/edu/file/files/${row.img}`} style={{ width: '80px' }} alt='an' />
+                                        <img src={`http://ec2-13-250-214-184.ap-southeast-1.compute.amazonaws.com:8081/edu/file/files/${row.img}`} style={{ width: '80px' }} alt='an' />
                                     </TableCell>
                                     <TableCell style={{ fontSize: "14px" }}>
                                         <Button type='link' variant="contained" color="success" sx={{ marginRight: "10px" }} component={Link}

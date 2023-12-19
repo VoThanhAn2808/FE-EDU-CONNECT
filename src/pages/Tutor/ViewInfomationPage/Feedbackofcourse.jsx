@@ -15,9 +15,14 @@ function Feedbackofcourse() {
   const decodedToken = jwtDecode(localStorage.getItem('token'));
   const [course, setCourse] = useState([]);
   const [data, setData] = useState([]);
+  const CancelToken = axios.CancelToken;
+  const source = CancelToken.source();
   useEffect(() => {
     axios
-      .get(`http://localhost:8081/educonnect/studentviewdetailtutor?tutorid=${decodedToken.id}`)
+      .get(`http://ec2-13-250-214-184.ap-southeast-1.compute.amazonaws.com:8081/educonnect/studentviewdetailtutor?tutorid=${decodedToken.id}`,
+        {
+          cancelToken: source.token,
+        })
       .then((response) => {
         setTutor(response.data);
       })
@@ -25,7 +30,10 @@ function Feedbackofcourse() {
         console.error(error);
       });
     axios
-      .get(`http://localhost:8081/educonnect/tutor/listcourse?tutorid=${decodedToken.id}`)
+      .get(`http://ec2-13-250-214-184.ap-southeast-1.compute.amazonaws.com:8081/educonnect/tutor/listcourse?tutorid=${decodedToken.id}`,
+        {
+          cancelToken: source.token,
+        })
       .then((response) => {
         setCourse(response.data);
       })
@@ -33,14 +41,17 @@ function Feedbackofcourse() {
         console.error(error);
       });
     axios
-      .get(`http://localhost:8081/educonnect/feedbackofcourse/${decodedToken.id}/${classcourseid}`)
+      .get(`http://ec2-13-250-214-184.ap-southeast-1.compute.amazonaws.com:8081/educonnect/feedbackofcourse/${decodedToken.id}/${classcourseid}`,
+        {
+          cancelToken: source.token,
+        })
       .then((response) => {
         setData(response.data);
       })
       .catch((error) => {
         console.error(error);
       });
-  }, [decodedToken.id, classcourseid]);
+  });
 
   return (
     <Box>
@@ -68,7 +79,7 @@ function Feedbackofcourse() {
           />
         </Box>
         {tutor.img ? (
-          <img src={`http://localhost:8081/edu/file/fileuser/${tutor.img}/${tutor.tutorid}`} alt="tutor" style={{
+          <img src={`http://ec2-13-250-214-184.ap-southeast-1.compute.amazonaws.com:8081/edu/file/fileuser/${tutor.img}/${tutor.tutorid}`} alt="tutor" style={{
             width: '250px',
             height: '250px', float: 'right', marginLeft: '250px', borderRadius: '50%'
           }} />
@@ -163,7 +174,7 @@ function Feedbackofcourse() {
                   <Box sx={{ backgroundColor: 'GrayText', width: '300px', borderRadius: '5%' }}>
                     <Typography variant="h5" sx={{ marginBottom: '20px', width: '200px', fontFamily: 'cursive', marginLeft: 'auto', marginRight: 'auto', paddingTop: '10px' }}>{item.notes}</Typography>
                     <Typography variant="h5" sx={{ marginBottom: '20px', width: '200px', fontFamily: 'cursive', marginLeft: 'auto', marginRight: 'auto' }}>{`${item.coursename} ${item.classname}`}</Typography>
-                    <img src={`http://localhost:8081/edu/file/fileuser/${item.img}/${item.studentid}`} alt={`Slide ${index}`} style={{
+                    <img src={`http://ec2-13-250-214-184.ap-southeast-1.compute.amazonaws.com:8081/edu/file/fileuser/${item.img}/${item.studentid}`} alt={`Slide ${index}`} style={{
                       display: 'block', width: '150px', height: '150px', borderRadius: '50%',
                       marginTop: '20px', objectFit: 'cover', marginLeft: '25%'
                     }} />
