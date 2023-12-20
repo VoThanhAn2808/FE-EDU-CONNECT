@@ -54,6 +54,10 @@ function Dashboard() {
     Tiền_Lời: item.profit,
   }));
 
+  const percentageChange = lmonth.TotalRevenue !== 0
+  ? ((month.TotalRevenue - lmonth.TotalRevenue) / (Math.abs(lmonth.TotalRevenue) * 10)).toFixed(2) + '%'
+  : '0.00%';
+
   return (
     <Box>
       <Box>
@@ -130,7 +134,7 @@ function Dashboard() {
                   }}
                 >
                   <Typography sx={{ fontSize: "15px", marginLeft: "5px" }}>
-                    {((month.TotalRevenue - lmonth.TotalRevenue) / Math.abs(lmonth.TotalRevenue)) * 100}%
+                    {percentageChange}
                   </Typography>
                   {month.TotalRevenue > lmonth.TotalRevenue ? (
                     <MovingIcon sx={{ fontSize: '20px', marginLeft: "10px" }} />
