@@ -195,20 +195,6 @@ const Sidebar = () => {
             ))}
           </List>
         </Collapse>
-        {/* ////////////////////////////////// */}
-        <ListItemButton
-        sx={{
-          backgroundColor: isHomeworkClicked ? 'rgba(255, 255, 255, 0.2)' : 'transparent',
-          borderRadius: '10px',
-          transition: 'background-color 0.3s ease',
-        }}
-         onClick={handleHomeworkClick}>
-          <ListItemIcon>
-            <TopicIcon />
-          </ListItemIcon>
-          <Typography sx={{ fontSize: '16px', marginRight: 'auto' }}><Link style={{ color: "black", textDecoration: "none" }}>Danh sách nộp bài tập </Link></Typography>
-          {openHomework ? <ExpandLess /> : <ExpandMore />}
-        </ListItemButton>
 
         <Collapse in={openHomework} timeout='auto' unmountOnExit>
           <List component='div' disablePadding>
