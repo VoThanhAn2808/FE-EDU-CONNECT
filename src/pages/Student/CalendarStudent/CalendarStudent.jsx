@@ -22,16 +22,13 @@ function CalendarStudent() {
                     headers: {
                         "Content-Type": "application/json",
                     },
-                },
-                {
-                    cancelToken: source.token,
                 }
             );
             setUser(response.data);
         } catch (error) {
             console.error(error);
         }
-    });
+    }, [userId]);
 
     useEffect(() => {
         axios
