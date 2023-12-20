@@ -33,19 +33,19 @@ function ProfileInfo({
   return (
     <>
       <TextField
-        label="Họ Và Tên"
+        label='Họ Và Tên'
         fullWidth
-        value={userData.fullname}
-        onChange={(e) => handleInputChange('fullname', e.target.value)}
+        value={userData.fullname || ''}
+        onChange={(e) => {
+          const inputValue = e.target.value;
+          const regex = /^[\p{L}\s]*$/u;
+          if (regex.test(inputValue)) {
+            handleInputChange('fullname', inputValue);
+          }
+        }}
         disabled={!isEditing}
         InputLabelProps={{
           shrink: userData.fullname ? true : undefined,
-        }}
-        onKeyPress={(e) => {
-          const charCode = e.which || e.keyCode;
-          if (charCode >= 48 && charCode <= 57) {
-            e.preventDefault();
-          }
         }}
       />
       <TextField
