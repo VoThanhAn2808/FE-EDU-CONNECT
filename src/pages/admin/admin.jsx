@@ -52,7 +52,8 @@ function Admin() {
     Thanh_Toán: item.payfortutor,
     Tiền_Lời: item.profit,
   }));
-
+  const denominator = lmonth.TotalRevenue === 0 ? 1 : lmonth.TotalRevenue;
+  const percentageChange = Math.min(Math.max(((month.TotalRevenue - lmonth.TotalRevenue) / denominator) * 100, 0), 100) + '%';
   return (
     <Box>
       <Box>
@@ -129,7 +130,7 @@ function Admin() {
                   }}
                 >
                   <Typography sx={{ fontSize: "15px", marginLeft: "5px" }}>
-                    {((month.TotalRevenue - lmonth.TotalRevenue) / Math.abs(lmonth.TotalRevenue)) * 100}%
+                    {percentageChange}
                   </Typography>
                   {month.TotalRevenue > lmonth.TotalRevenue ? (
                     <MovingIcon sx={{ fontSize: '20px', marginLeft: "10px" }} />
