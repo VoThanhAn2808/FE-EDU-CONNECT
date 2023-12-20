@@ -43,7 +43,7 @@ function Demo() {
             .catch((error) => {
                 console.error(error);
             });
-    });
+    }, [classcourseid, decodedToken.id]);
 
     const handlePageChange = (event, pageNumber) => {
         setPages(pageNumber);

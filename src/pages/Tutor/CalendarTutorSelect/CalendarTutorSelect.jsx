@@ -46,7 +46,7 @@ function CalendarTutorSelect() {
             .catch((error) => {
                 console.error("Error fetching lessons:", error);
             });
-    }, []);
+    },);
 
     const handleCellClick = (cellIndex) => {
         const isSelected = selectedCells.includes(cellIndex);
