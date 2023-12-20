@@ -49,7 +49,7 @@ function VideoTable(props) {
         event.stopPropagation();
         try {
             const response = await axios.delete(
-                `http://localhost:8081/exersice/deletevideo/${id}`,
+                `http://ec2-13-250-214-184.ap-southeast-1.compute.amazonaws.com:8081/exersice/deletevideo/${id}`,
                 {
                     headers: {
                         "Content-Type": "application/json",
@@ -74,7 +74,7 @@ function VideoTable(props) {
 
         try {
             const response = await axios.put(
-                "http://localhost:8081/exersice/updatevideo",
+                "http://ec2-13-250-214-184.ap-southeast-1.compute.amazonaws.com:8081/exersice/updatevideo",
                 {
                     videoid: videoid,
                     namevideo: namevideo,

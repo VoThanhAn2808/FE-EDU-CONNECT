@@ -15,7 +15,7 @@ function CalendarStudent() {
     const fetchUser = useCallback(async () => {
         try {
             const response = await axios.get(
-                `http://localhost:8081/student/viewstudent?email=${userId}`,
+                `http://ec2-13-250-214-184.ap-southeast-1.compute.amazonaws.com:8081/student/viewstudent?email=${userId}`,
                 {
                     headers: {
                         "Content-Type": "application/json",
@@ -30,7 +30,7 @@ function CalendarStudent() {
 
     useEffect(() => {
         axios
-            .get(`http://localhost:8081/book/lesson`)
+            .get(`http://ec2-13-250-214-184.ap-southeast-1.compute.amazonaws.com:8081/book/lesson`)
             .then((response) => {
                 setDaysOfWeek(response.data);
             })
@@ -41,7 +41,7 @@ function CalendarStudent() {
 
     useEffect(() => {
         axios
-            .get(`http://localhost:8081/book/timeline`)
+            .get(`http://ec2-13-250-214-184.ap-southeast-1.compute.amazonaws.com:8081/book/timeline`)
             .then((response) => {
                 setData(response.data);
             })
@@ -57,7 +57,7 @@ function CalendarStudent() {
     const fetchStudentData = useCallback(async () => {
         try {
             const studentResponse = await axios.get(
-                `http://localhost:8081/schedule/studentschedule?studentid=${user.studentid}&week=${week}&year=${year}`
+                `http://ec2-13-250-214-184.ap-southeast-1.compute.amazonaws.com:8081/schedule/studentschedule?studentid=${user.studentid}&week=${week}&year=${year}`
             );
             setScheduleData(studentResponse.data);
         } catch (error) {

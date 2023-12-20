@@ -8,7 +8,7 @@ function ApexChart() {
 
   useEffect(() => {
     axios
-      .get(`http://localhost:8081/staffsconnect/countstudentandtutor`)
+      .get(`http://ec2-13-250-214-184.ap-southeast-1.compute.amazonaws.com:8081/staffsconnect/countstudentandtutor`)
       .then((response) => {
         setData(response.data);
       })

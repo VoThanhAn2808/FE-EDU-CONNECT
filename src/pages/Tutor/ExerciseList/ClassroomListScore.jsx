@@ -17,7 +17,7 @@ function ClassroomListScore() {
         score: 0
     });
     useEffect(() => {
-        axios.get(`http://localhost:8081/exersice/scoreclassroom/${bookid}`)
+        axios.get(`http://ec2-13-250-214-184.ap-southeast-1.compute.amazonaws.com:8081/exersice/scoreclassroom/${bookid}`)
             .then((response) => {
                 setDataClassroomScore(response.data);
             })
@@ -54,7 +54,7 @@ function ClassroomListScore() {
             score: mark
         });
         try {
-            axios.post(`http://localhost:8081/exersice/addscoreclassroom`, scoreClassroom)
+            axios.post(`http://ec2-13-250-214-184.ap-southeast-1.compute.amazonaws.com:8081/exersice/addscoreclassroom`, scoreClassroom)
                 .then((response) => {
                     console.log(response.data);
                     if (response.data === 1) {

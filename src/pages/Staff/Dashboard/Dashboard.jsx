@@ -11,16 +11,18 @@ import './DateCalendar.css';
 import ApexChart from "./ApexChart";
 import PieChartMui from "./PieChart";
 import RadarChartMui from "./RadarChart";
+import { jwtDecode } from "jwt-decode";
 
 
 function Dashboard() {
   const [data, setData] = useState([]);
   const [month, setMonth] = useState('');
   const [lmonth, setLmonth] = useState('');
+  const token = jwtDecode(localStorage.getItem('token'));
 
   useEffect(() => {
     axios
-      .get(`http://localhost:8081/staffsconnect/staffstatisticsyear`)
+      .get(`http://ec2-13-250-214-184.ap-southeast-1.compute.amazonaws.com:8081/staffsconnect/staffstatisticsyear`)
       .then((response) => {
         setData(response.data);
       })
@@ -28,7 +30,7 @@ function Dashboard() {
         console.error(error);
       });
     axios
-      .get(`http://localhost:8081/staffsconnect/staffstatisticscurrentmonth?staffId=2`)
+      .get(`http://ec2-13-250-214-184.ap-southeast-1.compute.amazonaws.com:8081/staffsconnect/staffstatisticscurrentmonth?staffId=${token.id}`)
       .then((response) => {
         setMonth(response.data);
       })
@@ -36,7 +38,7 @@ function Dashboard() {
         console.error(error);
       });
     axios
-      .get(`http://localhost:8081/staffsconnect/staffstatisticspreviousmonth?staffId=2`)
+      .get(`http://ec2-13-250-214-184.ap-southeast-1.compute.amazonaws.com:8081/staffsconnect/staffstatisticspreviousmonth?staffId=${token.id}`)
       .then((response) => {
         setLmonth(response.data);
       })
