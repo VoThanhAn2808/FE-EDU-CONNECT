@@ -72,7 +72,7 @@ function ManagerStudent() {
         }
     };
     const handleOpen = () => {
-        axios.get(`http://ec2-13-250-214-184.ap-southeast-1.compute.amazonaws.com:8081/educonnect/tutor/student/viewprofile/timeline?tutorid=${decodedToken.id}&studentid=${studentid}&courseid=${courseId}`)
+        axios.get(`http://ec2-13-250-214-184.ap-southeast-1.compute.amazonaws.com:8081/educonnect/tutor/student/viewprofile/timeline?bookid=${book}`)
             .then((response) => {
                 setResponseDataDetail(response.data)
                 setOpen(true);

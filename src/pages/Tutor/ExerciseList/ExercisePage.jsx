@@ -7,6 +7,7 @@ import * as React from 'react';
 import { useState, useEffect } from 'react';
 import ExerciseList from "./ExerciseList"
 import { useParams } from 'react-router-dom';
+import { useCallback } from 'react';
 function ExerciseListPage() {
   const [open, setOpen] = useState(false);
   const [course, setCourse] = useState('');
@@ -17,7 +18,7 @@ function ExerciseListPage() {
     setShowSnackbar(false);
   };
 
-  const onCreateExercise = async () => {
+  const onCreateExercise = useCallback(async () => {
     if (course)
       await axios.post('http://ec2-13-250-214-184.ap-southeast-1.compute.amazonaws.com:8081/exersice/addexercise', {
         bookid: bookid,
@@ -26,10 +27,10 @@ function ExerciseListPage() {
     setShowSnackbar(true);
     setOpen(false)
     fetchData()
-  };
+  }, []);
 
   const [data, setData] = useState([]);
-  const fetchData = () => {
+  const fetchData = useCallback(() => {
     axios
       .get(`http://ec2-13-250-214-184.ap-southeast-1.compute.amazonaws.com:8081/exersice/findexersice?bookid=${bookid}`)
       .then((response) => {
@@ -40,11 +41,11 @@ function ExerciseListPage() {
       .catch((error) => {
         console.error("Error fetching timeline:", error);
       });
-  }
+  }, [bookid]);
 
   useEffect(() => {
     fetchData()
-  },);
+  },[fetchData]);
 
 
   const style = {
