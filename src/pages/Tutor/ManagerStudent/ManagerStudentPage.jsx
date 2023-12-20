@@ -111,7 +111,7 @@ function ManagerStudent() {
             </Box>
             <Box sx={{ width: '98%', height: '100%', marginBottom: '50px', marginTop: "10px", borderRadius: "5px", marginLeft: "1%", marginRight: "1%", backgroundColor: "#E2D6D6" }}>
                 <Box sx={{ marginLeft: '55%', paddingTop: '20px', display: 'flex', marginRight: '12px', }}>
-                    <Button variant="contained" color="warning" style={{ fontSize: '12px', fontFamily: 'cursive', marginRight: '10px', }} onChange={() => { setStatus(1) }}>
+                    <Button variant="contained" color="warning" style={{ fontSize: '12px', fontFamily: 'cursive', marginRight: '10px', }} onClick={() => { setStatus(1) }}>
                         Học sinh đang đợi học
                     </Button>
                     <Button variant="contained" color="error" style={{ fontSize: '12px', fontFamily: 'cursive', marginRight: '10px', }} onClick={() => { setStatus(2) }}>
