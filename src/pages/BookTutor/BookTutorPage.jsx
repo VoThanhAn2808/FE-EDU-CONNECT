@@ -17,53 +17,42 @@ function BookTutorPage() {
 
     const { tutorid } = useParams();
     const { classcourseid } = useParams();
-    const CancelToken = axios.CancelToken;
-    const source = CancelToken.source();
 
     useEffect(() => {
         axios
-            .get(`http://ec2-13-250-214-184.ap-southeast-1.compute.amazonaws.com:8081/educonnect/tutor/booktutor?tutorid=${tutorid}&classcourseid=${classcourseid}`,
-                {
-                    cancelToken: source.token,
-                })
+            .get(`http://ec2-13-250-214-184.ap-southeast-1.compute.amazonaws.com:8081/educonnect/tutor/booktutor?tutorid=${tutorid}&classcourseid=${classcourseid}`)
             .then((response) => {
                 setData(response.data);
             })
             .catch((error) => {
                 console.error(error);
             });
-    });
+    }, [tutorid, classcourseid]);
     const [page, setPage] = useState([]);
 
     useEffect(() => {
         axios
-            .get(`http://ec2-13-250-214-184.ap-southeast-1.compute.amazonaws.com:8081/tutorByCourse/find4TutorByCourse?CourseId=${classcourseid}`,
-                {
-                    cancelToken: source.token,
-                })
+            .get(`http://ec2-13-250-214-184.ap-southeast-1.compute.amazonaws.com:8081/tutorByCourse/find4TutorByCourse?CourseId=${classcourseid}`)
             .then((response) => {
                 setPage(response.data);
             })
             .catch((error) => {
                 console.error(error);
             });
-    });
+    }, [classcourseid]);
 
     const [course, setCourse] = useState([]);
 
     useEffect(() => {
         axios
-            .get(`http://ec2-13-250-214-184.ap-southeast-1.compute.amazonaws.com:8081/course/findCourseByTutor?tutorid=${tutorid}`,
-                {
-                    cancelToken: source.token,
-                })
+            .get(`http://ec2-13-250-214-184.ap-southeast-1.compute.amazonaws.com:8081/course/findCourseByTutor?tutorid=${tutorid}`)
             .then((response) => {
                 setCourse(response.data);
             })
             .catch((error) => {
                 console.error(error);
             });
-    });
+    }, [tutorid]);
     return (
         <Box className="body">
             <Box className="body-tutor" >

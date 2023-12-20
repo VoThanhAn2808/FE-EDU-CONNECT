@@ -14,8 +14,6 @@ function FeedbackTutor() {
     const [snackbarOpen, setSnackbarOpen] = useState(false);
     const [snackbarMessage, setSnackbarMessage] = useState('');
     const [snackbarType, setSnackbarType] = useState('success');
-    const CancelToken = axios.CancelToken;
-    const source = CancelToken.source();
 
     const showSnackbar = (message, type) => {
         setSnackbarMessage(message);
@@ -29,17 +27,14 @@ function FeedbackTutor() {
 
     useEffect(() => {
         axios
-            .get("http://ec2-13-250-214-184.ap-southeast-1.compute.amazonaws.com:8081/student/feedbacktutor/" + student.id,
-                {
-                    cancelToken: source.token,
-                })
+            .get("http://ec2-13-250-214-184.ap-southeast-1.compute.amazonaws.com:8081/student/feedbacktutor/" + student.id)
             .then((response) => {
                 setFeedback(response.data);
             })
             .catch((error) => {
                 console.error(error);
             });
-    });
+    }, [student.id]);
 
     const handleSubmitFB = async (event) => {
         event.preventDefault();

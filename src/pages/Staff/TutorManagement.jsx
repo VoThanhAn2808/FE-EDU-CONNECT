@@ -20,8 +20,6 @@ function TutorManagement() {
     const [snackbarOpen, setSnackbarOpen] = useState(false);
     const [snackbarMessage, setSnackbarMessage] = useState('');
     const [snackbarType, setSnackbarType] = useState('success');
-    const CancelToken = axios.CancelToken;
-    const source = CancelToken.source();
 
     const showSnackbar = (message, type) => {
         setSnackbarMessage(message);
@@ -50,17 +48,14 @@ function TutorManagement() {
 
     const fetchTop = useCallback((pageNumber) => {
         axios
-            .get(`http://ec2-13-250-214-184.ap-southeast-1.compute.amazonaws.com:8081/staffsconnect/tutor/${decodedToken.id}/${pageNumber}`,
-                {
-                    cancelToken: source.token,
-                })
+            .get(`http://ec2-13-250-214-184.ap-southeast-1.compute.amazonaws.com:8081/staffsconnect/tutor/${decodedToken.id}/${pageNumber}`)
             .then((response) => {
                 setData(response.data);
             })
             .catch((error) => {
                 console.error(error);
             });
-    });
+    }, [decodedToken.id]);
     const [page, setPage] = useState(1);
     const [total, settotal] = useState([]);
     useEffect(() => {
@@ -71,10 +66,7 @@ function TutorManagement() {
     };
     useEffect(() => {
         axios
-            .get(`http://ec2-13-250-214-184.ap-southeast-1.compute.amazonaws.com:8081/staffsconnect/totaltutor?staffid=${decodedToken.id}`,
-                {
-                    cancelToken: source.token,
-                })
+            .get(`http://ec2-13-250-214-184.ap-southeast-1.compute.amazonaws.com:8081/staffsconnect/totaltutor?staffid=${decodedToken.id}`)
             .then((response) => {
                 settotal(response.data);
             })
@@ -115,7 +107,7 @@ function TutorManagement() {
                     console.error(error);
                 });
         }
-    });
+    }, [tutor, decodedToken.id]);
     const handleClickClasscourse = async (tutorid, event) => {
         event.preventDefault();
         event.stopPropagation();
@@ -437,7 +429,7 @@ function TutorManagement() {
                                         ))
                                     ) : (
                                         <TableRow>
-                                            <TableCell style={{ fontSize: "10px", fontFamily: "cursive", textAlign: "center" }} colSpan={4}>Không có dữ liệu</TableCell>
+                                            <TableCell style={{ fontSize: "10px", fontFamily: "cursive", textAlign: "center" }} colSpan={4}>No data available</TableCell>
                                         </TableRow>
                                     )}
                                 </TableBody>

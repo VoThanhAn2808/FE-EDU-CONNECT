@@ -15,14 +15,9 @@ function Feedbackofcourse() {
   const decodedToken = jwtDecode(localStorage.getItem('token'));
   const [course, setCourse] = useState([]);
   const [data, setData] = useState([]);
-  const CancelToken = axios.CancelToken;
-  const source = CancelToken.source();
   useEffect(() => {
     axios
-      .get(`http://ec2-13-250-214-184.ap-southeast-1.compute.amazonaws.com:8081/educonnect/studentviewdetailtutor?tutorid=${decodedToken.id}`,
-        {
-          cancelToken: source.token,
-        })
+      .get(`http://ec2-13-250-214-184.ap-southeast-1.compute.amazonaws.com:8081/educonnect/studentviewdetailtutor?tutorid=${decodedToken.id}`)
       .then((response) => {
         setTutor(response.data);
       })
@@ -30,10 +25,7 @@ function Feedbackofcourse() {
         console.error(error);
       });
     axios
-      .get(`http://ec2-13-250-214-184.ap-southeast-1.compute.amazonaws.com:8081/educonnect/tutor/listcourse?tutorid=${decodedToken.id}`,
-        {
-          cancelToken: source.token,
-        })
+      .get(`http://ec2-13-250-214-184.ap-southeast-1.compute.amazonaws.com:8081/educonnect/tutor/listcourse?tutorid=${decodedToken.id}`)
       .then((response) => {
         setCourse(response.data);
       })
@@ -41,17 +33,14 @@ function Feedbackofcourse() {
         console.error(error);
       });
     axios
-      .get(`http://ec2-13-250-214-184.ap-southeast-1.compute.amazonaws.com:8081/educonnect/feedbackofcourse/${decodedToken.id}/${classcourseid}`,
-        {
-          cancelToken: source.token,
-        })
+      .get(`http://ec2-13-250-214-184.ap-southeast-1.compute.amazonaws.com:8081/educonnect/feedbackofcourse/${decodedToken.id}/${classcourseid}`)
       .then((response) => {
         setData(response.data);
       })
       .catch((error) => {
         console.error(error);
       });
-  });
+  }, [decodedToken.id, classcourseid]);
 
   return (
     <Box>

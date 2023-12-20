@@ -13,6 +13,7 @@ import styled from '@emotion/styled';
 import ProgesstestTable from './Progesstest';
 import none from './../../../assests/none.jpg';
 import MuiAlert from '@mui/material/Alert';
+import { useCallback } from 'react';
 
 
 
@@ -48,7 +49,7 @@ function ExerciseDetailPage() {
   };
 
 
-  const fetchHomework = () => {
+  const fetchHomework = useCallback(() => {
     axios
       .get(`http://ec2-13-250-214-184.ap-southeast-1.compute.amazonaws.com:8081/exersice/getHomeworkByExercise?exerciseId=${params.exerciseid}`)
       .then((response) => {
@@ -59,9 +60,9 @@ function ExerciseDetailPage() {
       .catch((error) => {
         console.error('Error fetching timeline:', error);
       });
-  };
+  }, [params.exerciseid]);
 
-  const fetchFile = () => {
+  const fetchFile = useCallback(() => {
     axios
       .get(`http://ec2-13-250-214-184.ap-southeast-1.compute.amazonaws.com:8081/exersice/getfileexercise?bookid=${params.exerciseid}`)
       .then((response) => {
@@ -72,9 +73,9 @@ function ExerciseDetailPage() {
       .catch((error) => {
         console.error('Error fetching timeline:', error);
       });
-  };
+  }, [params.exerciseid]);
 
-  const fetchVideo = () => {
+  const fetchVideo = useCallback(() => {
     axios
       .get(`http://ec2-13-250-214-184.ap-southeast-1.compute.amazonaws.com:8081/exersice/getvideoexercise?bookid=${params.exerciseid}`)
       .then((response) => {
@@ -85,8 +86,8 @@ function ExerciseDetailPage() {
       .catch((error) => {
         console.error('Error fetching timeline:', error);
       });
-  };
-  const fetchProgess = () => {
+  }, [params.exerciseid]);
+  const fetchProgess = useCallback(() => {
     axios
       .get(`http://ec2-13-250-214-184.ap-southeast-1.compute.amazonaws.com:8081/exersice/getclassroomexercise?bookid=${params.exerciseid}`)
       .then((response) => {
@@ -97,9 +98,9 @@ function ExerciseDetailPage() {
       .catch((error) => {
         console.error('Error fetching timeline:', error);
       });
-  };
+  },[params.exerciseid]);
 
-  const fetchDemo = () => {
+  const fetchDemo = useCallback(() => {
     axios
       .get(`http://ec2-13-250-214-184.ap-southeast-1.compute.amazonaws.com:8081/demo/listAllDemo/${params.exerciseid}`)
       .then((response) => {
@@ -110,8 +111,8 @@ function ExerciseDetailPage() {
       .catch((error) => {
         console.error('Error fetching timeline:', error);
       });
-  };
-  const fetchData = () => {
+  }, [params.exerciseid]);
+  const fetchData = useCallback(() => {
     axios
       .get(`http://ec2-13-250-214-184.ap-southeast-1.compute.amazonaws.com:8081/exersice/getExerciseById/${params.exerciseid}`)
       .then((response) => {
@@ -122,7 +123,7 @@ function ExerciseDetailPage() {
       .catch((error) => {
         console.error('Error fetching timeline:', error);
       });
-  };
+  }, [params.exerciseid]);
 
   const VisuallyHiddenInput = styled('input')({
     clip: 'rect(0 0 0 0)',
@@ -160,7 +161,7 @@ function ExerciseDetailPage() {
     fetchFile();
     fetchVideo();
     fetchProgess();
-  },);
+  },[fetchData, fetchHomework, fetchDemo, fetchFile, fetchVideo, fetchProgess]);
 
   const [formData, setFormData] = useState({
     title: '',

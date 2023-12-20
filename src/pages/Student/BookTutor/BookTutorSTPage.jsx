@@ -18,13 +18,12 @@ import MuiAlert from '@mui/material/Alert';
 function BookTutorSTPage() {
 
     const [data, setData] = useState([]);
+
     const { tutorid } = useParams();
     const { classcourseid } = useParams();
     const [snackbarOpen, setSnackbarOpen] = useState(false);
     const [snackbarMessage, setSnackbarMessage] = useState('');
     const [snackbarType, setSnackbarType] = useState('success');
-    const CancelToken = axios.CancelToken;
-    const source = CancelToken.source();
     const showSnackbar = (message, type) => {
         setSnackbarMessage(message);
         setSnackbarType(type);
@@ -37,64 +36,52 @@ function BookTutorSTPage() {
 
     useEffect(() => {
         axios
-            .get(`http://ec2-13-250-214-184.ap-southeast-1.compute.amazonaws.com:8081/educonnect/tutor/booktutor?tutorid=${tutorid}&classcourseid=${classcourseid}`,
-                {
-                    cancelToken: source.token,
-                })
+            .get(`http://ec2-13-250-214-184.ap-southeast-1.compute.amazonaws.com:8081/educonnect/tutor/booktutor?tutorid=${tutorid}&classcourseid=${classcourseid}`)
             .then((response) => {
                 setData(response.data);
             })
             .catch((error) => {
                 console.error(error);
             });
-    });
+    }, [tutorid, classcourseid]);
     const [page, setPage] = useState([]);
 
     useEffect(() => {
         axios
-            .get(`http://ec2-13-250-214-184.ap-southeast-1.compute.amazonaws.com:8081/tutorByCourse/find4TutorByCourse?CourseId=${classcourseid}`,
-                {
-                    cancelToken: source.token,
-                })
+            .get(`http://ec2-13-250-214-184.ap-southeast-1.compute.amazonaws.com:8081/tutorByCourse/find4TutorByCourse?CourseId=${classcourseid}`)
             .then((response) => {
                 setPage(response.data);
             })
             .catch((error) => {
                 console.error(error);
             });
-    });
+    }, [classcourseid]);
 
     const [course, setCourse] = useState([]);
 
     useEffect(() => {
         axios
-            .get(`http://ec2-13-250-214-184.ap-southeast-1.compute.amazonaws.com:8081/course/findCourseByTutor?tutorid=${tutorid}`,
-                {
-                    cancelToken: source.token,
-                })
+            .get(`http://ec2-13-250-214-184.ap-southeast-1.compute.amazonaws.com:8081/course/findCourseByTutor?tutorid=${tutorid}`)
             .then((response) => {
                 setCourse(response.data);
             })
             .catch((error) => {
                 console.error(error);
             });
-    });
+    }, [tutorid]);
 
     const decodedToken = jwtDecode(localStorage.getItem('token'));
     const [student, setStudent] = useState([]);
 
     useEffect(() => {
-        axios.get("http://ec2-13-250-214-184.ap-southeast-1.compute.amazonaws.com:8081/student/viewstudent?email=" + decodedToken.id,
-            {
-                cancelToken: source.token,
-            })
+        axios.get("http://ec2-13-250-214-184.ap-southeast-1.compute.amazonaws.com:8081/student/viewstudent?email=" + decodedToken.id)
             .then((response) => {
                 setStudent(response.data);
             })
             .catch((error) => {
                 console.error(error);
             });
-    });
+    }, [decodedToken.id]);
 
     const studentid = student.studentid;
     const handleSubmit = async (event) => {
@@ -245,7 +232,7 @@ function BookTutorSTPage() {
                                     style={{ width: '120px', height: '170px' }}
                                     className="courseimg" />
                                 <Typography className="namebook">
-                                    {item.courseName} {item.level}
+                                    {item.courseName} {item.className}
                                 </Typography>
                                 <Box sx={{ display: 'flex', marginBottom: '20px', marginTop: '10px' }}>
                                     <Typography className="numberpeople">

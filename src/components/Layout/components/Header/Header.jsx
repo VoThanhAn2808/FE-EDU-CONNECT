@@ -27,8 +27,6 @@ import MuiAlert from '@mui/material/Alert';
 
 function Header() {
 
-    const CancelToken = axios.CancelToken;
-    const source = CancelToken.source();
     const [isVisible, setIsVisible] = useState(false);
 
     const toggleVisibility = () => {
@@ -180,18 +178,12 @@ function Header() {
             if (role === 1) {
                 const check = await axios.get(
                     `http://ec2-13-250-214-184.ap-southeast-1.compute.amazonaws.com:8081/student/checkstudent?studentid=${decodedTokenRef.current.id}`,
-                    {
-                        cancelToken: source.token,
-                    }
                 );
                 setCheckProfile(check.data);
             }
             if (role === 2) {
                 const check = await axios.get(
                     `http://ec2-13-250-214-184.ap-southeast-1.compute.amazonaws.com:8081/educonnect/checktutor?tutorid=${decodedTokenRef.current.id}`,
-                    {
-                        cancelToken: source.token,
-                    }
                 );
                 setCheckProfile(check.data);
             }
@@ -209,10 +201,7 @@ function Header() {
                 checkUserProfile(role);
                 if (role === 1) {
                     axios
-                        .get(`http://ec2-13-250-214-184.ap-southeast-1.compute.amazonaws.com:8081/student/viewstudent?email=${decodedTokenRef.current.id}`,
-                            {
-                                cancelToken: source.token,
-                            })
+                        .get(`http://ec2-13-250-214-184.ap-southeast-1.compute.amazonaws.com:8081/student/viewstudent?email=${decodedTokenRef.current.id}`)
                         .then((response) => {
                             setData(response.data);
                         })
@@ -221,10 +210,7 @@ function Header() {
                         });
                 } else if (role === 2) {
                     axios
-                        .get(`http://ec2-13-250-214-184.ap-southeast-1.compute.amazonaws.com:8081/educonnect/viewTutor?tutorId=${decodedTokenRef.current.id}`,
-                            {
-                                cancelToken: source.token,
-                            })
+                        .get(`http://ec2-13-250-214-184.ap-southeast-1.compute.amazonaws.com:8081/educonnect/viewTutor?tutorId=${decodedTokenRef.current.id}`)
                         .then((response) => {
                             setData(response.data);
                         })
@@ -232,10 +218,7 @@ function Header() {
                             console.error(error);
                         });
                     axios
-                        .get(`http://ec2-13-250-214-184.ap-southeast-1.compute.amazonaws.com:8081/educonnect/showbank?tutorid=${decodedTokenRef.current.id}`,
-                            {
-                                cancelToken: source.token,
-                            })
+                        .get(`http://ec2-13-250-214-184.ap-southeast-1.compute.amazonaws.com:8081/educonnect/showbank?tutorid=${decodedTokenRef.current.id}`)
                         .then((response) => {
                             setShow(response.data);
                         })
@@ -243,10 +226,7 @@ function Header() {
                             console.error(error);
                         });
                     axios
-                        .get(`http://ec2-13-250-214-184.ap-southeast-1.compute.amazonaws.com:8081/educonnect/historypay?tutorid=${decodedTokenRef.current.id}`,
-                            {
-                                cancelToken: source.token,
-                            })
+                        .get(`http://ec2-13-250-214-184.ap-southeast-1.compute.amazonaws.com:8081/educonnect/historypay?tutorid=${decodedTokenRef.current.id}`)
                         .then((response) => {
                             setHistory(response.data);
                         })
@@ -263,10 +243,7 @@ function Header() {
                         });
                 } else if (role === 3) {
                     axios
-                        .get(`http://ec2-13-250-214-184.ap-southeast-1.compute.amazonaws.com:8081/staffsconnect/ViewInfoStaff?staffId=${decodedTokenRef.current.id}`,
-                            {
-                                cancelToken: source.token,
-                            })
+                        .get(`http://ec2-13-250-214-184.ap-southeast-1.compute.amazonaws.com:8081/staffsconnect/ViewInfoStaff?staffId=${decodedTokenRef.current.id}`)
                         .then((response) => {
                             setData(response.data);
                         })
@@ -278,7 +255,7 @@ function Header() {
         } catch (error) {
             console.error('Error decoding the token:', error);
         }
-    });
+    }, [token]);
 
     const handleProfileClick = () => {
         decodedTokenRef.current = jwtDecode(token);

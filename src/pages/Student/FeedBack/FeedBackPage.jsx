@@ -12,21 +12,16 @@ function Feedback() {
     const [feedbacks, setFeedback] = useState([]);
     const [note, setNote] = useState('');
     const student = jwtDecode(localStorage.getItem('token'));
-    const CancelToken = axios.CancelToken;
-    const source = CancelToken.source();
     useEffect(() => {
         axios
-            .get("http://ec2-13-250-214-184.ap-southeast-1.compute.amazonaws.com:8081/student/feedback/" + student.id,
-                {
-                    cancelToken: source.token,
-                })
+            .get("http://ec2-13-250-214-184.ap-southeast-1.compute.amazonaws.com:8081/student/feedback/" + student.id)
             .then((response) => {
                 setFeedback(response.data);
             })
             .catch((error) => {
                 console.error(error);
             });
-    });
+    }, [student.id]);
 
     const handleSubmitFB = async (event, feedbackid) => {
         event.preventDefault();

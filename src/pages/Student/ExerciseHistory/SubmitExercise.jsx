@@ -25,22 +25,17 @@ function SubmitExercise() {
     const formattedDate = `${year}-${month}-${day}`;
     const decodedToken = jwtDecode(localStorage.getItem('token'));
     const userId = decodedToken.id;
-    const CancelToken = axios.CancelToken;
-    const source = CancelToken.source();
 
     useEffect(() => {
         axios
-            .get(`http://ec2-13-250-214-184.ap-southeast-1.compute.amazonaws.com:8081/exersice/homework/detailhomework?homeworkid=${bookid}`,
-                {
-                    cancelToken: source.token,
-                })
+            .get(`http://ec2-13-250-214-184.ap-southeast-1.compute.amazonaws.com:8081/exersice/homework/detailhomework?homeworkid=${bookid}`)
             .then((response) => {
                 setData(response.data);
             })
             .catch((error) => {
                 console.error(error);
             });
-    });
+    }, [bookid]);
 
     const handleUploadFile = (event) => {
         const selectedFile = event.target.files[0];

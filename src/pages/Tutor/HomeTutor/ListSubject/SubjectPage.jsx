@@ -12,21 +12,16 @@ function SubjectPage() {
     const [data, setData] = useState([]);
     const decodedToken = jwtDecode(localStorage.getItem('token'));
     const userId = decodedToken.id;
-    const CancelToken = axios.CancelToken;
-    const source = CancelToken.source();
     useEffect(() => {
         axios
-            .get(`http://ec2-13-250-214-184.ap-southeast-1.compute.amazonaws.com:8081/educonnect/tutor/course?tutorid=${userId}`,
-                {
-                    cancelToken: source.token,
-                })
+            .get(`http://ec2-13-250-214-184.ap-southeast-1.compute.amazonaws.com:8081/educonnect/tutor/course?tutorid=${userId}`)
             .then((response) => {
                 setData(response.data);
             })
             .catch((error) => {
                 console.error(error);
             });
-    });
+    }, [userId]);
 
     return (
         <Box className="body">

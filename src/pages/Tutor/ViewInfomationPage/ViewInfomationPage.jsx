@@ -11,51 +11,40 @@ import { useParams } from "react-router";
 function ViewInfomationPage() {
   const [tutor, setTutor] = useState([]);
   const { tutorid } = useParams();
-  const CancelToken = axios.CancelToken;
-  const source = CancelToken.source();
 
   useEffect(() => {
     axios
-      .get(`http://ec2-13-250-214-184.ap-southeast-1.compute.amazonaws.com:8081/educonnect/studentviewdetailtutor?tutorid=${tutorid}`,
-        {
-          cancelToken: source.token,
-        })
+      .get(`http://ec2-13-250-214-184.ap-southeast-1.compute.amazonaws.com:8081/educonnect/studentviewdetailtutor?tutorid=${tutorid}`)
       .then((response) => {
         setTutor(response.data);
       })
       .catch((error) => {
         console.error(error);
       });
-  });
+  }, [tutorid]);
   const [data, setData] = useState([]);
   useEffect(() => {
     axios
-      .get(`http://ec2-13-250-214-184.ap-southeast-1.compute.amazonaws.com:8081/student/feedbackbooking/${tutorid}`,
-        {
-          cancelToken: source.token,
-        })
+      .get(`http://ec2-13-250-214-184.ap-southeast-1.compute.amazonaws.com:8081/student/feedbackbooking/${tutorid}`)
       .then((response) => {
         setData(response.data);
       })
       .catch((error) => {
         console.error(error);
       });
-  });
+  }, [tutorid]);
 
   const [course, setCourse] = useState([]);
   useEffect(() => {
     axios
-      .get(`http://ec2-13-250-214-184.ap-southeast-1.compute.amazonaws.com:8081/educonnect/tutor/listcourse?tutorid=${tutorid}`,
-        {
-          cancelToken: source.token,
-        })
+      .get(`http://ec2-13-250-214-184.ap-southeast-1.compute.amazonaws.com:8081/educonnect/tutor/listcourse?tutorid=${tutorid}`)
       .then((response) => {
         setCourse(response.data);
       })
       .catch((error) => {
         console.error(error);
       });
-  });
+  }, [tutorid]);
   return (
     <Box>
       <Box

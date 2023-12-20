@@ -20,22 +20,14 @@ function Demo() {
     const decodedToken = jwtDecode(localStorage.getItem('token'));
     const [pages, setPages] = useState(1);
     const [page, setPage] = useState(1);
-    const CancelToken = axios.CancelToken;
-    const source = CancelToken.source();
     useEffect(() => {
-        axios.get(`http://ec2-13-250-214-184.ap-southeast-1.compute.amazonaws.com:8081/educonnect/viewtutorcourse?classcourseid=${classcourseid}&tutorid=${decodedToken.id}`,
-            {
-                cancelToken: source.token,
-            })
+        axios.get(`http://ec2-13-250-214-184.ap-southeast-1.compute.amazonaws.com:8081/educonnect/viewtutorcourse?classcourseid=${classcourseid}&tutorid=${decodedToken.id}`)
             .then((response) => {
                 setTutor(response.data);
             })
             .catch((error) => {
             })
-        axios.get(`http://ec2-13-250-214-184.ap-southeast-1.compute.amazonaws.com:8081/demo/listdemobyclasscourse?classcourseid=${classcourseid}`,
-            {
-                cancelToken: source.token,
-            })
+        axios.get(`http://ec2-13-250-214-184.ap-southeast-1.compute.amazonaws.com:8081/demo/listdemobyclasscourse?classcourseid=${classcourseid}`)
             .then((response) => {
 
                 setDemoList(response.data);
@@ -43,10 +35,7 @@ function Demo() {
             .catch((error) => {
                 console.error(error);
             });
-        axios.get(`http://ec2-13-250-214-184.ap-southeast-1.compute.amazonaws.com:8081/demo/totalpagedemo?classcourseid=${classcourseid}`,
-            {
-                cancelToken: source.token,
-            })
+        axios.get(`http://ec2-13-250-214-184.ap-southeast-1.compute.amazonaws.com:8081/demo/totalpagedemo?classcourseid=${classcourseid}`)
             .then((response) => {
 
                 setPage(response.data);
@@ -54,7 +43,7 @@ function Demo() {
             .catch((error) => {
                 console.error(error);
             });
-    });
+    }, [classcourseid, decodedToken.id]);
 
     const handlePageChange = (event, pageNumber) => {
         setPages(pageNumber);

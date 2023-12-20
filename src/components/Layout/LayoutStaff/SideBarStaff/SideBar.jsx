@@ -30,8 +30,6 @@ function Sidebar() {
   const [isSimulationClicked, setIsSimulationClicked] = React.useState(false);
   const [isDiscountClicked, setIsDiscountClicked] = React.useState(false);
   const [isPaymentClicked, setIsPaymentClicked] = React.useState(false);
-  const CancelToken = axios.CancelToken;
-  const source = CancelToken.source();
 
   const handleHomeClick = () => {
     setIsHomeClicked(true);
@@ -173,21 +171,14 @@ function Sidebar() {
   const [tutor, setTutor] = useState([]);
 
   useEffect(() => {
-    axios.get(`http://ec2-13-250-214-184.ap-southeast-1.compute.amazonaws.com:8081/staffsconnect/totalpayment?staffid=${decodedToken.id}`,
-      {
-        cancelToken: source.token,
-      })
+    axios.get(`http://ec2-13-250-214-184.ap-southeast-1.compute.amazonaws.com:8081/staffsconnect/totalpayment?staffid=${decodedToken.id}`)
       .then((response) => {
         setData(response.data);
       })
       .catch((error) => {
         console.error(error);
       });
-    axios.get(`http://ec2-13-250-214-184.ap-southeast-1.compute.amazonaws.com:8081/staffsconnect/countTutorRegistersForLessons?staffid=${decodedToken.id}`,
-      {
-        cancelToken: source.token,
-      }
-    )
+    axios.get(`http://ec2-13-250-214-184.ap-southeast-1.compute.amazonaws.com:8081/staffsconnect/countTutorRegistersForLessons?staffid=${decodedToken.id}`)
       .then((response) => {
         setFile(response.data);
       })
@@ -215,7 +206,7 @@ function Sidebar() {
       .catch((error) => {
         console.error(error);
       });
-  });
+  }, [decodedToken.id]);
 
   return (
     <Box

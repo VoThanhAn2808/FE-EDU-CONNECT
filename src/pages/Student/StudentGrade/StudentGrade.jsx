@@ -8,48 +8,37 @@ function StudentGrade() {
     const { bookid } = useParams();
     const [home, setHome] = useState([]);
     const [classroom, setClassroom] = useState([]);
-    const CancelToken = axios.CancelToken;
-    const source = CancelToken.source();
 
     useEffect(() => {
         axios
-            .get(`http://ec2-13-250-214-184.ap-southeast-1.compute.amazonaws.com:8081/course/tutorexercise?bookid=${bookid}`,
-                {
-                    cancelToken: source.token,
-                })
+            .get(`http://ec2-13-250-214-184.ap-southeast-1.compute.amazonaws.com:8081/course/tutorexercise?bookid=${bookid}`)
             .then((response) => {
                 setTutor(response.data);
             })
             .catch((error) => {
                 console.error(error);
             });
-    });
+    }, [bookid]);
     useEffect(() => {
         axios
-            .get(`http://ec2-13-250-214-184.ap-southeast-1.compute.amazonaws.com:8081/exersice/scoreexercise?bookid=${bookid}`,
-                {
-                    cancelToken: source.token,
-                })
+            .get(`http://ec2-13-250-214-184.ap-southeast-1.compute.amazonaws.com:8081/exersice/scoreexercise?bookid=${bookid}`)
             .then((response) => {
                 setHome(response.data);
             })
             .catch((error) => {
                 console.error(error);
             });
-    });
+    }, [bookid]);
     useEffect(() => {
         axios
-            .get(`http://ec2-13-250-214-184.ap-southeast-1.compute.amazonaws.com:8081/exersice/scoreclassroom/${bookid}`,
-                {
-                    cancelToken: source.token,
-                })
+            .get(`http://ec2-13-250-214-184.ap-southeast-1.compute.amazonaws.com:8081/exersice/scoreclassroom/${bookid}`)
             .then((response) => {
                 setClassroom(response.data);
             })
             .catch((error) => {
                 console.error(error);
             });
-    });
+    }, [bookid]);
 
     return (
         <Box>

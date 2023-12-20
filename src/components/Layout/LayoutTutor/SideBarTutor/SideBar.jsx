@@ -18,12 +18,14 @@ import { jwtDecode } from 'jwt-decode';
 const Sidebar = () => {
   const [openGrades, setOpenGrades] = useState(false);
   const [openSubject, setOpenSubject] = useState(false);
+  const [openHomework, setOpenHomework] = useState(false);
   const decodedToken = jwtDecode(localStorage.getItem('token'));
   const userId = decodedToken.id;
   const [isHomeClicked, setIsHomeClicked] = useState(false);
   const [isCalendarClicked, setIsCalendarClicked] = useState(false);
   const [isGradesClicked, setIsGradesClicked] = useState(false);
   const [isSubjectClicked, setIsSubjectClicked] = useState(false);
+  const [isHomeworkClicked, setIsHomeworkClicked] = useState(false);
   const [isFixCalendarClicked, setIsFixCalendarClicked] = useState(false);
 
   const handleHomeClick = () => {
@@ -31,6 +33,7 @@ const Sidebar = () => {
     setIsCalendarClicked(false);
     setIsGradesClicked(false);
     setIsSubjectClicked(false);
+    setIsHomeworkClicked(false);
     setIsFixCalendarClicked(false);
   };
 
@@ -39,6 +42,7 @@ const Sidebar = () => {
     setIsCalendarClicked(true);
     setIsGradesClicked(false);
     setIsSubjectClicked(false);
+    setIsHomeworkClicked(false);
     setIsFixCalendarClicked(false);
   };
 
@@ -47,7 +51,7 @@ const Sidebar = () => {
     setIsCalendarClicked(false);
     setIsGradesClicked(false);
     setIsSubjectClicked(false);
-
+    setIsHomeworkClicked(false);
     setIsFixCalendarClicked(true);
   }
 
@@ -66,22 +70,36 @@ const Sidebar = () => {
   const handleGradesClick = () => {
     setOpenGrades(!openGrades);
     setOpenSubject(false);
+    setOpenHomework(false);
     setIsHomeClicked(false);
     setIsCalendarClicked(false);
     setIsGradesClicked(true);
     setIsSubjectClicked(false);
+    setIsHomeworkClicked(false);
     setIsFixCalendarClicked(false);
   };
   const handleSubjectClick = () => {
     setOpenSubject(!openSubject);
     setOpenGrades(false);
+    setOpenHomework(false);
     setIsHomeClicked(false);
     setIsCalendarClicked(false);
     setIsGradesClicked(false);
     setIsSubjectClicked(true);
+    setIsHomeworkClicked(false);
     setIsFixCalendarClicked(false);
   };
-
+  const handleHomeworkClick = () => {
+    setOpenHomework(!openHomework);
+    setOpenGrades(false);
+    setOpenSubject(false);
+    setIsHomeClicked(false);
+    setIsCalendarClicked(false);
+    setIsGradesClicked(false);
+    setIsSubjectClicked(false);
+    setIsHomeworkClicked(true);
+    setIsFixCalendarClicked(false);
+  };
   return (
     <Box
       sx={{
@@ -141,7 +159,7 @@ const Sidebar = () => {
         <Collapse in={openGrades} timeout='auto' unmountOnExit>
           <List component='div' disablePadding>
             {course.map((item, index) => (
-              <ListItemButton sx={{ pl: 3 }} key={index} onClick={handleGradesClick}>
+              <ListItemButton sx={{ pl: 3 }} key={index}>
                 <ListItemIcon></ListItemIcon>
                 <Typography sx={{ fontSize: '13px', marginRight: 'auto', fontWeight: 'bold' }}>
                   <Link to={`/managerstudent/${item.classcourseid}`} style={{ color: "black", textDecoration: "none" }}>{item.courseName} {item.classname}</Link>
@@ -172,6 +190,19 @@ const Sidebar = () => {
                 <ListItemIcon></ListItemIcon>
                 <Typography sx={{ fontSize: '13px', marginRight: 'auto', fontWeight: 'bold' }}>
                   <Link to={`/demo/${item.classcourseid}`} style={{ color: "black", textDecoration: "none" }}>{item.courseName} {item.classname}</Link>
+                </Typography>
+              </ListItemButton>
+            ))}
+          </List>
+        </Collapse>
+
+        <Collapse in={openHomework} timeout='auto' unmountOnExit>
+          <List component='div' disablePadding>
+            {course.map((item, index) => (
+              <ListItemButton sx={{ pl: 3 }} key={index}>
+                <ListItemIcon></ListItemIcon>
+                <Typography sx={{ fontSize: '13px', marginRight: 'auto', fontWeight: 'bold' }}>
+                  <Link to={`/homeworklist/${item.classcourseid}`} style={{ color: "black", textDecoration: "none" }}>{item.courseName} {item.classname}</Link>
                 </Typography>
               </ListItemButton>
             ))}

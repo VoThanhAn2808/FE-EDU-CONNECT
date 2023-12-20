@@ -83,7 +83,7 @@ function ThankYou() {
 
                             <Button onClick={handleSubmit} sx={{ marginLeft: '22%', fontSize: '15px', fontFamily: 'cursive' }}>Quay về trang home</Button>
                         </>
-                    ) : (
+                    ) : pay === 'NO' ? (
                         <>
                             <img src={sad} alt="thank" style={{ width: '700px' }} />
                             <Typography sx={{ fontSize: '20px', fontFamily: 'cursive', marginLeft: '10%' }}></Typography>
@@ -91,6 +91,8 @@ function ThankYou() {
 
                             <Button onClick={handleSubmit} sx={{ marginLeft: '22%', fontSize: '15px', fontFamily: 'cursive' }}>Quay về trang home</Button>
                         </>
+                    ) : (
+                        null
                     )}
 
                 </Box>

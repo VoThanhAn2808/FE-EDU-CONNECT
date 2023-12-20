@@ -27,9 +27,6 @@ function Home() {
     const [course, setStudentData] = useState([]);
     const decodedToken = jwtDecode(localStorage.getItem('token'));
     const userId = decodedToken.id;
-    const CancelToken = axios.CancelToken;
-    const source = CancelToken.source();
-
 
     const fetchUser = useCallback(async () => {
         try {
@@ -39,30 +36,24 @@ function Home() {
                     headers: {
                         "Content-Type": "application/json",
                     },
-                },
-                {
-                    cancelToken: source.token,
                 }
             );
             setUser(response.data);
         } catch (error) {
             console.error(error);
         }
-    });
+    }, [userId]);
 
     const fetchStudentData = useCallback(async () => {
         try {
             const studentResponse = await axios.get(
-                `http://ec2-13-250-214-184.ap-southeast-1.compute.amazonaws.com:8081/course/listcourseforstudent?classcourseid=${user.classId}&studentid=${user.studentid}`,
-                {
-                    cancelToken: source.token,
-                }
+                `http://ec2-13-250-214-184.ap-southeast-1.compute.amazonaws.com:8081/course/listcourseforstudent?classcourseid=${user.classId}&studentid=${user.studentid}`
             );
             setStudentData(studentResponse.data);
         } catch (error) {
             console.error(error);
         }
-    });
+    }, [user.classId, user.studentid]);
 
     useEffect(() => {
         fetchUser();
@@ -79,16 +70,14 @@ function Home() {
 
     useEffect(() => {
         axios
-            .get("http://ec2-13-250-214-184.ap-southeast-1.compute.amazonaws.com:8081/educonnect/tutor/top3", {
-                cancelToken: source.token,
-            })
+            .get("http://ec2-13-250-214-184.ap-southeast-1.compute.amazonaws.com:8081/educonnect/tutor/top3")
             .then((response) => {
                 setData(response.data);
             })
             .catch((error) => {
                 console.error(error);
             });
-    });
+    }, []);
     return (
         <Box sx={{ marginBottom: "80px" }}>
             <Slide />

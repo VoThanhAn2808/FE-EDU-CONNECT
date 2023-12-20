@@ -11,12 +11,14 @@ import './DateCalendar.css';
 import ApexChart from "./ApexChart";
 import PieChartMui from "./PieChart";
 import RadarChartMui from "./RadarChart";
+import { jwtDecode } from "jwt-decode";
 
 
 function Dashboard() {
   const [data, setData] = useState([]);
   const [month, setMonth] = useState('');
   const [lmonth, setLmonth] = useState('');
+  const token = jwtDecode(localStorage.getItem('token'));
 
   useEffect(() => {
     axios
@@ -28,7 +30,7 @@ function Dashboard() {
         console.error(error);
       });
     axios
-      .get(`http://ec2-13-250-214-184.ap-southeast-1.compute.amazonaws.com:8081/staffsconnect/staffstatisticscurrentmonth?staffId=2`)
+      .get(`http://ec2-13-250-214-184.ap-southeast-1.compute.amazonaws.com:8081/staffsconnect/staffstatisticscurrentmonth?staffId=${token.id}`)
       .then((response) => {
         setMonth(response.data);
       })
@@ -36,7 +38,7 @@ function Dashboard() {
         console.error(error);
       });
     axios
-      .get(`http://ec2-13-250-214-184.ap-southeast-1.compute.amazonaws.com:8081/staffsconnect/staffstatisticspreviousmonth?staffId=2`)
+      .get(`http://ec2-13-250-214-184.ap-southeast-1.compute.amazonaws.com:8081/staffsconnect/staffstatisticspreviousmonth?staffId=${token.id}`)
       .then((response) => {
         setLmonth(response.data);
       })
@@ -51,6 +53,10 @@ function Dashboard() {
     Thanh_Toán: item.payfortutor,
     Tiền_Lời: item.profit,
   }));
+
+  const percentageChange = lmonth.TotalRevenue !== 0
+    ? ((month.TotalRevenue - lmonth.TotalRevenue) / (Math.abs(lmonth.TotalRevenue) * 10)).toFixed(2) + '%'
+    : '0.00%';
 
   return (
     <Box>
@@ -128,7 +134,7 @@ function Dashboard() {
                   }}
                 >
                   <Typography sx={{ fontSize: "15px", marginLeft: "5px" }}>
-                    {((month.TotalRevenue - lmonth.TotalRevenue) / Math.abs(lmonth.TotalRevenue)) * 100}%
+                    {percentageChange}
                   </Typography>
                   {month.TotalRevenue > lmonth.TotalRevenue ? (
                     <MovingIcon sx={{ fontSize: '20px', marginLeft: "10px" }} />

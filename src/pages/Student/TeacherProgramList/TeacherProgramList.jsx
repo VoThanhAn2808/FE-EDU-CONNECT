@@ -19,87 +19,67 @@ function TeacherProgramList() {
     const [video, setVideo] = useState([]);
     const [classs, setClasss] = useState([]);
     const [home, setHome] = useState([]);
-    const CancelToken = axios.CancelToken;
-    const source = CancelToken.source();
     useEffect(() => {
         axios
-            .get(`http://ec2-13-250-214-184.ap-southeast-1.compute.amazonaws.com:8081/course/tutorexercise?bookid=${bookid}`,
-                {
-                    cancelToken: source.token,
-                })
+            .get(`http://ec2-13-250-214-184.ap-southeast-1.compute.amazonaws.com:8081/course/tutorexercise?bookid=${bookid}`)
             .then((response) => {
                 setData(response.data);
             })
             .catch((error) => {
                 console.error(error);
             });
-    });
+    }, [bookid]);
 
     useEffect(() => {
         axios
-            .get(`http://ec2-13-250-214-184.ap-southeast-1.compute.amazonaws.com:8081/exersice/findexersice?bookid=${bookid}`,
-                {
-                    cancelToken: source.token,
-                })
+            .get(`http://ec2-13-250-214-184.ap-southeast-1.compute.amazonaws.com:8081/exersice/findexersice?bookid=${bookid}`)
             .then((response) => {
                 setExercise(response.data);
             })
             .catch((error) => {
                 console.error(error);
             });
-    });
+    }, [bookid]);
     useEffect(() => {
         axios
-            .get(`http://ec2-13-250-214-184.ap-southeast-1.compute.amazonaws.com:8081/exersice/fileexercise?bookid=${bookid}`,
-                {
-                    cancelToken: source.token,
-                })
+            .get(`http://ec2-13-250-214-184.ap-southeast-1.compute.amazonaws.com:8081/exersice/fileexercise?bookid=${bookid}`)
             .then((response) => {
                 setFiles(response.data);
             })
             .catch((error) => {
                 console.error(error);
             });
-    });
+    }, [bookid]);
     useEffect(() => {
         axios
-            .get(`http://ec2-13-250-214-184.ap-southeast-1.compute.amazonaws.com:8081/exersice/videoexercise?bookid=${bookid}`,
-                {
-                    cancelToken: source.token,
-                })
+            .get(`http://ec2-13-250-214-184.ap-southeast-1.compute.amazonaws.com:8081/exersice/videoexercise?bookid=${bookid}`)
             .then((response) => {
                 setVideo(response.data);
             })
             .catch((error) => {
                 console.error(error);
             });
-    });
+    }, [bookid]);
     useEffect(() => {
         axios
-            .get(`http://ec2-13-250-214-184.ap-southeast-1.compute.amazonaws.com:8081/exersice/classroomexercise?bookid=${bookid}`,
-                {
-                    cancelToken: source.token,
-                })
+            .get(`http://ec2-13-250-214-184.ap-southeast-1.compute.amazonaws.com:8081/exersice/classroomexercise?bookid=${bookid}`)
             .then((response) => {
                 setClasss(response.data);
             })
             .catch((error) => {
                 console.error(error);
             });
-    });
+    }, [bookid]);
     useEffect(() => {
         axios
-            .get(`http://ec2-13-250-214-184.ap-southeast-1.compute.amazonaws.com:8081/exersice/homeworkexercise?bookid=${bookid}`,
-                {
-                    cancelToken: source.token,
-                })
+            .get(`http://ec2-13-250-214-184.ap-southeast-1.compute.amazonaws.com:8081/exersice/homeworkexercise?bookid=${bookid}`)
             .then((response) => {
                 setHome(response.data);
             })
             .catch((error) => {
                 console.error(error);
             });
-    });
+    }, [bookid]);
     const handleLinkClick = async (fileid, event, file) => {
         event.preventDefault();
         event.stopPropagation();

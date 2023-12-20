@@ -25,8 +25,6 @@ function UpdateCalender() {
     const token = localStorage.getItem("token");
     const tutor = jwtDecode(token);
     const [time, setTime] = useState([]);
-    const CancelToken = axios.CancelToken;
-    const source = CancelToken.source();
 
     useEffect(() => {
         // Fetch timeline data
@@ -48,10 +46,7 @@ function UpdateCalender() {
             .catch((error) => {
                 console.error("Error fetching lessons:", error);
             });
-        axios.get(`http://ec2-13-250-214-184.ap-southeast-1.compute.amazonaws.com:8081/educonnect/listteachtime?tutorid=${tutor.id}`,
-            {
-                cancelToken: source.token,
-            })
+        axios.get(`http://ec2-13-250-214-184.ap-southeast-1.compute.amazonaws.com:8081/educonnect/listteachtime?tutorid=${tutor.id}`)
             .then((response) => {
                 if (response && response.data) {
                     setTime(response.data);
@@ -60,7 +55,7 @@ function UpdateCalender() {
             .catch((error) => {
                 console.error("Error fetching lessons:", error);
             });
-    });
+    }, [tutor.id]);
 
     const handleCellClick = (cellIndex) => {
         const isSelected = selectedCells.includes(cellIndex);
