@@ -14,7 +14,7 @@ function SubjectPage() {
     const userId = decodedToken.id;
     useEffect(() => {
         axios
-            .get(`http://localhost:8081/educonnect/tutor/course?tutorid=${userId}`)
+            .get(`http://ec2-13-250-214-184.ap-southeast-1.compute.amazonaws.com:8081/educonnect/tutor/course?tutorid=${userId}`)
             .then((response) => {
                 setData(response.data);
             })
@@ -29,7 +29,7 @@ function SubjectPage() {
                 {data.map((item) => (
                     <Grid item xs={12} sm={6} md={5} lg={3} key={item.classcourseid}>
                         <Box className='container'>
-                            <img src={`http://localhost:8081/edu/file/files/` + item.img} alt={item.courseName} className="subject-img" />
+                            <img src={`http://ec2-13-250-214-184.ap-southeast-1.compute.amazonaws.com:8081/edu/file/files/` + item.img} alt={item.courseName} className="subject-img" />
                             <Typography className="nameSubject">{item.courseName} {item.class}</Typography>
                             <Box sx={{ display: 'flex' }} >
                                 <Typography className="inforsubject">

@@ -40,13 +40,13 @@ const ForgotPassword = () => {
 
     try {
       const response = await axios.get(
-        "http://localhost:8081/edu/checkmail?email=" + email,
+        "http://ec2-13-250-214-184.ap-southeast-1.compute.amazonaws.com:8081/edu/checkmail?email=" + email,
         config
       );
       showSnackbar("Vui lòng bạn kiểm tra email", 'success')
       window.location.href = "/login"
       if (response.data === true) {
-        await axios.post("http://localhost:8081/edu/forgotpassword", {
+        await axios.post("http://ec2-13-250-214-184.ap-southeast-1.compute.amazonaws.com:8081/edu/forgotpassword", {
           email: email,
         }, configs);
       } else if (response.data !== true) {

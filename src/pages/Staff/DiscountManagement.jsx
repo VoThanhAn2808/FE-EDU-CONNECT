@@ -1,4 +1,4 @@
-import { Box, Button, Pagination, Table, TableBody, TableCell, TableContainer, TableHead, TableRow, TextField, Typography } from "@mui/material";
+import { Box, Button, Pagination, Snackbar, Table, TableBody, TableCell, TableContainer, TableHead, TableRow, TextField, Typography } from "@mui/material";
 import { makeStyles } from '@mui/styles';
 import axios from "axios";
 // import { jwtDecode } from "jwt-decode";
@@ -8,6 +8,7 @@ import CreateModal from "../../components/Staff/DiscountManagement/CreateModal";
 import UpdateModal from "../../components/Staff/DiscountManagement/UpdateModal";
 import RemoveRedEyeIcon from '@mui/icons-material/RemoveRedEye';
 import ListCourseByDiscout from "../../components/Staff/DiscountManagement/ListCourseByDiscount";
+import MuiAlert from '@mui/material/Alert';
 
 const useStyles = makeStyles(() => ({
     input: {
@@ -39,7 +40,7 @@ function DiscountManagement() {
     });
 
     useEffect(() => {
-        axios.post('http://localhost:8081/discount/listdiscount', dataToSend)
+        axios.post('http://ec2-13-250-214-184.ap-southeast-1.compute.amazonaws.com:8081/discount/listdiscount', dataToSend)
             .then((response) => {
                 setDicount(response.data);
             })
@@ -84,13 +85,27 @@ function DiscountManagement() {
         setTitle(title);
     };
 
+    const [snackbarOpen, setSnackbarOpen] = useState(false);
+    const [snackbarMessage, setSnackbarMessage] = useState('');
+    const [snackbarType, setSnackbarType] = useState('success');
+
+    const showSnackbar = (message, type) => {
+        setSnackbarMessage(message);
+        setSnackbarType(type);
+        setSnackbarOpen(true);
+    };
+
+    const handleSnackbarClose = () => {
+        setSnackbarOpen(false);
+    };
+
     const onDeleteRow = async (id) => {
         try {
             const listDelete = [id];
-            const response = await axios.post('http://localhost:8081/discount/deleteDiscount', listDelete);
+            const response = await axios.post('http://ec2-13-250-214-184.ap-southeast-1.compute.amazonaws.com:8081/discount/deleteDiscount', listDelete);
             if (response.data.message === 'Success') {
-                alert("Xóa thành công");
-                axios.post('http://localhost:8081/discount/listdiscount', dataToSend)
+                showSnackbar("Xóa thành công", 'success');
+                axios.post('http://ec2-13-250-214-184.ap-southeast-1.compute.amazonaws.com:8081/discount/listdiscount', dataToSend)
                     .then((response) => {
                         setDicount(response.data);
                     })
@@ -100,7 +115,7 @@ function DiscountManagement() {
             }
 
         } catch (error) {
-            alert("Hệ thống xảy ra lỗi. Vui lòng liên hệ quản lý!");
+            showSnackbar("Hệ thống xảy ra lỗi. Vui lòng liên hệ quản lý!", 'error');
             console.error('Error deleting row:', error);
         }
     };
@@ -147,7 +162,20 @@ function DiscountManagement() {
                                 Thêm
                             </Button>
                         </Box>
-
+                        <Snackbar
+                            open={snackbarOpen}
+                            autoHideDuration={3000}
+                            onClose={handleSnackbarClose}
+                            anchorOrigin={{ vertical: 'top', horizontal: 'right' }}
+                        >
+                            <MuiAlert
+                                onClose={handleSnackbarClose}
+                                severity={snackbarType}
+                                sx={{ width: '100%', fontSize: '15px' }}
+                            >
+                                {snackbarMessage}
+                            </MuiAlert>
+                        </Snackbar>
 
                     </Box>
                 </Box>
@@ -172,7 +200,7 @@ function DiscountManagement() {
                                         <TableRow key={item.discountid}>
                                             <TableCell onClick={() => handleCellClick(item.discountid)} style={{ fontSize: "10px", fontFamily: "cursive", textAlign: "center" }}>{item.discount}</TableCell>
                                             <TableCell onClick={() => handleCellClick(item.discountid)} style={{ fontSize: "10px", fontFamily: "cursive", textAlign: "center" }}>{item.desciption}</TableCell>
-                                            <TableCell onClick={() => handleCellClick(item.discountid)} style={{ fontSize: "10px", fontFamily: "cursive", textAlign: "center", width: '18px' }}><img src={'http://localhost:8081/edu/file/files/' + item.img} alt={`Discount Image for ${item.title}`} style={{ maxWidth: '100%', maxHeight: '100%', }} /></TableCell>
+                                            <TableCell onClick={() => handleCellClick(item.discountid)} style={{ fontSize: "10px", fontFamily: "cursive", textAlign: "center", width: '18px' }}><img src={'http://ec2-13-250-214-184.ap-southeast-1.compute.amazonaws.com:8081/edu/file/files/' + item.img} alt={`Discount Image for ${item.title}`} style={{ maxWidth: '100%', maxHeight: '100%', }} /></TableCell>
 
                                             <TableCell onClick={() => handleCellClick(item.discountid)} style={{ fontSize: "10px", fontFamily: "cursive", textAlign: "center" }}>{item.startDate}</TableCell>
                                             <TableCell onClick={() => handleCellClick(item.discountid)} style={{ fontSize: "10px", fontFamily: "cursive", textAlign: "center" }}>{item.endDate}</TableCell>

@@ -46,7 +46,7 @@ function ChangePassword() {
   };
   const handleClickChange = async () => {
     try {
-      await axios.put('http://localhost:8081/edu/changepass', {
+      await axios.put('http://ec2-13-250-214-184.ap-southeast-1.compute.amazonaws.com:8081/edu/changepass', {
         username: userEmail,
         password: oldPass,
         newpass: newPass,

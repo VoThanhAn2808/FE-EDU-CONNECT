@@ -26,7 +26,7 @@ function CalendarTutorSelect() {
 
     useEffect(() => {
         axios
-            .get(`http://localhost:8081/book/timeline`)
+            .get(`http://ec2-13-250-214-184.ap-southeast-1.compute.amazonaws.com:8081/book/timeline`)
             .then((response) => {
                 if (response && response.data) {
                     setData(response.data);
@@ -37,7 +37,7 @@ function CalendarTutorSelect() {
             });
 
         axios
-            .get(`http://localhost:8081/book/lesson`)
+            .get(`http://ec2-13-250-214-184.ap-southeast-1.compute.amazonaws.com:8081/book/lesson`)
             .then((response) => {
                 if (response && response.data) {
                     setDaysOfWeek(response.data);
@@ -87,7 +87,7 @@ function CalendarTutorSelect() {
                 };
 
                 await axios.post(
-                    "http://localhost:8081/educonnect/choicetime",
+                    "http://ec2-13-250-214-184.ap-southeast-1.compute.amazonaws.com:8081/educonnect/choicetime",
                     postData,
                     config
                 );
