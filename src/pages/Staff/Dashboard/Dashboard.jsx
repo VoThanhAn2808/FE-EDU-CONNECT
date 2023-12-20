@@ -54,9 +54,8 @@ function Dashboard() {
     Tiền_Lời: item.profit,
   }));
 
-  const percentageChange = lmonth.TotalRevenue !== 0
-  ? ((month.TotalRevenue - lmonth.TotalRevenue) / (Math.abs(lmonth.TotalRevenue) * 10)).toFixed(2) + '%'
-  : '0.00%';
+  const denominator = lmonth.TotalRevenue === 0 ? 1 : lmonth.TotalRevenue;
+  const percentageChange = Math.min(Math.max(((month.TotalRevenue - lmonth.TotalRevenue) / denominator) * 100, 0), 100) + '%';
 
   return (
     <Box>
