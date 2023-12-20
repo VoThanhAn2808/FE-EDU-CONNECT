@@ -15,7 +15,7 @@ function ThankYou() {
 
     const handlepayment = async () => {
         const url = window.location.search;
-        const response = await axios.get(`http://localhost:8081/book/vnpay-return${url}`)
+        const response = await axios.get(`http://ec2-13-250-214-184.ap-southeast-1.compute.amazonaws.com:8081/book/vnpay-return${url}`)
         setPay(response.data);
     }
 

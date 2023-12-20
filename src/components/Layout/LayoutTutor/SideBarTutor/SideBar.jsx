@@ -58,7 +58,7 @@ const Sidebar = () => {
   const [course, setCourse] = useState([]);
   useEffect(() => {
     axios
-      .get(`http://localhost:8081/educonnect/tutor/listcourse?tutorid=${userId}`)
+      .get(`http://ec2-13-250-214-184.ap-southeast-1.compute.amazonaws.com:8081/educonnect/tutor/listcourse?tutorid=${userId}`)
       .then((response) => {
         setCourse(response.data);
       })

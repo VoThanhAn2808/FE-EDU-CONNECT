@@ -21,7 +21,7 @@ function TeacherProgramList() {
     const [home, setHome] = useState([]);
     useEffect(() => {
         axios
-            .get(`http://localhost:8081/course/tutorexercise?bookid=${bookid}`)
+            .get(`http://ec2-13-250-214-184.ap-southeast-1.compute.amazonaws.com:8081/course/tutorexercise?bookid=${bookid}`)
             .then((response) => {
                 setData(response.data);
             })
@@ -32,7 +32,7 @@ function TeacherProgramList() {
 
     useEffect(() => {
         axios
-            .get(`http://localhost:8081/exersice/findexersice?bookid=${bookid}`)
+            .get(`http://ec2-13-250-214-184.ap-southeast-1.compute.amazonaws.com:8081/exersice/findexersice?bookid=${bookid}`)
             .then((response) => {
                 setExercise(response.data);
             })
@@ -42,7 +42,7 @@ function TeacherProgramList() {
     }, [bookid]);
     useEffect(() => {
         axios
-            .get(`http://localhost:8081/exersice/fileexercise?bookid=${bookid}`)
+            .get(`http://ec2-13-250-214-184.ap-southeast-1.compute.amazonaws.com:8081/exersice/fileexercise?bookid=${bookid}`)
             .then((response) => {
                 setFiles(response.data);
             })
@@ -52,7 +52,7 @@ function TeacherProgramList() {
     }, [bookid]);
     useEffect(() => {
         axios
-            .get(`http://localhost:8081/exersice/videoexercise?bookid=${bookid}`)
+            .get(`http://ec2-13-250-214-184.ap-southeast-1.compute.amazonaws.com:8081/exersice/videoexercise?bookid=${bookid}`)
             .then((response) => {
                 setVideo(response.data);
             })
@@ -62,7 +62,7 @@ function TeacherProgramList() {
     }, [bookid]);
     useEffect(() => {
         axios
-            .get(`http://localhost:8081/exersice/classroomexercise?bookid=${bookid}`)
+            .get(`http://ec2-13-250-214-184.ap-southeast-1.compute.amazonaws.com:8081/exersice/classroomexercise?bookid=${bookid}`)
             .then((response) => {
                 setClasss(response.data);
             })
@@ -72,7 +72,7 @@ function TeacherProgramList() {
     }, [bookid]);
     useEffect(() => {
         axios
-            .get(`http://localhost:8081/exersice/homeworkexercise?bookid=${bookid}`)
+            .get(`http://ec2-13-250-214-184.ap-southeast-1.compute.amazonaws.com:8081/exersice/homeworkexercise?bookid=${bookid}`)
             .then((response) => {
                 setHome(response.data);
             })
@@ -86,7 +86,7 @@ function TeacherProgramList() {
 
         try {
             await axios.put(
-                `http://localhost:8081/exersice/fileexercise/file/${fileid}`,
+                `http://ec2-13-250-214-184.ap-southeast-1.compute.amazonaws.com:8081/exersice/fileexercise/file/${fileid}`,
                 {},
                 {
                     headers: {
@@ -106,7 +106,7 @@ function TeacherProgramList() {
 
         try {
             await axios.put(
-                `http://localhost:8081/exersice/videoexercise/video/${fileid}`,
+                `http://ec2-13-250-214-184.ap-southeast-1.compute.amazonaws.com:8081/exersice/videoexercise/video/${fileid}`,
                 {},
                 {
                     headers: {
@@ -141,7 +141,7 @@ function TeacherProgramList() {
                                     <Box key={keyf}>
                                         {files.status === 2 ? (
                                             <>
-                                                <Links href={`http://localhost:8081/edu/file/fileuser/${files.files}/${data.tutorid}`} target="_blank" sx={{ textDecoration: 'none', color: 'black' }} onClick={(event) => handleLinkClick(files.fileid, event, files.files)}>
+                                                <Links href={`http://ec2-13-250-214-184.ap-southeast-1.compute.amazonaws.com:8081/edu/file/fileuser/${files.files}/${data.tutorid}`} target="_blank" sx={{ textDecoration: 'none', color: 'black' }} onClick={(event) => handleLinkClick(files.fileid, event, files.files)}>
                                                     <Box sx={{ display: "flex", alignItems: "center" }}>
                                                         <InsertDriveFileIcon sx={{ fontSize: "25px", marginLeft: "4%" }} />
                                                         <Typography sx={{ fontSize: "25px", marginLeft: "1%" }}> {files.namefile}</Typography>
@@ -151,7 +151,7 @@ function TeacherProgramList() {
                                             </>
                                         ) : (
                                             <>
-                                                <Links href={`http://localhost:8081/edu/file/fileuser/${files.files}/${data.tutorid}`} target="_blank" sx={{ textDecoration: 'none', color: 'black' }}>
+                                                <Links href={`http://ec2-13-250-214-184.ap-southeast-1.compute.amazonaws.com:8081/edu/file/fileuser/${files.files}/${data.tutorid}`} target="_blank" sx={{ textDecoration: 'none', color: 'black' }}>
                                                     <Box sx={{ display: "flex", alignItems: "center" }}>
                                                         <InsertDriveFileIcon sx={{ fontSize: "25px", marginLeft: "4%" }} />
                                                         <Typography sx={{ fontSize: "25px", marginLeft: "1%" }}> {files.namefile}</Typography>
