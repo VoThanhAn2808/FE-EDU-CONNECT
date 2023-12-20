@@ -384,7 +384,7 @@ function BookTime() {
                         marginLeft: "50px"
                     }}>
                         <Typography sx={{ fontSize: '20px', fontWeight: "700", color: "red" }}>Notes:</Typography>
-                        <Typography sx={{ fontSize: '20px', marginLeft: "7px", color: "#5E5D5D" }}> Lịch học này sẽ đi theo bạn đến hết kỳ học của bạn(1 tuần 3 ngày mỗi 1 slot). </Typography>
+                        <Typography sx={{ fontSize: '20px', marginLeft: "7px", color: "#5E5D5D" }}> Lịch học này của bạn sẽ kéo dài trong vòng 3 tháng và bắt buộc 1 tuần 3 tiết. </Typography>
                     </Box>
                     <Box sx={{ marginLeft: 'auto', marginRight: '20%' }}>
                         <Button onClick={handleOpen} variant="contained" color="success" style={{ height: '30px', backgroundColor: 'green', fontSize: '12px', marginRight: '20px' }}>
