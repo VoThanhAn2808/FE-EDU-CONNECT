@@ -127,7 +127,7 @@ export default function UpdateModal(props) {
         };
         try {
           //Upload image
-          const responseUploadImage = await axios.post('http://ec2-13-250-214-184.ap-southeast-1.compute.amazonaws.com:8081/edu/file/upload/discount', formData, {
+          const responseUploadImage = await axios.post('http://ec2-13-250-214-184.ap-southeast-1.compute.amazonaws.com:8081/edu/file/uploadImages', formData, {
             headers: {
               'Content-Type': 'multipart/form-data',
             },
