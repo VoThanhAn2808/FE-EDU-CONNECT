@@ -232,7 +232,7 @@ function BookTutorSTPage() {
                                     style={{ width: '120px', height: '170px' }}
                                     className="courseimg" />
                                 <Typography className="namebook">
-                                    {item.courseName} {item.level}
+                                    {item.courseName} {item.className}
                                 </Typography>
                                 <Box sx={{ display: 'flex', marginBottom: '20px', marginTop: '10px' }}>
                                     <Typography className="numberpeople">
