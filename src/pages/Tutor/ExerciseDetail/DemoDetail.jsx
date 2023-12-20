@@ -15,7 +15,7 @@ function DemoDetail(props) {
             })
             .catch((error) => {
             })
-    });
+    }, [demoid]);
     const style = {
         display: 'block',
         width: '100%',
