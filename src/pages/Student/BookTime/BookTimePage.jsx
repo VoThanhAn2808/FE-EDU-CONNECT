@@ -39,7 +39,7 @@ function BookTime() {
 
             // Check if the selected file type is in the allowed types
             if (!allowedTypes.includes(selectedImage.type)) {
-                showSnackbar('Làm ơn chọn file theo định dạng (JPG, JPEG, GIF, PNG, SVG).');
+                showSnackbar('Làm ơn chọn file theo định dạng (JPG, JPEG, GIF, PNG, SVG)!');
                 // Clear the input if an invalid file is selected
                 e.target.value = null;
                 return;
@@ -47,6 +47,8 @@ function BookTime() {
 
             // Set the file to state if needed
             setImage(selectedImage);
+        } else {
+            showSnackbar('Làm ơn chọn file!');
         }
 
     };

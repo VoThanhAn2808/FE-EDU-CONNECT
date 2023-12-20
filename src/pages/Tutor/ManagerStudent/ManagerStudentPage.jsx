@@ -60,7 +60,7 @@ function ManagerStudent() {
             })
             .catch((error) => {
             })
-    });
+    }, [decodedToken.id, status, courseId]);
 
 
     const handleOpenUserMenu = (event, studentId, bookid) => {

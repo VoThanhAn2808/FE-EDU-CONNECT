@@ -13,7 +13,8 @@ import dayjs from 'dayjs';
 import { format } from "date-fns";
 import ClearIcon from '@mui/icons-material/Clear';
 import InputAdornment from '@mui/material/InputAdornment';
-
+import { Snackbar, Alert } from '@mui/material';
+import MuiAlert from '@mui/material/Alert';
 const style = {
   position: 'absolute',
   top: '50%',
@@ -37,6 +38,19 @@ export default function UpdateModal(props) {
     discountId: selectDiscountId
   });
   const handleClose = () => setOpenUpdate(false);
+  const [snackbarOpen, setSnackbarOpen] = useState(false);
+  const [snackbarMessage, setSnackbarMessage] = useState('');
+  const [snackbarType, setSnackbarType] = useState('success');
+
+  const showSnackbar = (message, type) => {
+    setSnackbarMessage(message);
+    setSnackbarType(type);
+    setSnackbarOpen(true);
+  };
+
+  const handleSnackbarClose = () => {
+    setSnackbarOpen(false);
+  };
 
   useEffect(() => {
     setDataToSend(prevData => ({
@@ -78,7 +92,7 @@ export default function UpdateModal(props) {
 
       // Check if the selected file type is in the allowed types
       if (!allowedTypes.includes(selectedImage.type)) {
-        alert('Please select a valid image file (JPG, JPEG, GIF, PNG, SVG).');
+        showSnackbar("Làm ơn chọn file theo định dạng (JPG, JPEG, GIF, PNG, SVG)! ", "warning");
         // Clear the input if an invalid file is selected
         e.target.value = null;
         return;
@@ -100,7 +114,7 @@ export default function UpdateModal(props) {
     const formData = new FormData();
     if (grdImageDisplayStyle === "none") { // input image hide
       if (image == null) {
-        alert("Chọn file để lưu!");
+        showSnackbar("Chọn file để lưu!", "warning");
         return;
       }
       else {
@@ -110,7 +124,7 @@ export default function UpdateModal(props) {
         const checkenddate = endDate ? endDate : dataDetailDiscount.endDate
         const formatendDate = format(new Date(checkenddate), 'yyyy-MM-dd');
         if (formatstartDate > formatendDate) {
-          alert("Chọn ngày kết thúc lớn hơn ngày bắt đầu!");
+          showSnackbar("Chọn ngày kết thúc lớn hơn ngày bắt đầu!", "warning");
           return;
         }
         const myObject = {
@@ -131,21 +145,21 @@ export default function UpdateModal(props) {
             },
           });
           if (responseUploadImage.data.message === -1) {
-            alert("Tệp tin bị trùng vui lòng chọn tệp hình ảnh khác!");
+            showSnackbar("Tệp tin bị trùng vui lòng chọn tệp hình ảnh khác!", "warning");
           } else if (responseUploadImage.data.message === 0) {
-            alert("Hệ thống lỗi.Liên hệ với admin để giải quyết!");
+            showSnackbar("Hệ thống lỗi.Liên hệ với admin để giải quyết!", "error");
           }
           else if (responseUploadImage.status === 200) {
             const response = await axios.put(`http://localhost:8081/staffsconnect/discount/updateDiscount/${decodedToken.id}`, myObject);
             if (response.data === 1) {
-              alert("Cập nhập thành công");
+              showSnackbar("Lưu thành công", "success");
             }
             handleClose();
             window.location.reload();
           }
           // onSubmit(myObject);
         } catch (error) {
-          alert("Hệ thống lỗi.Liên hệ với admin để được giải quyết!");
+          showSnackbar("Hệ thống lỗi.Liên hệ với admin để giải quyết!", "error");
           await axios.delete(`http://localhost:8081/edu/file/deleteFile/discount/${image.name}`);
         }
       }
@@ -155,7 +169,7 @@ export default function UpdateModal(props) {
       const checkenddate = endDate ? endDate : dataDetailDiscount.endDate
       const formatendDate = format(new Date(checkenddate), 'yyyy-MM-dd');
       if (formatstartDate > formatendDate) {
-        alert("Chọn ngày kết thúc lớn hơn ngày bắt đầu!");
+        showSnackbar("Chọn ngày kết thúc lớn hơn ngày bắt đầu!", "warning");
         return;
       }
       const myObject = {
@@ -170,14 +184,14 @@ export default function UpdateModal(props) {
       try {
         const response = await axios.put(`http://localhost:8081/staffsconnect/discount/updateDiscount/${decodedToken.id}`, myObject);
         if (response.data === 1) {
-          alert("Cập nhập thành công");
+          showSnackbar("Cập nhập thành công", "success");
         }
         handleClose();
         window.location.reload();
       }
       // onSubmit(myObject);
       catch (error) {
-        alert("Hệ thống lỗi.Liên hệ với admin để  được giải quyết!");
+        showSnackbar("Hệ thống lỗi.Liên hệ với admin để giải quyết!", "error");
         await axios.delete(`http://localhost:8081/edu/file/deleteFile/discount/${image.name}`);
       }
     }
@@ -340,6 +354,20 @@ export default function UpdateModal(props) {
             </Grid>
           </form>
         </Container>
+        <Snackbar
+          open={snackbarOpen}
+          autoHideDuration={3000}
+          onClose={handleSnackbarClose}
+          anchorOrigin={{ vertical: 'top', horizontal: 'right' }}
+        >
+          <MuiAlert
+            onClose={handleSnackbarClose}
+            severity={snackbarType}
+            sx={{ width: '100%', fontSize: '15px' }}
+          >
+            {snackbarMessage}
+          </MuiAlert>
+        </Snackbar>
       </Box>
     </Modal>
   );

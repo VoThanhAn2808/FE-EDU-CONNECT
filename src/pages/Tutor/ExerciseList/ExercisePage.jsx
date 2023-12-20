@@ -48,7 +48,7 @@ function ExerciseListPage() {
 
   useEffect(() => {
     fetchData()
-  });
+  }, [bookid]);
 
 
   const style = {

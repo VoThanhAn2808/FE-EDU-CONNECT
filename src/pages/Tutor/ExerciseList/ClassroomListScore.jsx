@@ -1,9 +1,11 @@
-import { Box, Button, TextField, Paper, Table, TableBody, TableCell, TableContainer, TableHead, TableRow, Typography } from "@mui/material";
+import { Avatar, Box, Button, TextField, Menu, MenuItem, Modal, Pagination, Paper, Table, TableBody, TableCell, TableContainer, TableHead, TableRow, Typography } from "@mui/material";
 import axios from 'axios';
 import * as React from 'react';
 import { useState, useEffect } from 'react';
-import { useParams } from "react-router-dom";
+import { Link, useParams } from "react-router-dom";
 import { jwtDecode } from 'jwt-decode';
+import { Snackbar, Alert } from '@mui/material';
+import MuiAlert from '@mui/material/Alert';
 function ClassroomListScore() {
     const [dataClassroomScore, setDataClassroomScore] = useState([]);
     const { bookid } = useParams();
@@ -12,18 +14,25 @@ function ClassroomListScore() {
     const [oldIndex, setOldIndex] = useState('');
     const [shouldDisable, setShouldDisable] = useState(false);
     const [tutor, setTutor] = useState('');
-    const CancelToken = axios.CancelToken;
-    const source = CancelToken.source();
     const [scoreClassroom, setScoreClassroom] = useState({
         scoreid: 0,
         score: 0
     });
 
+    const [snackbarOpen, setSnackbarOpen] = useState(false);
+    const [snackbarMessage, setSnackbarMessage] = useState('');
+    const [snackbarType, setSnackbarType] = useState('success');
+    const showSnackbar = (message, type) => {
+        setSnackbarMessage(message);
+        setSnackbarType(type);
+        setSnackbarOpen(true);
+    };
+    const handleSnackbarClose = () => {
+        setSnackbarOpen(false);
+    };
+
     const getStudentByBookId = () => {
-        axios.get(`http://localhost:8081/student/getStudentByBookId?bookid=${bookid}`,
-            {
-                cancelToken: source.token,
-            })
+        axios.get(`http://localhost:8081/student/getStudentByBookId?bookid=${bookid}`)
             .then((response) => {
                 setTutor(response.data);
             })
@@ -33,10 +42,7 @@ function ClassroomListScore() {
     };
 
     const fetchData = () => {
-        axios.get(`http://localhost:8081/exersice/scoreclassroom/${bookid}`,
-            {
-                cancelToken: source.token,
-            })
+        axios.get(`http://localhost:8081/exersice/scoreclassroom/${bookid}`)
             .then((response) => {
                 setDataClassroomScore(response.data);
             })
@@ -48,7 +54,7 @@ function ClassroomListScore() {
     useEffect(() => {
         getStudentByBookId();
         fetchData();
-    });
+    }, [bookid]);
 
     const handleChange = (e) => {
         if (e.target.value.toLowerCase() === 'e') {
@@ -80,7 +86,7 @@ function ClassroomListScore() {
             );
 
             if (response.data === 1) {
-                alert("Lưu thành công");
+                showSnackbar("Lưu thành công", "success");
                 setOldIndex(null);
                 var elementDisable = document.getElementById("inputCellDisable-" + index);
                 var elementNotDisable = document.getElementById("inputCellNotDisable-" + index);
@@ -107,7 +113,7 @@ function ClassroomListScore() {
     const handleFixConfirmation = (e) => {
         setOldIndex(e);
         if (oldIndex != e && oldIndex != null) {
-            alert("Phải lưu điểm ");
+            showSnackbar("Phải lưu điểm!", "warning");
             return;
         }
         var elementDisable = document.getElementById("inputCellDisable-" + e);
@@ -116,6 +122,10 @@ function ClassroomListScore() {
         elementInputNotDisable.value = "";
         elementDisable.style.display = "none";
         elementNotDisable.style.display = "flex";
+        setScoreClassroom({
+            scoreid: "",
+            score: "",
+        });
     };
 
 
@@ -197,6 +207,20 @@ function ClassroomListScore() {
                                         >
                                             Lưu
                                         </Button>
+                                        <Snackbar
+                                            open={snackbarOpen}
+                                            autoHideDuration={3000}
+                                            onClose={handleSnackbarClose}
+                                            anchorOrigin={{ vertical: 'top', horizontal: 'right' }}
+                                        >
+                                            <MuiAlert
+                                                onClose={handleSnackbarClose}
+                                                severity={snackbarType}
+                                                sx={{ width: '100%', fontSize: '15px' }}
+                                            >
+                                                {snackbarMessage}
+                                            </MuiAlert>
+                                        </Snackbar>
                                     </TableCell>
                                 </TableRow>
                             ))}

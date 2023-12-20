@@ -31,7 +31,7 @@ function ListTutor() {
 
     useEffect(() => {
         fetchData(pages);
-    }, [pages, fetchData]);
+    }, [id, pages]);
 
     const handlePageChange = (event, pageNumber) => {
         setPages(pageNumber);
@@ -53,7 +53,7 @@ function ListTutor() {
     });
     useEffect(() => {
         fetchTop(pageTop);
-    }, [pageTop, fetchTop]);
+    }, [pageTop, id]);
 
     const handlePageTopChange = (event, pageNumber) => {
         setPageTop(pageNumber);
@@ -73,7 +73,7 @@ function ListTutor() {
             .catch((error) => {
                 console.error(error);
             });
-    });
+    }, [id]);
 
     const [cpage, setCpage] = useState(1);
 
@@ -89,7 +89,7 @@ function ListTutor() {
             .catch((error) => {
                 console.error(error);
             });
-    });
+    }, [id]);
 
     const handleSearchChange = (event) => {
         setSearchName(event.target.value);

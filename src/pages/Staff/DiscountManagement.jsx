@@ -8,7 +8,8 @@ import CreateModal from "../../components/Staff/DiscountManagement/CreateModal";
 import UpdateModal from "../../components/Staff/DiscountManagement/UpdateModal";
 import RemoveRedEyeIcon from '@mui/icons-material/RemoveRedEye';
 import ListCourseByDiscout from "../../components/Staff/DiscountManagement/ListCourseByDiscount";
-
+import { Snackbar, Alert } from '@mui/material';
+import MuiAlert from '@mui/material/Alert';
 const useStyles = makeStyles(() => ({
     input: {
         width: '120px',
@@ -39,6 +40,19 @@ function DiscountManagement() {
         pageNo: '',
         // Add other key-value pairs as needed
     });
+    const [snackbarOpen, setSnackbarOpen] = useState(false);
+    const [snackbarMessage, setSnackbarMessage] = useState('');
+    const [snackbarType, setSnackbarType] = useState('success');
+
+    const showSnackbar = (message, type) => {
+        setSnackbarMessage(message);
+        setSnackbarType(type);
+        setSnackbarOpen(true);
+    };
+
+    const handleSnackbarClose = () => {
+        setSnackbarOpen(false);
+    };
 
     useEffect(() => {
         axios.post('http://localhost:8081/discount/listdiscount', dataToSend,
@@ -94,7 +108,7 @@ function DiscountManagement() {
             const listDelete = [id];
             const response = await axios.post('http://localhost:8081/discount/deleteDiscount', listDelete);
             if (response.data.message === 'Success') {
-                alert("Xóa thành công");
+                showSnackbar("Xóa thành công", "success");
                 axios.post('http://localhost:8081/discount/listdiscount', dataToSend)
                     .then((response) => {
                         setDicount(response.data);
@@ -105,7 +119,7 @@ function DiscountManagement() {
             }
 
         } catch (error) {
-            alert("Hệ thống xảy ra lỗi. Vui lòng liên hệ quản lý!");
+            showSnackbar("Hệ thống xảy ra lỗi. Vui lòng liên hệ quản lý!", "error");
             console.error('Error deleting row:', error);
         }
     };
@@ -202,6 +216,20 @@ function DiscountManagement() {
                 <Box sx={{ display: 'flex', justifyContent: 'center', marginTop: "15px" }}>
                     <Pagination count={dataDicount.pageCount} sx={{ '& .MuiPaginationItem-root': { fontSize: '15px', minWidth: '50px' } }} onChange={handleChangePage} page={currentPage} />
                 </Box>
+                <Snackbar
+                    open={snackbarOpen}
+                    autoHideDuration={3000}
+                    onClose={handleSnackbarClose}
+                    anchorOrigin={{ vertical: 'top', horizontal: 'right' }}
+                >
+                    <MuiAlert
+                        onClose={handleSnackbarClose}
+                        severity={snackbarType}
+                        sx={{ width: '100%', fontSize: '15px' }}
+                    >
+                        {snackbarMessage}
+                    </MuiAlert>
+                </Snackbar>
             </Box>
         </Box >
     );

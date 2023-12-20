@@ -156,12 +156,13 @@ function TutorManagement() {
                 }
             );
             if (response.status === 200) {
-                alert("succsess");
+                showSnackbar("Lưu thành công", "success");
             } else {
-                alert("faill");
+                showSnackbar("Hệ thống lỗi.Liên hệ với admin để giải quyết!", "error");
             }
             window.location.reload();
         } catch (error) {
+            showSnackbar("Hệ thống lỗi.Liên hệ với admin để giải quyết!", "error");
             console.error(error);
         }
     };
