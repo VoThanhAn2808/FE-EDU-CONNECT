@@ -148,7 +148,7 @@ function Dashboard() {
       </Box>
       <Box sx={{ marginTop: "40px", display: "flex" }}>
         <Box sx={{ backgroundColor: "#E8F4F5", marginLeft: "10px", borderRadius: "5px" }}>
-          <LineChart width={900} height={400} data={formattedData}>
+          <LineChart width={850} height={400} data={formattedData}>
             <CartesianGrid strokeDasharray="3 3" />
             <XAxis dataKey="name" />
             <YAxis />
