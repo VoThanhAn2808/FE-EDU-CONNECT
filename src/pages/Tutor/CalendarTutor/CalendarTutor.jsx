@@ -162,7 +162,6 @@ function CalendarTutor() {
         };
         if (date && !dayjs(date).isBefore(dayjs(), 'day')) {
             try {
-                window.location.reload();
                 const formattedDate = format(new Date(date), 'yyyy-MM-dd');
                 await axios.post(
                     "http://ec2-13-250-214-184.ap-southeast-1.compute.amazonaws.com:8081/schedule/changecalender",
@@ -178,6 +177,7 @@ function CalendarTutor() {
                     },
                     config
                 );
+                window.location.reload();
             } catch (error) {
                 console.error(error);
             }
