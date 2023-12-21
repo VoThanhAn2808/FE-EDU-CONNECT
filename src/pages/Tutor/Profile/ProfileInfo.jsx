@@ -5,10 +5,11 @@ import { LocalizationProvider } from '@mui/x-date-pickers';
 import { AdapterDayjs } from '@mui/x-date-pickers/AdapterDayjs';
 import { DatePicker } from '@mui/x-date-pickers/DatePicker';
 import dayjs from 'dayjs';
+import 'dayjs/locale/vi';
 import { FormControl, InputAdornment, List, ListItem, ListItemText, MenuItem } from '@mui/material';
 import { ExpandLess, ExpandMore } from '@mui/icons-material';
 
-function ProfileInfo({city, wards, userData, handleInputChange, isEditing }) {
+function ProfileInfo({ city, wards, userData, handleInputChange, isEditing }) {
 
   const [open, setOpen] = React.useState(false);
 

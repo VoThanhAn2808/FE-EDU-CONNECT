@@ -5,23 +5,17 @@ import { LocalizationProvider } from '@mui/x-date-pickers';
 import { AdapterDayjs } from '@mui/x-date-pickers/AdapterDayjs';
 import { DatePicker } from '@mui/x-date-pickers/DatePicker';
 import dayjs from 'dayjs';
-import { FormControl, InputAdornment, List, ListItem, ListItemText, MenuItem } from '@mui/material';
-import { ExpandLess, ExpandMore } from '@mui/icons-material';
+import 'dayjs/locale/vi';
+import { MenuItem } from '@mui/material';
 
-function ProfileInfo({city, wards, userData, handleInputChange, isEditing }) {
-
-  const [open, setOpen] = React.useState(false);
-
-  const handleClick = () => {
-    setOpen(!open);
-  };
+function ProfileInfo({ wards, userData, city, handleInputChange, isEditing }) {
 
   return (
     <>
       <TextField
         label='Họ Và Tên'
         fullWidth
-        value={userData.fullname || ''}
+        value={userData.fullname}
         onChange={(e) => handleInputChange('fullname', e.target.value)}
         disabled={!isEditing}
         InputLabelProps={{
@@ -31,26 +25,39 @@ function ProfileInfo({city, wards, userData, handleInputChange, isEditing }) {
       <TextField
         label='Email'
         fullWidth
-        value={userData.email || ''}
+        value={userData.email}
         onChange={(e) => handleInputChange('email', e.target.value)}
-        disabled={true}
-        InputLabelProps={{ shrink: true }}
+        disabled={!isEditing}
+        InputLabelProps={{
+          shrink: userData.email ? true : undefined,
+        }}
       />
       <Box
         sx={{
           display: 'flex',
           width: '100%',
           gap: '30px',
-          alignItems: 'center',
         }}
       >
-        <Box sx={{ width: '50%' }}>
+        <TextField
+          label='Lớp'
+          value={userData.class}
+          onChange={(e) => handleInputChange('class', e.target.value)}
+          disabled={!isEditing}
+          sx={{
+            width: '50%',
+          }}
+          InputLabelProps={{
+            shrink: userData.class ? true : undefined,
+          }}
+        />
+        <Box sx={{ width: '50%', m: 0 }}>
           <TextField
             select
             label='Giới Tính'
             value={userData.gender !== undefined ? userData.gender : ''}
             InputLabelProps={{
-              shrink: true,
+              shrink: userData.gender ? true : undefined,
             }}
             disabled={!isEditing}
             sx={{
@@ -61,45 +68,6 @@ function ProfileInfo({city, wards, userData, handleInputChange, isEditing }) {
             <MenuItem value={1}>Nam</MenuItem>
             <MenuItem value={0}>Nữ</MenuItem>
           </TextField>
-        </Box>
-        <Box sx={{ width: '50%' }}>
-          <FormControl fullWidth disabled={!isEditing}>
-            <List>
-              <Box>
-                <TextField
-                  id='subj'
-                  label='Chuyên Môn'
-                  value={userData.courseList ? userData.courseList.length.toString() : 'null'}
-                  onClick={handleClick}
-                  sx={{
-                    width: '200px',
-                  }}
-                  InputProps={{
-                    endAdornment: (
-                      <InputAdornment position='end'>
-                        {open ? <ExpandLess /> : <ExpandMore />}
-                      </InputAdornment>
-                    ),
-                  }}
-                />
-              </Box>
-              <Box
-                sx={{
-                  position: 'absolute',
-                  backgroundColor: 'white',
-                  zIndex: 99,
-                  width: '200px',
-                }}
-              >
-                {open &&
-                  userData.courseList.map((course) => (
-                    <ListItem key={course.classcourseid} disableGutters>
-                      <ListItemText primary={`${course.courseName} ${course.class}`} />
-                    </ListItem>
-                  ))}
-              </Box>
-            </List>
-          </FormControl>
         </Box>
       </Box>
       <Box
@@ -160,11 +128,14 @@ function ProfileInfo({city, wards, userData, handleInputChange, isEditing }) {
         </LocalizationProvider>
         <TextField
           label='Số Điện Thoại'
-          value={userData.phone || ''}
+          value={userData.phone}
           onChange={(e) => handleInputChange('phone', e.target.value)}
           disabled={!isEditing}
           sx={{
             width: '50%',
+          }}
+          InputLabelProps={{
+            shrink: userData.phone ? true : undefined,
           }}
         />
       </Box>
