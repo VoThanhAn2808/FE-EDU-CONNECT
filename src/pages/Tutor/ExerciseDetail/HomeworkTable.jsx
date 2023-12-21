@@ -17,7 +17,7 @@ import VisibilityOffIcon from '@mui/icons-material/VisibilityOff';
 import MuiAlert from '@mui/material/Alert';
 
 
-function HomeworkTable(props, exercise) {
+function HomeworkTable(props) {
   const token = localStorage.getItem("token");
   const tutor = jwtDecode(token);
   const [res, setRes] = useState(props.data)
@@ -82,7 +82,7 @@ function HomeworkTable(props, exercise) {
         });
     }
     axios
-      .get(`http://ec2-13-250-214-184.ap-southeast-1.compute.amazonaws.com:8081/demo/listAllDemo/${exercise}`)
+      .get(`http://ec2-13-250-214-184.ap-southeast-1.compute.amazonaws.com:8081/demo/listAllDemo/${props.exercise}`)
       .then((response) => {
         if (response && response.data) {
           setDemo1(response.data);
@@ -91,7 +91,7 @@ function HomeworkTable(props, exercise) {
       .catch((error) => {
         console.error('Error fetching timeline:', error);
       });
-  }, [demo, exercise]);
+  }, [demo, props.exercise]);
   const handleUpdateSubmit = async (event) => {
     event.preventDefault();
     try {
