@@ -177,8 +177,7 @@ function CalendarTutor() {
                     },
                     config
                 );
-
-                window.location.href = '/calendartutor';
+                window.location.reload();
             } catch (error) {
                 console.error(error);
             }
