@@ -8,6 +8,7 @@ import { jwtDecode } from 'jwt-decode';
 import dayjs from 'dayjs';
 import Snackbar from '@mui/material/Snackbar';
 import Alert from '@mui/material/Alert';
+import { format } from 'date-fns';
 
 const theme = createTheme({
   typography: {
@@ -73,11 +74,13 @@ const ProfileTeacher = () => {
   const updateInfo = async () => {
 
     try {
+      const dateString = userData.birthdate;
+      const formattedDate = format(new Date(dateString), 'yyyy/MM/dd');
       const formData = new FormData();
       formData.append('fullname', userData.fullname);
       formData.append('tutorid', decodedToken.id);
       formData.append('gender', userData.gender);
-      formData.append('birthdate', userData.birthdate);
+      formData.append('birthdate', formattedDate);
       formData.append('phone', userData.phone);
       formData.append('city', userData.city);
       formData.append('wards', userData.wards);
