@@ -8,6 +8,7 @@ import axios from 'axios';
 import dayjs from 'dayjs';
 import Snackbar from '@mui/material/Snackbar';
 import Alert from '@mui/material/Alert';
+import { format } from 'date-fns';
 
 const theme = createTheme({
   typography: {
@@ -75,11 +76,13 @@ function ProfileStaff() {
 
   const updateInfo = async () => {
     try {
+      const dateString = userData.birthdate;
+      const formattedDate = format(new Date(dateString), 'yyyy/MM/dd');
       const formData = new FormData();
       formData.append('fullname', userData.fullname);
       formData.append('staffid', decodedToken.id);
       formData.append('file', userData.avt);
-      formData.append('birthdate', userData.birthdate);
+      formData.append('birthdate', formattedDate);
       formData.append('city', userData.city);
       formData.append('wards', userData.wards);
 
