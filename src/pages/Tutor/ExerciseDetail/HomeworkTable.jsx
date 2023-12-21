@@ -15,6 +15,7 @@ import RemoveRedEyeIcon from '@mui/icons-material/RemoveRedEye';
 import Iframe from 'react-iframe';
 import VisibilityOffIcon from '@mui/icons-material/VisibilityOff';
 import MuiAlert from '@mui/material/Alert';
+import { format } from 'date-fns';
 
 
 function HomeworkTable(props) {
@@ -95,14 +96,18 @@ function HomeworkTable(props) {
   const handleUpdateSubmit = async (event) => {
     event.preventDefault();
     try {
+      const dateString = formData.startdate;
+      const formattedDate = format(new Date(dateString), 'yyyy/MM/dd');
+      const dateStringend = formData.enddate;
+      const formattedDateend = format(new Date(dateStringend), 'yyyy/MM/dd');
       const formDatas = new FormData();
       formDatas.append("homeworkid", formData.homeworkid);
       formDatas.append("file", formData.filesHomework);
       formDatas.append("exerciseid", formData.exerciseid);
       formDatas.append("demoid", formData.demoid);
       formDatas.append("title", formData.titleHomework);
-      formDatas.append("startDate", formData.startdate);
-      formDatas.append("endDate", formData.enddate);
+      formDatas.append("startDate", formattedDate);
+      formDatas.append("endDate", formattedDateend);
       formDatas.append("tutorid", tutor.id);
       const response = await axios.put(
         "http://ec2-13-250-214-184.ap-southeast-1.compute.amazonaws.com:8081/exersice/updatehomework",

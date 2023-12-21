@@ -14,6 +14,7 @@ import ProgesstestTable from './Progesstest';
 import none from './../../../assests/none.jpg';
 import MuiAlert from '@mui/material/Alert';
 import { useCallback } from 'react';
+import { format } from 'date-fns';
 
 
 
@@ -215,13 +216,17 @@ function ExerciseDetailPage() {
       return;
     }
     try {
+      const dateString = formData.startDate;
+      const formattedDate = format(new Date(dateString), 'yyyy/MM/dd');
+      const dateStringend = formData.endDate;
+      const formattedDateend = format(new Date(dateStringend), 'yyyy/MM/dd');
       const formDatas = new FormData();
       formDatas.append("file", formData.file);
       formDatas.append("exerciseid", params.exerciseid);
       formDatas.append("demoid", formData.demoid);
       formDatas.append("title", formData.title);
-      formDatas.append("startDate", formData.startDate);
-      formDatas.append("endDate", formData.endDate);
+      formDatas.append("startDate", formattedDate);
+      formDatas.append("endDate", formattedDateend);
       formDatas.append("tutorid", tutor.id);
       const response = await axios.post(
         "http://ec2-13-250-214-184.ap-southeast-1.compute.amazonaws.com:8081/exersice/addhomework",
