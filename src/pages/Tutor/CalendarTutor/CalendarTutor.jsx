@@ -14,7 +14,6 @@ function CalendarTutor() {
     const [user, setUser] = useState([]);
     const [daysOfWeek, setDaysOfWeek] = useState([]);
     const [data, setData] = useState([]);
-    const [schedule, setSchedule] = useState([]);
     const decodedToken = jwtDecode(localStorage.getItem('token'));
     const userId = decodedToken.id;
     const [open4, setOpen4] = useState(false);
@@ -22,24 +21,21 @@ function CalendarTutor() {
     const handleClose4 = () => setOpen4(false);
     const [errorMessage, setErrorMessage] = useState('');
     const [openSnackbar, setOpenSnackbar] = useState(false);
+    const [book, setBookid] = useState(0);
+    const [course, setCourse] = useState("");
+    const [schedules, setSchedules] = useState("");
+    const [timeline, setTimeline] = useState("");
+    const [lesson, setLesson] = useState("");
 
-    const handleLinkClick = async (date, timeid, event) => {
+    const handleLinkClick = (date, bookid, course, timeline, lessonline, event) => {
         event.preventDefault();
         event.stopPropagation();
-
-        try {
-            axios
-                .get(`http://ec2-13-250-214-184.ap-southeast-1.compute.amazonaws.com:8081/schedule/detailschedule?tutorid=${userId}&date=${date}&timeid=${timeid}`)
-                .then((response) => {
-                    setSchedule(response.data);
-                })
-                .catch((error) => {
-                    console.error(error);
-                });
-            setOpen4(true)
-        } catch (error) {
-            console.error(error);
-        }
+        setSchedules(date);
+        setBookid(bookid);
+        setCourse(course);
+        setTimeline(timeline);
+        setLesson(lessonline);
+        setOpen4(true)
     };
 
     const shouldDisplayUpdateButton = (date) => {
@@ -166,14 +162,14 @@ function CalendarTutor() {
                 await axios.post(
                     "http://ec2-13-250-214-184.ap-southeast-1.compute.amazonaws.com:8081/schedule/changecalender",
                     {
-                        bookid: schedule.bookid,
-                        datechange: schedule.scheduled_Date,
-                        timeid: times,  // Ensure `times` is defined and in the expected format
-                        subject: schedule.courses,
+                        bookid: book,
+                        datechange: schedules,
+                        timeid: times,  
+                        subject: course,
                         nametutor: user.fullname,
-                        time: schedule.timeline,
-                        lesson: schedule.lessonline,
-                        date: formattedDate,  // Ensure `date` is defined and in the expected format
+                        time: timeline,
+                        lesson: lesson,
+                        date: formattedDate,  
                     },
                     config
                 );
@@ -265,7 +261,9 @@ function CalendarTutor() {
                                                                 </Typography>
                                                             )}
                                                             {shouldDisplayUpdateButton(item.scheduled_Date) && item.datechange === null && item.datelearn === null && (
-                                                                <MoreVertIcon sx={{ fontSize: '15px' }} onClick={(event) => handleLinkClick(item.scheduled_Date, itime.timeId, event)} />
+                                                                <MoreVertIcon sx={{ fontSize: '15px' }} onClick={(event) => {
+                                                                    handleLinkClick(item.scheduled_Date, item.bookid, item.courses, item.timeline, item.lessonline, event);
+                                                                }} />
                                                             )}
                                                         </Box>
                                                         {item.fullname && (
